@@ -4,7 +4,11 @@ SRC_FILES := $(shell find $(SRC_DIR) -type f -name "*.py")
 FORMATTERS := black isort
 LINTERS := pylint mypy
 
-.PHONY: all install format lint clean
+MODELS_DIR := local-models
+
+FASTTEXT_SOURCE := https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin
+
+.PHONY: all install format lint clean models-dir download-models fasttext
 
 all: install
 
@@ -28,3 +32,11 @@ lint:
 clean:
 	@find . -name "*.pyc" -exec rm -f {} +
 	@find . -name "__pycache__" -type d -exec rm -rf {} +
+
+models-dir:
+	@mkdir -p $(MODELS_DIR)
+
+fasttext:
+	@wget $(FASTTEXT_SOURCE) -P $(MODELS_DIR)
+
+download-models: models-dir fasttext

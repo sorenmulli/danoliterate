@@ -1,5 +1,6 @@
 [tool.pylint]
-disable = "missing-module-docstring, missing-function-docstring"
+disable = "missing-module-docstring, missing-function-docstring, missing-class-docstring, too-few-public-methods, inconsistent-return-statements"
+notes="FIXME,XXX"
 
 [tool.black]
 line-length = 100
@@ -7,3 +8,11 @@ line-length = 100
 [tool.isort]
 profile = "black"
 line_length = 100
+
+
+[[tool.mypy.overrides]]
+module = [
+    "datasets",
+    "fasttext",
+]
+ignore_missing_imports = true
