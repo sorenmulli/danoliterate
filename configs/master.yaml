@@ -7,6 +7,14 @@ seed: 42
 
 outputs: job-outputs
 
+prompt_answer_da:
+  push_to_hub: true
+  hub_private: false
+  target: "sorenmulli/prompt-answer-da"
+
+model_paths:
+  fasttext: "local-models/lid.176.bin"
+
 hydra:
   run:
     dir: ${outputs}/${hydra.job.name}-${now:%Y%m%d-%H%M%S}
