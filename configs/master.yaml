@@ -1,0 +1,18 @@
+defaults:
+  - override hydra/job_logging: colorlog
+  - override hydra/hydra_logging: colorlog
+
+do: ???
+seed: 42
+
+outputs: job-outputs
+
+hydra:
+  run:
+    dir: ${outputs}/${hydra.job.name}-${now:%Y%m%d-%H%M%S}
+  job:
+    name: nlgenda
+  job_logging:
+    handlers:
+      file:
+        filename: ${hydra.runtime.output_dir}/${hydra.job.name}.log
