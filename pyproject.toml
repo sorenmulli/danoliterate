@@ -1,6 +1,8 @@
 [tool.pylint]
 disable = "missing-module-docstring, missing-function-docstring, missing-class-docstring, too-few-public-methods, inconsistent-return-statements"
 notes="FIXME,XXX"
+good-names="df,i,j,k"
+extension-pkg-allow-list="kenlm"
 
 [tool.black]
 line-length = 100
@@ -14,5 +16,6 @@ line_length = 100
 module = [
     "datasets",
     "fasttext",
+    "kenlm",
 ]
 ignore_missing_imports = true

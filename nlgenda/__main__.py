@@ -3,6 +3,7 @@ import logging
 import hydra
 from omegaconf import DictConfig
 
+from nlgenda.datasets.building.citizenship_test_da import create_citizen_da
 from nlgenda.datasets.building.prompt_answer_da import create_prompt_answer_da
 from nlgenda.evaluation import evaluate
 from nlgenda.infrastructure import CONFIG_DIR
@@ -15,6 +16,8 @@ def hydra_entry(cfg: DictConfig) -> None:
             evaluate(cfg)
         case "prompt-answer-da":
             create_prompt_answer_da(cfg)
+        case "citizenship-test-da":
+            create_citizen_da(cfg)
         case _:
             logging.error(
                 "Unsupported do=%s. Currently, evaluate, prompt-answer-da are supported", cfg.do

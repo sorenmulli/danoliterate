@@ -12,8 +12,20 @@ prompt_answer_da:
   hub_private: false
   target: "sorenmulli/prompt-answer-da"
 
+citizenship_test_da:
+  scrape: true
+  clean: true
+  push_to_hub: true
+  hub_private: false
+  target: "sorenmulli/citizenship-test-da"
+  calc_lm: true
+  scored_tofix: "local-computations/scores-to-fix.csv"
+  verified_tofix: "local-computations/verified-to-fix.csv"
+
+
 model_paths:
   fasttext: "local-models/lid.176.bin"
+  dsl3gram: "local-models/dsl_3gram.klm"
 
 hydra:
   run:

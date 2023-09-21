@@ -7,8 +7,9 @@ LINTERS := pylint mypy
 MODELS_DIR := local-models
 
 FASTTEXT_SOURCE := https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin
+DSL3GRAM_SOURCE := https://github.com/danspeech/danspeech/releases/download/v0.02-alpha/dsl_3gram.klm
 
-.PHONY: all install format lint clean models-dir download-models fasttext
+.PHONY: all install format lint clean models-dir download-models fasttext dsl3gram
 
 all: install
 
@@ -39,4 +40,7 @@ models-dir:
 fasttext:
 	@wget $(FASTTEXT_SOURCE) -P $(MODELS_DIR)
 
-download-models: models-dir fasttext
+dsl3gram:
+	@wget $(DSL3GRAM_SOURCE) -P $(MODELS_DIR)
+
+download-models: models-dir fasttext dsl3gram

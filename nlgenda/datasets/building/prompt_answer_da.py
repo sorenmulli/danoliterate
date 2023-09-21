@@ -8,6 +8,7 @@ from datasets import Dataset, DatasetDict, concatenate_datasets, load_dataset
 from omegaconf import DictConfig
 from tqdm import tqdm
 
+from nlgenda.datasets.building.hub import push
 from nlgenda.datasets.statistics import text_stats
 from nlgenda.infrastructure.logging import format_config
 from nlgenda.modeling.language_identification import DANISH, LanguageIdentifier
@@ -127,14 +128,6 @@ def describe_da_dataset(dataset: Dataset):
     )
 
 
-def push_da_dataset(dataset: Dataset, cfg: DictConfig):
-    target = cfg.prompt_answer_da.target
-    if input(f"Do you want to push the dataset to HF hub {target}? [y/N]").lower().strip() != "y":
-        return logger.warning("Aborting push due to user rejection")
-    logger.info("Pushing dataset to HF hub %s ...", target)
-    dataset.push_to_hub(target, private=cfg.prompt_answer_da.hub_private)
-
-
 def create_prompt_answer_da(cfg: DictConfig):
     logger.debug("Running with arguments: %s", format_config(cfg))
     logger.info("Creating prompt-answer-da from sources: %s", ", ".join(NORMALISERS.keys()))
@@ -152,4 +145,4 @@ def create_prompt_answer_da(cfg: DictConfig):
     combined_da_dataset = combined_da_dataset.shuffle(1887)
     describe_da_dataset(combined_da_dataset)
     if cfg.prompt_answer_da.push_to_hub:
-        push_da_dataset(combined_da_dataset, cfg)
+        push(combined_da_dataset, cfg.prompt_answer_da.target, cfg.prompt_answer_da.private)
