@@ -9,7 +9,7 @@ outputs: job-outputs
 
 prompt_answer_da:
   push_to_hub: true
-  hub_private: false
+  hub_private: true
   target: "sorenmulli/prompt-answer-da"
 
 citizenship_test_da:
@@ -21,6 +21,14 @@ citizenship_test_da:
   calc_lm: true
   scored_tofix: "local-computations/scores-to-fix.csv"
   verified_tofix: "local-computations/verified-to-fix.csv"
+
+hyggeswag:
+  push_to_hub: true
+  hub_private: true
+  target: "sorenmulli/hyggeswag"
+  translation:
+    todo_file: "local-computations/hellaswag-to-translate.csv"
+    done_file: "local-computations/hellaswag-translated.csv"
 
 
 model_paths:
