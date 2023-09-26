@@ -239,7 +239,13 @@ def run_scrape(cfg: DictConfig):
 
 
 def simple_clean(text: str) -> str:
-    return re.sub(LINEBREAK_PATTERN, r"\1", text).replace(" ?", "?").replace(" -", "-")
+    return (
+        re.sub(LINEBREAK_PATTERN, r"\1", text)
+        .replace(" ?", "?")
+        .replace(" -", "-")
+        .replace(" ,", ",")
+        .replace(" .", ".")
+    )
 
 
 def calc_fix_candidates(nlm: NgramLm, text: str) -> list[dict[str, str | float]]:
