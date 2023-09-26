@@ -1,11 +1,17 @@
 defaults:
+  - _self_
   - override hydra/job_logging: colorlog
   - override hydra/hydra_logging: colorlog
 
+scenario: ???
+model: ???
 do: ???
 seed: 42
 
 outputs: job-outputs
+
+evaluation: 
+  result_db: "local-comptuations/db"
 
 prompt_answer_da:
   push_to_hub: true

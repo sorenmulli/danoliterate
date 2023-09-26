@@ -1,0 +1,4 @@
+name: "Random Test Model"
+path: "hf-internal-testing/tiny-random-gpt2"
+inference_type: "hf"
+multichoice_predict: "likelihood"

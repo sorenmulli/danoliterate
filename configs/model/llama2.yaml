@@ -1,0 +1,3 @@
+name: "LlaMa 2"
+path: "meta-llama/Llama-2-7b-chat-hf"
+inference_type: "hf"

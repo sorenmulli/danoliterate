@@ -3,6 +3,7 @@ disable = "missing-module-docstring, missing-function-docstring, missing-class-d
 notes="FIXME,XXX"
 good-names="df,i,j,k"
 extension-pkg-allow-list="kenlm"
+generated-members="torch.*"
 
 [tool.black]
 line-length = 100
@@ -17,5 +18,6 @@ module = [
     "datasets",
     "fasttext",
     "kenlm",
+    "transformers"
 ]
 ignore_missing_imports = true

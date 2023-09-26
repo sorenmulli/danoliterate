@@ -1,0 +1,4 @@
+name: "HyggeSwag"
+path: "sorenmulli/hyggeswag"
+task:
+  builder: "hyggeswag"
