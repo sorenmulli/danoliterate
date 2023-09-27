@@ -5,7 +5,11 @@ from datasets import Dataset, load_dataset
 from omegaconf import DictConfig
 from tqdm import tqdm
 
-from nlgenda.evaluation.example import EvaluationExample
+import wandb
+from nlgenda.evaluation.example import (
+    EvaluationExample,
+    EvaluationResult,
+)
 from nlgenda.evaluation.registries.get import get_inference, get_task_runner
 from nlgenda.infrastructure import format_config
 from nlgenda.modeling.text_comparison import get_compare_fun
@@ -18,8 +22,7 @@ logger = logging.getLogger(__name__)
 class Evaluator:
     def __init__(self, cfg: DictConfig):
         logger.info("Evaluating %s on %s.", cfg.model.name, cfg.scenario.name)
-        self.scenario_name = cfg.scenario.name
-        self.model_name = cfg.model.name
+        self.result = EvaluationResult.from_config(cfg)
 
         self.text_compare = (
             get_compare_fun(cfg.scenario.compare) if cfg.scenario.compare is not None else None
@@ -33,8 +36,11 @@ class Evaluator:
         logger.info("Setting up model ...")
         self.model_inference = get_inference(cfg.model)
 
-        self.results: list[EvaluationExample] = []
-        self.result_db = cfg.evaluation.result_db
+        self.wandb = (
+            wandb.init(name=self.result.name, entity=cfg.wandb.entity, project=cfg.wandb.project)
+            if cfg.wandb.enabled
+            else None
+        )
 
     def run(self):
         logger.info("Initializing example generators ...")
@@ -43,17 +49,25 @@ class Evaluator:
 
         logger.info("Executing result loop ...")
         for result in tqdm(results, total=len(self.dataset)):
-            self.results.append(result)
+            self.result.examples.append(result)
 
         logger.info("Finished result loop.")
 
     def save_results(self):
-        raise NotImplementedError
+        if self.wandb is not None:
+            if self.result.send_to_wandb(self.wandb):
+                logger.info("Sucessfully sent result to W&B")
+            else:
+                logger.warning("Result could not be sent to W&B.")
+
+        out = self.result.save_locally()
+        logger.info("Result was saved locally to %s.", out)
 
     def generate_examples(self) -> Generator[EvaluationExample, None, None]:
         for data_example in self.dataset:
             yield self.task_runner.build_example(data_example)
 
+    # TODO: Could maybe track this progress with wandb?
     def generate_results(
         self, examples: Generator[EvaluationExample, None, None]
     ) -> Generator[EvaluationExample, None, None]:

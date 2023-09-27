@@ -1,8 +1,20 @@
+# TODO: Rename this file
+import json
+import logging
+import os
 from abc import ABC
-from dataclasses import dataclass
-from typing import Optional
+from dataclasses import asdict, dataclass, field
+from datetime import datetime
+from tempfile import TemporaryDirectory
+from typing import Optional, Union
 
-# TODO: Consider dataclass inheritance
+from omegaconf import DictConfig, OmegaConf
+
+import wandb
+
+logger = logging.getLogger(__name__)
+
+OutDictType = dict[str, Union[str, int, float, bool, None, "OutDictType", list["OutDictType"]]]
 
 
 @dataclass
@@ -17,3 +29,86 @@ class EvaluationExample(ABC):
     index_prediction: Optional[int] = None
 
     options_model_scores: Optional[list[float]] = None
+
+    def to_dict(self) -> OutDictType:
+        return asdict(self)
+
+
+@dataclass
+class EvaluationResultMetadata:
+    timestamp: str
+
+    scenario_cfg: OutDictType
+    model_cfg: OutDictType
+    evaluation_cfg: OutDictType
+
+    sent_to_wandb: bool = False
+
+    def to_dict(self) -> OutDictType:
+        return asdict(self)
+
+
+@dataclass
+class EvaluationResult:
+    name: str
+    local_path: str
+    metadata: EvaluationResultMetadata
+
+    examples: list[EvaluationExample] = field(default_factory=list)
+
+    def send_to_wandb(self, run) -> bool:
+        self.metadata.sent_to_wandb = True
+
+        artifact = wandb.Artifact(
+            name=self.name, type="evaluation_result", metadata=self.metadata.to_dict()
+        )
+        with TemporaryDirectory() as temp_dir:
+            # TODO: Consider using Path
+            temp_path = os.path.join(temp_dir, "result.json")
+            self.save_locally(temp_path)
+            artifact.add_file(local_path=temp_path, name="result.json")
+        run.log_artifact(artifact)
+        return self.metadata.sent_to_wandb
+
+    def save_locally(self, path: Optional[str] = None) -> str:
+        path = path or self.local_path
+        with open(path, "w", encoding="utf-8") as file:
+            json.dump(self.to_dict(), file)
+        return path
+
+    def to_dict(self) -> OutDictType:
+        self_dict = asdict(self)
+        self_dict["metadata"] = self.metadata.to_dict()
+        self_dict["examples"] = ([example.to_dict() for example in self.examples],)
+        return self_dict
+
+    @classmethod
+    def from_config(cls, cfg: DictConfig):
+        timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M")
+
+        autoname = ".".join(
+            name_part.replace(".", "").replace(" ", "-").lower()
+            for name_part in (cfg.model.name, cfg.scenario.name, timestamp)
+        )
+
+        # TODO: Consider using Path instead
+        results_path = cfg.evaluation.local_results
+        if not os.path.isdir(results_path):
+            logger.warning("Creating new local directory for results: %s", results_path)
+            os.makedirs(results_path)
+        out_path = os.path.join(results_path, f"{autoname}.json")
+
+        return cls(
+            name=autoname,
+            local_path=out_path,
+            metadata=EvaluationResultMetadata(
+                timestamp=timestamp,
+                scenario_cfg=conf_to_dict(cfg.scenario),
+                model_cfg=conf_to_dict(cfg.model),
+                evaluation_cfg=conf_to_dict(cfg.evaluation),
+            ),
+        )
+
+
+def conf_to_dict(cfg: DictConfig) -> OutDictType:
+    return OmegaConf.to_container(cfg) # type: ignore

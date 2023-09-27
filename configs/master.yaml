@@ -6,12 +6,13 @@ defaults:
 scenario: ???
 model: ???
 do: ???
-seed: 42
 
 outputs: job-outputs
 
+
 evaluation: 
-  result_db: "local-comptuations/db"
+  local_results: "local-computations/result-db"
+  debug: false
 
 prompt_answer_da:
   push_to_hub: true
@@ -40,6 +41,11 @@ hyggeswag:
 model_paths:
   fasttext: "local-models/lid.176.bin"
   dsl3gram: "local-models/dsl_3gram.klm"
+
+wandb:
+  enabled: true
+  entity: "sorenmulli"
+  project: "nlgenda-benchmarking"
 
 hydra:
   run:
