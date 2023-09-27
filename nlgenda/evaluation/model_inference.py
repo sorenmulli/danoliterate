@@ -49,11 +49,6 @@ class ModelInference(ABC):
         raise NotImplementedError(f"{type(self)} is missing implementation of `likelihood`.")
 
 
-# TODO: Device
-# TODO: Batching
-# TODO: Max length
-
-
 class HuggingfaceCausalLm(ModelInference):
     ignore_target_idx = -100
 
@@ -74,7 +69,7 @@ class HuggingfaceCausalLm(ModelInference):
         return self._inference_method
 
     def generate_text(self, prompt: str) -> str:
-        return self.pipeline(prompt)[0]["generated_text"][len(prompt):]
+        return self.pipeline(prompt)[0]["generated_text"][len(prompt) :]
 
     def likelihood(self, prompt: str, target: str) -> float:
         encodings = self.pipeline.tokenizer(prompt, text_target=target, return_tensors="pt")

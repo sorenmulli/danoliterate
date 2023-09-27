@@ -6,10 +6,7 @@ from omegaconf import DictConfig
 from tqdm import tqdm
 
 import wandb
-from nlgenda.evaluation.example import (
-    EvaluationExample,
-    EvaluationResult,
-)
+from nlgenda.evaluation.example import EvaluationExample, EvaluationResult
 from nlgenda.evaluation.registries.get import get_inference, get_task_runner
 from nlgenda.infrastructure import format_config
 from nlgenda.modeling.text_comparison import get_compare_fun
@@ -17,8 +14,6 @@ from nlgenda.modeling.text_comparison import get_compare_fun
 logger = logging.getLogger(__name__)
 
 
-# TODO: Move some of the storage into an EvaluationResult
-# pylint: disable=too-many-instance-attributes
 class Evaluator:
     def __init__(self, cfg: DictConfig):
         logger.info("Evaluating %s on %s.", cfg.model.name, cfg.scenario.name)
@@ -67,7 +62,6 @@ class Evaluator:
         for data_example in self.dataset:
             yield self.task_runner.build_example(data_example)
 
-    # TODO: Could maybe track this progress with wandb?
     def generate_results(
         self, examples: Generator[EvaluationExample, None, None]
     ) -> Generator[EvaluationExample, None, None]:

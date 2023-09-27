@@ -63,7 +63,6 @@ class EvaluationResult:
             name=self.name, type="evaluation_result", metadata=self.metadata.to_dict()
         )
         with TemporaryDirectory() as temp_dir:
-            # TODO: Consider using Path
             temp_path = os.path.join(temp_dir, "result.json")
             self.save_locally(temp_path)
             artifact.add_file(local_path=temp_path, name="result.json")
@@ -91,7 +90,6 @@ class EvaluationResult:
             for name_part in (cfg.model.name, cfg.scenario.name, timestamp)
         )
 
-        # TODO: Consider using Path instead
         results_path = cfg.evaluation.local_results
         if not os.path.isdir(results_path):
             logger.warning("Creating new local directory for results: %s", results_path)
@@ -111,4 +109,4 @@ class EvaluationResult:
 
 
 def conf_to_dict(cfg: DictConfig) -> OutDictType:
-    return OmegaConf.to_container(cfg) # type: ignore
+    return OmegaConf.to_container(cfg)  # type: ignore
