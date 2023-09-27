@@ -7,9 +7,8 @@ from datetime import datetime
 from tempfile import TemporaryDirectory
 from typing import Optional, Union
 
-from omegaconf import DictConfig, OmegaConf
-
 import wandb
+from omegaconf import DictConfig, OmegaConf
 
 logger = logging.getLogger(__name__)
 
