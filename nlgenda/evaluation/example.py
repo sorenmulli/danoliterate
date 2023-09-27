@@ -2,7 +2,6 @@
 import json
 import logging
 import os
-from abc import ABC
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from tempfile import TemporaryDirectory
@@ -19,7 +18,7 @@ OutDictType = dict[str, Union[str, int, float, bool, None, "OutDictType", list["
 
 # pylint: disable=too-many-instance-attributes
 @dataclass
-class EvaluationExample(ABC):
+class EvaluationExample:
     prompt: str
     id_: str
 
