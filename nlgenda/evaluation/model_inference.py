@@ -1,8 +1,11 @@
+import logging
 from abc import ABC, abstractmethod
 from enum import Enum
 
 import torch
 from transformers import pipeline
+
+logger = logging.getLogger(__name__)
 
 
 class WrongInferenceError(RuntimeError):

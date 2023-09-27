@@ -1,0 +1,5 @@
+name: "Citizenship Test"
+path: "sorenmulli/citizenship-test-da"
+compare: "rouge1-f1-unq"
+task:
+  type: "citizenship-test"

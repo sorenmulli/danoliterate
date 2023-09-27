@@ -1,10 +1,10 @@
 defaults:
   - _self_
+  - scenario: ???
+  - model: ???
   - override hydra/job_logging: colorlog
   - override hydra/hydra_logging: colorlog
 
-scenario: ???
-model: ???
 do: ???
 
 outputs: job-outputs

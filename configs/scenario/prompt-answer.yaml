@@ -1,0 +1,5 @@
+name: "Prompt Answer"
+path: "sorenmulli/prompt-answer-da"
+compare: "rouge1-f1-unq"
+task:
+  type: "default-answer-similarity"

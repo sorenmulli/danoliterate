@@ -10,6 +10,8 @@ logger = logging.getLogger(__name__)
 
 
 class TaskRunner(ABC):
+    id_features: tuple[str, ...] = ("id",)
+
     @abstractmethod
     def build_example(self, row: dict[str, Any]) -> EvaluationExample:
         ...
@@ -19,6 +21,9 @@ class TaskRunner(ABC):
         self, example: EvaluationExample, inference: ModelInference, text_compare: TextCompareFun
     ) -> EvaluationExample:
         ...
+
+    def get_example_id(self, row: dict[str, Any]) -> str:
+        return "-".join(str(row[id_feature]) for id_feature in self.id_features)
 
 
 class MultichoiceRunner(TaskRunner):
@@ -32,9 +37,6 @@ class MultichoiceRunner(TaskRunner):
 
     def process_option(self, option: str) -> str:
         return option
-
-    def get_example_id(self, row: dict[str, Any]) -> str:
-        return "-".join(str(row[id_feature]) for id_feature in self.id_features)
 
     def get_options(self, row: dict[str, Any]) -> list[str]:
         options = []
@@ -76,4 +78,54 @@ class MultichoiceRunner(TaskRunner):
         # Prediction is argmax of scores
         example.index_prediction = scores.index(max(scores))
         example.options_model_scores = scores
+        return example
+
+
+class MultichoiceRunnerLetterOptions(MultichoiceRunner):
+    """
+    A multiple choice task that has the options saved as letters A, B, C, D instead of indices
+    """
+
+    def get_correct_idx(self, row: dict[str, Any]) -> int:
+        num_options = sum("option" in key for key in row)
+        # Generates the string ABCDE...
+        letter_options = "".join(chr(i) for i in range(65, 65 + num_options))
+        return letter_options.index(row["correct"])
+
+
+class AnswerSimilarityRunner(TaskRunner):
+    def __init__(
+        self,
+        prompt_feature="prompt",
+        answer_feature="answer",
+        id_features: tuple[str, ...] = ("id",),
+    ):
+        self.prompt_feature = prompt_feature
+        self.answer_feature = answer_feature
+        self.id_features = id_features
+
+    def build_example(self, row: dict[str, Any]) -> EvaluationExample:
+        return EvaluationExample(
+            prompt=row[self.prompt_feature],
+            id_=self.get_example_id(row),
+            target_answer=row[self.answer_feature],
+        )
+
+    def get_prediction(
+        self, example: EvaluationExample, inference: ModelInference, text_compare: TextCompareFun
+    ) -> EvaluationExample:
+        assert example.target_answer is not None
+
+        match inference.inference_method:
+            case InferenceMethod.LM:
+                logger.error("AnswerSimilarityRunner does not support language modeling")
+                raise ValueError("Unsupported inference method")
+
+            case InferenceMethod.NLG:
+                assert text_compare is not None
+                example.generated_text = inference.generate_text(example.prompt)
+                example.target_answer_model_score = text_compare(
+                    example.target_answer, example.generated_text
+                )
+
         return example

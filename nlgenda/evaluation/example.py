@@ -17,10 +17,14 @@ logger = logging.getLogger(__name__)
 OutDictType = dict[str, Union[str, int, float, bool, None, "OutDictType", list["OutDictType"]]]
 
 
+# pylint: disable=too-many-instance-attributes
 @dataclass
 class EvaluationExample(ABC):
     prompt: str
     id_: str
+
+    target_answer: Optional[str] = None
+    target_answer_model_score: Optional[float] = None
 
     index_label: Optional[int] = None
     options: Optional[list[str]] = None
