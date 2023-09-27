@@ -1,1 +1,1 @@
-from .run import evaluate
+from .evaluator import evaluate

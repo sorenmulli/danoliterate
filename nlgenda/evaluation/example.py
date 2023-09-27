@@ -2,15 +2,18 @@ from abc import ABC
 from dataclasses import dataclass
 from typing import Optional
 
-
-class EvaluationExample(ABC):
-    ...
+# TODO: Consider dataclass inheritance
 
 
 @dataclass
-class MultichoiceExample(EvaluationExample):
+class EvaluationExample(ABC):
     prompt: str
-    options: list[str]
-    label: int
+    id_: str
 
-    prediction: Optional[int] = None
+    index_label: Optional[int] = None
+    options: Optional[list[str]] = None
+
+    generated_text: Optional[str] = None
+    index_prediction: Optional[int] = None
+
+    options_model_scores: Optional[list[float]] = None
