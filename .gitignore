@@ -2,6 +2,8 @@ wandb
 local-computations
 local-models
 job-outputs
+multirun
+jobs
 
 .python-version
 
