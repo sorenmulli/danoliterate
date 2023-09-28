@@ -4,11 +4,13 @@ import logging
 import os
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
+from statistics import mean
 from tempfile import TemporaryDirectory
-from typing import Optional, Union
+from typing import Mapping, Optional, Union
+
+from omegaconf import DictConfig, OmegaConf
 
 import wandb
-from omegaconf import DictConfig, OmegaConf
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +37,10 @@ class EvaluationExample:
     def to_dict(self) -> OutDictType:
         return asdict(self)
 
+    @classmethod
+    def from_dict(cls, self_dict: Mapping):
+        return cls(**self_dict)
+
 
 @dataclass
 class EvaluationResultMetadata:
@@ -49,6 +55,10 @@ class EvaluationResultMetadata:
     def to_dict(self) -> OutDictType:
         return asdict(self)
 
+    @classmethod
+    def from_dict(cls, self_dict: Mapping):
+        return cls(**self_dict)
+
 
 @dataclass
 class EvaluationResult:
@@ -57,6 +67,18 @@ class EvaluationResult:
     metadata: EvaluationResultMetadata
 
     examples: list[EvaluationExample] = field(default_factory=list)
+
+    # TODO: Refactor this, move it to analysis and have a structured scorer
+    def get_score(self) -> float:
+        example_scores = []
+        for example in self.examples:
+            if (score := example.target_answer_model_score) is not None:
+                example_scores.append(score)
+            elif example.index_label is not None and example.index_prediction is not None:
+                example_scores.append(example.index_label == example.index_prediction)
+            else:
+                raise ValueError
+        return mean(example_scores)
 
     def send_to_wandb(self, run) -> bool:
         self.metadata.sent_to_wandb = True
@@ -80,7 +102,7 @@ class EvaluationResult:
     def to_dict(self) -> OutDictType:
         self_dict = asdict(self)
         self_dict["metadata"] = self.metadata.to_dict()
-        self_dict["examples"] = ([example.to_dict() for example in self.examples],)
+        self_dict["examples"] = [example.to_dict() for example in self.examples]
         return self_dict
 
     @classmethod
@@ -108,6 +130,25 @@ class EvaluationResult:
                 evaluation_cfg=conf_to_dict(cfg.evaluation),
             ),
         )
+
+    @classmethod
+    def from_dict(cls, self_dict: OutDictType):
+        metadata = EvaluationResultMetadata.from_dict(self_dict.pop("metadata"))
+        if self_dict["examples"] and isinstance(self_dict["examples"][0], list):
+            logger.warning("Fixing erroneuous extra list in examples field!")
+            self_dict["examples"] = self_dict["examples"][0]
+        examples = [
+            EvaluationExample.from_dict(example_dict) for example_dict in self_dict.pop("examples")
+        ]
+        return cls(metadata=metadata, examples=examples, **self_dict)
+
+    @classmethod
+    def from_wandb(cls, artifact):
+        with TemporaryDirectory() as temp_dir:
+            json_path = artifact.file(temp_dir)
+            with open(json_path, "r", encoding="utf-8") as file:
+                self_dict = json.load(file)
+        return cls.from_dict(self_dict)
 
 
 def conf_to_dict(cfg: DictConfig) -> OutDictType:
