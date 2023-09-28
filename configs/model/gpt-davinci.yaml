@@ -1,0 +1,4 @@
+name: "OpenAI daVinci"
+path: "davinci-002"
+inference:
+  type: "openai-api"

@@ -5,6 +5,7 @@ fasttext-wheel~=0.9.2
 datasets~=2.14.5
 transformers~=4.33.2
 torch~=2.0.1
+openai~=0.28.1
 
 streamlit~=1.27.0
 huggingface_hub~=0.16.4

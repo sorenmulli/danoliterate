@@ -1,7 +1,11 @@
+import json
 import logging
+import os
 from abc import ABC, abstractmethod
 from enum import Enum
+from typing import Optional
 
+import openai
 import torch
 from transformers import pipeline
 
@@ -61,18 +65,6 @@ class HuggingfaceCausalLm(ModelInference):
         self._inference_method = InferenceMethod(inference_method)
         self.pipeline = pipeline("text-generation", model=hf_key, device=DEVICE)
 
-    @property
-    def can_do_lm(self) -> bool:
-        return True
-
-    @property
-    def can_do_nlg(self) -> bool:
-        return True
-
-    @property
-    def inference_method(self) -> InferenceMethod:
-        return self._inference_method
-
     def generate_text(self, prompt: str) -> str:
         return self.pipeline(prompt)[0]["generated_text"][len(prompt) :]
 
@@ -90,3 +82,59 @@ class HuggingfaceCausalLm(ModelInference):
 
         # Loss is negative log likelihood so convert to likelihood
         return torch.exp(-outputs.loss).item()
+
+    @property
+    def can_do_lm(self) -> bool:
+        return True
+
+    @property
+    def can_do_nlg(self) -> bool:
+        return True
+
+    @property
+    def inference_method(self) -> InferenceMethod:
+        return self._inference_method
+
+
+# TODO: Default to temperature = 0
+# TODO: Save maximal info from the result
+class OpenAiAPI(ModelInference):
+    secret_file = "secret.json"
+    api_key_str = "OPENAI_API_KEY"
+
+    def __init__(self, model_key: str, api_key: Optional[str] = None):
+        self.model_key = model_key
+        if not api_key:
+            api_key = os.getenv(self.api_key_str)
+        if not api_key:
+            if os.path.isfile(self.secret_file):
+                with open(self.secret_file, "r", encoding="utf-8") as file:
+                    api_key = json.load(file).get(self.api_key_str)
+        if not api_key:
+            logger.error(
+                "Not given API key and did not find %s in env or in %s",
+                self.api_key_str,
+                self.secret_file,
+            )
+        openai.api_key = api_key
+
+    def generate_text(self, prompt: str) -> str:
+        if "turbo" in self.model_key or "gpt-4" in self.model_key:
+            completion = openai.ChatCompletion.create(
+                model=self.model_key, messages=[{"role": "user", "content": prompt}]
+            )
+            return completion.choices[0].message.content
+        completion = openai.Completion.create(model=self.model_key, prompt=prompt)
+        return completion.choices[0].text
+
+    @property
+    def can_do_lm(self) -> bool:
+        return False
+
+    @property
+    def can_do_nlg(self) -> bool:
+        return True
+
+    @property
+    def inference_method(self) -> InferenceMethod:
+        return InferenceMethod.NLG

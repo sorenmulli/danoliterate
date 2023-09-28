@@ -133,14 +133,18 @@ class EvaluationResult:
 
     @classmethod
     def from_dict(cls, self_dict: OutDictType):
-        metadata = EvaluationResultMetadata.from_dict(self_dict.pop("metadata"))
+        metadata = EvaluationResultMetadata.from_dict(self_dict.pop("metadata"))  # type: ignore
+
+        assert isinstance(self_dict["examples"], list)
         if self_dict["examples"] and isinstance(self_dict["examples"][0], list):
             logger.warning("Fixing erroneuous extra list in examples field!")
             self_dict["examples"] = self_dict["examples"][0]
+
         examples = [
-            EvaluationExample.from_dict(example_dict) for example_dict in self_dict.pop("examples")
+            EvaluationExample.from_dict(example_dict)  # type: ignore
+            for example_dict in self_dict.pop("examples")  # type: ignore
         ]
-        return cls(metadata=metadata, examples=examples, **self_dict)
+        return cls(metadata=metadata, examples=examples, **self_dict)  # type: ignore
 
     @classmethod
     def from_wandb(cls, artifact):

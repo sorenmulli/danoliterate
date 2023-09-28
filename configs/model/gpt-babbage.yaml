@@ -1,0 +1,4 @@
+name: "OpenAI Babbage"
+path: "babbage-002"
+inference:
+  type: "openai-api"

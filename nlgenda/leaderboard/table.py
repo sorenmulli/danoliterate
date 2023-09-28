@@ -11,6 +11,7 @@ def build_leaderboard_table(results: list[EvaluationResult]) -> pd.DataFrame:
         score = result.get_score()
 
         if model_name not in df.index:
+            assert isinstance(model_name, str)
             df.loc[model_name, :] = [None] * len(df.columns)
         if scenario_name not in df.columns:
             df[scenario_name] = [None] * len(df)
