@@ -5,6 +5,8 @@ from enum import Enum
 import torch
 from transformers import pipeline
 
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 logger = logging.getLogger(__name__)
 
 
@@ -57,7 +59,7 @@ class HuggingfaceCausalLm(ModelInference):
 
     def __init__(self, inference_method: str, hf_key: str):
         self._inference_method = InferenceMethod(inference_method)
-        self.pipeline = pipeline("text-generation", model=hf_key)
+        self.pipeline = pipeline("text-generation", model=hf_key, device=DEVICE)
 
     @property
     def can_do_lm(self) -> bool:
@@ -84,7 +86,7 @@ class HuggingfaceCausalLm(ModelInference):
         target_ids[:, : encodings.input_ids.size(1)] = self.ignore_target_idx
 
         with torch.no_grad():
-            outputs = self.pipeline.model(input_ids, labels=target_ids)
+            outputs = self.pipeline.model(input_ids.to(DEVICE), labels=target_ids.to(DEVICE))
 
         # Loss is negative log likelihood so convert to likelihood
         return torch.exp(-outputs.loss).item()
