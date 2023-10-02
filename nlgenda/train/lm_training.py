@@ -22,17 +22,23 @@ logger = logging.getLogger(__name__)
 def get_arguments(cfg: DictConfig, wandb_enabled: bool):
     return TrainingArguments(
         run_dir(),
+        # Training steps
         max_steps=cfg.steps,
         warmup_steps=cfg.warmup_steps,
+        # Optimisation
         optim=cfg.optimizer,
         learning_rate=cfg.lr,
         lr_scheduler_type=cfg.scheduler,
         weight_decay=cfg.weight_decay,
+        # Batch sizes
         per_device_train_batch_size=cfg.batch_size,
         gradient_accumulation_steps=cfg.accumulation,
         per_device_eval_batch_size=cfg.eval_batch_size,
         eval_accumulation_steps=cfg.eval_accumulation,
+        auto_find_batch_size=True,
+        # Compute
         fp16=cfg.fp16 if torch.cuda.is_available() else False,
+        # Evaluation
         load_best_model_at_end=cfg.eval,
         metric_for_best_model="eval_loss",
         greater_is_better=False,
@@ -44,6 +50,7 @@ def get_arguments(cfg: DictConfig, wandb_enabled: bool):
         evaluation_strategy="steps" if cfg.eval else "no",
         save_strategy="steps",
         logging_strategy="steps",
+        # Data loading
         dataloader_num_workers=cfg.data.workers,
     )
 
