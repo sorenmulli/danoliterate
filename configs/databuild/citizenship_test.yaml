@@ -1,0 +1,12 @@
+type: "citizenship-test"
+
+scrape: true
+clean: true
+calc_lm: true
+scored_tofix: "local-computations/scores-to-fix.csv"
+verified_tofix: "local-computations/verified-to-fix.csv"
+
+hub:
+  target: "sorenmulli/citizenship-test-da"
+  push: true
+  private: true

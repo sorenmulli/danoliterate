@@ -34,12 +34,12 @@ def run_extract(cfg: DictConfig, hellaswag: Dataset):
     df = df[["id", "type", "english_text", "danish_text"]]
     df = df.sort_values(by=["id", "type"], ascending=[True, True])
 
-    df.to_csv(out := cfg.hyggeswag.translation.todo_file, index=False)
+    df.to_csv(out := cfg.databuild.translation.todo_file, index=False)
     logger.info("Saved extraction to %s", out)
 
 
 def run_building(cfg: DictConfig, hellaswag: Dataset):
-    in_path = cfg.hyggeswag.translation.done_file
+    in_path = cfg.databuild.translation.done_file
     try:
         df = pd.read_csv(in_path)
     except FileNotFoundError:
@@ -77,12 +77,8 @@ def run_building(cfg: DictConfig, hellaswag: Dataset):
     df = df[["ctx"] + [col for col in df if col != "ctx"]]  # type: ignore
 
     dataset = Dataset.from_pandas(df)
-    if cfg.hyggeswag.push_to_hub:
-        push(
-            dataset,
-            cfg.hyggeswag.target,
-            cfg.hyggeswag.hub_private,
-        )
+    if cfg.databuild.hub.push:
+        push(dataset, cfg.databuild.hub)
 
 
 def create_hyggeswag(cfg: DictConfig):

@@ -1,0 +1,10 @@
+type: "hyggeswag"
+
+translation:
+  todo_file: "local-computations/hellaswag-to-translate.csv"
+  done_file: "local-computations/hellaswag-translated.csv"
+
+hub:
+  target: "sorenmulli/hyggeswag"
+  push: true
+  private: true

@@ -144,5 +144,5 @@ def create_prompt_answer_da(cfg: DictConfig):
     combined_da_dataset = deduplicate(concatenate_datasets(da_datasets))
     combined_da_dataset = combined_da_dataset.shuffle(1887)
     describe_da_dataset(combined_da_dataset)
-    if cfg.prompt_answer_da.push_to_hub:
-        push(combined_da_dataset, cfg.prompt_answer_da.target, cfg.prompt_answer_da.private)
+    if cfg.databuild.hub.push:
+        push(combined_da_dataset, cfg.databuild.hub)

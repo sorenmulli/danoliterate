@@ -1,7 +1,11 @@
 defaults:
   - _self_
+# Used if running do=evaluate
   - scenario: hyggeswag
   - model: test
+# Used if running do=databuild
+  - databuild: prompt_answer
+
   - override hydra/job_logging: colorlog
   - override hydra/hydra_logging: colorlog
 
@@ -9,34 +13,9 @@ do: ???
 
 outputs: job-outputs
 
-
 evaluation: 
   local_results: "local-computations/result-db"
   debug: false
-
-prompt_answer_da:
-  push_to_hub: true
-  hub_private: true
-  target: "sorenmulli/prompt-answer-da"
-
-citizenship_test_da:
-  scrape: true
-  clean: true
-  push_to_hub: true
-  hub_private: false
-  target: "sorenmulli/citizenship-test-da"
-  calc_lm: true
-  scored_tofix: "local-computations/scores-to-fix.csv"
-  verified_tofix: "local-computations/verified-to-fix.csv"
-
-hyggeswag:
-  push_to_hub: true
-  hub_private: true
-  target: "sorenmulli/hyggeswag"
-  translation:
-    todo_file: "local-computations/hellaswag-to-translate.csv"
-    done_file: "local-computations/hellaswag-translated.csv"
-
 
 model_paths:
   fasttext: "local-models/lid.176.bin"

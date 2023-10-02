@@ -1,0 +1,5 @@
+type: "prompt-answer"
+hub:
+  target: "sorenmulli/prompt-answer-da"
+  push: true
+  private: true

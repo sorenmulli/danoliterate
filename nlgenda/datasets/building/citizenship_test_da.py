@@ -229,11 +229,10 @@ def run_scrape(cfg: DictConfig):
 
     dataset = Dataset.from_pandas(pd.concat(dfs, ignore_index=True))
 
-    if cfg.citizenship_test_da.push_to_hub:
+    if cfg.databuild.hub.push:
         push(
             dataset,
-            cfg.citizenship_test_da.target,
-            cfg.citizenship_test_da.hub_private,
+            cfg,
             config_name=RAW_CONFIG_NAME,
         )
 
@@ -274,11 +273,11 @@ def clean_example(
                 cleaned = cleaned.replace(wrong, fixed)
             example[name] = cleaned
 
-            if cfg.citizenship_test_da.calc_lm:
+            if cfg.databuild.calc_lm:
                 candidates = calc_fix_candidates(nlm, cleaned)
                 if candidates:
                     pd.DataFrame(candidates, columns=TOFIX_COLS).to_csv(
-                        cfg.citizenship_test_da.scored_tofix, mode="a", header=False, index=False
+                        cfg.databuild.scored_tofix, mode="a", header=False, index=False
                     )
     return example
 
@@ -290,42 +289,35 @@ def reorder_idx_to_last(example: dict[str, str]) -> dict[str, str]:
 
 def run_clean(cfg: DictConfig):
     raw_dataset: Dataset = load_dataset(
-        cfg.citizenship_test_da.target, RAW_CONFIG_NAME, download_mode="force_redownload"
+        cfg.databuild.hub.target, RAW_CONFIG_NAME, download_mode="force_redownload"
     )["train"]
 
     nlm = NgramLm(cfg)
 
-    to_replace_df = pd.read_csv(cfg.citizenship_test_da.verified_tofix)
+    to_replace_df = pd.read_csv(cfg.databuild.verified_tofix)
     to_replace = dict(zip(to_replace_df["wrong"], to_replace_df["fixed"]))
-    if cfg.citizenship_test_da.calc_lm:
-        pd.DataFrame(columns=TOFIX_COLS).to_csv(cfg.citizenship_test_da.scored_tofix, index=False)
+    if cfg.databuild.calc_lm:
+        pd.DataFrame(columns=TOFIX_COLS).to_csv(cfg.databuild.scored_tofix, index=False)
 
     cleaned_dataset = (
         raw_dataset.map(partial(clean_example, cfg=cfg, nlm=nlm, to_replace=to_replace))
         .map(reorder_idx_to_last)
         .shuffle(1887)
     )
-    if cfg.citizenship_test_da.calc_lm:
-        pd.read_csv(cfg.citizenship_test_da.scored_tofix).sort_values(
+    if cfg.databuild.calc_lm:
+        pd.read_csv(cfg.databuild.scored_tofix).sort_values(
             by="score_diff", ascending=False
-        ).drop_duplicates("wrong", keep="first").to_csv(
-            cfg.citizenship_test_da.scored_tofix, index=False
-        )
+        ).drop_duplicates("wrong", keep="first").to_csv(cfg.databuild.scored_tofix, index=False)
 
-    if cfg.citizenship_test_da.push_to_hub:
-        push(
-            cleaned_dataset,
-            cfg.citizenship_test_da.target,
-            cfg.citizenship_test_da.hub_private,
-            config_name=CLEANED_CONFIG_NAME,
-        )
+    if cfg.databuild.hub.push:
+        push(cleaned_dataset, cfg.databuild.hub, config_name=CLEANED_CONFIG_NAME)
 
 
 def create_citizen_da(cfg: DictConfig):
     logger.debug("Running with arguments: %s", format_config(cfg))
-    if cfg.citizenship_test_da.scrape:
+    if cfg.databuild.scrape:
         logger.info("Scraping dataset from SIRI.")
         run_scrape(cfg)
-    if cfg.citizenship_test_da.clean:
+    if cfg.databuild.clean:
         logger.info("Cleaning dataset from HF hub.")
         run_clean(cfg)

@@ -15,15 +15,24 @@ def hydra_entry(cfg: DictConfig) -> None:
     match cfg.do:
         case "evaluate":
             evaluate(cfg)
-        case "prompt-answer-da":
-            create_prompt_answer_da(cfg)
-        case "citizenship-test-da":
-            create_citizen_da(cfg)
-        case "hyggeswag":
-            create_hyggeswag(cfg)
+        case "databuild":
+            match cfg.databuild.type:
+                case "prompt-answer":
+                    create_prompt_answer_da(cfg)
+                case "citizenship-test":
+                    create_citizen_da(cfg)
+                case "hyggeswag":
+                    create_hyggeswag(cfg)
+                case _:
+                    logging.error(
+                        "Unsupported databuild.type=%s. "
+                        "Currently, prompt-answer, citizenship-test, hyggeswag are supported",
+                        cfg.do,
+                    )
+                    raise ValueError
         case _:
             logging.error(
-                "Unsupported do=%s. Currently, evaluate, prompt-answer-da are supported", cfg.do
+                "Unsupported do=%s. Currently, evaluate and databuild are supported", cfg.do
             )
             raise ValueError
 
