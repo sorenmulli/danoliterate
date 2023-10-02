@@ -5,7 +5,8 @@ defaults:
   - model: test
 # Used if running do=databuild
   - databuild: prompt_answer
-
+# Used if running do=train
+  - train: default
   - override hydra/job_logging: colorlog
   - override hydra/hydra_logging: colorlog
 
@@ -24,7 +25,7 @@ model_paths:
 wandb:
   enabled: true
   entity: "sorenmulli"
-  project: "nlgenda-benchmarking"
+  project: "nlgenda"
 
 hydra:
   run:
@@ -33,7 +34,7 @@ hydra:
     dir: ${outputs}/${hydra.job.name}
     subdir: ${hydra.job.num}
   job:
-    name: $(job_base_name)-${now:%Y%m%d-%H%M%S}
+    name: ${job_base_name}-${now:%Y%m%d-%H%M%S}
   job_logging:
     handlers:
       file:

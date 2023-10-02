@@ -8,6 +8,7 @@ from nlgenda.datasets.building.hyggeswag import create_hyggeswag
 from nlgenda.datasets.building.prompt_answer_da import create_prompt_answer_da
 from nlgenda.evaluation import evaluate
 from nlgenda.infrastructure import CONFIG_DIR
+from nlgenda.train import train_lm
 
 
 @hydra.main(config_path=CONFIG_DIR, config_name="master", version_base=None)
@@ -26,13 +27,15 @@ def hydra_entry(cfg: DictConfig) -> None:
                 case _:
                     logging.error(
                         "Unsupported databuild.type=%s. "
-                        "Currently, prompt-answer, citizenship-test, hyggeswag are supported",
+                        "'prompt-answer', 'citizenship-test', 'hyggeswag' are supported",
                         cfg.do,
                     )
                     raise ValueError
+        case "train":
+            train_lm(cfg)
         case _:
             logging.error(
-                "Unsupported do=%s. Currently, evaluate and databuild are supported", cfg.do
+                "Unsupported do=%s. 'evaluate', 'databuild', 'train' are supported", cfg.do
             )
             raise ValueError
 

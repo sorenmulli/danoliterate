@@ -32,7 +32,12 @@ class Evaluator:
         self.model_inference = get_inference(cfg.model)
 
         self.wandb = (
-            wandb.init(name=self.result.name, entity=cfg.wandb.entity, project=cfg.wandb.project)
+            wandb.init(
+                name=self.result.name,
+                entity=cfg.wandb.entity,
+                project=cfg.wandb.project,
+                job_type="eval",
+            )
             if cfg.wandb.enabled
             else None
         )

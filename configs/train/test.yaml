@@ -1,0 +1,34 @@
+base_model: "hf-internal-testing/tiny-random-gpt2"
+
+steps: 3
+warmup_steps: 2
+resume: false
+
+optimizer: "adamw_torch"
+lr: 5e-4
+scheduler: "constant"
+weight_decay: 0
+
+batch_size: 1
+accumulation: 2
+eval_batch_size: 2
+eval_accumulation: 1
+
+fp16: true
+
+eval: true
+eval_every: 2
+save_limit: 1
+log_every: 1
+
+
+data:
+  datasets: ["uonlp/CulturaX:da", "DDSC/dagw_reddit_filtered_v1.0.0"]
+  seed: 1887
+  text_col: "text"
+  test_examples: 1239
+  validation_examples: 2
+  context_tokens: 16
+  workers: 0
+
+debug: true
