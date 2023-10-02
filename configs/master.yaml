@@ -28,13 +28,15 @@ wandb:
 
 hydra:
   run:
-    dir: ${outputs}/${hydra.job.name}-${now:%Y%m%d-%H%M%S}
+    dir: ${outputs}/${hydra.job.name}
   sweep:
-    dir: ${outputs}/${hydra.job.name}-${now:%Y%m%d-%H%M%S}
+    dir: ${outputs}/${hydra.job.name}
     subdir: ${hydra.job.num}
   job:
-    name: nlgenda
+    name: $(job_base_name)-${now:%Y%m%d-%H%M%S}
   job_logging:
     handlers:
       file:
-        filename: ${hydra.runtime.output_dir}/${hydra.job.name}.log
+        filename: ${hydra.runtime.output_dir}/${job_base_name}.log
+
+job_base_name: nlgenda
