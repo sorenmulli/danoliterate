@@ -62,7 +62,7 @@ def train_lm(cfg: DictConfig):
     logger.info("Setting up model and tokenizer from %s ...", cfg.train.base_model)
     model_cls = AutoModelForCausalLM
     model = (
-        from_pretrained_hf_hub_no_disk(model_cls, cfg.train.base_model)
+        from_pretrained_hf_hub_no_disk(cfg.train.base_model, model_cls)
         if cfg.download_no_cache
         else model_cls.from_pretrained(cfg.train.base_model)
     )
