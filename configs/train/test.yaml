@@ -26,6 +26,7 @@ lora:
   r: 8
   alpha: 32
   dropout: 0.1
+  target_modules: ["c_attn", "c_proj"]
 
 data:
   datasets: ["uonlp/CulturaX:da", "DDSC/dagw_reddit_filtered_v1.0.0"]
