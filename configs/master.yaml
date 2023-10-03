@@ -18,6 +18,8 @@ evaluation:
   local_results: "local-computations/result-db"
   debug: false
 
+download_no_cache: false
+
 model_paths:
   fasttext: "local-models/lid.176.bin"
   dsl3gram: "local-models/dsl_3gram.klm"
