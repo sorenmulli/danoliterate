@@ -4,6 +4,7 @@ notes="FIXME,XXX"
 good-names="df,i,j,k"
 extension-pkg-allow-list="kenlm"
 generated-members="torch.*"
+known-third-party = ["wandb"]
 
 [tool.black]
 line-length = 100
@@ -11,6 +12,7 @@ line-length = 100
 [tool.isort]
 profile = "black"
 line_length = 100
+known_third_party = ["wandb"]
 
 
 [[tool.mypy.overrides]]
