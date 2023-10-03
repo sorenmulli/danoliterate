@@ -1,6 +1,8 @@
 import gc
 import json
+import logging
 from io import BytesIO
+from typing import Any
 
 import requests
 import torch
@@ -11,6 +13,8 @@ from tqdm import tqdm
 from transformers import AutoConfig, AutoModelForCausalLM, PreTrainedModel
 from transformers.modeling_utils import _load_state_dict_into_model as hf_state_dict_load
 from transformers.modeling_utils import no_init_weights
+
+logger = logging.getLogger(__name__)
 
 
 def download(url: str, chunk_size=8192):
@@ -44,26 +48,29 @@ def get_sharded(model_key: str, index_file: BytesIO):
         shard_state_dict = get_single(model_key, shard_file)
         state_dict.update(shard_state_dict)
 
+        # Don't keep each shard in memory
         del shard_state_dict
         gc.collect()
     return state_dict
 
 
-# TODO: Safetensors
+# TODO: Add functionality for loading from safetensors, see #16
+
 SINGLE_FILE_TO_HANDLER = {
     # "model.safetensors.index.json": get_sharded,
-    "pytorch_model.bin.index.json": get_sharded,
     # "model.safetensors": get_single,
+    "pytorch_model.bin.index.json": get_sharded,
     "pytorch_model.bin": get_single,
 }
-#     loader = safe_load_file if load_safe else partial(torch.load, map_location="cpu")
 
 
-def load_state_dict(model: PreTrainedModel, state_dict) -> PreTrainedModel:
+def load_state_dict(model: PreTrainedModel, state_dict: dict[str, Any]) -> PreTrainedModel:
     prefix = model.base_model_prefix + "."
     errors = hf_state_dict_load(model, state_dict, prefix)
     if errors:
-        raise RuntimeError(",".join(errors))
+        error_msg = ", ".join(errors)
+        logger.error("Error loading state dict for model:\n%s\nErrors: %s", str(model), error_msg)
+        raise KeyError(f"State dict loading errors: {error_msg}")
     return model
 
 
@@ -79,11 +86,17 @@ def from_pretrained_hf_hub_no_disk(
             url = hf_hub_url(model_key, filename)
             file = download(url)
             state_dict = handler(model_key, file)
+            break
         except HTTPError as error:
-            print(error)
+            logger.debug("No model found in %s due to %s, continuing ...", filename, str(error))
 
     if state_dict is None:
-        raise FileNotFoundError("AHHH")
+        logger.error(
+            "No handleable checkpoint (out of %s) found in %s.",
+            ", ".join(SINGLE_FILE_TO_HANDLER.keys()),
+            model_key,
+        )
+        raise FileNotFoundError("Could not find model checkpoint.")
 
     with no_init_weights():
         model = model_class.from_config(config)

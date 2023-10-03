@@ -18,6 +18,9 @@ module = [
     "datasets",
     "fasttext",
     "kenlm",
-    "transformers"
+    "transformers",
+    "huggingface_hub",
+    "huggingface_hub.file_download",
+    "transformers.modeling_utils",
 ]
 ignore_missing_imports = true
