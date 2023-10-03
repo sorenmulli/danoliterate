@@ -1,11 +1,11 @@
 import logging
 from typing import Generator
 
+import wandb
 from datasets import Dataset, load_dataset
 from omegaconf import DictConfig
 from tqdm import tqdm
 
-import wandb
 from nlgenda.evaluation.example import EvaluationExample, EvaluationResult
 from nlgenda.evaluation.registries.get import get_inference, get_task_runner
 from nlgenda.infrastructure import format_config

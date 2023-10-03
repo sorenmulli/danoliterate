@@ -2,6 +2,7 @@ import logging
 from pathlib import Path
 
 import torch
+import wandb
 from omegaconf import DictConfig, OmegaConf
 from transformers import (
     AutoModelForCausalLM,
@@ -11,7 +12,6 @@ from transformers import (
     TrainingArguments,
 )
 
-import wandb
 from nlgenda.datasets.pretraining import get_streaming_data, tokenize_datasets
 from nlgenda.infrastructure.logging import format_config
 from nlgenda.infrastructure.runs import run_dir, run_name

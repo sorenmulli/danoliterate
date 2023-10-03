@@ -1,4 +1,5 @@
 import wandb
+
 from nlgenda.evaluation.example import EvaluationResult
 
 
