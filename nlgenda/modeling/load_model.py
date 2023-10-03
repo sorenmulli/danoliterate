@@ -5,14 +5,16 @@ from io import BytesIO
 import requests
 import torch
 from huggingface_hub import hf_hub_url
+from huggingface_hub.file_download import build_hf_headers
 from requests import HTTPError
 from tqdm import tqdm
 from transformers import AutoConfig, AutoModelForCausalLM, PreTrainedModel
 from transformers.modeling_utils import _load_state_dict_into_model as hf_state_dict_load
+from transformers.modeling_utils import no_init_weights
 
 
 def download(url: str, chunk_size=8192):
-    response = requests.get(url, stream=True, timeout=10)
+    response = requests.get(url, stream=True, timeout=10, headers=build_hf_headers())
     response.raise_for_status()
     total_size = int(response.headers.get("content-length", 0))
     progress_bar = tqdm(total=total_size, unit="iB", unit_scale=True)
@@ -70,7 +72,6 @@ def from_pretrained_hf_hub_no_disk(
     model_class=AutoModelForCausalLM,
 ) -> PreTrainedModel:
     config = AutoConfig.from_pretrained(model_key)
-    model = model_class.from_config(config)
 
     state_dict = None
     for filename, handler in SINGLE_FILE_TO_HANDLER.items():
@@ -83,6 +84,9 @@ def from_pretrained_hf_hub_no_disk(
 
     if state_dict is None:
         raise FileNotFoundError("AHHH")
+
+    with no_init_weights():
+        model = model_class.from_config(config)
     return load_state_dict(model, state_dict)
 
 
