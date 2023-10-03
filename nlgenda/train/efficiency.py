@@ -10,6 +10,7 @@ def setup_lora(model: PreTrainedModel, cfg: DictConfig) -> PeftModelForCausalLM:
         r=cfg.r,
         lora_alpha=cfg.alpha,
         lora_dropout=cfg.dropout,
+        target_modules=cfg.target_modules,
     )
     peft_model = get_peft_model(model, peft_config)
     return peft_model
