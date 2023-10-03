@@ -21,6 +21,11 @@ eval_every: 2
 save_limit: 1
 log_every: 1
 
+lora:
+  enabled: false
+  r: 8
+  alpha: 32
+  dropout: 0.1
 
 data:
   datasets: ["uonlp/CulturaX:da", "DDSC/dagw_reddit_filtered_v1.0.0"]

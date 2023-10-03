@@ -16,6 +16,7 @@ from nlgenda.datasets.pretraining import get_streaming_data, tokenize_datasets
 from nlgenda.infrastructure.logging import format_config
 from nlgenda.infrastructure.runs import run_dir, run_name
 from nlgenda.modeling.load_model import from_pretrained_hf_hub_no_disk
+from nlgenda.train.efficiency import setup_lora
 
 logger = logging.getLogger(__name__)
 
@@ -70,12 +71,19 @@ def train_lm(cfg: DictConfig):
     logger.info("Loaded model with %.1f M parameters.", model.num_parameters() / 1e6)
     logger.info("Loaded tokenizer with vocabulary size %i.", tokenizer.vocab_size)
 
+    if cfg.train.lora.enabled:
+        model = setup_lora(model, cfg.train.lora)
+        logger.info(
+            "Set up PEFT with LoRa.\n - Trainable parameters:\t%i\n - Total parameters:\t\t%i",
+            *model.get_nb_trainable_parameters()
+        )
+
     logger.info("Setting up streaming datasets %s ...", " + ".join(cfg.train.data.datasets))
     datasets = get_streaming_data(cfg.train.data)
     datasets = tokenize_datasets(datasets, tokenizer, cfg)
     logger.info(
         "Datasets set up! %i were skipped for test, %i are validation, rest train. "
-        "Division after shuffle with seed=%i",
+        "Splits were divided after shuffle with seed=%i",
         cfg.train.data.test_examples,
         cfg.train.data.validation_examples,
         cfg.train.data.seed,
