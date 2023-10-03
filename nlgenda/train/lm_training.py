@@ -15,6 +15,7 @@ import wandb
 from nlgenda.datasets.pretraining import get_streaming_data, tokenize_datasets
 from nlgenda.infrastructure.logging import format_config
 from nlgenda.infrastructure.runs import run_dir, run_name
+from nlgenda.modeling.load_model import from_pretrained_hf_hub_no_disk
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +60,12 @@ def train_lm(cfg: DictConfig):
     logger.debug("Running with arguments: %s", format_config(cfg))
 
     logger.info("Setting up model and tokenizer from %s ...", cfg.train.base_model)
-    model = AutoModelForCausalLM.from_pretrained(cfg.train.base_model)
+    model_cls = AutoModelForCausalLM
+    model = (
+        from_pretrained_hf_hub_no_disk(model_cls, cfg.train.base_model)
+        if cfg.download_no_cache
+        else model_cls.from_pretrained(cfg.train.base_model)
+    )
     tokenizer = AutoTokenizer.from_pretrained(cfg.train.base_model)
     logger.info("Loaded model with %.1f M parameters.", model.num_parameters() / 1e6)
     logger.info("Loaded tokenizer with vocabulary size %i.", tokenizer.vocab_size)
