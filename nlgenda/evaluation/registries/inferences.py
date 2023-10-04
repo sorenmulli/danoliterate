@@ -1,6 +1,6 @@
 from omegaconf import DictConfig
 
-from nlgenda.evaluation.model_inference import HuggingfaceCausalLm, OpenAiAPI
+from cfg.nlgenda.evaluation.execution.model_inference import HuggingfaceCausalLm, OpenAiAPI
 from nlgenda.evaluation.registries.registration import register_inference
 
 

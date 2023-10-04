@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from typing import Any
 
 from nlgenda.evaluation.example import EvaluationExample
-from nlgenda.evaluation.model_inference import InferenceMethod, ModelInference
+from cfg.nlgenda.evaluation.execution.model_inference import InferenceMethod, ModelInference
 from nlgenda.modeling.text_comparison import TextCompareFun
 
 logger = logging.getLogger(__name__)

@@ -1,7 +1,7 @@
 from omegaconf import DictConfig
 
 from nlgenda.evaluation.registries.registration import register_task
-from nlgenda.evaluation.task_runner import (
+from cfg.nlgenda.evaluation.execution.task_runner import (
     AnswerSimilarityRunner,
     MultichoiceRunner,
     MultichoiceRunnerLetterOptions,
