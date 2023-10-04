@@ -6,8 +6,8 @@ from datasets import Dataset, load_dataset
 from omegaconf import DictConfig
 from tqdm import tqdm
 
-from cfg.nlgenda.evaluation.results import EvaluationExample, EvaluationResult
 from nlgenda.evaluation.registries.get import get_inference, get_task_runner
+from nlgenda.evaluation.results import EvaluationExample, EvaluationResult
 from nlgenda.infrastructure import format_config
 from nlgenda.modeling.text_comparison import get_compare_fun
 

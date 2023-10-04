@@ -16,7 +16,7 @@ from nlgenda.datasets.pretraining import get_streaming_data, tokenize_datasets
 from nlgenda.infrastructure.logging import format_config
 from nlgenda.infrastructure.runs import run_dir, run_name
 from nlgenda.modeling.load_model import from_pretrained_hf_hub_no_disk
-from nlgenda.train.efficiency import setup_lora
+from nlgenda.training.efficiency import setup_lora
 
 logger = logging.getLogger(__name__)
 

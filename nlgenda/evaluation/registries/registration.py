@@ -2,8 +2,8 @@ from typing import Callable
 
 from omegaconf import DictConfig
 
-from cfg.nlgenda.evaluation.execution.model_inference import ModelInference
-from cfg.nlgenda.evaluation.execution.task_runner import TaskRunner
+from nlgenda.evaluation.execution.model_inference import ModelInference
+from nlgenda.evaluation.execution.task_runner import TaskRunner
 
 TaskFunctionType = Callable[[DictConfig], TaskRunner]
 

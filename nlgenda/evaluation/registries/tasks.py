@@ -1,12 +1,12 @@
 from omegaconf import DictConfig
 
-from nlgenda.evaluation.registries.registration import register_task
-from cfg.nlgenda.evaluation.execution.task_runner import (
+from nlgenda.evaluation.execution.task_runner import (
     AnswerSimilarityRunner,
     MultichoiceRunner,
     MultichoiceRunnerLetterOptions,
     TaskRunner,
 )
+from nlgenda.evaluation.registries.registration import register_task
 
 
 @register_task("default-mc")

@@ -7,9 +7,9 @@ import hydra
 import streamlit as st
 from omegaconf import DictConfig
 
+from nlgenda.evaluation.leaderboard.data import get_results_wandb
+from nlgenda.evaluation.leaderboard.table import build_leaderboard_table
 from nlgenda.infrastructure.constants import CONFIG_DIR
-from nlgenda.leaderboard.data import get_results_wandb
-from nlgenda.leaderboard.table import build_leaderboard_table
 
 logger = logging.getLogger(__name__)
 
