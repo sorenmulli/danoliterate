@@ -1,15 +1,15 @@
 import wandb
 
 from nlgenda.evaluation.results import ExecutionResult
+from nlgenda.evaluation.serialization import EXECUTION_RESULT_ARTIFACT_TYPE
 
 
 def get_results_wandb(wandb_project: str, wandb_entity: str, include_debug=False):
     wandb.login()
     api = wandb.Api(overrides={"entity": wandb_entity})
     results = []
-    # TODO: Have type name as constant
     for collection in api.artifact_type(
-        type_name="evaluation_result", project=wandb_project
+        type_name=EXECUTION_RESULT_ARTIFACT_TYPE, project=wandb_project
     ).collections():
         artifacts = list(collection.versions())
         assert len(artifacts) == 1

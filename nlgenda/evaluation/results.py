@@ -11,7 +11,7 @@ from typing import Optional
 import wandb
 from omegaconf import DictConfig, OmegaConf
 
-from nlgenda.evaluation.serialization import OutDictType, fix_args_for_dataclass
+from nlgenda.evaluation.serialization import EXECUTION_RESULT_ARTIFACT_TYPE, OutDictType, fix_args_for_dataclass
 from nlgenda.infrastructure.logging import commit_hash
 
 logger = logging.getLogger(__name__)
@@ -89,7 +89,7 @@ class ExecutionResult:
         self.metadata.sent_to_wandb = True
 
         artifact = wandb.Artifact(
-            name=self.name, type="evaluation_result", metadata=self.metadata.to_dict()
+            name=self.name, type=EXECUTION_RESULT_ARTIFACT_TYPE, metadata=self.metadata.to_dict()
         )
         with TemporaryDirectory() as temp_dir:
             temp_path = os.path.join(temp_dir, "result.json")

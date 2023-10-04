@@ -2,10 +2,11 @@ import logging
 from dataclasses import fields
 from typing import Any, Union
 
+EXECUTION_RESULT_ARTIFACT_TYPE = "evaluation_result"
+
 logger = logging.getLogger(__name__)
 
 OutDictType = dict[str, Union[str, int, float, bool, None, "OutDictType", list["OutDictType"]]]
-
 
 def fix_args_for_dataclass(dataclass: Any, input_args: OutDictType):
     class_fields = {field.name: field for field in fields(dataclass)}
