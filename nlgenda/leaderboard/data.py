@@ -1,6 +1,6 @@
 import wandb
 
-from nlgenda.evaluation.example import EvaluationResult
+from cfg.nlgenda.evaluation.results import EvaluationResult
 
 
 def get_results_wandb(wandb_project: str, wandb_entity: str, include_debug=False):

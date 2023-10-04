@@ -1,6 +1,6 @@
 import pandas as pd
 
-from nlgenda.evaluation.example import EvaluationResult
+from cfg.nlgenda.evaluation.results import EvaluationResult
 
 
 def build_leaderboard_table(results: list[EvaluationResult]) -> pd.DataFrame:

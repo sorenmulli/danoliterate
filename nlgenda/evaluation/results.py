@@ -1,4 +1,3 @@
-# TODO: Rename this file
 import json
 import logging
 import os
