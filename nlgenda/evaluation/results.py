@@ -1,18 +1,20 @@
 import json
 import logging
 import os
+import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from statistics import mean
 from tempfile import TemporaryDirectory
-from typing import Mapping, Optional, Union
+from typing import Optional
 
 import wandb
 from omegaconf import DictConfig, OmegaConf
 
-logger = logging.getLogger(__name__)
+from nlgenda.evaluation.serialization import OutDictType, fix_args_for_dataclass
+from nlgenda.infrastructure.logging import commit_hash
 
-OutDictType = dict[str, Union[str, int, float, bool, None, "OutDictType", list["OutDictType"]]]
+logger = logging.getLogger(__name__)
 
 
 # pylint: disable=too-many-instance-attributes
@@ -36,13 +38,17 @@ class EvaluationExample:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, self_dict: Mapping):
-        return cls(**self_dict)
+    def from_dict(cls, self_dict: OutDictType):
+        fix_args_for_dataclass(cls, self_dict)
+        # Dict is mutable; does not guarantee type safety
+        return cls(**self_dict)  # type: ignore
 
 
 @dataclass
 class EvaluationResultMetadata:
     timestamp: str
+    id_: Optional[str]
+    commit: Optional[str]
 
     scenario_cfg: OutDictType
     model_cfg: OutDictType
@@ -54,8 +60,9 @@ class EvaluationResultMetadata:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, self_dict: Mapping):
-        return cls(**self_dict)
+    def from_dict(cls, self_dict: OutDictType):
+        fix_args_for_dataclass(cls, self_dict)
+        return cls(**self_dict)  # type: ignore
 
 
 @dataclass
@@ -118,11 +125,19 @@ class EvaluationResult:
             os.makedirs(results_path)
         out_path = os.path.join(results_path, f"{autoname}.json")
 
+        # Hash time + machine
+        id_ = str(uuid.uuid1())
+
+        # If we are in the repo, we document current commit
+        commit = commit_hash()
+
         return cls(
             name=autoname,
             local_path=out_path,
             metadata=EvaluationResultMetadata(
                 timestamp=timestamp,
+                id_=id_,
+                commit=commit,
                 scenario_cfg=conf_to_dict(cfg.scenario),
                 model_cfg=conf_to_dict(cfg.model),
                 evaluation_cfg=conf_to_dict(cfg.evaluation),
@@ -131,17 +146,16 @@ class EvaluationResult:
 
     @classmethod
     def from_dict(cls, self_dict: OutDictType):
-        metadata = EvaluationResultMetadata.from_dict(self_dict.pop("metadata"))  # type: ignore
+        metadata_dict: OutDictType = self_dict.pop("metadata")  # type: ignore
+        metadata = EvaluationResultMetadata.from_dict(metadata_dict)
 
         assert isinstance(self_dict["examples"], list)
         if self_dict["examples"] and isinstance(self_dict["examples"][0], list):
             logger.warning("Fixing erroneuous extra list in examples field!")
             self_dict["examples"] = self_dict["examples"][0]
 
-        examples = [
-            EvaluationExample.from_dict(example_dict)  # type: ignore
-            for example_dict in self_dict.pop("examples")  # type: ignore
-        ]
+        example_dicts: list[OutDictType] = self_dict.pop("examples")  # type: ignore
+        examples = [EvaluationExample.from_dict(example_dict) for example_dict in example_dicts]
         return cls(metadata=metadata, examples=examples, **self_dict)  # type: ignore
 
     @classmethod
