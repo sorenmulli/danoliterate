@@ -1,6 +1,6 @@
 import wandb
 
-from nlgenda.evaluation.results import EvaluationResult
+from nlgenda.evaluation.results import ExecutionResult
 
 
 def get_results_wandb(wandb_project: str, wandb_entity: str, include_debug=False):
@@ -16,5 +16,5 @@ def get_results_wandb(wandb_project: str, wandb_entity: str, include_debug=False
         artifact = artifacts[0]
         if not include_debug and artifact.metadata["evaluation_cfg"].get("debug"):
             continue
-        results.append(EvaluationResult.from_wandb(artifact))
+        results.append(ExecutionResult.from_wandb(artifact))
     return results

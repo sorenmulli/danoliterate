@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 # pylint: disable=too-many-instance-attributes
 @dataclass
-class EvaluationExample:
+class ExecutionExample:
     prompt: str
     id_: str
 
@@ -45,7 +45,7 @@ class EvaluationExample:
 
 
 @dataclass
-class EvaluationResultMetadata:
+class ExecutionResultMetadata:
     timestamp: str
     id_: Optional[str]
     commit: Optional[str]
@@ -66,12 +66,12 @@ class EvaluationResultMetadata:
 
 
 @dataclass
-class EvaluationResult:
+class ExecutionResult:
     name: str
     local_path: str
-    metadata: EvaluationResultMetadata
+    metadata: ExecutionResultMetadata
 
-    examples: list[EvaluationExample] = field(default_factory=list)
+    examples: list[ExecutionExample] = field(default_factory=list)
 
     # TODO: Refactor this, move it to analysis and have a structured scorer
     def get_score(self) -> float:
@@ -134,7 +134,7 @@ class EvaluationResult:
         return cls(
             name=autoname,
             local_path=out_path,
-            metadata=EvaluationResultMetadata(
+            metadata=ExecutionResultMetadata(
                 timestamp=timestamp,
                 id_=id_,
                 commit=commit,
@@ -147,7 +147,7 @@ class EvaluationResult:
     @classmethod
     def from_dict(cls, self_dict: OutDictType):
         metadata_dict: OutDictType = self_dict.pop("metadata")  # type: ignore
-        metadata = EvaluationResultMetadata.from_dict(metadata_dict)
+        metadata = ExecutionResultMetadata.from_dict(metadata_dict)
 
         assert isinstance(self_dict["examples"], list)
         if self_dict["examples"] and isinstance(self_dict["examples"][0], list):
@@ -155,7 +155,7 @@ class EvaluationResult:
             self_dict["examples"] = self_dict["examples"][0]
 
         example_dicts: list[OutDictType] = self_dict.pop("examples")  # type: ignore
-        examples = [EvaluationExample.from_dict(example_dict) for example_dict in example_dicts]
+        examples = [ExecutionExample.from_dict(example_dict) for example_dict in example_dicts]
         return cls(metadata=metadata, examples=examples, **self_dict)  # type: ignore
 
     @classmethod

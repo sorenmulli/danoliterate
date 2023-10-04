@@ -1,9 +1,9 @@
 import pandas as pd
 
-from nlgenda.evaluation.results import EvaluationResult
+from nlgenda.evaluation.results import ExecutionResult
 
 
-def build_leaderboard_table(results: list[EvaluationResult]) -> pd.DataFrame:
+def build_leaderboard_table(results: list[ExecutionResult]) -> pd.DataFrame:
     df = pd.DataFrame()
     for result in results:
         model_name = result.metadata.model_cfg["name"]

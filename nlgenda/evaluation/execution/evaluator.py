@@ -7,7 +7,7 @@ from omegaconf import DictConfig
 from tqdm import tqdm
 
 from nlgenda.evaluation.registries.get import get_inference, get_task_runner
-from nlgenda.evaluation.results import EvaluationExample, EvaluationResult
+from nlgenda.evaluation.results import ExecutionExample, ExecutionResult
 from nlgenda.infrastructure import format_config
 from nlgenda.modeling.text_comparison import get_compare_fun
 
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class Evaluator:
     def __init__(self, cfg: DictConfig):
         logger.info("Evaluating %s on %s.", cfg.model.name, cfg.scenario.name)
-        self.result = EvaluationResult.from_config(cfg)
+        self.result = ExecutionResult.from_config(cfg)
 
         self.text_compare = (
             get_compare_fun(cfg.scenario.compare) if cfg.scenario.compare is not None else None
@@ -63,13 +63,13 @@ class Evaluator:
         out = self.result.save_locally()
         logger.info("Result was saved locally to %s.", out)
 
-    def generate_examples(self) -> Generator[EvaluationExample, None, None]:
+    def generate_examples(self) -> Generator[ExecutionExample, None, None]:
         for data_example in self.dataset:
             yield self.task_runner.build_example(data_example)
 
     def generate_results(
-        self, examples: Generator[EvaluationExample, None, None]
-    ) -> Generator[EvaluationExample, None, None]:
+        self, examples: Generator[ExecutionExample, None, None]
+    ) -> Generator[ExecutionExample, None, None]:
         for eval_example in examples:
             yield self.task_runner.get_prediction(
                 eval_example, self.model_inference, self.text_compare
