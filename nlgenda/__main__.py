@@ -8,7 +8,7 @@ from nlgenda.datasets.building.hyggeswag import create_hyggeswag
 from nlgenda.datasets.building.prompt_answer_da import create_prompt_answer_da
 from nlgenda.evaluation import evaluate
 from nlgenda.infrastructure import CONFIG_DIR
-from nlgenda.train import train_lm
+from nlgenda.training import train_lm
 
 
 @hydra.main(config_path=CONFIG_DIR, config_name="master", version_base=None)
