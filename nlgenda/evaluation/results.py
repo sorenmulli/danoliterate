@@ -3,12 +3,12 @@ import logging
 import os
 import uuid
 from dataclasses import asdict, dataclass, field
-from tempfile import TemporaryDirectory
 from typing import Optional
 
 from omegaconf import DictConfig, OmegaConf
 
 from nlgenda.evaluation.serialization import OutDictType, fix_args_for_dataclass
+from nlgenda.infrastructure.constants import SCORES_ARTIFACT_TYPE
 from nlgenda.infrastructure.logging import commit_hash
 from nlgenda.infrastructure.timing import get_now_stamp
 
@@ -117,14 +117,6 @@ class ExecutionResult:
         examples = [ExecutionExample.from_dict(example_dict) for example_dict in example_dicts]
         return cls(metadata=metadata, examples=examples, **self_dict)  # type: ignore
 
-    @classmethod
-    def from_wandb(cls, artifact):
-        with TemporaryDirectory() as temp_dir:
-            json_path = artifact.file(temp_dir)
-            with open(json_path, "r", encoding="utf-8") as file:
-                self_dict = json.load(file)
-        return cls.from_dict(self_dict)
-
 
 @dataclass
 class MetricResult:
@@ -176,7 +168,7 @@ class Scoring:
         metadata = ExecutionResultMetadata.from_dict(metadata_dict)
 
         result_dicts: list[OutDictType] = self_dict.pop("metric_results")  # type: ignore
-        results = [ExecutionExample.from_dict(result_dict) for result_dict in result_dicts]
+        results = [MetricResult.from_dict(result_dict) for result_dict in result_dicts]
         return cls(execution_metadata=metadata, metric_results=results, **self_dict)  # type: ignore
 
 
@@ -188,7 +180,7 @@ class Scores:
     debug: bool
 
     sent_to_wandb = False
-    name = "scores"
+    name = SCORES_ARTIFACT_TYPE
 
     @classmethod
     def from_config(cls, cfg: DictConfig):

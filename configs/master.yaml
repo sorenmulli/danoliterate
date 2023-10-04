@@ -18,7 +18,7 @@ evaluation:
   local_results: "local-computations/result-db"
   debug: false
   compare_for_accuracy: "rouge1-f1-unq"
-  do_not_score_before: "2023-09-29-00-00"
+  do_not_score_before: "2023-09-28-23-00"
 
 download_no_cache: false
 

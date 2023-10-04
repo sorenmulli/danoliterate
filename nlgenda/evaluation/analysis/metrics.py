@@ -146,6 +146,8 @@ def get_compatible_metrics(eval_cfg: DictConfig, scenario_cfg: OutDictType) -> S
     if isinstance(task, MultichoiceRunner):
         compare_name = eval_cfg.compare_for_accuracy
         compare_fun = get_compare_fun(compare_name) if compare_name is not None else None
+        # TODO: Also look to model config and make this govern whether to do accuracy with
+        # likelihood or with similarity
         compatible.append(Accuracy(compare_name, compare_fun))
 
         # TODO: Also allow similarity between correct option and generated
