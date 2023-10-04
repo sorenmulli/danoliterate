@@ -1,12 +1,11 @@
 import logging
-from dataclasses import fields
+from dataclasses import _MISSING_TYPE, fields
 from typing import Any, Union
-
-EXECUTION_RESULT_ARTIFACT_TYPE = "evaluation_result"
 
 logger = logging.getLogger(__name__)
 
 OutDictType = dict[str, Union[str, int, float, bool, None, "OutDictType", list["OutDictType"]]]
+
 
 def fix_args_for_dataclass(dataclass: Any, input_args: OutDictType):
     class_fields = {field.name: field for field in fields(dataclass)}
@@ -17,19 +16,19 @@ def fix_args_for_dataclass(dataclass: Any, input_args: OutDictType):
     # Required fields in the data class that are not given in argument
     missing_keys = set()
     for key in class_fields.keys() - input_keys:
-        if not hasattr(class_fields[key], "default"):
+        if isinstance(class_fields[key].default, _MISSING_TYPE):
             missing_keys.add(key)
 
     if extra_keys:
-        logger.warning(
+        logger.debug(
             "Found extra keys in serialized data class that are not in the object. "
             "Will ignore their values. "
             "Extra keys: %s.",
             ", ".join(extra_keys),
         )
     if missing_keys:
-        logger.warning(
-            "Required fields in data class object were not in serialized data class."
+        logger.debug(
+            "Required fields in data class object were not in serialized data class. "
             "Will instantiate as None. "
             "Missing keys: %s.",
             ", ".join(missing_keys),

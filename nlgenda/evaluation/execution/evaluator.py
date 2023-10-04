@@ -1,15 +1,14 @@
 import logging
 from typing import Generator
 
-import wandb
 from datasets import Dataset, load_dataset
 from omegaconf import DictConfig
 from tqdm import tqdm
 
+from nlgenda.evaluation.artifact_integration import send_result_wandb, setup_short_run
 from nlgenda.evaluation.registries.get import get_inference, get_task_runner
 from nlgenda.evaluation.results import ExecutionExample, ExecutionResult
 from nlgenda.infrastructure import format_config
-from nlgenda.modeling.text_comparison import get_compare_fun
 
 logger = logging.getLogger(__name__)
 
@@ -19,10 +18,6 @@ class Evaluator:
         logger.info("Evaluating %s on %s.", cfg.model.name, cfg.scenario.name)
         self.result = ExecutionResult.from_config(cfg)
 
-        self.text_compare = (
-            get_compare_fun(cfg.scenario.compare) if cfg.scenario.compare is not None else None
-        )
-
         logger.info("Setting up scenario ...")
         self.task_runner = get_task_runner(cfg.scenario)
         # TODO: Consider splits
@@ -31,16 +26,7 @@ class Evaluator:
         logger.info("Setting up model ...")
         self.model_inference = get_inference(cfg.model)
 
-        self.wandb = (
-            wandb.init(
-                name=self.result.name,
-                entity=cfg.wandb.entity,
-                project=cfg.wandb.project,
-                job_type="eval",
-            )
-            if cfg.wandb.enabled
-            else None
-        )
+        self.wandb = setup_short_run(self.result.name, "eval", cfg.wandb)
 
     def run(self):
         logger.info("Initializing example generators ...")
@@ -55,10 +41,8 @@ class Evaluator:
 
     def save_results(self):
         if self.wandb is not None:
-            if self.result.send_to_wandb(self.wandb):
-                logger.info("Sucessfully sent result to W&B")
-            else:
-                logger.warning("Result could not be sent to W&B.")
+            send_result_wandb(self.result, self.wandb)
+            logger.info("Sucessfully sent result to W&B.")
 
         out = self.result.save_locally()
         logger.info("Result was saved locally to %s.", out)
@@ -71,9 +55,7 @@ class Evaluator:
         self, examples: Generator[ExecutionExample, None, None]
     ) -> Generator[ExecutionExample, None, None]:
         for eval_example in examples:
-            yield self.task_runner.get_prediction(
-                eval_example, self.model_inference, self.text_compare
-            )
+            yield self.task_runner.get_prediction(eval_example, self.model_inference)
 
 
 def evaluate(cfg: DictConfig):

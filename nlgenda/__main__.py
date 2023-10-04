@@ -6,7 +6,7 @@ from omegaconf import DictConfig
 from nlgenda.datasets.building.citizenship_test_da import create_citizen_da
 from nlgenda.datasets.building.hyggeswag import create_hyggeswag
 from nlgenda.datasets.building.prompt_answer_da import create_prompt_answer_da
-from nlgenda.evaluation import evaluate
+from nlgenda.evaluation import evaluate, score
 from nlgenda.infrastructure import CONFIG_DIR
 from nlgenda.training import train_lm
 
@@ -33,9 +33,11 @@ def hydra_entry(cfg: DictConfig) -> None:
                     raise ValueError
         case "train":
             train_lm(cfg)
+        case "score":
+            score(cfg)
         case _:
             logging.error(
-                "Unsupported do=%s. 'evaluate', 'databuild', 'train' are supported", cfg.do
+                "Unsupported do=%s. 'evaluate', 'databuild', 'train', 'score' are supported", cfg.do
             )
             raise ValueError
 

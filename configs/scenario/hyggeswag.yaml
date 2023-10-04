@@ -1,5 +1,4 @@
 name: "HyggeSwag"
 path: "sorenmulli/hyggeswag"
-compare: "rouge1-f1-unq"
 task:
   type: "hyggeswag"

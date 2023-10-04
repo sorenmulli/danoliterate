@@ -24,5 +24,6 @@ module = [
     "huggingface_hub",
     "huggingface_hub.file_download",
     "transformers.modeling_utils",
+    "scipy",
 ]
 ignore_missing_imports = true

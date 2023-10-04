@@ -3,16 +3,14 @@ import logging
 import os
 import uuid
 from dataclasses import asdict, dataclass, field
-from datetime import datetime
-from statistics import mean
 from tempfile import TemporaryDirectory
 from typing import Optional
 
-import wandb
 from omegaconf import DictConfig, OmegaConf
 
-from nlgenda.evaluation.serialization import EXECUTION_RESULT_ARTIFACT_TYPE, OutDictType, fix_args_for_dataclass
+from nlgenda.evaluation.serialization import OutDictType, fix_args_for_dataclass
 from nlgenda.infrastructure.logging import commit_hash
+from nlgenda.infrastructure.timing import get_now_stamp
 
 logger = logging.getLogger(__name__)
 
@@ -24,15 +22,10 @@ class ExecutionExample:
     id_: str
 
     target_answer: Optional[str] = None
-    target_answer_model_score: Optional[float] = None
-
     index_label: Optional[int] = None
     options: Optional[list[str]] = None
-
     generated_text: Optional[str] = None
-    index_prediction: Optional[int] = None
-
-    options_model_scores: Optional[list[float]] = None
+    options_model_likelihoods: Optional[list[float]] = None
 
     def to_dict(self) -> OutDictType:
         return asdict(self)
@@ -73,31 +66,6 @@ class ExecutionResult:
 
     examples: list[ExecutionExample] = field(default_factory=list)
 
-    # TODO: Refactor this, move it to analysis and have a structured scorer
-    def get_score(self) -> float:
-        example_scores = []
-        for example in self.examples:
-            if (score := example.target_answer_model_score) is not None:
-                example_scores.append(score)
-            elif example.index_label is not None and example.index_prediction is not None:
-                example_scores.append(example.index_label == example.index_prediction)
-            else:
-                raise ValueError
-        return mean(example_scores)
-
-    def send_to_wandb(self, run) -> bool:
-        self.metadata.sent_to_wandb = True
-
-        artifact = wandb.Artifact(
-            name=self.name, type=EXECUTION_RESULT_ARTIFACT_TYPE, metadata=self.metadata.to_dict()
-        )
-        with TemporaryDirectory() as temp_dir:
-            temp_path = os.path.join(temp_dir, "result.json")
-            self.save_locally(temp_path)
-            artifact.add_file(local_path=temp_path, name="result.json")
-        run.log_artifact(artifact)
-        return self.metadata.sent_to_wandb
-
     def save_locally(self, path: Optional[str] = None) -> str:
         path = path or self.local_path
         with open(path, "w", encoding="utf-8") as file:
@@ -112,11 +80,10 @@ class ExecutionResult:
 
     @classmethod
     def from_config(cls, cfg: DictConfig):
-        timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M")
-
+        metadata_fields = get_reproducability_metadata_fields()
         autoname = ".".join(
             name_part.replace(".", "").replace(" ", "-").lower()
-            for name_part in (cfg.model.name, cfg.scenario.name, timestamp)
+            for name_part in (cfg.model.name, cfg.scenario.name, str(metadata_fields["timestamp"]))
         )
 
         results_path = cfg.evaluation.local_results
@@ -125,19 +92,11 @@ class ExecutionResult:
             os.makedirs(results_path)
         out_path = os.path.join(results_path, f"{autoname}.json")
 
-        # Hash time + machine
-        id_ = str(uuid.uuid1())
-
-        # If we are in the repo, we document current commit
-        commit = commit_hash()
-
         return cls(
             name=autoname,
             local_path=out_path,
             metadata=ExecutionResultMetadata(
-                timestamp=timestamp,
-                id_=id_,
-                commit=commit,
+                **metadata_fields,  # type: ignore
                 scenario_cfg=conf_to_dict(cfg.scenario),
                 model_cfg=conf_to_dict(cfg.model),
                 evaluation_cfg=conf_to_dict(cfg.evaluation),
@@ -167,5 +126,111 @@ class ExecutionResult:
         return cls.from_dict(self_dict)
 
 
+@dataclass
+class MetricResult:
+    short_name: str
+    description: str
+
+    example_results: dict[str, float]
+    mean: float
+    error: Optional[float]
+
+    higher_is_better: bool
+
+    def to_dict(self) -> OutDictType:
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, self_dict: OutDictType):
+        fix_args_for_dataclass(cls, self_dict)
+        return cls(**self_dict)  # type: ignore
+
+
+@dataclass
+class Scoring:
+    timestamp: str
+    id_: Optional[str]
+    commit: Optional[str]
+
+    execution_metadata: ExecutionResultMetadata
+
+    metric_results: list[MetricResult]
+
+    @classmethod
+    def from_execution_metadata(cls, metadata: ExecutionResultMetadata):
+        return cls(
+            **get_reproducability_metadata_fields(),  # type: ignore
+            execution_metadata=metadata,
+            metric_results=[],
+        )
+
+    def to_dict(self) -> OutDictType:
+        self_dict = asdict(self)
+        self_dict["execution_metadata"] = self.execution_metadata.to_dict()
+        self_dict["metric_results"] = [result.to_dict() for result in self.metric_results]
+        return self_dict
+
+    @classmethod
+    def from_dict(cls, self_dict: OutDictType):
+        metadata_dict: OutDictType = self_dict.pop("execution_metadata")  # type: ignore
+        metadata = ExecutionResultMetadata.from_dict(metadata_dict)
+
+        result_dicts: list[OutDictType] = self_dict.pop("metric_results")  # type: ignore
+        results = [ExecutionExample.from_dict(result_dict) for result_dict in result_dicts]
+        return cls(execution_metadata=metadata, metric_results=results, **self_dict)  # type: ignore
+
+
+@dataclass
+class Scores:
+    scorings: list[Scoring]
+    local_path: str
+
+    debug: bool
+
+    sent_to_wandb = False
+    name = "scores"
+
+    @classmethod
+    def from_config(cls, cfg: DictConfig):
+        autoname = f"{cls.name}-{get_now_stamp()}"
+        results_path = cfg.evaluation.local_results
+        if not os.path.isdir(results_path):
+            logger.warning("Creating new local directory for results: %s", results_path)
+            os.makedirs(results_path)
+        out_path = os.path.join(results_path, f"{autoname}.json")
+        return cls(
+            local_path=out_path,
+            scorings=[],
+            debug=cfg.evaluation.debug,
+        )
+
+    def to_dict(self) -> OutDictType:
+        self_dict = asdict(self)
+        self_dict["scorings"] = [scoring.to_dict() for scoring in self.scorings]
+        return self_dict
+
+    @classmethod
+    def from_dict(cls, self_dict: OutDictType):
+        scoring_dicts: list[OutDictType] = self_dict.pop("scorings")  # type: ignore
+        scorings = [Scoring.from_dict(scoring_dict) for scoring_dict in scoring_dicts]
+        return cls(scorings=scorings, **self_dict)  # type: ignore
+
+    def save_locally(self, path: Optional[str] = None) -> str:
+        path = path or self.local_path
+        with open(path, "w", encoding="utf-8") as file:
+            json.dump(self.to_dict(), file)
+        return path
+
+
 def conf_to_dict(cfg: DictConfig) -> OutDictType:
     return OmegaConf.to_container(cfg)  # type: ignore
+
+
+def get_reproducability_metadata_fields() -> dict[str, Optional[str]]:
+    return {
+        "timestamp": get_now_stamp(),
+        # Hash time + machine
+        "id_": str(uuid.uuid1()),
+        # If we are in the repo, we document current commit
+        "commit": commit_hash(),
+    }

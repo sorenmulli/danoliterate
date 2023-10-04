@@ -1,7 +1,7 @@
 from collections import Counter
-from typing import Callable, Optional
+from typing import Callable
 
-TextCompareFun = Optional[Callable[[str, str], float]]
+TextCompareFun = Callable[[str, str], float]
 
 
 class UnknownComparisonKey(KeyError):

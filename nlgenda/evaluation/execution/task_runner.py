@@ -4,7 +4,6 @@ from typing import Any
 
 from nlgenda.evaluation.execution.model_inference import InferenceMethod, ModelInference
 from nlgenda.evaluation.results import ExecutionExample
-from nlgenda.modeling.text_comparison import TextCompareFun
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +17,7 @@ class TaskRunner(ABC):
 
     @abstractmethod
     def get_prediction(
-        self, example: ExecutionExample, inference: ModelInference, text_compare: TextCompareFun
+        self, example: ExecutionExample, inference: ModelInference
     ) -> ExecutionExample:
         ...
 
@@ -58,26 +57,19 @@ class MultichoiceRunner(TaskRunner):
         )
 
     def get_prediction(
-        self, example: ExecutionExample, inference: ModelInference, text_compare: TextCompareFun
+        self, example: ExecutionExample, inference: ModelInference
     ) -> ExecutionExample:
         assert example.options is not None
 
         match inference.inference_method:
             case InferenceMethod.LM:
-                scores = [
+                example.options_model_likelihoods = [
                     inference.likelihood(example.prompt, option) for option in example.options
                 ]
 
             case InferenceMethod.NLG:
-                assert text_compare is not None
                 example.generated_text = inference.generate_text(example.prompt)
-                scores = [
-                    text_compare(option, example.generated_text) for option in example.options
-                ]
 
-        # Prediction is argmax of scores
-        example.index_prediction = scores.index(max(scores))
-        example.options_model_scores = scores
         return example
 
 
@@ -112,7 +104,7 @@ class AnswerSimilarityRunner(TaskRunner):
         )
 
     def get_prediction(
-        self, example: ExecutionExample, inference: ModelInference, text_compare: TextCompareFun
+        self, example: ExecutionExample, inference: ModelInference
     ) -> ExecutionExample:
         assert example.target_answer is not None
 
@@ -122,10 +114,6 @@ class AnswerSimilarityRunner(TaskRunner):
                 raise ValueError("Unsupported inference method")
 
             case InferenceMethod.NLG:
-                assert text_compare is not None
                 example.generated_text = inference.generate_text(example.prompt)
-                example.target_answer_model_score = text_compare(
-                    example.target_answer, example.generated_text
-                )
 
         return example
