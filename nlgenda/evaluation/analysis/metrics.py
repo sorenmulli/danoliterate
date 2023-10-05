@@ -11,9 +11,11 @@ from nlgenda.evaluation.execution.task_runner import AnswerSimilarityRunner, Mul
 from nlgenda.evaluation.registries.get import get_inference, get_task_runner
 from nlgenda.evaluation.results import ExecutionExample, MetricResult
 from nlgenda.evaluation.serialization import OutDictType
-from nlgenda.modeling.text_comparison import COMPARE_FUNCTIONS, TextCompareFun
+from nlgenda.modeling.text_comparison import COMPARERS, Comparer
 
 logger = logging.getLogger(__name__)
+
+# TODO: Instead of passing name everywhere, take name from comparer object
 
 
 class Metric(ABC):
@@ -107,7 +109,7 @@ class MaxSimilarityAccuracy(BaseAccuracy):
     def __init__(
         self,
         comparison_name: str,
-        comparison_function: TextCompareFun,
+        comparison_function: Comparer,
     ):
         self.comparison_name = comparison_name
         self.comparison_function = comparison_function
@@ -128,7 +130,7 @@ class MaxSimilarityAccuracy(BaseAccuracy):
             )
             raise ValueError("ExecutionExample had missing required fields.")
         scores = [
-            self.comparison_function(example.generated_text, option) for option in example.options
+            self.comparison_function(option, example.generated_text) for option in example.options
         ]
         return scores.index(max(scores))
 
@@ -175,7 +177,7 @@ class MaxSimilarityF1(MaxSimilarityAccuracy):
 
 
 class TextSimilarityMetric(Metric):
-    def __init__(self, comparison_name: str, comparison_function: TextCompareFun):
+    def __init__(self, comparison_name: str, comparison_function: Comparer):
         self.comparison_name = comparison_name
         self.comparison_function = comparison_function
 
@@ -209,6 +211,9 @@ class TextSimilarityMetric(Metric):
 def get_compatible_metrics(scenario_cfg: OutDictType, model_cfg: OutDictType) -> Sequence[Metric]:
     task = get_task_runner(OmegaConf.create(scenario_cfg))
     compatible: list[Metric] = []
+
+    compare_functions = {name: comparer() for name, comparer in COMPARERS.items()} # type: ignore
+
     if isinstance(task, MultichoiceRunner):
         method_str = model_cfg["inference"].get("method")  # type: ignore
         inference_method = (
@@ -220,7 +225,7 @@ def get_compatible_metrics(scenario_cfg: OutDictType, model_cfg: OutDictType) ->
             case InferenceMethod.LM:
                 compatible.extend([MaxLikelihoodAccuracy(), MaxLikelihoodF1()])
             case InferenceMethod.NLG:
-                for name, function in COMPARE_FUNCTIONS.items():
+                for name, function in compare_functions.items():
                     compatible.extend(
                         [
                             MaxSimilarityAccuracy(name, function),
@@ -231,6 +236,6 @@ def get_compatible_metrics(scenario_cfg: OutDictType, model_cfg: OutDictType) ->
                     )
     if isinstance(task, AnswerSimilarityRunner):
         compatible.extend(
-            TextSimilarityMetric(name, function) for name, function in COMPARE_FUNCTIONS.items()
+            TextSimilarityMetric(name, function) for name, function in compare_functions.items()
         )
     return compatible

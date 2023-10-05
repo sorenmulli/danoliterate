@@ -18,6 +18,7 @@ evaluation:
   local_results: "local-computations/result-db"
   debug: false
   do_not_score_before: "2023-09-28-23-00"
+  rescore: false
 
 download_no_cache: false
 

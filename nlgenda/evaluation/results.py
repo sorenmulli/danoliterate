@@ -57,6 +57,11 @@ class ExecutionResultMetadata:
         fix_args_for_dataclass(cls, self_dict)
         return cls(**self_dict)  # type: ignore
 
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, ExecutionResultMetadata):
+            return NotImplemented
+        return (self.id_ or self.timestamp) == (other.id_ or other.timestamp)
+
 
 @dataclass
 class ExecutionResult:
