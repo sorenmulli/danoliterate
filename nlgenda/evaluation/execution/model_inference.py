@@ -98,6 +98,7 @@ class HuggingfaceCausalLm(ModelInference):
 
 # TODO: Default to temperature = 0
 # TODO: Save maximal info from the result
+# TODO: Make tenacious
 class OpenAiAPI(ModelInference):
     secret_file = "secret.json"
     api_key_str = "OPENAI_API_KEY"
