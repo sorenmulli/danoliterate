@@ -7,7 +7,9 @@ from typing import Optional
 
 import openai
 import torch
-from transformers import pipeline
+from transformers import AutoModelForCausalLM, pipeline
+
+from nlgenda.modeling.load_model import from_pretrained_hf_hub_no_disk
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -61,10 +63,17 @@ class ModelInference(ABC):
 class HuggingfaceCausalLm(ModelInference):
     ignore_target_idx = -100
 
-    def __init__(self, inference_method: str, hf_key: str):
+    def __init__(self, inference_method: str, hf_key: str, download_no_cache=True):
         self._inference_method = InferenceMethod(inference_method)
         # TODO: Allow loading model from interwebs
-        self.pipeline = pipeline("text-generation", model=hf_key, device=DEVICE)
+
+        model_cls = AutoModelForCausalLM
+        model = (
+            from_pretrained_hf_hub_no_disk(hf_key, model_cls)
+            if download_no_cache
+            else model_cls.from_pretrained(hf_key)
+        )
+        self.pipeline = pipeline("text-generation", model=model, device=DEVICE, tokenizer=hf_key)
 
     def generate_text(self, prompt: str) -> str:
         return self.pipeline(prompt)[0]["generated_text"][len(prompt) :]

@@ -20,7 +20,7 @@ evaluation:
   do_not_score_before: "2023-09-28-23-00"
   rescore: false
 
-download_no_cache: false
+download_no_cache: true
 
 model_paths:
   fasttext: "local-models/lid.176.bin"

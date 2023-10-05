@@ -4,7 +4,6 @@ from pathlib import Path
 import torch
 import wandb
 from omegaconf import DictConfig, OmegaConf
-from transformers import logging as transformers_logging
 from transformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
@@ -12,6 +11,7 @@ from transformers import (
     Trainer,
     TrainingArguments,
 )
+from transformers import logging as transformers_logging
 
 from nlgenda.datasets.pretraining import get_streaming_data, tokenize_datasets
 from nlgenda.infrastructure.logging import format_config

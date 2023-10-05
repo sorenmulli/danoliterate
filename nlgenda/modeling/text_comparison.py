@@ -6,6 +6,7 @@ from evaluate import load as load_metric
 
 # TODO: Should allow for batched computations
 
+
 class Comparer(ABC):
     name: str
 
