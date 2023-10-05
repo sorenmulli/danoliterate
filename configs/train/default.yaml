@@ -18,7 +18,8 @@ fp16: true
 
 eval: true
 eval_every: 100
-save_limit: 100
+save_every: 100
+save_limit: 5
 log_every: 10
 
 lora:
