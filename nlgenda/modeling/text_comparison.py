@@ -4,6 +4,7 @@ import dacy
 from absl import logging as absl_logging
 from evaluate import load as load_metric
 
+# TODO: Should allow for batched computations
 
 class Comparer(ABC):
     name: str
@@ -21,8 +22,12 @@ class Rouge1(Comparer):
         self.nlp = dacy.load("small")
 
     def __call__(self, target: str, prediction: str) -> float:
-        target = " ".join(token.lemma_ for token in self.nlp(target))
-        prediction = " ".join(token.lemma_ for token in self.nlp(prediction))
+        # TODO: Fix this horrendousness
+        try:
+            target = " ".join(token.lemma_ for token in self.nlp(target))
+            prediction = " ".join(token.lemma_ for token in self.nlp(prediction))
+        except ValueError:
+            pass
         scores = self.metric.compute(predictions=[prediction], references=[target])
         return float(scores["rouge1"])
 
@@ -35,8 +40,11 @@ class RougeL(Comparer):
         self.nlp = dacy.load("small")
 
     def __call__(self, target: str, prediction: str) -> float:
-        target = " ".join(token.lemma_ for token in self.nlp(target))
-        prediction = " ".join(token.lemma_ for token in self.nlp(prediction))
+        try:
+            target = " ".join(token.lemma_ for token in self.nlp(target))
+            prediction = " ".join(token.lemma_ for token in self.nlp(prediction))
+        except ValueError:
+            pass
         scores = self.metric.compute(predictions=[prediction], references=[target])
         return float(scores["rougeL"])
 
