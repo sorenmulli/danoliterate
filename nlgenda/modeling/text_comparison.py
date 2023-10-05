@@ -32,6 +32,7 @@ class RougeL(Comparer):
 
     def __init__(self):
         self.metric = load_metric("rouge")
+        self.nlp = dacy.load("small")
 
     def __call__(self, target: str, prediction: str) -> float:
         target = " ".join(token.lemma_ for token in self.nlp(target))
