@@ -1,6 +1,7 @@
 import gc
 import json
 import logging
+from functools import partial
 from io import BytesIO
 from typing import Any
 
@@ -9,6 +10,7 @@ import torch
 from huggingface_hub import hf_hub_url
 from huggingface_hub.file_download import build_hf_headers
 from requests import HTTPError
+from safetensors.torch import load_file as safe_load_file
 from tqdm import tqdm
 from transformers import AutoConfig, AutoModelForCausalLM, PreTrainedModel
 from transformers.modeling_utils import _load_state_dict_into_model as hf_state_dict_load
@@ -32,8 +34,13 @@ def download(url: str, chunk_size=8192):
     return BytesIO(model_data)
 
 
-def get_single(_: str, checkpoint_file: BytesIO):
-    return torch.load(checkpoint_file, map_location="cpu")
+def get_single(model_key: str, checkpoint_file: BytesIO):
+    loader = (
+        safe_load_file
+        if model_key.endswith("safetensors")
+        else partial(torch.load, map_location="cpu")
+    )
+    return loader(checkpoint_file)
 
 
 def get_sharded(model_key: str, index_file: BytesIO):
@@ -57,8 +64,8 @@ def get_sharded(model_key: str, index_file: BytesIO):
 # TODO: Add functionality for loading from safetensors, see #16
 
 SINGLE_FILE_TO_HANDLER = {
-    # "model.safetensors.index.json": get_sharded,
-    # "model.safetensors": get_single,
+    "model.safetensors.index.json": get_sharded,
+    "model.safetensors": get_single,
     "pytorch_model.bin.index.json": get_sharded,
     "pytorch_model.bin": get_single,
 }
