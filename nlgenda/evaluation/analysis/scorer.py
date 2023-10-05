@@ -48,7 +48,7 @@ class Scorer:
 
     def score_result(self, result: ExecutionResult) -> Scoring:
         scoring = Scoring.from_execution_metadata(result.metadata)
-        metrics = get_compatible_metrics(self.eval_cfg, result.metadata.scenario_cfg)
+        metrics = get_compatible_metrics(result.metadata.scenario_cfg, result.metadata.model_cfg)
         logger.info(
             "Scoring result %s on metrics %s.",
             result.name,
