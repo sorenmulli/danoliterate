@@ -4,6 +4,7 @@ from pathlib import Path
 import torch
 import wandb
 from omegaconf import DictConfig, OmegaConf
+from transformers import logging as transformers_logging
 from transformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
@@ -41,24 +42,28 @@ def get_arguments(cfg: DictConfig, wandb_enabled: bool):
         # Compute
         fp16=cfg.fp16 if torch.cuda.is_available() else False,
         # Evaluation
-        load_best_model_at_end=cfg.eval,
+        evaluation_strategy="steps" if cfg.eval else "no",
+        eval_steps=cfg.eval_every,
         metric_for_best_model="eval_loss",
         greater_is_better=False,
-        report_to=["wandb"] if wandb_enabled else [],
-        eval_steps=cfg.eval_every,
+        # Saving
+        save_strategy="steps",
         save_steps=cfg.eval_every,
         save_total_limit=cfg.save_limit,
+        load_best_model_at_end=cfg.eval,
+        # Logging
+        report_to=["wandb"] if wandb_enabled else [],
         logging_steps=cfg.log_every,
-        evaluation_strategy="steps" if cfg.eval else "no",
-        save_strategy="steps",
         logging_strategy="steps",
         # Data loading
         dataloader_num_workers=cfg.data.workers,
+        ignore_data_skip=True,
     )
 
 
 def train_lm(cfg: DictConfig):
     logger.debug("Running with arguments: %s", format_config(cfg))
+    transformers_logging.set_verbosity_info()
 
     logger.info("Setting up model and tokenizer from %s ...", cfg.train.base_model)
     model_cls = AutoModelForCausalLM
