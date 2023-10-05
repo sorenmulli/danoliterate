@@ -63,6 +63,7 @@ class HuggingfaceCausalLm(ModelInference):
 
     def __init__(self, inference_method: str, hf_key: str):
         self._inference_method = InferenceMethod(inference_method)
+        # TODO: Allow loading model from interwebs
         self.pipeline = pipeline("text-generation", model=hf_key, device=DEVICE)
 
     def generate_text(self, prompt: str) -> str:
