@@ -34,16 +34,16 @@ def download(url: str, chunk_size=8192):
     return BytesIO(model_data)
 
 
-def get_single(model_key: str, checkpoint_file: BytesIO):
+def get_single(_: str, checkpoint_file: BytesIO, filename: str):
     loader = (
         safe_load_file
-        if model_key.endswith("safetensors")
+        if filename.endswith("safetensors")
         else partial(torch.load, map_location="cpu")
     )
     return loader(checkpoint_file)
 
 
-def get_sharded(model_key: str, index_file: BytesIO):
+def get_sharded(model_key: str, index_file: BytesIO, _: str):
     index = json.load(index_file)
     shard_files = list(set(index["weight_map"].values()))
 
@@ -52,7 +52,7 @@ def get_sharded(model_key: str, index_file: BytesIO):
     for shard_filename in shard_files:
         shard_url = hf_hub_url(model_key, shard_filename)
         shard_file = download(shard_url)
-        shard_state_dict = get_single(model_key, shard_file)
+        shard_state_dict = get_single(model_key, shard_file, shard_filename)
         state_dict.update(shard_state_dict)
 
         # Don't keep each shard in memory
@@ -60,8 +60,6 @@ def get_sharded(model_key: str, index_file: BytesIO):
         gc.collect()
     return state_dict
 
-
-# TODO: Add functionality for loading from safetensors, see #16
 
 SINGLE_FILE_TO_HANDLER = {
     "model.safetensors.index.json": get_sharded,
@@ -92,7 +90,7 @@ def from_pretrained_hf_hub_no_disk(
         try:
             url = hf_hub_url(model_key, filename)
             file = download(url)
-            state_dict = handler(model_key, file)
+            state_dict = handler(model_key, file, filename)
             break
         except HTTPError as error:
             logger.debug("No model found in %s due to %s, continuing ...", filename, str(error))
