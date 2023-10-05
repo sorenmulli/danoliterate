@@ -26,6 +26,7 @@ module = [
     "transformers.modeling_utils",
     "scipy",
     "absl",
-    "evaluate"
+    "evaluate",
+    "dacy",
 ]
 ignore_missing_imports = true

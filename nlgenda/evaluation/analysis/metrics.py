@@ -212,7 +212,7 @@ def get_compatible_metrics(scenario_cfg: OutDictType, model_cfg: OutDictType) ->
     task = get_task_runner(OmegaConf.create(scenario_cfg))
     compatible: list[Metric] = []
 
-    compare_functions = {name: comparer() for name, comparer in COMPARERS.items()} # type: ignore
+    compare_functions = {name: comparer() for name, comparer in COMPARERS.items()}  # type: ignore
 
     if isinstance(task, MultichoiceRunner):
         method_str = model_cfg["inference"].get("method")  # type: ignore

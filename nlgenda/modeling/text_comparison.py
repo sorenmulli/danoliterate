@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+import dacy
 from absl import logging as absl_logging
 from evaluate import load as load_metric
 
@@ -17,8 +18,11 @@ class Rouge1(Comparer):
 
     def __init__(self):
         self.metric = load_metric("rouge")
+        self.nlp = dacy.load("small")
 
     def __call__(self, target: str, prediction: str) -> float:
+        target = " ".join(token.lemma_ for token in self.nlp(target))
+        prediction = " ".join(token.lemma_ for token in self.nlp(prediction))
         scores = self.metric.compute(predictions=[prediction], references=[target])
         return float(scores["rouge1"])
 
@@ -30,6 +34,8 @@ class RougeL(Comparer):
         self.metric = load_metric("rouge")
 
     def __call__(self, target: str, prediction: str) -> float:
+        target = " ".join(token.lemma_ for token in self.nlp(target))
+        prediction = " ".join(token.lemma_ for token in self.nlp(prediction))
         scores = self.metric.compute(predictions=[prediction], references=[target])
         return float(scores["rougeL"])
 
@@ -38,7 +44,7 @@ class AnswerContained(Comparer):
     name = "Answer contained"
 
     def __call__(self, target: str, prediction: str) -> float:
-        return float(target in prediction)
+        return float(target.lower() in prediction.lower())
 
 
 class BertSimilarity(Comparer):
