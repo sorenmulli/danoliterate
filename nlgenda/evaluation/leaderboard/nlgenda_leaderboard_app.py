@@ -16,6 +16,14 @@ from nlgenda.infrastructure.constants import CONFIG_DIR
 logger = logging.getLogger(__name__)
 
 
+def group_models_by_metrics(models):
+    metrics_to_models = defaultdict(list)
+    for model, metrics in models.items():
+        metrics_key = tuple(metric.short_name for metric in metrics)
+        metrics_to_models[metrics_key].append(model)
+    return metrics_to_models
+
+
 # TODO: Clean up this code
 def extract_metrics(scores: Scores):
     out: defaultdict[str, dict[str, list[MetricResult]]] = defaultdict(dict)
@@ -34,6 +42,11 @@ def default_choices(metric_structure):
     return out
 
 
+@st.cache_data
+def fetch_scores_cached(_cfg: DictConfig):
+    return get_scores_wandb(_cfg.wandb.project, _cfg.wandb.entity)
+
+
 # TODO: Move to config dir more elegantly
 @hydra.main(config_path=f"../../{CONFIG_DIR}", config_name="master", version_base=None)
 def setup_app(cfg: DictConfig):
@@ -41,7 +54,7 @@ def setup_app(cfg: DictConfig):
 
     logger.info("Fetching scores ...")
     # TODO: Minimize loading times
-    scores = get_scores_wandb(cfg.wandb.project, cfg.wandb.entity)
+    scores = fetch_scores_cached(cfg)
     metric_structure = extract_metrics(scores)
     default_metrics = default_choices(metric_structure)
     chosen_metrics = default_metrics
@@ -50,21 +63,33 @@ def setup_app(cfg: DictConfig):
         with st.form(key="metrics_form"):
             for scenario, models in metric_structure.items():
                 st.subheader(f"Metrics for {scenario}")
-                for model, metrics in models.items():
-                    options = [metric.short_name for metric in metrics]
+                models_grouped_by_metrics = group_models_by_metrics(models)
+                for metrics_key, models_group in models_grouped_by_metrics.items():
+                    options = list(metrics_key)
+                    common_key = f"{scenario}-{'-'.join(models_group)}"
                     selected_metric = st.selectbox(
-                        f"{model} metric",
+                        f"Metric for {', '.join(models_group)}",
                         options,
-                        index=options.index(default_metrics[scenario][model].short_name),
-                        key=f"{scenario}-{model}",
+                        index=options.index(default_metrics[scenario][models_group[0]].short_name),
+                        key=common_key,
                     )
-                    chosen_metrics[scenario][model] = next(
-                        (metric for metric in metrics if metric.short_name == selected_metric), None
-                    )
-                    st.caption(
-                        f"Now showing: {chosen_metrics[scenario][model].short_name}.",
-                        help=chosen_metrics[scenario][model].description or "",
-                    )
+                    model = None
+                    for model in models_group:
+                        chosen_metrics[scenario][model] = next(
+                            (
+                                metric
+                                for metric in models[model]
+                                if metric.short_name == selected_metric
+                            ),
+                            None,
+                        )
+                    if model is None:
+                        st.error("No models were found in results")
+                    else:
+                        st.caption(
+                            f"Currently showing: {selected_metric}.",
+                            help=chosen_metrics[scenario][model].description or "",
+                        )
             st.form_submit_button(label="Submit")
 
     logger.info("Building leaderboard table ...")
