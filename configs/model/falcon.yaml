@@ -1,0 +1,5 @@
+name: "Falcon"
+path: "tiiuae/falcon-7b"
+inference:
+  type: "hf-causal"
+  method: "lm"

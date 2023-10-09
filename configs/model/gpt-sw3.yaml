@@ -1,0 +1,5 @@
+name: "GPT-Sw3"
+path: "AI-Sweden-Models/gpt-sw3-6.7b-v2-instruct"
+inference:
+  type: "hf-causal"
+  method: "lm"

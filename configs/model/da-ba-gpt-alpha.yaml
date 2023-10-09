@@ -1,0 +1,5 @@
+name: "Da. Baseline GPT (ALPHA)"
+path: "sorenmulli/da-ba-gpt-alpha"
+inference:
+  type: "hf-causal"
+  method: "lm"

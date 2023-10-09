@@ -67,6 +67,7 @@ class Scorer:
                         result.name,
                         old_scoring.timestamp,
                     )
+                    return old_scoring
 
         logger.info(
             "Scoring result %s on metrics %s.",
