@@ -61,9 +61,10 @@ def get_sharded(model_key: str, index_file: BytesIO, _: str):
     return state_dict
 
 
+# TODO: Safetensor still does not work requires to read from disk
 SINGLE_FILE_TO_HANDLER = {
-    "model.safetensors.index.json": get_sharded,
-    "model.safetensors": get_single,
+    # "model.safetensors.index.json": get_sharded,
+    # "model.safetensors": get_single,
     "pytorch_model.bin.index.json": get_sharded,
     "pytorch_model.bin": get_single,
 }
