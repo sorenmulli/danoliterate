@@ -16,6 +16,7 @@ bert_score~=0.3.13
 # TODO: Handle DaCy version: Clashes with my pandas and transformers
 dacy~=2.7.1
 safetensors~=0.3.3
+matplotlib~=3.8.0
 
 streamlit~=1.27.0
 huggingface_hub~=0.16.4
