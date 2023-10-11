@@ -69,9 +69,7 @@ def run_building(cfg: DictConfig, hellaswag: Dataset):
     df["correct"] = df.id.apply(id_to_label.get).astype(int)
 
     # Go back to previous ID and order columns
-    df["source_id"], df["ind"] = zip(
-        *df["id"].apply(lambda id_: ["".join(id_.split("-")[:-1]), id_.split("-")[-1]]).tolist()
-    )
+    df["source_id"], df["ind"] = zip(*df["id"].apply(lambda id_: id_.rsplit("-", 1)).tolist())
     df["ind"] = df["ind"].astype(int)
     df = df.drop(columns=["id"])
     df = df[["ctx"] + [col for col in df if col != "ctx"]]  # type: ignore
