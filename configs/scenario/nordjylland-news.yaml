@@ -1,5 +1,7 @@
 name: "Nordjylland News"
 path: "sorenmulli/nordjylland-news-summarization-subset"
+pre_prompt: "Skriv et dansk resumé på én sætning af følgende tekst.\n# TEKST"
+post_prompt: "\n# RESUMÉ\n"
 task:
   type: "default-answer-similarity"
   prompt_feature: "text"

@@ -27,6 +27,7 @@ class Evaluator:
         self.model_inference = get_inference(cfg.model)
 
         self.wandb = setup_short_run(self.result.name, "eval", cfg.wandb)
+        self.scenario_cfg: DictConfig = cfg.scenario
 
     def run(self):
         logger.info("Initializing example generators ...")
@@ -49,7 +50,11 @@ class Evaluator:
 
     def generate_examples(self) -> Generator[ExecutionExample, None, None]:
         for data_example in self.dataset:
-            yield self.task_runner.build_example(data_example)
+            pre_prompt = self.scenario_cfg.get("pre_prompt", "")
+            post_prompt = self.scenario_cfg.get("pre_prompt", "")
+            yield self.task_runner.build_example(
+                data_example, pre_prompt=pre_prompt, post_prompt=post_prompt
+            )
 
     def generate_results(
         self, examples: Generator[ExecutionExample, None, None]

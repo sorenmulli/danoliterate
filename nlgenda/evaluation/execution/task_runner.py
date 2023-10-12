@@ -12,7 +12,7 @@ class TaskRunner(ABC):
     id_features: tuple[str, ...] = ("id",)
 
     @abstractmethod
-    def build_example(self, row: dict[str, Any]) -> ExecutionExample:
+    def build_example(self, row: dict[str, Any], pre_prompt="", post_prompt="") -> ExecutionExample:
         ...
 
     @abstractmethod
@@ -24,6 +24,9 @@ class TaskRunner(ABC):
     def get_example_id(self, row: dict[str, Any]) -> str:
         return "-".join(str(row[id_feature]) for id_feature in self.id_features)
 
+    def prepare_prompt(self, text: str, pre_prompt: str, post_prompt: str) -> str:
+        return pre_prompt + text + post_prompt
+
 
 class MultichoiceRunner(TaskRunner):
     def __init__(self, prompt_feature: str = "text", id_features: tuple[str, ...] = ("id",)):
@@ -31,26 +34,20 @@ class MultichoiceRunner(TaskRunner):
         # Allow ID to be concatenation of features
         self.id_features = id_features
 
-    def process_prompt(self, prompt: str) -> str:
-        return f"{prompt} "
-
-    def process_option(self, option: str) -> str:
-        return option
-
     def get_options(self, row: dict[str, Any]) -> list[str]:
         options = []
         for name, val in row.items():
             if "option" in name and isinstance(val, str):
-                options.append(self.process_option(val))
+                options.append(val)
         return options
 
     def get_correct_idx(self, row: dict[str, Any]) -> int:
         assert isinstance(row["correct"], int)
         return row["correct"]
 
-    def build_example(self, row: dict[str, Any]) -> ExecutionExample:
+    def build_example(self, row: dict[str, Any], pre_prompt="", post_prompt="") -> ExecutionExample:
         return ExecutionExample(
-            prompt=self.process_prompt(row[self.prompt_feature]),
+            prompt=self.prepare_prompt(row[self.prompt_feature], pre_prompt, post_prompt),
             id_=self.get_example_id(row),
             options=self.get_options(row),
             index_label=self.get_correct_idx(row),
@@ -93,9 +90,9 @@ class AnswerSimilarityRunner(TaskRunner):
         self.answer_feature = answer_feature
         self.id_features = id_features
 
-    def build_example(self, row: dict[str, Any]) -> ExecutionExample:
+    def build_example(self, row: dict[str, Any], pre_prompt="", post_prompt="") -> ExecutionExample:
         return ExecutionExample(
-            prompt=row[self.prompt_feature],
+            prompt=self.prepare_prompt(row[self.prompt_feature], pre_prompt, post_prompt),
             id_=self.get_example_id(row),
             target_answer=row[self.answer_feature],
         )
