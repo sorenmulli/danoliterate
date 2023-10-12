@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from tempfile import TemporaryDirectory
 from typing import Optional
 
@@ -33,10 +34,16 @@ def setup_short_run(name: str, job_type: str, wandb_cfg: DictConfig) -> Optional
     )
 
 
+def _clean_artifact_name(name: str) -> str:
+    return re.sub(r"[^a-zA-Z0-9\-_\.]", "", name)
+
+
 def send_result_wandb(result: ExecutionResult, run: Run | RunDisabled):
     result.metadata.sent_to_wandb = True
     artifact = wandb.Artifact(
-        name=result.name, type=EXECUTION_RESULT_ARTIFACT_TYPE, metadata=result.metadata.to_dict()
+        name=_clean_artifact_name(result.name),
+        type=EXECUTION_RESULT_ARTIFACT_TYPE,
+        metadata=result.metadata.to_dict(),
     )
     with TemporaryDirectory() as temp_dir:
         temp_path = os.path.join(temp_dir, "result.json")

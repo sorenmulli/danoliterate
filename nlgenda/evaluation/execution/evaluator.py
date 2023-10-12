@@ -41,12 +41,11 @@ class Evaluator:
         logger.info("Finished result loop.")
 
     def save_results(self):
+        out = self.result.save_locally()
+        logger.info("Result was saved locally to %s.", out)
         if self.wandb is not None:
             send_result_wandb(self.result, self.wandb)
             logger.info("Sucessfully sent result to W&B.")
-
-        out = self.result.save_locally()
-        logger.info("Result was saved locally to %s.", out)
 
     def generate_examples(self) -> Generator[ExecutionExample, None, None]:
         for data_example in self.dataset:
