@@ -2,4 +2,3 @@ name: "GPT Neo Danish"
 path: "KennethTM/gpt-neo-1.3B-danish"
 inference:
   type: "hf-causal"
-  method: "lm"

@@ -2,4 +2,3 @@ name: "NB GPT-J"
 path: "NbAiLab/nb-gpt-j-6B"
 inference:
   type: "hf-causal"
-  method: "lm"

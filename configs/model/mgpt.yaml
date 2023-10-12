@@ -2,4 +2,3 @@ name: "mGPT"
 path: "ai-forever/mGPT"
 inference:
   type: "hf-causal"
-  method: "lm"

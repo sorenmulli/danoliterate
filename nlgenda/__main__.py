@@ -5,6 +5,7 @@ from omegaconf import DictConfig
 
 from nlgenda.datasets.building.citizenship_test_da import create_citizen_da
 from nlgenda.datasets.building.hyggeswag import create_hyggeswag
+from nlgenda.datasets.building.nordjylland_news import create_nordjylland_news
 from nlgenda.datasets.building.prompt_answer_da import create_prompt_answer_da
 from nlgenda.evaluation import evaluate, score
 from nlgenda.infrastructure import CONFIG_DIR
@@ -24,13 +25,15 @@ def hydra_entry(cfg: DictConfig) -> None:
                     create_citizen_da(cfg)
                 case "hyggeswag":
                     create_hyggeswag(cfg)
+                case "nordjylland-news":
+                    create_nordjylland_news(cfg)
                 case _:
                     logging.error(
                         "Unsupported databuild.type=%s. "
                         "'prompt-answer', 'citizenship-test', 'hyggeswag' are supported",
                         cfg.do,
                     )
-                    raise ValueError
+                    raise ValueError("Unsupported databuild type")
         case "train":
             train_lm(cfg)
         case "score":
@@ -39,7 +42,7 @@ def hydra_entry(cfg: DictConfig) -> None:
             logging.error(
                 "Unsupported do=%s. 'evaluate', 'databuild', 'train', 'score' are supported", cfg.do
             )
-            raise ValueError
+            raise ValueError("Unsupported do")
 
 
 if __name__ == "__main__":

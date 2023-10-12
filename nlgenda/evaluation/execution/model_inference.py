@@ -2,7 +2,6 @@ import json
 import logging
 import os
 from abc import ABC, abstractmethod
-from enum import Enum
 from typing import Optional
 
 import openai
@@ -20,11 +19,6 @@ class WrongInferenceError(RuntimeError):
     ...
 
 
-class InferenceMethod(Enum):
-    LM = "lm"
-    NLG = "nlg"
-
-
 class ModelInference(ABC):
     @property
     @abstractmethod
@@ -34,11 +28,6 @@ class ModelInference(ABC):
     @property
     @abstractmethod
     def can_do_nlg(self) -> bool:
-        ...
-
-    @property
-    @abstractmethod
-    def inference_method(self) -> InferenceMethod:
         ...
 
     # These are pseudo abstract methods as at least one of them should be overwritten
@@ -63,10 +52,7 @@ class ModelInference(ABC):
 class HuggingfaceCausalLm(ModelInference):
     ignore_target_idx = -100
 
-    def __init__(self, inference_method: str, hf_key: str, download_no_cache=True):
-        self._inference_method = InferenceMethod(inference_method)
-        # TODO: Allow loading model from interwebs
-
+    def __init__(self, hf_key: str, download_no_cache=True):
         model_cls = AutoModelForCausalLM
         model = (
             from_pretrained_hf_hub_no_disk(hf_key, model_cls)
@@ -100,10 +86,6 @@ class HuggingfaceCausalLm(ModelInference):
     @property
     def can_do_nlg(self) -> bool:
         return True
-
-    @property
-    def inference_method(self) -> InferenceMethod:
-        return self._inference_method
 
 
 # TODO: Default to temperature = 0
@@ -145,7 +127,3 @@ class OpenAiAPI(ModelInference):
     @property
     def can_do_nlg(self) -> bool:
         return True
-
-    @property
-    def inference_method(self) -> InferenceMethod:
-        return InferenceMethod.NLG

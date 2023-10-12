@@ -6,9 +6,8 @@ import numpy as np
 from omegaconf import OmegaConf
 from scipy import stats
 
-from nlgenda.evaluation.execution.model_inference import InferenceMethod
 from nlgenda.evaluation.execution.task_runner import AnswerSimilarityRunner, MultichoiceRunner
-from nlgenda.evaluation.registries.get import get_inference, get_task_runner
+from nlgenda.evaluation.registries.get import get_task_runner
 from nlgenda.evaluation.results import ExecutionExample, MetricResult
 from nlgenda.evaluation.serialization import OutDictType
 from nlgenda.modeling.text_comparison import COMPARERS, Comparer
@@ -215,25 +214,18 @@ def get_compatible_metrics(scenario_cfg: OutDictType, model_cfg: OutDictType) ->
     compare_functions = {name: comparer() for name, comparer in COMPARERS.items()}  # type: ignore
 
     if isinstance(task, MultichoiceRunner):
-        method_str = model_cfg["inference"].get("method")  # type: ignore
-        inference_method = (
-            get_inference(OmegaConf.create(model_cfg)).inference_method
-            if method_str is None
-            else InferenceMethod(method_str)
-        )
-        match inference_method:
-            case InferenceMethod.LM:
-                compatible.extend([MaxLikelihoodAccuracy(), MaxLikelihoodF1()])
-            case InferenceMethod.NLG:
-                for name, function in compare_functions.items():
-                    compatible.extend(
-                        [
-                            MaxSimilarityAccuracy(name, function),
-                            MaxSimilarityF1(name, function),
-                            TextSimilarityMetric(name, function),
-                            TextSimilarityMetric(name, function),
-                        ]
-                    )
+        # Save some time skipping likelihood metrics for text generators (would just give none)
+        if model_cfg["inference"]["type"] != "openai-api":  # type: ignore
+            compatible.extend([MaxLikelihoodAccuracy(), MaxLikelihoodF1()])
+        for name, function in compare_functions.items():
+            compatible.extend(
+                [
+                    MaxSimilarityAccuracy(name, function),
+                    MaxSimilarityF1(name, function),
+                    TextSimilarityMetric(name, function),
+                    TextSimilarityMetric(name, function),
+                ]
+            )
     if isinstance(task, AnswerSimilarityRunner):
         compatible.extend(
             TextSimilarityMetric(name, function) for name, function in compare_functions.items()

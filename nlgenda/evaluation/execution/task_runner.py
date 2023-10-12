@@ -2,7 +2,7 @@ import logging
 from abc import ABC, abstractmethod
 from typing import Any
 
-from nlgenda.evaluation.execution.model_inference import InferenceMethod, ModelInference
+from nlgenda.evaluation.execution.model_inference import ModelInference
 from nlgenda.evaluation.results import ExecutionExample
 
 logger = logging.getLogger(__name__)
@@ -61,15 +61,12 @@ class MultichoiceRunner(TaskRunner):
     ) -> ExecutionExample:
         assert example.options is not None
 
-        match inference.inference_method:
-            case InferenceMethod.LM:
-                example.options_model_likelihoods = [
-                    inference.likelihood(example.prompt, option) for option in example.options
-                ]
-
-            case InferenceMethod.NLG:
-                example.generated_text = inference.generate_text(example.prompt)
-
+        if inference.can_do_lm:
+            example.options_model_likelihoods = [
+                inference.likelihood(example.prompt, option) for option in example.options
+            ]
+        if inference.can_do_nlg:
+            example.generated_text = inference.generate_text(example.prompt)
         return example
 
 
@@ -108,12 +105,7 @@ class AnswerSimilarityRunner(TaskRunner):
     ) -> ExecutionExample:
         assert example.target_answer is not None
 
-        match inference.inference_method:
-            case InferenceMethod.LM:
-                logger.error("AnswerSimilarityRunner does not support language modeling")
-                raise ValueError("Unsupported inference method")
-
-            case InferenceMethod.NLG:
-                example.generated_text = inference.generate_text(example.prompt)
+        if inference.can_do_nlg:
+            example.generated_text = inference.generate_text(example.prompt)
 
         return example

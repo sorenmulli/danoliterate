@@ -2,4 +2,3 @@ name: "LlaMa 2"
 path: "meta-llama/Llama-2-7b-chat-hf"
 inference:
   type: "hf-causal"
-  method: "lm"
