@@ -62,7 +62,7 @@ class HuggingfaceCausalLm(ModelInference):
         self.pipeline = pipeline("text-generation", model=model, device=DEVICE, tokenizer=hf_key)
 
     def generate_text(self, prompt: str) -> str:
-        return self.pipeline(prompt)[0]["generated_text"][len(prompt) :]
+        return self.pipeline(prompt, max_new_tokens=1024, return_full_text=False)
 
     def likelihood(self, prompt: str, target: str) -> float:
         encodings = self.pipeline.tokenizer(prompt, text_target=target, return_tensors="pt")
