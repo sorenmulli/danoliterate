@@ -1,4 +1,6 @@
 name: "HyggeSwag"
 path: "sorenmulli/hyggeswag"
 task:
-  type: "hyggeswag"
+  prompt_feature: "ctx"
+  id_features: ["source_id", "ind"]
+  type: "default-mc"

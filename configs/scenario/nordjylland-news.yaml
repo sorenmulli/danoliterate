@@ -1,0 +1,7 @@
+name: "Nordjylland News"
+path: "sorenmulli/nordjylland-news-summarization-subset"
+task:
+  type: "default-answer-similarity"
+  prompt_feature: "text"
+  answer_feature: "summary"
+  id_features: ["ind"]

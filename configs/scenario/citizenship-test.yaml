@@ -1,4 +1,6 @@
 name: "Citizenship Test"
 path: "sorenmulli/citizenship-test-da"
 task:
-  type: "citizenship-test"
+  prompt_feature: "questions"
+  id_features: ["origin", "index"]
+  type: "default-mc-letter-options"

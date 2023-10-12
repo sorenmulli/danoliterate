@@ -1,0 +1,9 @@
+type: "nordjylland-news"
+
+n_to_keep: 300
+max_text_chars: 1000
+
+hub:
+  target: "sorenmulli/nordjylland-news-summarization-subset"
+  push: true
+  private: true
