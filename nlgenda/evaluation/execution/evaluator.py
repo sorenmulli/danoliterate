@@ -3,7 +3,6 @@ from typing import Generator
 
 from datasets import Dataset, load_dataset
 from omegaconf import DictConfig
-from tqdm import tqdm
 
 from nlgenda.evaluation.artifact_integration import send_result_wandb, setup_short_run
 from nlgenda.evaluation.registries.get import get_inference, get_task_runner
@@ -32,10 +31,10 @@ class Evaluator:
     def run(self):
         logger.info("Initializing example generators ...")
         examples = self.generate_examples()
-        results = self.generate_results(examples)
+        queried_results = self.generate_results(examples)
 
         logger.info("Executing result loop ...")
-        for result in tqdm(results, total=len(self.dataset)):
+        for result in self.model_inference.answer_queries(list(queried_results)):
             self.result.examples.append(result)
 
         logger.info("Finished result loop.")
@@ -50,7 +49,7 @@ class Evaluator:
     def generate_examples(self) -> Generator[ExecutionExample, None, None]:
         for data_example in self.dataset:
             pre_prompt = self.scenario_cfg.get("pre_prompt", "")
-            post_prompt = self.scenario_cfg.get("pre_prompt", "")
+            post_prompt = self.scenario_cfg.get("post_prompt", "")
             yield self.task_runner.build_example(
                 data_example, pre_prompt=pre_prompt, post_prompt=post_prompt
             )

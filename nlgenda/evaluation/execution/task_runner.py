@@ -60,10 +60,10 @@ class MultichoiceRunner(TaskRunner):
 
         if inference.can_do_lm:
             example.options_model_likelihoods = [
-                inference.likelihood(example.prompt, option) for option in example.options
+                inference.query_likelihood(example.prompt, option) for option in example.options
             ]
         if inference.can_do_nlg:
-            example.generated_text = inference.generate_text(example.prompt)
+            example.generated_text = inference.query_generate_text(example.prompt)
         return example
 
 
@@ -103,6 +103,6 @@ class AnswerSimilarityRunner(TaskRunner):
         assert example.target_answer is not None
 
         if inference.can_do_nlg:
-            example.generated_text = inference.generate_text(example.prompt)
+            example.generated_text = inference.query_generate_text(example.prompt)
 
         return example
