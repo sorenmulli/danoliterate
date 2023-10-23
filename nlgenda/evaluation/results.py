@@ -84,11 +84,11 @@ class ExecutionResult:
         return self_dict
 
     @classmethod
-    def from_config(cls, cfg: DictConfig):
+    def from_config(cls, cfg: DictConfig, scenario_cfg: DictConfig):
         metadata_fields = get_reproducability_metadata_fields()
         autoname = ".".join(
             name_part.replace(".", "").replace(" ", "-").lower()
-            for name_part in (cfg.model.name, cfg.scenario.name, str(metadata_fields["timestamp"]))
+            for name_part in (cfg.model.name, scenario_cfg.name, str(metadata_fields["timestamp"]))
         )
 
         results_path = cfg.evaluation.local_results
@@ -102,7 +102,7 @@ class ExecutionResult:
             local_path=out_path,
             metadata=ExecutionResultMetadata(
                 **metadata_fields,  # type: ignore
-                scenario_cfg=conf_to_dict(cfg.scenario),
+                scenario_cfg=conf_to_dict(scenario_cfg),
                 model_cfg=conf_to_dict(cfg.model),
                 evaluation_cfg=conf_to_dict(cfg.evaluation),
             ),

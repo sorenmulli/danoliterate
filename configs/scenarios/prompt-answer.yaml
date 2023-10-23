@@ -1,0 +1,5 @@
+prompt_answer:
+  name: "Prompt Answer"
+  path: "sorenmulli/prompt-answer-da"
+  task:
+    type: "default-answer-similarity"

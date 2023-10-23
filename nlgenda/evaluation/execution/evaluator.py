@@ -5,7 +5,7 @@ from datasets import Dataset, load_dataset
 from omegaconf import DictConfig
 
 from nlgenda.evaluation.artifact_integration import send_result_wandb, setup_short_run
-from nlgenda.evaluation.execution.model_inference import set_deterministic
+from nlgenda.evaluation.execution.model_inference import ModelInference, set_deterministic
 from nlgenda.evaluation.registries.get import get_inference, get_task_runner
 from nlgenda.evaluation.results import ExecutionExample, ExecutionResult
 from nlgenda.infrastructure import format_config
@@ -14,20 +14,19 @@ logger = logging.getLogger(__name__)
 
 
 class Evaluator:
-    def __init__(self, cfg: DictConfig):
-        logger.info("Evaluating %s on %s.", cfg.model.name, cfg.scenario.name)
-        self.result = ExecutionResult.from_config(cfg)
+    def __init__(self, cfg: DictConfig, scenario_cfg: DictConfig, model_inference: ModelInference):
+        logger.info("Evaluating %s on %s.", cfg.model.name, scenario_cfg.name)
+        self.result = ExecutionResult.from_config(cfg, scenario_cfg)
 
         logger.info("Setting up scenario ...")
-        self.task_runner = get_task_runner(cfg.scenario)
+        self.task_runner = get_task_runner(scenario_cfg)
         # TODO: Consider splits
-        self.dataset: Dataset = load_dataset(cfg.scenario.path, split="train")
+        self.dataset: Dataset = load_dataset(scenario_cfg.path, split="train")
 
-        logger.info("Setting up model ...")
-        self.model_inference = get_inference(cfg.model)
+        self.model_inference = model_inference
 
         self.wandb = setup_short_run(self.result.name, "eval", cfg.wandb)
-        self.scenario_cfg: DictConfig = cfg.scenario
+        self.scenario_cfg: DictConfig = scenario_cfg
 
         logger.info("Setting execution seed to %i", cfg.evaluation.seed)
         set_deterministic(cfg.evaluation.seed)
@@ -67,7 +66,11 @@ class Evaluator:
 
 def evaluate(cfg: DictConfig):
     logger.debug("Running evaluation with arguments: %s", format_config(cfg))
+    logger.info("Setting up model ...")
+    model_inference = get_inference(cfg.model)
 
-    evaluator = Evaluator(cfg)
-    evaluator.run()
-    evaluator.save_results()
+    logger.info("Model set up. Evaluating on %i scenarios.", len(cfg.scenarios))
+    for scenario_cfg in cfg.scenarios.values():
+        evaluator = Evaluator(cfg, scenario_cfg, model_inference)
+        evaluator.run()
+        evaluator.save_results()

@@ -1,7 +1,9 @@
 defaults:
   - _self_
 # Used if running do=evaluate
-  - scenario: hyggeswag
+  - scenarios: 
+    - hyggeswag
+    - prompt-answer
   - model: test
 # Used if running do=databuild
   - databuild: prompt_answer
