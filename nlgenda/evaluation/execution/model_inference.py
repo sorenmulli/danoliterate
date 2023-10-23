@@ -169,19 +169,24 @@ class HuggingfaceCausalLm(ModelInference):
     def generate_texts(self, prompts: list[str]) -> list[str]:
         out: list[str] = []
         batch_size = self.batch_size
-        for i in tqdm(range(0, len(prompts), batch_size)):
+        pbar = tqdm(total=len(prompts))
+        i = 0
+        while i < len(prompts):
             batch_completed = False
             while not batch_completed:
                 batch = prompts[i : i + batch_size]
                 try:
                     out.extend(self.pipeline(batch, batch_size=batch_size))
+                    pbar.update(batch_size)
                     batch_completed = True
+                    i += batch_size
                 except RuntimeError as error:
                     _maybe_raise_oom(error, batch_size)
                     logger.warning(
                         "Batch size %i was too large, lowering to %i", batch_size, batch_size // 2
                     )
                     batch_size = batch_size // 2
+        pbar.close()
         return out
 
     def _compute_likelihoods(self, logits: torch.Tensor, target_ids: torch.Tensor) -> list[float]:
@@ -197,8 +202,9 @@ class HuggingfaceCausalLm(ModelInference):
     def likelihoods(self, prompt_and_targets: list[tuple[str, str]]) -> list[float]:
         out: list[float] = []
         batch_size = self.batch_size
-
-        for i in tqdm(range(0, len(prompt_and_targets), batch_size)):
+        pbar = tqdm(total=len(prompt_and_targets))
+        i = 0
+        while i < len(prompt_and_targets):
             batch_completed = False
             while not batch_completed:
                 batch = prompt_and_targets[i : i + batch_size]
@@ -217,17 +223,19 @@ class HuggingfaceCausalLm(ModelInference):
                     target_ids[:, : encodings.input_ids.size(1)] = self.ignore_target_idx
 
                     with torch.no_grad():
-                        logits = self.pipeline.model(input_ids.to(DEVICE)).logits
+                        logits = self.pipeline.model(input_ids.to(DEVICE)).logits.cpu()
                         out.extend(self._compute_likelihoods(logits, target_ids))
 
                     batch_completed = True
+                    pbar.update(batch_size)
+                    i += batch_size
                 except RuntimeError as error:
                     _maybe_raise_oom(error, batch_size)
                     logger.warning(
                         "Batch size %i was too large, lowering to %i", batch_size, batch_size // 2
                     )
                     batch_size = batch_size // 2
-
+        pbar.close()
         return out
 
     @property
