@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import random
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field, fields
@@ -17,6 +18,13 @@ from nlgenda.modeling.load_model import from_pretrained_hf_hub_no_disk
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 logger = logging.getLogger(__name__)
+
+
+def set_deterministic(seed=0):
+    random.seed(seed)
+    torch.manual_seed(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
 
 
 class WrongInferenceError(RuntimeError):
@@ -177,24 +185,14 @@ class HuggingfaceCausalLm(ModelInference):
         return out
 
     def _compute_likelihoods(self, logits: torch.Tensor, target_ids: torch.Tensor) -> list[float]:
-        loss_fn = torch.nn.CrossEntropyLoss(reduction='none')
+        loss_fn = torch.nn.CrossEntropyLoss(reduction="none", ignore_index=self.ignore_target_idx)
+        # Move vocab dimension last as we do classification over these
+        batch_logits = logits.permute(0, 2, 1)
 
-        # Only consider losses from positions that aren't ignored (using the mask)
-        active_loss = target_ids != self.ignore_target_idx
-        active_logits = logits[active_loss]
-        active_labels = target_ids[active_loss]
-
-        losses = loss_fn(active_logits, active_labels)
-
-        # Reshape the losses to be of shape (batch_size, sequence_length)
-        losses_reshaped = torch.zeros_like(target_ids, dtype=torch.float)
-        losses_reshaped[active_loss] = losses
-
+        losses = loss_fn(batch_logits, target_ids)
         # Sum losses over the sequence length
-        summed_losses = losses_reshaped.sum(dim=-1)
-
-        # Convert negative log likelihoods to likelihoods
-        return torch.exp(-summed_losses).tolist()
+        summed_lls = -losses.sum(dim=-1)
+        return summed_lls.tolist()
 
     def likelihoods(self, prompt_and_targets: list[tuple[str, str]]) -> list[float]:
         out: list[float] = []

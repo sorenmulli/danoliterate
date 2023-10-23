@@ -19,6 +19,7 @@ evaluation:
   debug: false
   do_not_score_before: "2023-09-28-23-00"
   rescore: false
+  seed: 1887
 
 model:
   batch_size:  32

@@ -5,6 +5,7 @@ from datasets import Dataset, load_dataset
 from omegaconf import DictConfig
 
 from nlgenda.evaluation.artifact_integration import send_result_wandb, setup_short_run
+from nlgenda.evaluation.execution.model_inference import set_deterministic
 from nlgenda.evaluation.registries.get import get_inference, get_task_runner
 from nlgenda.evaluation.results import ExecutionExample, ExecutionResult
 from nlgenda.infrastructure import format_config
@@ -27,6 +28,9 @@ class Evaluator:
 
         self.wandb = setup_short_run(self.result.name, "eval", cfg.wandb)
         self.scenario_cfg: DictConfig = cfg.scenario
+
+        logger.info("Setting execution seed to %i", cfg.evaluation.seed)
+        set_deterministic(cfg.evaluation.seed)
 
     def run(self):
         logger.info("Initializing example generators ...")
