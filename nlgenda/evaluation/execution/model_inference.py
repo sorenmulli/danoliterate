@@ -177,7 +177,7 @@ class HuggingfaceCausalLm(ModelInference):
             while not batch_completed:
                 batch = prompts[i : i + batch_size]
                 try:
-                    out.extend(self.pipeline(batch, batch_size=batch_size))
+                    out.extend(self.pipeline(batch, batch_size=batch_size, handle_long_generation="hole"))
                     pbar.update(batch_size)
                     batch_completed = True
                     i += batch_size
@@ -222,6 +222,13 @@ class HuggingfaceCausalLm(ModelInference):
                     # Ignore prompt in likelihood computation
                     target_ids = input_ids.clone()
                     target_ids[:, : encodings.input_ids.size(1)] = self.ignore_target_idx
+
+                    # Do hole truncation
+                    max_length = self.pipeline.tokenizer.model_max_length
+                    if (input_size := input_ids.size(1)) > max_length:
+                        logger.warning("Example was too long: %i tokens > %i max tokens. Left-truncating to max tokens.", input_size, max_length)
+                        input_ids = input_ids[:, -max_length:]
+                        target_ids = target_ids[:, -max_length:]
 
                     with torch.no_grad():
                         logits = self.pipeline.model(input_ids.to(DEVICE)).logits.cpu()
