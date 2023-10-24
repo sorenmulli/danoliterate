@@ -2,10 +2,11 @@ import json
 import os
 import re
 from tempfile import TemporaryDirectory
-from typing import Optional
+from typing import Generator, Optional
 
 import wandb
 from omegaconf import DictConfig
+from tqdm import tqdm
 from wandb.sdk.lib import RunDisabled
 from wandb.sdk.wandb_run import Run
 
@@ -62,20 +63,34 @@ def send_scores_wandb(scores: Scores, run):
     run.log_artifact(artifact)
 
 
-def get_results_wandb(
+def yield_wandb_artifacts(
     wandb_project: str, wandb_entity: str, include_debug=False
-) -> list[ExecutionResult]:
+) -> Generator[wandb.Artifact, None, None]:
     wandb.login()
     api = wandb.Api(overrides={"entity": wandb_entity})
-    results = []
-    for collection in api.artifact_type(
-        type_name=EXECUTION_RESULT_ARTIFACT_TYPE, project=wandb_project
-    ).collections():
+    for collection in tqdm(
+        api.artifact_type(
+            type_name=EXECUTION_RESULT_ARTIFACT_TYPE, project=wandb_project
+        ).collections(),
+        desc="Fetching artifact collections",
+    ):
         artifacts = list(collection.versions())
+        # TODO: Also delete collection when deleting artifacts
+        if not artifacts:
+            # Artifact was deleted
+            continue
         assert len(artifacts) == 1
         artifact = artifacts[0]
         if not include_debug and artifact.metadata["evaluation_cfg"].get("debug"):
             continue
+        yield artifact
+
+
+def get_results_wandb(
+    wandb_project: str, wandb_entity: str, include_debug=False
+) -> list[ExecutionResult]:
+    results = []
+    for artifact in yield_wandb_artifacts(wandb_project, wandb_entity, include_debug):
         result_dict = dict_from_artifact(artifact)
         results.append(ExecutionResult.from_dict(result_dict))
     return results

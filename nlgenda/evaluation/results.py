@@ -71,7 +71,7 @@ class ExecutionResult:
 
     examples: list[ExecutionExample] = field(default_factory=list)
 
-    def save_locally(self, path: Optional[str] = None) -> str:
+    def save_locally(self, path: Optional[str | os.PathLike] = None) -> str | os.PathLike:
         path = path or self.local_path
         with open(path, "w", encoding="utf-8") as file:
             json.dump(self.to_dict(), file)

@@ -29,5 +29,6 @@ module = [
     "evaluate",
     "dacy",
     "safetensors.torch",
+    "simple_term_menu",
 ]
 ignore_missing_imports = true
