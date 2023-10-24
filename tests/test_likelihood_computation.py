@@ -20,7 +20,7 @@ requests = [(context, cont) for cont in continuations]
 @pytest.mark.skipif(not lm_eval_imported, reason="LM Evaluation Harness not imported")
 def test_huggingface_causallm():
     set_deterministic()
-    inference_to_test = HuggingfaceCausalLm(TEST_LM_KEY, download_no_cache=ralse, batch_size=2)
+    inference_to_test = HuggingfaceCausalLm(TEST_LM_KEY, download_no_cache=False, batch_size=2)
     predictions = inference_to_test.likelihoods(requests)
 
     reference_implementation = AutoCausalLM(TEST_LM_KEY, device="cpu")

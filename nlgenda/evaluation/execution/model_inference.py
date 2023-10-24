@@ -163,7 +163,9 @@ class HuggingfaceCausalLm(ModelInference):
             else model_cls.from_pretrained(hf_key)
         )
         self.batch_size = batch_size
-        self.pipeline = pipeline("text-generation", model=model, device=DEVICE, tokenizer=hf_key, max_new_tokens=512)
+        self.pipeline = pipeline(
+            "text-generation", model=model, device=DEVICE, tokenizer=hf_key, max_new_tokens=512
+        )
         self.pipeline.tokenizer.pad_token_id = model.config.eos_token_id
         self.pipeline.tokenizer.padding_side = "left"
 
@@ -177,7 +179,9 @@ class HuggingfaceCausalLm(ModelInference):
             while not batch_completed:
                 batch = prompts[i : i + batch_size]
                 try:
-                    out.extend(self.pipeline(batch, batch_size=batch_size, handle_long_generation="hole"))
+                    out.extend(
+                        self.pipeline(batch, batch_size=batch_size, handle_long_generation="hole")
+                    )
                     pbar.update(batch_size)
                     batch_completed = True
                     i += batch_size
@@ -194,7 +198,9 @@ class HuggingfaceCausalLm(ModelInference):
         loss_fn = torch.nn.CrossEntropyLoss(reduction="none", ignore_index=self.ignore_target_idx)
         # Move vocab dimension last as we do classification over these
         batch_logits = logits.permute(0, 2, 1)
-
+        # Shift to do next-token prediction
+        target_ids = target_ids[:, 1:]
+        batch_logits = batch_logits[:, :, :-1]
         losses = loss_fn(batch_logits, target_ids)
         # Sum losses over the sequence length
         summed_lls = -losses.sum(dim=-1)
@@ -226,7 +232,12 @@ class HuggingfaceCausalLm(ModelInference):
                     # Do hole truncation
                     max_length = self.pipeline.tokenizer.model_max_length
                     if (input_size := input_ids.size(1)) > max_length:
-                        logger.warning("Example was too long: %i tokens > %i max tokens. Left-truncating to max tokens.", input_size, max_length)
+                        logger.warning(
+                            "Example was too long: %i tokens > %i max tokens. "
+                            "Left-truncating to max tokens.",
+                            input_size,
+                            max_length,
+                        )
                         input_ids = input_ids[:, -max_length:]
                         target_ids = target_ids[:, -max_length:]
 
