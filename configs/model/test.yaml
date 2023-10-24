@@ -1,4 +1,4 @@
 name: "Random Test Model"
-path: "hf-internal-testing/tiny-random-gpt2"
+path: "sshleifer/tiny-gpt2"
 inference:
   type: "hf-causal"

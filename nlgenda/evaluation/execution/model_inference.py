@@ -170,6 +170,8 @@ class HuggingfaceCausalLm(ModelInference):
         self.pipeline.tokenizer.padding_side = "left"
 
     def generate_texts(self, prompts: list[str]) -> list[str]:
+        # See also
+        # https://huggingface.co/docs/transformers/llm_tutorial
         out: list[str] = []
         batch_size = self.batch_size
         pbar = tqdm(total=len(prompts))
@@ -179,9 +181,14 @@ class HuggingfaceCausalLm(ModelInference):
             while not batch_completed:
                 batch = prompts[i : i + batch_size]
                 try:
-                    out.extend(
-                        self.pipeline(batch, batch_size=batch_size, handle_long_generation="hole")
+                    out_dicts: list[list[dict[str, str]]] = self.pipeline(
+                        batch,
+                        batch_size=batch_size,
+                        handle_long_generation="hole",
+                        return_full_text=False,
+                        do_sample=False,
                     )
+                    out.extend(out_dict_list[0]["generated_text"] for out_dict_list in out_dicts)
                     pbar.update(batch_size)
                     batch_completed = True
                     i += batch_size
