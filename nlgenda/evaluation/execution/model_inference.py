@@ -163,8 +163,9 @@ class HuggingfaceCausalLm(ModelInference):
             else model_cls.from_pretrained(hf_key)
         )
         self.batch_size = batch_size
-        self.pipeline = pipeline("text-generation", model=model, device=DEVICE, tokenizer=hf_key)
+        self.pipeline = pipeline("text-generation", model=model, device=DEVICE, tokenizer=hf_key, max_new_tokens=512)
         self.pipeline.tokenizer.pad_token_id = model.config.eos_token_id
+        self.pipeline.tokenizer.padding_side = "left"
 
     def generate_texts(self, prompts: list[str]) -> list[str]:
         out: list[str] = []
