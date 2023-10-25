@@ -10,7 +10,7 @@ from typing import Optional
 import openai
 import torch
 from tqdm import tqdm
-from transformers import AutoModelForCausalLM, pipeline
+from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
 from nlgenda.evaluation.results import ExecutionExample
 from nlgenda.modeling.load_model import from_pretrained_hf_hub_no_disk
@@ -157,17 +157,17 @@ class HuggingfaceCausalLm(ModelInference):
         super().__init__()
 
         model_cls = AutoModelForCausalLM
-        model = (
+        self.model = (
             from_pretrained_hf_hub_no_disk(hf_key, model_cls)
             if download_no_cache
             else model_cls.from_pretrained(hf_key)
         )
+        self.model.to(DEVICE)
+        self.model.eval()
         self.batch_size = batch_size
-        self.pipeline = pipeline(
-            "text-generation", model=model, device=DEVICE, tokenizer=hf_key, max_new_tokens=512
-        )
-        self.pipeline.tokenizer.pad_token_id = model.config.eos_token_id
-        self.pipeline.tokenizer.padding_side = "left"
+        self.tokenizer = AutoTokenizer.from_pretrained(hf_key)
+        self.tokenizer.pad_token_id = self.model.config.eos_token_id
+        self.tokenizer.padding_side = "left"
 
     def generate_texts(self, prompts: list[str]) -> list[str]:
         # See also
@@ -181,14 +181,20 @@ class HuggingfaceCausalLm(ModelInference):
             while not batch_completed:
                 batch = prompts[i : i + batch_size]
                 try:
-                    out_dicts: list[list[dict[str, str]]] = self.pipeline(
-                        batch,
-                        batch_size=batch_size,
-                        handle_long_generation="hole",
-                        return_full_text=False,
-                        do_sample=False,
+                    model_inputs = self.tokenizer(batch, return_tensors="pt", padding=True).to(
+                        DEVICE
                     )
-                    out.extend(out_dict_list[0]["generated_text"] for out_dict_list in out_dicts)
+                    with torch.no_grad():
+                        # TODO: Extract parameters nicely in a generationconfig
+                        # TODO: Allow short max length?
+                        generated = self.model.generate(
+                            **model_inputs,
+                            max_length=self.tokenizer.model_max_length,
+                            do_sample=False,
+                        )
+                    texts = self.tokenizer.batch_decode(generated, skip_special_tokens=True)
+                    new_texts = [text[len(prompt) :] for text, prompt in zip(texts, prompts)]
+                    out.extend(new_texts)
                     pbar.update(batch_size)
                     batch_completed = True
                     i += batch_size
@@ -237,7 +243,7 @@ class HuggingfaceCausalLm(ModelInference):
                     target_ids[:, : encodings.input_ids.size(1)] = self.ignore_target_idx
 
                     # Do hole truncation
-                    max_length = self.pipeline.tokenizer.model_max_length
+                    max_length = self.tokenizer.model_max_length
                     if (input_size := input_ids.size(1)) > max_length:
                         logger.warning(
                             "Example was too long: %i tokens > %i max tokens. "
@@ -249,7 +255,7 @@ class HuggingfaceCausalLm(ModelInference):
                         target_ids = target_ids[:, -max_length:]
 
                     with torch.no_grad():
-                        logits = self.pipeline.model(input_ids.to(DEVICE)).logits.cpu()
+                        logits = self.model(input_ids.to(DEVICE)).logits.cpu()
                         out.extend(self._compute_likelihoods(logits, target_ids))
 
                     batch_completed = True
