@@ -10,7 +10,7 @@ from typing import Optional
 import openai
 import torch
 from tqdm import tqdm
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from nlgenda.evaluation.results import ExecutionExample
 from nlgenda.modeling.load_model import from_pretrained_hf_hub_no_disk
@@ -152,6 +152,8 @@ def _maybe_raise_oom(error: RuntimeError, batch_size: int):
 
 class HuggingfaceCausalLm(ModelInference):
     ignore_target_idx = -100
+    # TODO: Should be set at scenario level
+    max_new_tokens = 256
 
     def __init__(self, hf_key: str, batch_size=1, download_no_cache=True):
         super().__init__()
@@ -181,15 +183,18 @@ class HuggingfaceCausalLm(ModelInference):
             while not batch_completed:
                 batch = prompts[i : i + batch_size]
                 try:
-                    model_inputs = self.tokenizer(batch, return_tensors="pt", padding=True).to(
-                        DEVICE
-                    )
+                    # TODO: Extract parameters nicely in a generationconfig
+                    model_inputs = self.tokenizer(
+                        batch,
+                        return_tensors="pt",
+                        padding=True,
+                        max_length=self.tokenizer.model_max_length - self.max_new_tokens,
+                        truncation=True,
+                    ).to(DEVICE)
                     with torch.no_grad():
-                        # TODO: Extract parameters nicely in a generationconfig
-                        # TODO: Allow short max length?
                         generated = self.model.generate(
                             **model_inputs,
-                            max_length=self.tokenizer.model_max_length,
+                            max_new_tokens=self.max_new_tokens,
                             do_sample=False,
                         )
                     texts = self.tokenizer.batch_decode(generated, skip_special_tokens=True)
@@ -229,7 +234,7 @@ class HuggingfaceCausalLm(ModelInference):
             while not batch_completed:
                 batch = prompt_and_targets[i : i + batch_size]
                 try:
-                    encodings = self.pipeline.tokenizer(
+                    encodings = self.tokenizer(
                         [item[0] for item in batch],
                         text_target=[item[1] for item in batch],
                         return_tensors="pt",
