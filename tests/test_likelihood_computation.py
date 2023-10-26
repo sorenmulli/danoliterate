@@ -25,8 +25,6 @@ def test_huggingface_causallm():
 
     reference_implementation = AutoCausalLM(TEST_LM_KEY, device="cpu")
     reference_predictions = [score for score, _ in reference_implementation.loglikelihood(requests)]
-    print(inference_to_test.pipeline.tokenizer)
-    print(reference_implementation.tokenizer)
     assert np.allclose(predictions, reference_predictions, atol=1e-5), f"Mismatch:\n{predictions} vs\n{reference_predictions}"
 
 if __name__ == "__main__":

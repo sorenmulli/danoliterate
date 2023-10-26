@@ -12,9 +12,10 @@ from huggingface_hub.file_download import build_hf_headers
 from requests import HTTPError
 from safetensors.torch import load_file as safe_load_file
 from tqdm import tqdm
-from transformers import AutoConfig, AutoModelForCausalLM, PreTrainedModel
+from transformers import AutoConfig, AutoModelForCausalLM, GenerationConfig, PreTrainedModel
 from transformers.modeling_utils import _load_state_dict_into_model as hf_state_dict_load
 from transformers.modeling_utils import no_init_weights
+from transformers.models.auto.auto_factory import _get_model_class as hf_get_model_class
 
 logger = logging.getLogger(__name__)
 
@@ -85,6 +86,10 @@ def from_pretrained_hf_hub_no_disk(
     model_class=AutoModelForCausalLM,
 ) -> PreTrainedModel:
     config = AutoConfig.from_pretrained(model_key)
+    # pylint: disable=protected-access
+    pretrained_model_cls = hf_get_model_class(config, model_class._model_mapping)
+    with no_init_weights():
+        pretrained_model = model_class.from_config(config)
 
     state_dict = None
     for filename, handler in SINGLE_FILE_TO_HANDLER.items():
@@ -104,12 +109,20 @@ def from_pretrained_hf_hub_no_disk(
         )
         raise FileNotFoundError("Could not find model checkpoint.")
 
-    with no_init_weights():
-        model = model_class.from_config(config)
-    return load_state_dict(model, state_dict)
-
-
-# if __name__ == "__main__":
-#     # example_model = from_pretrained_hf_hub_no_disk("hf-internal-testing/tiny-random-gpt2")
-#     example_model = from_pretrained_hf_hub_no_disk("jonatanklosko/test-tiny-gpt2-sharded")
-#     breakpoint()
+    # model = pretrained_model_cls(config)
+    # pylint: disable=protected-access
+    model, *_ = pretrained_model_cls._load_pretrained_model(
+        pretrained_model,
+        state_dict,
+        list(state_dict.keys()),
+        None,
+        model_key,
+    )
+    model.tie_weights()
+    model.eval()
+    if model.can_generate():
+        try:
+            model.generation_config = GenerationConfig.from_pretrained(model_key)
+        except (OSError, TypeError):
+            pass
+    return model
