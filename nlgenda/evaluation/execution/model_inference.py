@@ -130,15 +130,21 @@ class ModelInference(ABC):
             name = field_.name
             value = getattr(example, name)
             if isinstance(value, QueriedGenerateCall):
-                setattr(example, name, self.generate_queries.pop(value.id_))
+                setattr(example, name, self.generate_queries.pop(value.id_).generated)
             elif isinstance(value, QueriedLikelihoodCall):
-                setattr(example, name, self.likelihood_queries.pop(value.id_))
+                setattr(example, name, self.likelihood_queries.pop(value.id_).likelihood)
             elif isinstance(value, list):
                 if all(isinstance(elem, QueriedGenerateCall) for elem in value):
-                    setattr(example, name, [self.generate_queries.pop(elem.id_) for elem in value])
-                if all(isinstance(elem, QueriedLikelihoodCall) for elem in value):
                     setattr(
-                        example, name, [self.likelihood_queries.pop(elem.id_) for elem in value]
+                        example,
+                        name,
+                        [self.generate_queries.pop(elem.id_).generated for elem in value],
+                    )
+                elif all(isinstance(elem, QueriedLikelihoodCall) for elem in value):
+                    setattr(
+                        example,
+                        name,
+                        [self.likelihood_queries.pop(elem.id_).likelihood for elem in value],
                     )
         return example
 
