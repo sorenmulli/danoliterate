@@ -11,6 +11,7 @@ import openai
 import torch
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers.tokenization_utils_base import VERY_LARGE_INTEGER
 
 from nlgenda.evaluation.results import ExecutionExample
 from nlgenda.modeling.load_model import from_pretrained_hf_hub_no_disk
@@ -154,7 +155,9 @@ class HuggingfaceCausalLm(ModelInference):
     ignore_target_idx = -100
     # TODO: Should be set at scenario level
     max_new_tokens = 256
+    default_max_length = 1024
 
+    # TODO: Allow setting download no cache from config
     def __init__(self, hf_key: str, batch_size=1, download_no_cache=True):
         super().__init__()
 
@@ -170,6 +173,24 @@ class HuggingfaceCausalLm(ModelInference):
         self.tokenizer = AutoTokenizer.from_pretrained(hf_key)
         self.tokenizer.pad_token_id = self.model.config.eos_token_id
         self.tokenizer.padding_side = "left"
+
+    @property
+    def model_max_length(self):
+        if (max_len := self.tokenizer.model_max_length) < VERY_LARGE_INTEGER:
+            return max_len
+        for candidate_key in (
+            "model_max_length",
+            "max_position_embeddings",
+            "n_positions",
+        ):
+            if (max_len := self.model.config.get(candidate_key, None)) is not None:
+                return max_len
+        logger.warning(
+            "Could not detect model max length for %s, defaulting to %i",
+            self.model,
+            self.default_max_length,
+        )
+        return self.default_max_length
 
     def generate_texts(self, prompts: list[str]) -> list[str]:
         # See also
@@ -188,7 +209,7 @@ class HuggingfaceCausalLm(ModelInference):
                         batch,
                         return_tensors="pt",
                         padding=True,
-                        max_length=self.tokenizer.model_max_length - self.max_new_tokens,
+                        max_length=self.model_max_length - self.max_new_tokens,
                         truncation=True,
                     ).to(DEVICE)
                     with torch.no_grad():
@@ -196,6 +217,7 @@ class HuggingfaceCausalLm(ModelInference):
                             **model_inputs,
                             max_new_tokens=self.max_new_tokens,
                             do_sample=False,
+                            temperature=0,
                         )
                     texts = self.tokenizer.batch_decode(generated, skip_special_tokens=True)
                     new_texts = [text[len(prompt) :] for text, prompt in zip(texts, prompts)]
@@ -248,16 +270,15 @@ class HuggingfaceCausalLm(ModelInference):
                     target_ids[:, : encodings.input_ids.size(1)] = self.ignore_target_idx
 
                     # Do hole truncation
-                    max_length = self.tokenizer.model_max_length
-                    if (input_size := input_ids.size(1)) > max_length:
+                    if (input_size := input_ids.size(1)) > self.model_max_length:
                         logger.warning(
                             "Example was too long: %i tokens > %i max tokens. "
                             "Left-truncating to max tokens.",
                             input_size,
-                            max_length,
+                            self.model_max_length,
                         )
-                        input_ids = input_ids[:, -max_length:]
-                        target_ids = target_ids[:, -max_length:]
+                        input_ids = input_ids[:, -self.model_max_length :]
+                        target_ids = target_ids[:, -self.model_max_length :]
 
                     with torch.no_grad():
                         logits = self.model(input_ids.to(DEVICE)).logits.cpu()

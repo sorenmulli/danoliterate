@@ -30,5 +30,7 @@ module = [
     "dacy",
     "safetensors.torch",
     "simple_term_menu",
+    "transformers.models.auto.auto_factory",
+    "transformers.tokenization_utils_base"
 ]
 ignore_missing_imports = true
