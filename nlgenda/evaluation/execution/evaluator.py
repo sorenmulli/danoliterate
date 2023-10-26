@@ -1,7 +1,7 @@
 import logging
 from typing import Generator
 
-from datasets import Dataset, load_dataset
+from datasets import Dataset, DownloadMode, load_dataset
 from omegaconf import DictConfig
 
 from nlgenda.evaluation.artifact_integration import send_result_wandb, setup_short_run
@@ -20,8 +20,11 @@ class Evaluator:
 
         logger.info("Setting up scenario ...")
         self.task_runner = get_task_runner(scenario_cfg)
+        # TODO: Remove force download at some point
         # TODO: Consider splits
-        self.dataset: Dataset = load_dataset(scenario_cfg.path, split="train")
+        self.dataset: Dataset = load_dataset(
+            scenario_cfg.path, split="train", download_mode=DownloadMode.FORCE_REDOWNLOAD
+        )
 
         self.model_inference = model_inference
 
