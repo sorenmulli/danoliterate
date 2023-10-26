@@ -183,7 +183,7 @@ class HuggingfaceCausalLm(ModelInference):
             "max_position_embeddings",
             "n_positions",
         ):
-            if (max_len := self.model.config.get(candidate_key, None)) is not None:
+            if (max_len := getattr(self.model.config, candidate_key, None)) is not None:
                 return max_len
         logger.warning(
             "Could not detect model max length for %s, defaulting to %i",
