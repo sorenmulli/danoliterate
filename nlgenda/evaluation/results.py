@@ -128,7 +128,7 @@ class MetricResult:
     short_name: str
     description: str
 
-    example_results: dict[str, float | tuple[float, ...]]
+    example_results: dict[str, float | tuple[float, float]]
     aggregate: float
     error: Optional[float]
 

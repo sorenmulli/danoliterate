@@ -15,6 +15,7 @@ all: install
 
 install:
 	pip install --editable . --upgrade
+	python -m spacy download da_core_news_sm
 
 tidy: clean format lint
 

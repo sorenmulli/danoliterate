@@ -22,7 +22,6 @@ class Scorer:
         self.wandb_cfg = cfg.wandb
         self.eval_cfg = cfg.evaluation
 
-        # TODO: Make it possible to load from existing result
         self.result = Scores.from_config(cfg)
 
         self.wandb = setup_short_run(self.result.name, "score", cfg.wandb)

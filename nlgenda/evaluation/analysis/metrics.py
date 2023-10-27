@@ -14,8 +14,6 @@ from nlgenda.modeling.text_comparison import COMPARERS, Comparer
 
 logger = logging.getLogger(__name__)
 
-# TODO: Instead of passing name everywhere, take name from comparer object
-
 
 class Metric(ABC):
     confidence_level = 0.95
@@ -35,8 +33,8 @@ class Metric(ABC):
         return True
 
     # Not an abstractmethod as you might want to not use this way to do it
-    def compute_single(self, example: ExecutionExample) -> float | tuple[float, ...]:
-        raise NotImplementedError("compute_single should be overwritten")
+    def compute(self, examples: list[ExecutionExample]) -> list[float] | list[tuple[float, float]]:
+        raise NotImplementedError("compute should be overwritten")
 
     def std_error(self, _: float, scores: np.ndarray) -> float:
         return float(np.std(scores, ddof=1) / np.sqrt(len(scores)))
@@ -50,14 +48,17 @@ class Metric(ABC):
         return float(scores.mean())
 
     def __call__(self, examples: list[ExecutionExample]) -> MetricResult:
-        results = {example.id_: self.compute_single(example) for example in examples}
-        scores = np.array(list(results.values()))
-        aggregate = self.aggregate(scores)
-        error = self.error(aggregate, scores)
+        scores = self.compute(examples)
+        score_arr = np.array(scores)
+        aggregate = self.aggregate(score_arr)
+        error = self.error(aggregate, score_arr)
         return MetricResult(
             short_name=self.name,
             description=self.description,
-            example_results=results,
+            # TODO: Fix mypy type confusion here
+            example_results={
+                example.id_: score for example, score in zip(examples, scores)  # type: ignore
+            },
             aggregate=aggregate,
             error=error,
             higher_is_better=self.higher_is_better,
@@ -66,15 +67,18 @@ class Metric(ABC):
 
 class BaseAccuracy(Metric, ABC):
     @abstractmethod
-    def get_model_prediction(self, example: ExecutionExample) -> int:
+    def get_model_predictions(self, examples: list[ExecutionExample]) -> list[int]:
         ...
 
-    def compute_single(self, example: ExecutionExample) -> tuple[float, float]:
-        if example.index_label is None:
-            logger.error("Example with ID %s had no index label.", example.id_)
-            raise ValueError("ExecutionExample had missing required fields.")
-
-        return example.index_label, self.get_model_prediction(example)
+    def compute(self, examples: list[ExecutionExample]) -> list[tuple[float, float]]:
+        res: list[tuple[float, float]] = []
+        model_predictions = self.get_model_predictions(examples)
+        for example, pred in zip(examples, model_predictions):
+            if example.index_label is None:
+                logger.error("Example with ID %s had no index label.", example.id_)
+                raise ValueError("ExecutionExample had missing required fields.")
+            res.append((example.index_label, pred))
+        return res
 
     # pylint: disable=arguments-renamed
     def aggregate(self, examples: np.ndarray) -> float:
@@ -93,15 +97,18 @@ class MaxLikelihoodAccuracy(BaseAccuracy):
     def description(self) -> str:
         return "Frequency of true predictions (max model likelihood)"
 
-    def get_model_prediction(self, example: ExecutionExample) -> int:
-        if example.options_model_likelihoods is None:
-            logger.error(
-                "Example with ID %s lacked likelihoods",
-                example.id_,
-            )
-            raise ValueError("ExecutionExample had missing required fields.")
-        scores = example.options_model_likelihoods
-        return scores.index(max(scores))
+    def get_model_predictions(self, examples: list[ExecutionExample]) -> list[int]:
+        out = []
+        for example in examples:
+            if example.options_model_likelihoods is None:
+                logger.error(
+                    "Example with ID %s lacked likelihoods",
+                    example.id_,
+                )
+                raise ValueError("ExecutionExample had missing required fields.")
+            scores = example.options_model_likelihoods
+            out.append(scores.index(max(scores)))
+        return out
 
 
 class MaxSimilarityAccuracy(BaseAccuracy):
@@ -115,23 +122,35 @@ class MaxSimilarityAccuracy(BaseAccuracy):
 
     @property
     def name(self) -> str:
-        return f"Accuracy ({self.comparison_name})"
+        return f"Accuracy (NLG {self.comparison_name})"
 
     @property
     def description(self) -> str:
         return f"Frequency of true predictions (max {self.comparison_name})"
 
-    def get_model_prediction(self, example: ExecutionExample) -> int:
-        if example.generated_text is None or example.options is None:
-            logger.error(
-                "Example with ID %s lacked text fields for similarity",
-                example.id_,
-            )
-            raise ValueError("ExecutionExample had missing required fields.")
-        scores = [
-            self.comparison_function(option, example.generated_text) for option in example.options
-        ]
-        return scores.index(max(scores))
+    def get_model_predictions(self, examples: list[ExecutionExample]) -> list[int]:
+        targets = []
+        predictions = []
+        for example in examples:
+            if example.generated_text is None or example.options is None:
+                logger.error(
+                    "Example with ID %s lacked text fields for similarity",
+                    example.id_,
+                )
+                raise ValueError("ExecutionExample had missing required fields.")
+            for option in example.options:
+                targets.append(option)
+                predictions.append(example.generated_text)
+        scores = self.comparison_function(targets, predictions)
+        max_indeces = []
+        i = 0
+        for example in examples:
+            option_scores = []
+            for _ in example.options:  # type: ignore
+                option_scores.append(scores[i])
+                i += 1
+            max_indeces.append(option_scores.index(max(option_scores)))
+        return max_indeces
 
 
 # pylint: disable=invalid-name
@@ -190,18 +209,24 @@ class TextSimilarityMetric(Metric):
             f"Comparing similarity of prediction and reference texts using {self.comparison_name}."
         )
 
-    def compute_single(self, example: ExecutionExample) -> float:
-        if example.generated_text is not None:
-            if example.target_answer is not None:
-                return self.comparison_function(example.target_answer, example.generated_text)
-            if example.options is not None and example.index_label is not None:
-                return self.comparison_function(
-                    example.options[example.index_label], example.generated_text
-                )
-        logger.error(
-            "Example with ID %s lacked target answer, generated text or options.", example.id_
-        )
-        raise ValueError("ExecutionExample had missing required fields.")
+    def compute(self, examples: list[ExecutionExample]) -> list[float]:
+        targets: list[str] = []
+        predictions: list[str] = []
+        for example in examples:
+            if example.generated_text is not None:
+                if example.target_answer is not None:
+                    targets.append(example.target_answer)
+                    predictions.append(example.generated_text)
+                    continue
+                if example.options is not None and example.index_label is not None:
+                    targets.append(example.options[example.index_label])
+                    predictions.append(example.generated_text)
+                    continue
+            logger.error(
+                "Example with ID %s lacked target answer, generated text or options.", example.id_
+            )
+            raise ValueError("ExecutionExample had missing required fields.")
+        return self.comparison_function(targets, predictions)
 
     def std_error(self, aggregate: float, scores: np.ndarray) -> float:
         return aggregate * (1 - aggregate) / len(scores) ** 0.5
