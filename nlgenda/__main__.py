@@ -7,7 +7,8 @@ from nlgenda.datasets.building.citizenship_test_da import create_citizen_da
 from nlgenda.datasets.building.hyggeswag import create_hyggeswag
 from nlgenda.datasets.building.nordjylland_news import create_nordjylland_news
 from nlgenda.datasets.building.prompt_answer_da import create_prompt_answer_da
-from nlgenda.evaluation import evaluate, score
+from nlgenda.evaluation.analysis import score
+from nlgenda.evaluation.execution import evaluate
 from nlgenda.infrastructure import CONFIG_DIR
 from nlgenda.training import train_lm
 
