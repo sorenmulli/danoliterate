@@ -50,6 +50,16 @@ def fetch_scores_cached(_cfg: DictConfig):
 # TODO: Move to config dir more elegantly
 @hydra.main(config_path=f"../../{CONFIG_DIR}", config_name="master", version_base=None)
 def setup_app(cfg: DictConfig):
+    st.set_page_config("NLGenDa Leaderboard", page_icon="🇩🇰")
+    # https://discuss.streamlit.io/t/remove-made-with-streamlit-from-bottom-of-app/1370/17
+    hide_streamlit_style = """
+            <style>
+            [data-testid="stToolbar"] {visibility: hidden !important;}
+            footer {visibility: hidden !important;}
+            </style>
+            """
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
     st.title("NLGenDa Leaderboard")
 
     logger.info("Fetching scores ...")
