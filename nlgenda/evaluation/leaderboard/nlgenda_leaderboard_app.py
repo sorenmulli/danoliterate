@@ -48,6 +48,7 @@ def fetch_scores_cached(_cfg: DictConfig):
 
 
 # TODO: Move to config dir more elegantly
+# pylint: disable=too-many-locals
 @hydra.main(config_path=f"../../{CONFIG_DIR}", config_name="master", version_base=None)
 def setup_app(cfg: DictConfig):
     st.set_page_config("NLGenDa Leaderboard", page_icon="🇩🇰")

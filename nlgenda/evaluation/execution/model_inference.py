@@ -5,6 +5,7 @@ import random
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field, fields
+from pathlib import Path
 from typing import Optional
 
 import openai
@@ -326,7 +327,7 @@ class OpenAiAPI(ModelInference):
         if not api_key:
             api_key = os.getenv(self.api_key_str)
         if not api_key:
-            if os.path.isfile(self.secret_file):
+            if Path(self.secret_file).is_file():
                 with open(self.secret_file, "r", encoding="utf-8") as file:
                     api_key = json.load(file).get(self.api_key_str)
         if not api_key:

@@ -3,6 +3,7 @@ import logging
 import os
 import uuid
 from dataclasses import asdict, dataclass, field
+from pathlib import Path
 from typing import Optional
 
 from omegaconf import DictConfig, OmegaConf
@@ -66,7 +67,7 @@ class ExecutionResultMetadata:
 @dataclass
 class ExecutionResult:
     name: str
-    local_path: str
+    local_path: str | os.PathLike
     metadata: ExecutionResultMetadata
 
     examples: list[ExecutionExample] = field(default_factory=list)
@@ -91,11 +92,11 @@ class ExecutionResult:
             for name_part in (cfg.model.name, scenario_cfg.name, str(metadata_fields["timestamp"]))
         )
 
-        results_path = cfg.evaluation.local_results
-        if not os.path.isdir(results_path):
+        results_path = Path(cfg.evaluation.local_results)
+        if not results_path.is_dir():
             logger.warning("Creating new local directory for results: %s", results_path)
             os.makedirs(results_path)
-        out_path = os.path.join(results_path, f"{autoname}.json")
+        out_path = results_path / f"{autoname}.json"
 
         return cls(
             name=autoname,
@@ -180,7 +181,7 @@ class Scoring:
 @dataclass
 class Scores:
     scorings: list[Scoring]
-    local_path: str
+    local_path: str | os.PathLike
 
     debug: bool
 
@@ -190,11 +191,11 @@ class Scores:
     @classmethod
     def from_config(cls, cfg: DictConfig):
         autoname = f"{cls.name}-{get_now_stamp()}"
-        results_path = cfg.evaluation.local_results
-        if not os.path.isdir(results_path):
+        results_path = Path(cfg.evaluation.local_results)
+        if results_path.is_dir():
             logger.warning("Creating new local directory for results: %s", results_path)
             os.makedirs(results_path)
-        out_path = os.path.join(results_path, f"{autoname}.json")
+        out_path = results_path / f"{autoname}.json"
         return cls(
             local_path=out_path,
             scorings=[],
@@ -212,8 +213,8 @@ class Scores:
         scorings = [Scoring.from_dict(scoring_dict) for scoring_dict in scoring_dicts]
         return cls(scorings=scorings, **self_dict)  # type: ignore
 
-    def save_locally(self, path: Optional[str] = None) -> str:
-        path = path or self.local_path
+    def save_locally(self, given_path: Optional[str | os.PathLike] = None) -> str | os.PathLike:
+        path = given_path or self.local_path
         with open(path, "w", encoding="utf-8") as file:
             json.dump(self.to_dict(), file)
         return path

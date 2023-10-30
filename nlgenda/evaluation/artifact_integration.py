@@ -1,6 +1,6 @@
 import json
-import os
 import re
+from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Generator, Optional
 
@@ -47,9 +47,9 @@ def send_result_wandb(result: ExecutionResult, run: Run | RunDisabled):
         metadata=result.metadata.to_dict(),
     )
     with TemporaryDirectory() as temp_dir:
-        temp_path = os.path.join(temp_dir, "result.json")
+        temp_path = Path(temp_dir) / "result.json"
         result.save_locally(temp_path)
-        artifact.add_file(local_path=temp_path, name="result.json")
+        artifact.add_file(local_path=str(temp_path), name="result.json")
     run.log_artifact(artifact)
 
 
@@ -57,9 +57,9 @@ def send_scores_wandb(scores: Scores, run):
     scores.sent_to_wandb = True
     artifact = wandb.Artifact(name=SCORES_ARTIFACT_TYPE, type=SCORES_ARTIFACT_TYPE)
     with TemporaryDirectory() as temp_dir:
-        temp_path = os.path.join(temp_dir, "scores.json")
+        temp_path = Path(temp_dir) / "scores.json"
         scores.save_locally(temp_path)
-        artifact.add_file(local_path=temp_path, name="scores.json")
+        artifact.add_file(local_path=str(temp_path), name="scores.json")
     run.log_artifact(artifact)
 
 
