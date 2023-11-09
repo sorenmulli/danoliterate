@@ -62,7 +62,7 @@ def get_sharded(model_key: str, index_file: BytesIO, _: str):
     return state_dict
 
 
-# TODO: Safetensor still does not work requires to read from disk
+# TODO: Safetensor still does not work; requires to read from disk
 SINGLE_FILE_TO_HANDLER = {
     # "model.safetensors.index.json": get_sharded,
     # "model.safetensors": get_single,
@@ -109,7 +109,6 @@ def from_pretrained_hf_hub_no_disk(
         )
         raise FileNotFoundError("Could not find model checkpoint.")
 
-    # model = pretrained_model_cls(config)
     # pylint: disable=protected-access
     model, *_ = pretrained_model_cls._load_pretrained_model(
         pretrained_model,
