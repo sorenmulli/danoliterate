@@ -23,12 +23,10 @@ class Evaluator:
 
         logger.info("Setting up scenario ...")
         self.task_runner = get_task_runner(scenario_cfg)
-        # TODO: Remove force download at some point
         # TODO: Consider splits
         self.dataset: Dataset = load_dataset(
             scenario_cfg.path,
             split=scenario_cfg.get("dataset_split", "train"),
-            download_mode=DownloadMode.FORCE_REDOWNLOAD,
         )
 
         self.train_dataset = None
@@ -37,7 +35,6 @@ class Evaluator:
             self.train_dataset: Dataset = load_dataset(
                 scenario_cfg.path,
                 split="train",
-                download_mode=DownloadMode.FORCE_REDOWNLOAD,
             )
 
         self.model_inference = model_inference
