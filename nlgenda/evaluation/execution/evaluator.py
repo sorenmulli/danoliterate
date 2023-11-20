@@ -23,7 +23,9 @@ class Evaluator:
         # TODO: Remove force download at some point
         # TODO: Consider splits
         self.dataset: Dataset = load_dataset(
-            scenario_cfg.path, split="train", download_mode=DownloadMode.FORCE_REDOWNLOAD
+            scenario_cfg.path,
+            split=scenario_cfg.get("dataset_split", "train"),
+            download_mode=DownloadMode.FORCE_REDOWNLOAD,
         )
 
         self.model_inference = model_inference
@@ -53,11 +55,11 @@ class Evaluator:
             logger.info("Sucessfully sent result to W&B.")
 
     def generate_examples(self) -> Generator[ExecutionExample, None, None]:
-        for data_example in self.dataset:
+        for i, data_example in enumerate(self.dataset):
             pre_prompt = self.scenario_cfg.get("pre_prompt", "")
             post_prompt = self.scenario_cfg.get("post_prompt", "")
             yield self.task_runner.build_example(
-                data_example, pre_prompt=pre_prompt, post_prompt=post_prompt
+                data_example, pre_prompt=pre_prompt, post_prompt=post_prompt, idx=i
             )
 
     def generate_results(

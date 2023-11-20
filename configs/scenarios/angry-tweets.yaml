@@ -1,0 +1,10 @@
+angry_tweets:
+  name: "Angry Tweets"
+  path: "ScandEval/angry-tweets-mini"
+  pre_prompt: "Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'.\n# TWEET\n"
+  post_prompt: "\n# SVAR MED ÉT ORD PÅ SENTIMENT:\n"
+  dataset_split: "val"
+  task:
+    type: "default-mc-same-options"
+    all_labels: ["negative", "neutral", "positive"]
+    id_features: []

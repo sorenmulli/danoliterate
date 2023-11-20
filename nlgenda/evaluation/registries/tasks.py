@@ -4,6 +4,7 @@ from nlgenda.evaluation.execution.task_runner import (
     AnswerSimilarityRunner,
     MultichoiceRunner,
     MultichoiceRunnerLetterOptions,
+    MultiChoiceRunnerSameOptions,
     TaskRunner,
 )
 from nlgenda.evaluation.registries.registration import register_task
@@ -29,6 +30,15 @@ def get_mc_letter_options(scenario_cfg: DictConfig) -> TaskRunner:
         if (config_value := scenario_cfg.task.get(feature)) is not None:
             kwargs[feature] = config_value
     return MultichoiceRunnerLetterOptions(**kwargs)
+
+
+@register_task("default-mc-same-options")
+def get_mc_same_options(scenario_cfg: DictConfig) -> TaskRunner:
+    kwargs = {}
+    for feature in "all_labels", "prompt_feature", "label_feature", "id_features":
+        if (config_value := scenario_cfg.task.get(feature)) is not None:
+            kwargs[feature] = config_value
+    return MultiChoiceRunnerSameOptions(**kwargs)
 
 
 # TODO: Remove, currently kept as backwards comp with old executions
