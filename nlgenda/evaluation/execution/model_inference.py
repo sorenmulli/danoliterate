@@ -226,9 +226,8 @@ class HuggingfaceCausalLm(ModelInference):
                             do_sample=False,
                             temperature=0,
                         )
-                    texts = self.tokenizer.batch_decode(generated, skip_special_tokens=True)
-                    new_texts = [text[len(prompt) :] for text, prompt in zip(texts, batch)]
-                    out.extend(new_texts)
+                    texts = self.tokenizer.batch_decode(generated[:, model_inputs.input_ids.shape[1]:])
+                    out.extend(texts)
                     pbar.update(batch_size)
                     batch_completed = True
                     i += batch_size
