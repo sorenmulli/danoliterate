@@ -1,9 +1,10 @@
 import logging
+from typing import Sequence
 
 from omegaconf import DictConfig
 from tqdm import tqdm
 
-from nlgenda.evaluation.analysis.metrics import get_compatible_metrics
+from nlgenda.evaluation.analysis.metrics import Metric, get_compatible_metrics
 from nlgenda.evaluation.artifact_integration import (
     get_results_wandb,
     get_scores_wandb,
@@ -24,12 +25,13 @@ class Scorer:
 
         self.result = Scores.from_config(cfg)
 
-        self.wandb = setup_short_run(self.result.name, "score", cfg.wandb)
+        self.wandb = setup_short_run(self.result.name, "score", self.wandb_cfg)
         self.previous_result = (
             None
             if cfg.evaluation.rescore
             else get_scores_wandb(cfg.wandb.project, cfg.wandb.entity)
         )
+        self.combinations_to_skip = {}
 
     def run(self):
         logger.info("Fetching executed results ...")
@@ -47,26 +49,37 @@ class Scorer:
             logger.info("No results acquired; nothing to do. Exiting ...")
             return
 
+        if self.previous_result is not None and not self.eval_cfg.rescore:
+            self.combinations_to_skip = {
+                self._get_scoring_comparison_key(old_scoring, []): old_scoring
+                for old_scoring in self.previous_result.scorings
+            }
+
         logger.info("Acquired %i execution results. Scoring ...", len(results))
         for result in tqdm(results):
             self.result.scorings.append(self.score_result(result))
 
     def score_result(self, result: ExecutionResult) -> Scoring:
         scoring = Scoring.from_execution_metadata(result.metadata)
+
         metrics = get_compatible_metrics(result.metadata.scenario_cfg, result.metadata.model_cfg)
-        if self.previous_result is not None:
-            for old_scoring in self.previous_result.scorings:
-                if old_scoring.execution_metadata == scoring.execution_metadata and {
-                    metric.short_name for metric in old_scoring.metric_results
-                } == {metric.name for metric in metrics}:
-                    logger.info(
-                        "Skipping scoring of %s as a scoring from %s "
-                        "already covered same execution and had same metrics. "
-                        "set `evaluation.rerun` to disable this behaviour",
-                        result.name,
-                        old_scoring.timestamp,
-                    )
-                    return old_scoring
+        if (
+            self.combinations_to_skip
+            and (
+                old_scoring := self.combinations_to_skip.get(
+                    self._get_scoring_comparison_key(scoring, metrics)
+                )
+            )
+            is not None
+        ):
+            logger.info(
+                "Skipping scoring of %s as a scoring from %s "
+                "already covered same execution and had same metrics. "
+                "set `evaluation.rescore` to disable this behaviour",
+                result.name,
+                old_scoring.timestamp,
+            )
+            return old_scoring
 
         logger.info(
             "Scoring result %s on metrics %s.",
@@ -84,6 +97,20 @@ class Scorer:
 
         out = self.result.save_locally()
         logger.info("Scores were saved locally to %s.", out)
+
+    def _get_scoring_comparison_key(self, scoring: Scoring, metrics: Sequence[Metric]):
+        metric_names = (
+            [metric.name for metric in metrics]
+            if metrics
+            else [metric_res.short_name for metric_res in scoring.metric_results]
+        )
+        return (
+            str(scoring.execution_metadata.scenario_cfg["name"])
+            + "-"
+            + str(scoring.execution_metadata.model_cfg["name"])
+            + "-"
+            + "-".join(sorted(metric_names))
+        )
 
 
 def score(cfg: DictConfig):

@@ -58,11 +58,6 @@ class ExecutionResultMetadata:
         fix_args_for_dataclass(cls, self_dict)
         return cls(**self_dict)  # type: ignore
 
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, ExecutionResultMetadata):
-            return NotImplemented
-        return (self.id_ or self.timestamp) == (other.id_ or other.timestamp)
-
 
 @dataclass
 class ExecutionResult:
@@ -75,6 +70,7 @@ class ExecutionResult:
     def save_locally(self, path: Optional[str | os.PathLike] = None) -> str | os.PathLike:
         path = path or self.local_path
         with open(path, "w", encoding="utf-8") as file:
+            self.local_path = str(self.local_path)
             json.dump(self.to_dict(), file)
         return path
 
@@ -129,6 +125,10 @@ class MetricResult:
     short_name: str
     description: str
 
+    # Maps single example ID to either a float describing a score in [0, 1]
+    # or two floats where the first float is the index of the correct option
+    # and the second is the index of the option that the model guessed. Thus,
+    # it can be reduced to accuracy by doing float(res[0] == res[1])
     example_results: dict[str, float | tuple[float, float]]
     aggregate: float
     error: Optional[float]
@@ -192,8 +192,9 @@ class Scores:
     def from_config(cls, cfg: DictConfig):
         autoname = f"{cls.name}-{get_now_stamp()}"
         results_path = Path(cfg.evaluation.local_results)
-        if results_path.is_dir():
+        if not results_path.is_dir():
             logger.warning("Creating new local directory for results: %s", results_path)
+            results_path.mkdir()
             os.makedirs(results_path)
         out_path = results_path / f"{autoname}.json"
         return cls(
@@ -216,6 +217,7 @@ class Scores:
     def save_locally(self, given_path: Optional[str | os.PathLike] = None) -> str | os.PathLike:
         path = given_path or self.local_path
         with open(path, "w", encoding="utf-8") as file:
+            self.local_path = str(self.local_path)
             json.dump(self.to_dict(), file)
         return path
 

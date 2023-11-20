@@ -7,7 +7,7 @@ from nlgenda.datasets.building.citizenship_test_da import create_citizen_da
 from nlgenda.datasets.building.hyggeswag import create_hyggeswag
 from nlgenda.datasets.building.nordjylland_news import create_nordjylland_news
 from nlgenda.datasets.building.prompt_answer_da import create_prompt_answer_da
-from nlgenda.evaluation.analysis import score
+from nlgenda.evaluation.analysis import analyse, score
 from nlgenda.evaluation.execution import evaluate
 from nlgenda.infrastructure import CONFIG_DIR
 from nlgenda.training import train_lm
@@ -39,6 +39,8 @@ def hydra_entry(cfg: DictConfig) -> None:
             train_lm(cfg)
         case "score":
             score(cfg)
+        case "analyse":
+            analyse(cfg)
         case _:
             logging.error(
                 "Unsupported do=%s. 'evaluate', 'databuild', 'train', 'score' are supported", cfg.do

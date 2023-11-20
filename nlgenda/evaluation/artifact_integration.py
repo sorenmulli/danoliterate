@@ -1,5 +1,7 @@
+import concurrent.futures
 import json
 import re
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Generator, Optional
@@ -63,27 +65,31 @@ def send_scores_wandb(scores: Scores, run):
     run.log_artifact(artifact)
 
 
-def yield_wandb_artifacts(
-    wandb_project: str, wandb_entity: str, include_debug=False
-) -> Generator[wandb.Artifact, None, None]:
+def fetch_artifact_data(collection):
+    artifacts = list(collection.versions())
+    if not artifacts:
+        # Artifact was deleted
+        return None
+    assert len(artifacts) == 1
+    return artifacts[0]
+
+
+def yield_wandb_artifacts(wandb_project: str, wandb_entity: str, include_debug=False):
     wandb.login()
     api = wandb.Api(overrides={"entity": wandb_entity})
-    for collection in tqdm(
-        api.artifact_type(
-            type_name=EXECUTION_RESULT_ARTIFACT_TYPE, project=wandb_project
-        ).collections(),
-        desc="Fetching artifact collections",
-    ):
-        artifacts = list(collection.versions())
-        # TODO: Also delete collection when deleting artifacts
-        if not artifacts:
-            # Artifact was deleted
-            continue
-        assert len(artifacts) == 1
-        artifact = artifacts[0]
-        if not include_debug and artifact.metadata["evaluation_cfg"].get("debug"):
-            continue
-        yield artifact
+    collections = api.artifact_type(
+        type_name=EXECUTION_RESULT_ARTIFACT_TYPE, project=wandb_project
+    ).collections()
+
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        futures = [executor.submit(fetch_artifact_data, coll) for coll in collections]
+
+        for future in concurrent.futures.as_completed(futures):
+            artifact = future.result()
+            if (artifact is not None) and not (
+                artifact.metadata["evaluation_cfg"].get("debug") and not include_debug
+            ):
+                yield artifact
 
 
 def get_results_wandb(

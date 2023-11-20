@@ -3,11 +3,8 @@ from abc import ABC, abstractmethod
 from collections.abc import Sequence
 
 import numpy as np
-from omegaconf import OmegaConf
 from scipy import stats
 
-from nlgenda.evaluation.execution.task_runner import AnswerSimilarityRunner, MultichoiceRunner
-from nlgenda.evaluation.registries.get import get_task_runner
 from nlgenda.evaluation.results import ExecutionExample, MetricResult
 from nlgenda.evaluation.serialization import OutDictType
 from nlgenda.modeling.text_comparison import COMPARERS, Comparer
@@ -17,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 class Metric(ABC):
     confidence_level = 0.95
+    is_fully_initialized = False
 
     @property
     @abstractmethod
@@ -115,10 +113,8 @@ class MaxSimilarityAccuracy(BaseAccuracy):
     def __init__(
         self,
         comparison_name: str,
-        comparison_function: Comparer,
     ):
         self.comparison_name = comparison_name
-        self.comparison_function = comparison_function
 
     @property
     def name(self) -> str:
@@ -129,6 +125,7 @@ class MaxSimilarityAccuracy(BaseAccuracy):
         return f"Frequency of true predictions (max {self.comparison_name})"
 
     def get_model_predictions(self, examples: list[ExecutionExample]) -> list[int]:
+        comparison_function = COMPARERS[self.comparison_name]()
         targets = []
         predictions = []
         for example in examples:
@@ -141,7 +138,7 @@ class MaxSimilarityAccuracy(BaseAccuracy):
             for option in example.options:
                 targets.append(option)
                 predictions.append(example.generated_text)
-        scores = self.comparison_function(targets, predictions)
+        scores = comparison_function(targets, predictions)
         max_indeces = []
         i = 0
         for example in examples:
@@ -195,9 +192,8 @@ class MaxSimilarityF1(MaxSimilarityAccuracy):
 
 
 class TextSimilarityMetric(Metric):
-    def __init__(self, comparison_name: str, comparison_function: Comparer):
+    def __init__(self, comparison_name: str):
         self.comparison_name = comparison_name
-        self.comparison_function = comparison_function
 
     @property
     def name(self) -> str:
@@ -210,6 +206,7 @@ class TextSimilarityMetric(Metric):
         )
 
     def compute(self, examples: list[ExecutionExample]) -> list[float]:
+        comparison_function = COMPARERS[self.comparison_name]()
         targets: list[str] = []
         predictions: list[str] = []
         for example in examples:
@@ -226,33 +223,34 @@ class TextSimilarityMetric(Metric):
                 "Example with ID %s lacked target answer, generated text or options.", example.id_
             )
             raise ValueError("ExecutionExample had missing required fields.")
-        return self.comparison_function(targets, predictions)
+        return comparison_function(targets, predictions)
 
     def std_error(self, aggregate: float, scores: np.ndarray) -> float:
         return aggregate * (1 - aggregate) / len(scores) ** 0.5
 
 
 def get_compatible_metrics(scenario_cfg: OutDictType, model_cfg: OutDictType) -> Sequence[Metric]:
-    task = get_task_runner(OmegaConf.create(scenario_cfg))
+    task_type_str = scenario_cfg["task"]["type"]  # type: ignore
     compatible: list[Metric] = []
 
-    compare_functions = {name: comparer() for name, comparer in COMPARERS.items()}  # type: ignore
-
-    if isinstance(task, MultichoiceRunner):
+    # TODO: Remove backwards compatibility keys
+    if task_type_str in {
+        "default-mc",
+        "default-mc-letter-options",
+        "hyggeswag",
+        "citizenship-test",
+    }:
         # Save some time skipping likelihood metrics for text generators (would just give none)
         if model_cfg["inference"]["type"] != "openai-api":  # type: ignore
             compatible.extend([MaxLikelihoodAccuracy(), MaxLikelihoodF1()])
-        for name, function in compare_functions.items():
+        for name in COMPARERS:
             compatible.extend(
                 [
-                    MaxSimilarityAccuracy(name, function),
-                    MaxSimilarityF1(name, function),
-                    TextSimilarityMetric(name, function),
-                    TextSimilarityMetric(name, function),
+                    MaxSimilarityAccuracy(name),
+                    MaxSimilarityF1(name),
+                    TextSimilarityMetric(name),
                 ]
             )
-    if isinstance(task, AnswerSimilarityRunner):
-        compatible.extend(
-            TextSimilarityMetric(name, function) for name, function in compare_functions.items()
-        )
+    if task_type_str in {"default-answer-similarity", "prompt-similarity"}:
+        compatible.extend(TextSimilarityMetric(name) for name in COMPARERS)
     return compatible
