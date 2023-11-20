@@ -18,6 +18,9 @@ class Evaluator:
         logger.info("Evaluating %s on %s.", cfg.model.name, scenario_cfg.name)
         self.result = ExecutionResult.from_config(cfg, scenario_cfg)
 
+        logger.info("Setting execution seed to %i", cfg.evaluation.seed)
+        set_deterministic(cfg.evaluation.seed)
+
         logger.info("Setting up scenario ...")
         self.task_runner = get_task_runner(scenario_cfg)
         # TODO: Remove force download at some point
@@ -28,13 +31,19 @@ class Evaluator:
             download_mode=DownloadMode.FORCE_REDOWNLOAD,
         )
 
+        self.train_dataset = None
+        if self.task_runner.is_few_shot:
+            assert scenario_cfg.dataset_split != "train"
+            self.train_dataset: Dataset = load_dataset(
+                scenario_cfg.path,
+                split="train",
+                download_mode=DownloadMode.FORCE_REDOWNLOAD,
+            )
+
         self.model_inference = model_inference
 
         self.wandb = setup_short_run(self.result.name, "eval", cfg.wandb)
         self.scenario_cfg: DictConfig = scenario_cfg
-
-        logger.info("Setting execution seed to %i", cfg.evaluation.seed)
-        set_deterministic(cfg.evaluation.seed)
 
     def run(self):
         logger.info("Initializing example generators ...")
@@ -56,11 +65,19 @@ class Evaluator:
 
     def generate_examples(self) -> Generator[ExecutionExample, None, None]:
         for i, data_example in enumerate(self.dataset):
-            pre_prompt = self.scenario_cfg.get("pre_prompt", "")
-            post_prompt = self.scenario_cfg.get("post_prompt", "")
-            yield self.task_runner.build_example(
-                data_example, pre_prompt=pre_prompt, post_prompt=post_prompt, idx=i
+            args = dict(
+                row=data_example,
+                pre_prompt=self.scenario_cfg.get("pre_prompt", ""),
+                post_prompt=self.scenario_cfg.get("post_prompt", ""),
+                idx=i,
             )
+            if self.task_runner.is_few_shot:
+                assert self.train_dataset is not None
+                args["few_shot_dataset"] = self.train_dataset
+            if self.task_runner.can_build_multi_examples:
+                yield from self.task_runner.build_multi_examples(**args)
+            else:
+                yield self.task_runner.build_example(**args)
 
     def generate_results(
         self, examples: Generator[ExecutionExample, None, None]

@@ -2,6 +2,7 @@ from omegaconf import DictConfig
 
 from nlgenda.evaluation.execution.task_runner import (
     AnswerSimilarityRunner,
+    GptNerRunner,
     MultichoiceRunner,
     MultichoiceRunnerLetterOptions,
     MultiChoiceRunnerSameOptions,
@@ -50,3 +51,20 @@ def get_answer_similarity(scenario_cfg: DictConfig) -> TaskRunner:
         if (config_value := scenario_cfg.task.get(feature)) is not None:
             kwargs[feature] = config_value
     return AnswerSimilarityRunner(**kwargs)
+
+
+@register_task("gpt-ner")
+def get_gpt_ner(scenario_cfg: DictConfig) -> TaskRunner:
+    kwargs = {}
+    for feature in (
+        "entity_types",
+        "prompt_feature",
+        "token_feature",
+        "label_feature",
+        "few_shot_format",
+        "num_examples",
+        "id_features",
+    ):
+        if (config_value := scenario_cfg.task.get(feature)) is not None:
+            kwargs[feature] = config_value
+    return GptNerRunner(**kwargs)

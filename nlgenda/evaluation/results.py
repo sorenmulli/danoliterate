@@ -27,6 +27,7 @@ class ExecutionExample:
     options: Optional[list[str]] = None
     generated_text: Optional[str] = None
     options_model_likelihoods: Optional[list[float]] = None
+    few_shot_example_ids: Optional[list[str]] = None
 
     def to_dict(self) -> OutDictType:
         return asdict(self)
