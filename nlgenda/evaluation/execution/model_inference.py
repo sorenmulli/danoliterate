@@ -48,7 +48,7 @@ class QueriedGenerateCall(QueriedCall):
     result: Optional[str] = None
     do_query_score = False
 
-    def get_score(self, score: Optional[float] = None):
+    def query_score(self, score: Optional[float] = None):
         query = QueriedGenerateScoreCall(result=score)
         query.id_ = self.id_
         self.do_query_score = True
