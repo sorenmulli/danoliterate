@@ -68,5 +68,21 @@ class BertSimilarity(Comparer):
         return [float(score) for score in scores["f1"]]
 
 
-_COMPARERS = Rouge1, RougeL, BertSimilarity
+class ClassChoiceParser(Comparer):
+    name = "Parsing of chosen class"
+
+    def __call__(self, targets: list[str], predictions: list[str]) -> list[float]:
+        all_classes = set(targets)
+        scores = []
+        for target, pred in zip(targets, predictions, strict=True):
+            class_counts = {cla: pred.count(cla) for cla in all_classes}
+            # If the true class is the only mentioned: Score is 1
+            # If a class is the only mentioned: Score i 0
+            # If both true true and some wrong classes are mentioned
+            total_mentions = sum(class_counts.values())
+            scores.append(class_counts[target] / total_mentions if total_mentions else 0.0)
+        return scores
+
+
+_COMPARERS = Rouge1, RougeL, BertSimilarity, ClassChoiceParser
 COMPARERS = {comparer.name: comparer for comparer in _COMPARERS}

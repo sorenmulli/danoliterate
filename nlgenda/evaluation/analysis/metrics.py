@@ -1,20 +1,25 @@
 import logging
+import re
 from abc import ABC, abstractmethod
+from collections import defaultdict
 from collections.abc import Sequence
+from typing import Optional
 
 import numpy as np
+from datasets import Dataset, load_dataset
 from scipy import stats
+from seqeval.metrics import f1_score
 
 from nlgenda.evaluation.results import ExecutionExample, MetricResult
 from nlgenda.evaluation.serialization import OutDictType
-from nlgenda.modeling.text_comparison import COMPARERS, Comparer
+from nlgenda.modeling.gpt_ner_alignment import parse_model_pred
+from nlgenda.modeling.text_comparison import COMPARERS
 
 logger = logging.getLogger(__name__)
 
 
 class Metric(ABC):
     confidence_level = 0.95
-    is_fully_initialized = False
 
     @property
     @abstractmethod
@@ -229,14 +234,104 @@ class TextSimilarityMetric(Metric):
         return aggregate * (1 - aggregate) / len(scores) ** 0.5
 
 
+class GptNerParsingF1(Metric):
+    def __init__(self, dataset_path: str, dataset_split: str):
+        self.dataset: Dataset = load_dataset(
+            dataset_path,
+            split=dataset_split,
+        )
+
+    @property
+    def name(self) -> str:
+        return "NER F1"
+
+    @property
+    def description(self) -> str:
+        return "GPT-NER parsed micro class avg. F1 score"
+
+    def extract_ner(self, examples: list[ExecutionExample]):
+        labels = []
+        preds = []
+        idx_to_class_preds = defaultdict(dict)
+        for example in examples:
+            *id_, entity_class = example.id_.split("-")
+            try:
+                idx = int(id_[0])
+            except ValueError as error:
+                raise NotImplementedError(
+                    "GPT-NER currently assumes that first part of ID is an index "
+                ) from error
+            idx_to_class_preds[idx][entity_class] = example
+        for idx, class_examples in idx_to_class_preds.items():
+            try:
+                tokens = self.dataset[idx]["tokens"]
+                labels.append(self.dataset[idx]["labels"])
+            except KeyError as error:
+                raise NotImplementedError("GPT-NER currently has hardcoded column names") from error
+            combined_prediction: Optional[list[tuple[str, float]]] = None
+            for entity_class, example in class_examples.items():
+                model_prediction = parse_model_pred(tokens, example.generated_text, entity_class)
+                score = example.generated_score or 0.0
+                if combined_prediction is None:
+                    combined_prediction = [(pred, score) for pred in model_prediction]
+                else:
+                    combined_prediction = [
+                        (new, score)
+                        if combined == "O" or score > old_score
+                        else (combined, old_score)
+                        for (combined, old_score), new in zip(
+                            combined_prediction, model_prediction, strict=True
+                        )
+                    ]
+            assert combined_prediction is not None
+            preds.append([entity_pred for entity_pred, _ in combined_prediction])
+        return labels, preds
+
+    def aggregate_ner(self, labels: list[list[str]], preds: list[list[str]]) -> float:
+        return float(f1_score(labels, preds))
+
+    def example_scores_ner(self, labels: list[list[str]], preds: list[list[str]]) -> list[float]:
+        return [
+            float(f1_score([label], [pred], zero_division=0))
+            for label, pred in zip(labels, preds, strict=True)
+        ]
+
+    def std_error(self, aggregate: float, scores: np.ndarray) -> float:
+        return aggregate * (1 - aggregate) / len(scores) ** 0.5
+
+    def __call__(self, examples: list[ExecutionExample]) -> MetricResult:
+        labels, preds = self.extract_ner(examples)
+        aggregate = self.aggregate_ner(labels, preds)
+        try:
+            ids = sorted(
+                list({example.id_.split("-")[0] for example in examples}), key=int
+            )
+        except ValueError as error:
+            raise NotImplementedError(
+                "GPT-NER currently assumes that first part of ID is an index "
+            ) from error
+        scores = np.array(self.example_scores_ner(labels, preds))
+        error = self.std_error(aggregate, scores)
+        return MetricResult(
+            short_name=self.name,
+            description=self.description,
+            example_results=dict(zip(ids, scores, strict=True)),
+            aggregate=aggregate,
+            error=error,
+            higher_is_better=self.higher_is_better,
+        )
+
+
 def get_compatible_metrics(scenario_cfg: OutDictType, model_cfg: OutDictType) -> Sequence[Metric]:
     task_type_str = scenario_cfg["task"]["type"]  # type: ignore
+    scenario_name = scenario_cfg["name"]  # type: ignore
     compatible: list[Metric] = []
 
-    # TODO: Remove backwards compatibility keys
     if task_type_str in {
         "default-mc",
         "default-mc-letter-options",
+        "default-mc-same-options",
+        # TODO: Remove backwards compatibility keys
         "hyggeswag",
         "citizenship-test",
     }:
@@ -244,6 +339,9 @@ def get_compatible_metrics(scenario_cfg: OutDictType, model_cfg: OutDictType) ->
         if model_cfg["inference"]["type"] != "openai-api":  # type: ignore
             compatible.extend([MaxLikelihoodAccuracy(), MaxLikelihoodF1()])
         for name in COMPARERS:
+            if (scenario_name == "Angry Tweets") != (name == "Parsing of chosen class"):
+                continue
+            # For sentiment classification, only output parsing makes sense
             compatible.extend(
                 [
                     MaxSimilarityAccuracy(name),
@@ -251,6 +349,10 @@ def get_compatible_metrics(scenario_cfg: OutDictType, model_cfg: OutDictType) ->
                     TextSimilarityMetric(name),
                 ]
             )
-    if task_type_str in {"default-answer-similarity", "prompt-similarity"}:
-        compatible.extend(TextSimilarityMetric(name) for name in COMPARERS)
+    elif task_type_str == "gpt-ner":
+        compatible.append(GptNerParsingF1(scenario_cfg["path"], scenario_cfg["dataset_split"]))
+    elif task_type_str in {"default-answer-similarity", "prompt-similarity"}:
+        compatible.extend(
+            TextSimilarityMetric(name) for name in COMPARERS if name != "Parsing of chosen class"
+        )
     return compatible

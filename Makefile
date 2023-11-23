@@ -15,6 +15,7 @@ all: install
 
 install:
 	pip install --editable . --upgrade
+	python -c 'import nltk; nltk.download("punkt")'
 	python -m spacy download da_core_news_sm
 
 tidy: clean format lint

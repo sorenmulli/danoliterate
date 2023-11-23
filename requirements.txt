@@ -17,6 +17,8 @@ safetensors~=0.3.3
 matplotlib~=3.8.0
 simple-term-menu~=1.6.1
 spacy~=3.5.4
+levenshtein~=0.23.0
+seqeval~=1.2.2
 
 streamlit~=1.27.0
 huggingface_hub~=0.16.4
