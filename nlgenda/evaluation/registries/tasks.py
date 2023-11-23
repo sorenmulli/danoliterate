@@ -5,6 +5,7 @@ from nlgenda.evaluation.execution.task_runner import (
     GptNerRunner,
     MultichoiceRunner,
     MultichoiceRunnerLetterOptions,
+    MultichoiceRunnerLetterWithContext,
     MultiChoiceRunnerSameOptions,
     TaskRunner,
 )
@@ -31,6 +32,15 @@ def get_mc_letter_options(scenario_cfg: DictConfig) -> TaskRunner:
         if (config_value := scenario_cfg.task.get(feature)) is not None:
             kwargs[feature] = config_value
     return MultichoiceRunnerLetterOptions(**kwargs)
+
+
+@register_task("default-mc-letter-context")
+def get_mc_letter_context(scenario_cfg: DictConfig) -> TaskRunner:
+    kwargs = {}
+    for feature in "prompt_feature", "id_features", "context_feature":
+        if (config_value := scenario_cfg.task.get(feature)) is not None:
+            kwargs[feature] = config_value
+    return MultichoiceRunnerLetterWithContext(**kwargs)
 
 
 @register_task("default-mc-same-options")

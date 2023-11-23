@@ -12,6 +12,8 @@ logger = logging.getLogger(__name__)
 
 
 class TaskRunner(ABC):
+    # TODO: Create init here instead of re-initting everywhere
+    prompt_feature: str = "text"
     id_features: tuple[str, ...] = ("id",)
     can_build_multi_examples = False
 
@@ -39,8 +41,8 @@ class TaskRunner(ABC):
             return str(idx)
         raise ValueError("Neither ID features nor index where given; cannot identify row.")
 
-    def prepare_prompt(self, text: str, pre_prompt: str, post_prompt: str) -> str:
-        return pre_prompt + text + post_prompt
+    def prepare_prompt(self, row: dict[str, Any], pre_prompt: str, post_prompt: str) -> str:
+        return pre_prompt + row[self.prompt_feature] + post_prompt
 
     def build_multi_examples(
         self,
@@ -83,7 +85,7 @@ class MultichoiceRunner(TaskRunner):
         _: Optional[list[dict[str, Any]]] = None,
     ) -> ExecutionExample:
         return ExecutionExample(
-            prompt=self.prepare_prompt(row[self.prompt_feature], pre_prompt, post_prompt),
+            prompt=self.prepare_prompt(row, pre_prompt, post_prompt),
             id_=self.get_example_id(row, idx),
             options=self.get_options(row),
             index_label=self.get_correct_idx(row),
@@ -113,6 +115,21 @@ class MultichoiceRunnerLetterOptions(MultichoiceRunner):
         # Generates the string ABCDE...
         letter_options = "".join(chr(i) for i in range(65, 65 + num_options))
         return letter_options.index(row["correct"])
+
+
+class MultichoiceRunnerLetterWithContext(MultichoiceRunnerLetterOptions):
+    def __init__(
+        self,
+        prompt_feature: str = "text",
+        id_features: tuple[str, ...] = ("id",),
+        context_feature: str = "context",
+    ):
+        super().__init__(prompt_feature, id_features)
+        self.context_feature = context_feature
+
+    def prepare_prompt(self, row: dict[str, Any], pre_prompt: str, post_prompt: str) -> str:
+        std_prompt = pre_prompt + row[self.prompt_feature] + post_prompt
+        return std_prompt.format(context=row[self.context_feature] or "")
 
 
 class MultiChoiceRunnerSameOptions(MultichoiceRunner):
@@ -159,7 +176,7 @@ class AnswerSimilarityRunner(TaskRunner):
         _: Optional[list[dict[str, Any]]] = None,
     ) -> ExecutionExample:
         return ExecutionExample(
-            prompt=self.prepare_prompt(row[self.prompt_feature], pre_prompt, post_prompt),
+            prompt=self.prepare_prompt(row, pre_prompt, post_prompt),
             id_=self.get_example_id(row, idx),
             target_answer=row[self.answer_feature],
         )

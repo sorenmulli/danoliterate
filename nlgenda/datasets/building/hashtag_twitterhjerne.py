@@ -9,6 +9,7 @@ from nlgenda.infrastructure.logging import format_config
 
 logger = logging.getLogger(__name__)
 
+
 def create_hashtag_twitterhjerne(cfg: DictConfig):
     logger.debug("Running with arguments: %s", format_config(cfg))
     # Don't go public with source links

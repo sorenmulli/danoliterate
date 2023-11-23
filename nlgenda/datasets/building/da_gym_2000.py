@@ -122,6 +122,7 @@ def create_da_gym_200(cfg: DictConfig):
     df = get_questions()
     add_contexts(df)
     add_correct_options(df)
+    breakpoint()
     dataset = Dataset.from_pandas(df)
     if cfg.databuild.hub.push:
         push(dataset, cfg.databuild.hub)
