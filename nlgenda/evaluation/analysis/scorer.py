@@ -99,6 +99,7 @@ class Scorer:
         logger.info("Scores were saved locally to %s.", out)
 
     def _get_scoring_comparison_key(self, scoring: Scoring, metrics: Sequence[Metric]):
+        # TODO: Shouldn't ID in itself actually be enough? Kept the rest for now for back-comp
         metric_names = (
             [metric.name for metric in metrics]
             if metrics
@@ -106,6 +107,8 @@ class Scorer:
         )
         return (
             str(scoring.execution_metadata.scenario_cfg["name"])
+            + "-"
+            + str(scoring.execution_metadata.id_)
             + "-"
             + str(scoring.execution_metadata.model_cfg["name"])
             + "-"
