@@ -287,7 +287,9 @@ class GptNerRunner(TaskRunner):
         self, example: ExecutionExample, inference: ModelInference
     ) -> ExecutionExample:
         assert inference.can_do_nlg
-        example.generated_text = inference.query_generate_text(example.prompt)
+        query = inference.query_generate_text(example.prompt)
+        example.generated_text = query
+        example.generated_score = query.query_score()
         return example
 
     @property

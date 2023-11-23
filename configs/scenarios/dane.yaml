@@ -1,7 +1,7 @@
 dane:
   name: "DaNE"
   path: "ScandEval/dane-mini"
-  pre_prompt: "Jeg er en dygtig lingvist. Opgaven er at genkende eventuelle entiteter af typen '{entity_str}' i den givne tekst. Se følgende eksempler.\n\n{few_shot_str}\nInput: "
+  pre_prompt: "Jeg er en dygtig lingvist. Opgaven er at genkende entiteter af typen '{entity_str}' i den givne tekst. Se følgende eksempler.\n\n{few_shot_str}\nInput: "
   post_prompt: "\nOutput: "
   dataset_split: "val"
   task:

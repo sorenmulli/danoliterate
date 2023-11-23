@@ -6,7 +6,9 @@ from nlgenda.evaluation.registries.registration import register_inference
 
 @register_inference("hf-causal")
 def get_hf_causal(cfg: DictConfig) -> HuggingfaceCausalLm:
-    return HuggingfaceCausalLm(cfg.path, batch_size=cfg.batch_size)
+    return HuggingfaceCausalLm(
+        cfg.model.path, batch_size=cfg.model.batch_size, download_no_cache=cfg.download_no_cache
+    )
 
 
 @register_inference("openai-api")

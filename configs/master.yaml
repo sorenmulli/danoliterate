@@ -25,7 +25,7 @@ evaluation:
 model:
   batch_size:  32
 
-download_no_cache: true
+download_no_cache: false
 
 model_paths:
   fasttext: "local-models/lid.176.bin"

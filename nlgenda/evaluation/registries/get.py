@@ -15,10 +15,10 @@ def get_task_runner(scenario_cfg: DictConfig):
         raise ValueError(f"No task registered with scenario.task.type {task_name}") from error
 
 
-def get_inference(model_cfg: DictConfig):
-    inference_name = model_cfg.inference.type
+def get_inference(cfg: DictConfig):
+    inference_name = cfg.model.inference.type
     try:
-        return inference_registry[inference_name](model_cfg)
+        return inference_registry[inference_name](cfg)
     except KeyError as error:
         raise ValueError(
             f"No inference registered with model.inference.type {inference_name}"

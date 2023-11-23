@@ -1,4 +1,5 @@
 name: "Random Test Model"
 path: "sshleifer/tiny-gpt2"
+batch_size: 3
 inference:
   type: "hf-causal"

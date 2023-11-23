@@ -86,7 +86,7 @@ class Evaluator:
 def evaluate(cfg: DictConfig):
     logger.debug("Running evaluation with arguments: %s", format_config(cfg))
     logger.info("Setting up model ...")
-    model_inference = get_inference(cfg.model)
+    model_inference = get_inference(cfg)
 
     logger.info("Model set up. Evaluating on %i scenarios.", len(cfg.scenarios))
     for scenario_cfg in cfg.scenarios.values():

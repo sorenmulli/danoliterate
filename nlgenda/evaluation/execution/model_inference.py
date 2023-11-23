@@ -45,7 +45,19 @@ class QueriedCall:
 class QueriedGenerateCall(QueriedCall):
     prompt: str
 
-    generated: Optional[str] = None
+    result: Optional[str] = None
+    do_query_score = False
+
+    def get_score(self, score: Optional[float] = None):
+        query = QueriedGenerateScoreCall(result=score)
+        query.id_ = self.id_
+        self.do_query_score = True
+        return query
+
+
+@dataclass
+class QueriedGenerateScoreCall(QueriedCall):
+    result: Optional[float] = None
 
 
 @dataclass
@@ -53,15 +65,17 @@ class QueriedLikelihoodCall(QueriedCall):
     prompt: str
     target: str
 
-    likelihood: Optional[float] = None
+    result: Optional[float] = None
 
 
 class ModelInference(ABC):
     generate_queries: dict[str, QueriedGenerateCall]
+    generate_score_queries: dict[str, QueriedGenerateScoreCall]
     likelihood_queries: dict[str, QueriedLikelihoodCall]
 
     def __init__(self):
         self.generate_queries = {}
+        self.generate_score_queries = {}
         self.likelihood_queries = {}
 
     @property
@@ -77,7 +91,7 @@ class ModelInference(ABC):
     # These are pseudo abstract methods as at least one of them should be overwritten
     # so I keep the arguments named
     # pylint: disable=unused-argument
-    def generate_texts(self, prompts: list[str]) -> list[str]:
+    def generate_texts(self, prompts: list[str]) -> list[tuple[str, Optional[float]]]:
         if not self.can_do_nlg:
             raise WrongInferenceError(
                 f"Cannot generate text with {self} which does not support NLG."
@@ -111,18 +125,24 @@ class ModelInference(ABC):
             generations = self.generate_texts(
                 [query.prompt for query in self.generate_queries.values()]
             )
-            for gquery, generation in zip(self.generate_queries.values(), generations):
-                gquery.generated = generation
+            for gquery, (generation, score) in zip(self.generate_queries.values(), generations):
+                gquery.result = generation
+                if gquery.do_query_score:
+                    self.generate_score_queries[gquery.id_] = gquery.query_score(score)
 
         if self.likelihood_queries:
             likelihoods = self.likelihoods(
                 [(query.prompt, query.target) for query in self.likelihood_queries.values()]
             )
             for lquery, likelihood in zip(self.likelihood_queries.values(), likelihoods):
-                lquery.likelihood = likelihood
+                lquery.result = likelihood
 
         results = [self._populate_with_answers(example) for example in queried_examples]
-        assert not self.generate_queries and not self.likelihood_queries
+        assert (
+            not self.generate_queries
+            and not self.generate_score_queries
+            and not self.likelihood_queries
+        )
 
         return results
 
@@ -130,23 +150,15 @@ class ModelInference(ABC):
         for field_ in fields(example):
             name = field_.name
             value = getattr(example, name)
-            if isinstance(value, QueriedGenerateCall):
-                setattr(example, name, self.generate_queries.pop(value.id_).generated)
-            elif isinstance(value, QueriedLikelihoodCall):
-                setattr(example, name, self.likelihood_queries.pop(value.id_).likelihood)
-            elif isinstance(value, list):
-                if all(isinstance(elem, QueriedGenerateCall) for elem in value):
-                    setattr(
-                        example,
-                        name,
-                        [self.generate_queries.pop(elem.id_).generated for elem in value],
-                    )
-                elif all(isinstance(elem, QueriedLikelihoodCall) for elem in value):
-                    setattr(
-                        example,
-                        name,
-                        [self.likelihood_queries.pop(elem.id_).likelihood for elem in value],
-                    )
+            for query_type, queries in zip(
+                (QueriedGenerateCall, QueriedGenerateScoreCall, QueriedLikelihoodCall),
+                (self.generate_queries, self.generate_score_queries, self.likelihood_queries),
+            ):
+                if isinstance(value, query_type):
+                    setattr(example, name, queries.pop(value.id_).result)
+                elif isinstance(value, list):
+                    if all(isinstance(elem, query_type) for elem in value):
+                        setattr(example, name, [queries.pop(elem.id_).result for elem in value])
         return example
 
 
@@ -164,7 +176,6 @@ class HuggingfaceCausalLm(ModelInference):
     max_new_tokens = 256
     default_max_length = 1024
 
-    # TODO: Allow setting download no cache from config
     def __init__(self, hf_key: str, batch_size=1, download_no_cache=True):
         super().__init__()
 
@@ -199,10 +210,8 @@ class HuggingfaceCausalLm(ModelInference):
         )
         return self.default_max_length
 
-    def generate_texts(self, prompts: list[str]) -> list[str]:
-        # See also
-        # https://huggingface.co/docs/transformers/llm_tutorial
-        out: list[str] = []
+    def generate_texts(self, prompts: list[str]) -> list[tuple[str, Optional[float]]]:
+        out: list[tuple[str, float]] = []
         batch_size = self.batch_size
         pbar = tqdm(total=len(prompts))
         i = 0
@@ -218,16 +227,28 @@ class HuggingfaceCausalLm(ModelInference):
                         padding=True,
                         max_length=self.model_max_length - self.max_new_tokens,
                         truncation=True,
+                        return_token_type_ids=False,
                     ).to(DEVICE)
-                    with torch.no_grad():
-                        generated = self.model.generate(
+                    with torch.inference_mode():
+                        outputs = self.model.generate(
                             **model_inputs,
                             max_new_tokens=self.max_new_tokens,
                             do_sample=False,
                             temperature=0,
+                            return_dict_in_generate=True,
+                            output_scores=True,
                         )
-                    texts = self.tokenizer.batch_decode(generated[:, model_inputs.input_ids.shape[1]:])
-                    out.extend(texts)
+                    input_id_len = model_inputs.input_ids.shape[1]
+                    texts = self.tokenizer.batch_decode(
+                        outputs.sequences[:, input_id_len:],
+                        skip_special_tokens=True,
+                    )
+                    scores = self.model.compute_transition_scores(
+                        outputs.sequences, outputs.scores, normalize_logits=True
+                    ).mean(axis=1)
+                    out.extend(
+                        (text, float(score)) for text, score in zip(texts, scores, strict=True)
+                    )
                     pbar.update(batch_size)
                     batch_completed = True
                     i += batch_size
@@ -337,7 +358,7 @@ class OpenAiAPI(ModelInference):
             )
         openai.api_key = api_key
 
-    def generate_texts(self, prompts: list[str]) -> list[str]:
+    def generate_texts(self, prompts: list[str]) -> list[tuple[str, Optional[float]]]:
         out = []
         for prompt in tqdm(prompts):
             if "turbo" in self.model_key or "gpt-4" in self.model_key:
@@ -346,7 +367,7 @@ class OpenAiAPI(ModelInference):
                 )
                 return completion.choices[0].message.content
             completion = openai.Completion.create(model=self.model_key, prompt=prompt)
-            out.append(completion.choices[0].text)
+            out.append((completion.choices[0].text, None))  # We have no scores from API
         return out
 
     @property
