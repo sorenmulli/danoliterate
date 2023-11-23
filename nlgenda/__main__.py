@@ -4,9 +4,12 @@ import hydra
 from omegaconf import DictConfig
 
 from nlgenda.datasets.building.citizenship_test_da import create_citizen_da
+from nlgenda.datasets.building.da_cloze_self_test import create_da_cloze_self_test
+from nlgenda.datasets.building.da_gym_2000 import create_da_gym_200
 from nlgenda.datasets.building.hyggeswag import create_hyggeswag
 from nlgenda.datasets.building.nordjylland_news import create_nordjylland_news
 from nlgenda.datasets.building.prompt_answer_da import create_prompt_answer_da
+from nlgenda.datasets.building.hashtag_twitterhjerne import create_hashtag_twitterhjerne
 from nlgenda.evaluation.analysis import analyse, score
 from nlgenda.evaluation.execution import evaluate
 from nlgenda.infrastructure import CONFIG_DIR
@@ -28,10 +31,16 @@ def hydra_entry(cfg: DictConfig) -> None:
                     create_hyggeswag(cfg)
                 case "nordjylland-news":
                     create_nordjylland_news(cfg)
+                case "da-gym-2000":
+                    create_da_gym_200(cfg)
+                case "da-cloze-self-test":
+                    create_da_cloze_self_test(cfg)
+                case "hashtag-twitterhjerne":
+                    create_hashtag_twitterhjerne(cfg)
                 case _:
                     logging.error(
                         "Unsupported databuild.type=%s. "
-                        "'prompt-answer', 'citizenship-test', 'hyggeswag' are supported",
+                        "'prompt-answer', 'citizenship-test', 'hyggeswag', 'da-gym-2000' are supported",
                         cfg.do,
                     )
                     raise ValueError("Unsupported databuild type")

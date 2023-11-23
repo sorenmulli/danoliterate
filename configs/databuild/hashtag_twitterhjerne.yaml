@@ -1,0 +1,8 @@
+type: "hashtag-twitterhjerne"
+
+collected_csv: "local-computations/twitterhjerne-collected.csv"
+
+hub:
+  target: "sorenmulli/da-hashtag-twitterhjerne"
+  push: true
+  private: true

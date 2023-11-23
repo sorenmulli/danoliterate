@@ -1,0 +1,11 @@
+type: "da-cloze-self-test"
+
+html_list_file: "local-data/examples.html.list"
+prediction:
+  todo_file: "local-computations/cloze-self-test-to-predict.csv"
+  done_file: "local-computations/cloze-self-test-predicted.csv"
+
+hub:
+  target: "sorenmulli/da-cloze-self-test"
+  push: true
+  private: true

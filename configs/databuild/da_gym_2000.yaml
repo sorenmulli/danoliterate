@@ -1,0 +1,6 @@
+type: "da-gym-2000"
+
+hub:
+  target: "sorenmulli/da-gym-2000"
+  push: true
+  private: true

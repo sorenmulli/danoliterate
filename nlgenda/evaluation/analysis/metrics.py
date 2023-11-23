@@ -303,9 +303,7 @@ class GptNerParsingF1(Metric):
         labels, preds = self.extract_ner(examples)
         aggregate = self.aggregate_ner(labels, preds)
         try:
-            ids = sorted(
-                list({example.id_.split("-")[0] for example in examples}), key=int
-            )
+            ids = sorted(list({example.id_.split("-")[0] for example in examples}), key=int)
         except ValueError as error:
             raise NotImplementedError(
                 "GPT-NER currently assumes that first part of ID is an index "
