@@ -95,5 +95,6 @@ def create_da_cloze_self_test(cfg: DictConfig):
         logger.info("Reading prediction from %s" % done_path)
         df = build_with_predictions(tests, done_path)
         dataset = Dataset.from_pandas(df)
+        breakpoint()
         if cfg.databuild.hub.push:
             push(dataset, cfg.databuild.hub)

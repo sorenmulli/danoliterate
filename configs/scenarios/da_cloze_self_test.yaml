@@ -1,0 +1,8 @@
+da_cloze_self_test:
+  name: "Da. Cloze Self Test"
+  path: "sorenmulli/da-cloze-self-test"
+  pre_prompt: "\""
+  post_prompt: "\"\nErstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: {options}. Svar *kun* med det rigtige ord:\nDet rigtige ord var "
+  task:
+    type: "cloze-showing-options"
+    id_features: ["text-idx", "cloze-idx"]

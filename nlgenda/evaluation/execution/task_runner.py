@@ -117,6 +117,28 @@ class MultichoiceRunnerLetterOptions(MultichoiceRunner):
         return letter_options.index(row["correct"])
 
 
+class ClozeRunnerWithOptions(MultichoiceRunner):
+    def __init__(
+        self,
+        prompt_feature: str = "text",
+        id_features: tuple[str, ...] = ("id",),
+        cloze_mask_key: str = "cloze",
+        cloze_mask_replaced: str = "<MASK>",
+    ):
+        super().__init__(prompt_feature, id_features)
+        self.cloze_mask_key = cloze_mask_key
+        self.cloze_mask_replaced = cloze_mask_replaced
+
+    def prepare_prompt(self, row: dict[str, Any], pre_prompt: str, post_prompt: str) -> str:
+        std_prompt = pre_prompt + row[self.prompt_feature] + post_prompt
+        return std_prompt.format(
+            **{
+                self.cloze_mask_key: self.cloze_mask_replaced,
+                "options": ", ".join(self.get_options(row)),
+            }
+        )
+
+
 class MultichoiceRunnerLetterWithContext(MultichoiceRunnerLetterOptions):
     def __init__(
         self,

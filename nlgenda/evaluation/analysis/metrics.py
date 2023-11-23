@@ -328,6 +328,8 @@ def get_compatible_metrics(scenario_cfg: OutDictType, model_cfg: OutDictType) ->
     if task_type_str in {
         "default-mc",
         "default-mc-letter-options",
+        "default-mc-letter-context",
+        "cloze-showing-options",
         "default-mc-same-options",
         # TODO: Remove backwards compatibility keys
         "hyggeswag",
