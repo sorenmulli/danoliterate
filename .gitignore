@@ -1,3 +1,4 @@
+local-data
 secret.json
 wandb
 local-computations
