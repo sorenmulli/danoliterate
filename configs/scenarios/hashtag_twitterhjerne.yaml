@@ -1,0 +1,10 @@
+hashtag_twitterhjerne:
+  name: "#twitterhjerne"
+  path: "sorenmulli/da-hashtag-twitterhjerne"
+  pre_prompt: "# Tweet med spørgsmål:\n"
+  post_prompt: "# Tweet med kort svar:\n"
+  task:
+    type: "multi-answer-similarity"
+    prompt_feature: "Question"
+    answer_feature: "Answer"
+    id_features: []

@@ -4,6 +4,7 @@ from nlgenda.evaluation.execution.task_runner import (
     AnswerSimilarityRunner,
     ClozeRunnerWithOptions,
     GptNerRunner,
+    MultiAnswerSimilarityRunner,
     MultichoiceRunner,
     MultichoiceRunnerLetterOptions,
     MultichoiceRunnerLetterWithContext,
@@ -71,6 +72,15 @@ def get_answer_similarity(scenario_cfg: DictConfig) -> TaskRunner:
         if (config_value := scenario_cfg.task.get(feature)) is not None:
             kwargs[feature] = config_value
     return AnswerSimilarityRunner(**kwargs)
+
+
+@register_task("multi-answer-similarity")
+def get_multi_answer_similarity(scenario_cfg: DictConfig) -> TaskRunner:
+    kwargs = {}
+    for feature in "prompt_feature", "answer_feature", "id_features":
+        if (config_value := scenario_cfg.task.get(feature)) is not None:
+            kwargs[feature] = config_value
+    return MultiAnswerSimilarityRunner(**kwargs)
 
 
 @register_task("gpt-ner")

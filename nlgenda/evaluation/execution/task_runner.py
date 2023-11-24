@@ -206,12 +206,35 @@ class AnswerSimilarityRunner(TaskRunner):
     def get_prediction(
         self, example: ExecutionExample, inference: ModelInference
     ) -> ExecutionExample:
-        assert example.target_answer is not None
+        assert example.target_answer is not None or example.options is not None
 
         if inference.can_do_nlg:
             example.generated_text = inference.query_generate_text(example.prompt)
 
         return example
+
+
+class MultiAnswerSimilarityRunner(AnswerSimilarityRunner):
+    def get_options(self, row: dict[str, Any]) -> list[str]:
+        options = []
+        for name, val in row.items():
+            if self.answer_feature in name and isinstance(val, str):
+                options.append(val)
+        return options
+
+    def build_example(
+        self,
+        row: dict[str, Any],
+        pre_prompt="",
+        post_prompt="",
+        idx: Optional[int] = None,
+        _: Optional[list[dict[str, Any]]] = None,
+    ) -> ExecutionExample:
+        return ExecutionExample(
+            prompt=self.prepare_prompt(row, pre_prompt, post_prompt),
+            id_=self.get_example_id(row, idx),
+            options=self.get_options(row),
+        )
 
 
 class GptNerRunner(TaskRunner):
