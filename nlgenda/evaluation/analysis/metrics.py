@@ -304,7 +304,7 @@ class AverageTextSimilarity(MaxTextSimilarity):
 class OddOneOutAccuracy(TextSimilarityMetric):
     @property
     def name(self) -> str:
-        return f"Accuracy of discovering AI text ({self.comparison_name})"
+        return f"Frequency of odd-one-out ({self.comparison_name})"
 
     @property
     def description(self) -> str:
@@ -336,18 +336,18 @@ class OddOneOutAccuracy(TextSimilarityMetric):
         res = []
         similarities = comparison_function(targets, predictions)
         for example in examples:
-            generated_total_similarity = 0.0
-            reference_total_similarities = [0.0 for _ in example.options]  # type: ignore
+            generated_total_dist = 0.0
+            reference_total_dists = [0.0 for _ in example.options]  # type: ignore
             for option in example.options:  # type: ignore
-                generated_total_similarity += similarities.pop(0)
+                generated_total_dist -= similarities.pop(0)
                 for i in range(len(example.options)):  # type: ignore
-                    reference_total_similarities[i] += similarities.pop(0)
-            # Generated is odd one out if it has highes total dist of all option total dists
+                    reference_total_dists[i] -= similarities.pop(0)
+            # Generated is odd one out if it has highest total dist of all option total dists
             res.append(
                 float(
                     all(
-                        generated_total_similarity > ref_sim
-                        for ref_sim in reference_total_similarities
+                        generated_total_dist > ref_dist
+                        for ref_dist in reference_total_dists
                     )
                 )
             )
