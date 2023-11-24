@@ -1,7 +1,7 @@
 import logging
-from typing import Generator
+from typing import Generator, Optional
 
-from datasets import Dataset, DownloadMode, load_dataset
+from datasets import Dataset, load_dataset
 from omegaconf import DictConfig
 
 from nlgenda.evaluation.artifact_integration import send_result_wandb, setup_short_run
@@ -29,10 +29,10 @@ class Evaluator:
             split=scenario_cfg.get("dataset_split", "train"),
         )
 
-        self.train_dataset = None
+        self.train_dataset: Optional[Dataset] = None
         if self.task_runner.is_few_shot:
             assert scenario_cfg.dataset_split != "train"
-            self.train_dataset: Dataset = load_dataset(
+            self.train_dataset = load_dataset(
                 scenario_cfg.path,
                 split="train",
             )
@@ -62,12 +62,12 @@ class Evaluator:
 
     def generate_examples(self) -> Generator[ExecutionExample, None, None]:
         for i, data_example in enumerate(self.dataset):
-            args = dict(
-                row=data_example,
-                pre_prompt=self.scenario_cfg.get("pre_prompt", ""),
-                post_prompt=self.scenario_cfg.get("post_prompt", ""),
-                idx=i,
-            )
+            args = {
+                "row": data_example,
+                "pre_prompt": self.scenario_cfg.get("pre_prompt", ""),
+                "post_prompt": self.scenario_cfg.get("post_prompt", ""),
+                "idx": i,
+            }
             if self.task_runner.is_few_shot:
                 assert self.train_dataset is not None
                 args["few_shot_dataset"] = self.train_dataset

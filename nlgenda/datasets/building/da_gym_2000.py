@@ -21,7 +21,7 @@ TEXTS = (
 TITLE_STR = "Opgaver til"
 QUESTION_STR = "De rigtige svar: "
 
-TEXTUAL_CONTEXTS = (
+TEXTUAL_CONTEXTS: tuple[list[slice], ...] = (
     [
         slice(1, 2),
         slice(24, 26),

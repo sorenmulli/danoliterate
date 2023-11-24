@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, Type
 
 import spacy
 from absl import logging as absl_logging
@@ -88,5 +88,5 @@ class ClassChoiceParser(Comparer):
         return scores
 
 
-_COMPARERS = Rouge1, RougeL, BertSimilarity, ClassChoiceParser
-COMPARERS = {comparer.name: comparer for comparer in _COMPARERS}
+_COMPARERS: tuple[Type[Comparer], ...] = Rouge1, RougeL, BertSimilarity, ClassChoiceParser
+COMPARERS: dict[str, Type[Comparer]] = {comparer.name: comparer for comparer in _COMPARERS}

@@ -31,7 +31,7 @@ class Scorer:
             if cfg.evaluation.rescore
             else get_scores_wandb(cfg.wandb.project, cfg.wandb.entity)
         )
-        self.combinations_to_skip = {}
+        self.combinations_to_skip: dict[str, Scoring] = {}
 
     def run(self):
         logger.info("Fetching executed results ...")

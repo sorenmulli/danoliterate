@@ -30,7 +30,7 @@ def parse_cloze_tests(path: str):
     for cloze_test in cloze_tests:
         soup = BeautifulSoup(cloze_test, "html.parser")
         answers = soup.find_all("span", class_=lambda cla: "answer" in cla)
-        answer_tuples = {}
+        answer_tuples: dict[str, list[str]] = {}
         for answer in answers:
             identifier = answer.get("onclick").split(",")[1].strip(")")
             text = answer.get_text()
@@ -40,12 +40,12 @@ def parse_cloze_tests(path: str):
         cloze_items = soup.find_all("span", class_="item")
         for i, item in enumerate(cloze_items):
             item.replace_with(f"{{{i}}}")
-        examples.append((soup.get_text().strip(), list(answer_tuples.values())))
+        examples.append((soup.get_text().strip(), list(answer_tuples.values())))  # type: ignore
     return examples
 
 
 def save_for_prediction(tests: list[tuple[str, list[str]]], out_path: Path):
-    rows = []
+    rows: list[dict[str, str | int]] = []
     for i, (text, clozes) in enumerate(tests):
         for j, options in enumerate(clozes):
             rows.append(
@@ -54,7 +54,7 @@ def save_for_prediction(tests: list[tuple[str, list[str]]], out_path: Path):
                     "cloze-idx": j,
                     "text": text,
                     "correct": "",
-                    **dict(enumerate(options)),
+                    **dict(enumerate(options)),  # type: ignore
                 }
             )
     pd.DataFrame(rows).to_csv(out_path, index=False)
@@ -90,11 +90,10 @@ def create_da_cloze_self_test(cfg: DictConfig):
     logger.debug("Running with arguments: %s", format_config(cfg))
     tests = parse_cloze_tests(cfg.databuild.html_list_file)
     save_for_prediction(tests, out_path := Path(cfg.databuild.prediction.todo_file))
-    logger.info("Saved for prediction to %s" % out_path)
+    logger.info("Saved for prediction to %s", out_path)
     if (done_path := Path(cfg.databuild.prediction.done_file)).exists():
-        logger.info("Reading prediction from %s" % done_path)
+        logger.info("Reading prediction from %s", done_path)
         df = build_with_predictions(tests, done_path)
         dataset = Dataset.from_pandas(df)
-        breakpoint()
         if cfg.databuild.hub.push:
             push(dataset, cfg.databuild.hub)

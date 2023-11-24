@@ -38,11 +38,7 @@ def hydra_entry(cfg: DictConfig) -> None:
                 case "hashtag-twitterhjerne":
                     create_hashtag_twitterhjerne(cfg)
                 case _:
-                    logging.error(
-                        "Unsupported databuild.type=%s. "
-                        "'prompt-answer', 'citizenship-test', 'hyggeswag', 'da-gym-2000' are supported",
-                        cfg.do,
-                    )
+                    logging.error("Unsupported databuild.type=%s.", cfg.do)
                     raise ValueError("Unsupported databuild type")
         case "train":
             train_lm(cfg)

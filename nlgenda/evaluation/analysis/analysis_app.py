@@ -6,7 +6,6 @@ import logging
 import hydra
 import hydra.core.global_hydra
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 import seaborn as sns
 import streamlit as st
@@ -18,7 +17,6 @@ from nlgenda.infrastructure.constants import CONFIG_DIR
 logger = logging.getLogger(__name__)
 
 ALL_KEY = "All"
-COMBINED_KEY = "Concatenated"
 
 
 @st.cache_data
@@ -37,16 +35,18 @@ def setup_app(cfg: DictConfig):
 
     # Let the user select the parameters for analysis
     model = st.selectbox(
-        "Select a Model", options=[ALL_KEY, COMBINED_KEY, *analyser.options_dict["model"]], index=0
+        "Select a Model",
+        options=[ALL_KEY, analyser.concat_key, *analyser.options_dict["model"]],
+        index=0,
     )
     scenario = st.selectbox(
         "Select a Scenario",
-        options=[ALL_KEY, COMBINED_KEY, *analyser.options_dict["scenario"]],
+        options=[ALL_KEY, analyser.concat_key, *analyser.options_dict["scenario"]],
         index=0,
     )
     metric = st.selectbox(
         "Select a Metric",
-        options=[ALL_KEY, COMBINED_KEY, *analyser.options_dict["metric"]],
+        options=[ALL_KEY, analyser.concat_key, *analyser.options_dict["metric"]],
         index=0,
     )
 
@@ -61,12 +61,14 @@ def setup_app(cfg: DictConfig):
 
         summary_stats = pd.DataFrame()
         for name, df in subset.items():
+            df: pd.DataFrame  # type: ignore
             # Add these statistics to the summary_stats DataFrame with the name as the column header
             summary_stats[name] = df["score"].describe()
         st.dataframe(summary_stats)
 
         plt.figure(figsize=(10, 6))
         for name, df in subset.items():
+            df: pd.DataFrame  # type: ignore
             sns.histplot(df["score"], kde=True, label=name)
         plt.legend(title="Dataset")
         plt.title("Score Distributions")
@@ -75,11 +77,12 @@ def setup_app(cfg: DictConfig):
         if scenario != ALL_KEY and len(subset) > 1:
             temp_dfs = []
             for name, df in subset.items():
+                df: pd.DataFrame  # type: ignore
                 # Create a temporary DataFrame with only 'example_id' and 'score'
                 for given_val, col in zip(
                     (metric, model, scenario), ("metric", "model", "scenario")
                 ):
-                    if given_val == COMBINED_KEY:
+                    if given_val == analyser.concat_key:
                         df["example_id"] = df["example_id"] + df[col]
                 temp_dfs.append(
                     df[["example_id", "score"]]
@@ -97,17 +100,17 @@ def setup_app(cfg: DictConfig):
             plt.clf()
 
             plt.figure(figsize=(10, 8))
-            g = sns.pairplot(scores_df, diag_kind="kde")
-            for i in range(len(scores_df.columns)):
-                for j in range(len(scores_df.columns)):
+            pairplot = sns.pairplot(scores_df, diag_kind="kde")
+            for i, col_y in enumerate(scores_df.columns):
+                for j, col_x in enumerate(scores_df.columns):
                     if i < j:
-                        ax = g.axes[i][j]
+                        ax = pairplot.axes[i][j]
                         ax.clear()
                         sns.histplot(
-                            scores_df[[scores_df.columns[j], scores_df.columns[i]]],
+                            scores_df[[col_x, col_y]],
                             ax=ax,
-                            x=scores_df.columns[j],
-                            y=scores_df.columns[i],
+                            x=col_x,
+                            y=col_y,
                         )
 
             st.pyplot(plt.gcf())

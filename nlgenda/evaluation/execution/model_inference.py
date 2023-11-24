@@ -155,10 +155,14 @@ class ModelInference(ABC):
                 (self.generate_queries, self.generate_score_queries, self.likelihood_queries),
             ):
                 if isinstance(value, query_type):
-                    setattr(example, name, queries.pop(value.id_).result)
+                    setattr(example, name, queries.pop(value.id_).result)  # type: ignore
                 elif isinstance(value, list):
                     if all(isinstance(elem, query_type) for elem in value):
-                        setattr(example, name, [queries.pop(elem.id_).result for elem in value])
+                        setattr(
+                            example,
+                            name,
+                            [queries.pop(elem.id_).result for elem in value],  # type: ignore
+                        )
         return example
 
 
@@ -211,7 +215,7 @@ class HuggingfaceCausalLm(ModelInference):
         return self.default_max_length
 
     def generate_texts(self, prompts: list[str]) -> list[tuple[str, Optional[float]]]:
-        out: list[tuple[str, float]] = []
+        out: list[tuple[str, Optional[float]]] = []
         batch_size = self.batch_size
         pbar = tqdm(total=len(prompts))
         i = 0
@@ -359,7 +363,7 @@ class OpenAiAPI(ModelInference):
         openai.api_key = api_key
 
     def generate_texts(self, prompts: list[str]) -> list[tuple[str, Optional[float]]]:
-        out = []
+        out: list[tuple[str, Optional[float]]] = []
         for prompt in tqdm(prompts):
             if "turbo" in self.model_key or "gpt-4" in self.model_key:
                 completion = openai.ChatCompletion.create(
@@ -367,7 +371,8 @@ class OpenAiAPI(ModelInference):
                 )
                 return completion.choices[0].message.content
             completion = openai.Completion.create(model=self.model_key, prompt=prompt)
-            out.append((completion.choices[0].text, None))  # We have no scores from API
+            # We have no scores from API
+            out.append((completion.choices[0].text, None))
         return out
 
     @property

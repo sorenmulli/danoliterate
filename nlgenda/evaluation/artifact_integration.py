@@ -4,11 +4,10 @@ import re
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Generator, Optional
+from typing import Optional
 
 import wandb
 from omegaconf import DictConfig
-from tqdm import tqdm
 from wandb.sdk.lib import RunDisabled
 from wandb.sdk.wandb_run import Run
 

@@ -1,9 +1,8 @@
 import logging
-import re
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from collections.abc import Sequence
-from typing import Optional
+from typing import DefaultDict, Optional
 
 import numpy as np
 from datasets import Dataset, load_dataset
@@ -308,7 +307,10 @@ class OddOneOutAccuracy(TextSimilarityMetric):
 
     @property
     def description(self) -> str:
-        return f"Accuracy of identifying generated text as odd-one-out using max total {self.comparison_name}."
+        return (
+            "Accuracy of identifying generated text "
+            f"as odd-one-out using max total {self.comparison_name}."
+        )
 
     @property
     def higher_is_better(self) -> bool:
@@ -344,12 +346,7 @@ class OddOneOutAccuracy(TextSimilarityMetric):
                     reference_total_dists[i] -= similarities.pop(0)
             # Generated is odd one out if it has highest total dist of all option total dists
             res.append(
-                float(
-                    all(
-                        generated_total_dist > ref_dist
-                        for ref_dist in reference_total_dists
-                    )
-                )
+                float(all(generated_total_dist > ref_dist for ref_dist in reference_total_dists))
             )
         return res
 
@@ -372,7 +369,7 @@ class GptNerParsingF1(Metric):
     def extract_ner(self, examples: list[ExecutionExample]):
         labels = []
         preds = []
-        idx_to_class_preds = defaultdict(dict)
+        idx_to_class_preds: DefaultDict[int, dict[str, ExecutionExample]] = defaultdict(dict)
         for example in examples:
             *id_, entity_class = example.id_.split("-")
             try:
@@ -390,6 +387,7 @@ class GptNerParsingF1(Metric):
                 raise NotImplementedError("GPT-NER currently has hardcoded column names") from error
             combined_prediction: Optional[list[tuple[str, float]]] = None
             for entity_class, example in class_examples.items():
+                assert example.generated_text is not None
                 model_prediction = parse_model_pred(tokens, example.generated_text, entity_class)
                 score = example.generated_score or 0.0
                 if combined_prediction is None:
@@ -424,10 +422,10 @@ class GptNerParsingF1(Metric):
         aggregate = self.aggregate_ner(labels, preds)
         try:
             ids = sorted(list({example.id_.split("-")[0] for example in examples}), key=int)
-        except ValueError as error:
+        except ValueError as exception:
             raise NotImplementedError(
                 "GPT-NER currently assumes that first part of ID is an index "
-            ) from error
+            ) from exception
         scores = np.array(self.example_scores_ner(labels, preds))
         error = self.std_error(aggregate, scores)
         return MetricResult(
@@ -482,7 +480,9 @@ def get_compatible_metrics(scenario_cfg: OutDictType, model_cfg: OutDictType) ->
                 ]
             )
     elif task_type_str == "gpt-ner":
-        compatible.append(GptNerParsingF1(scenario_cfg["path"], scenario_cfg["dataset_split"]))
+        compatible.append(
+            GptNerParsingF1(scenario_cfg["path"], scenario_cfg["dataset_split"])  # type: ignore
+        )
     elif task_type_str in {"default-answer-similarity", "prompt-similarity"}:
         compatible.extend(
             TextSimilarityMetric(name) for name in COMPARERS if name != "Parsing of chosen class"

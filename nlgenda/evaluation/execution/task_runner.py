@@ -282,7 +282,7 @@ class GptNerRunner(TaskRunner):
             words[-1] = words[-1] + self.entity_end
         return " ".join(words)
 
-    def prepare_prompt(
+    def build_ner_prompt(
         self,
         text: str,
         few_shot_examples: list[dict[str, str]],
@@ -330,7 +330,7 @@ class GptNerRunner(TaskRunner):
             few_shot_examples = self._sample_few_shot(few_shot_dataset, entity)
             examples.append(
                 ExecutionExample(
-                    prompt=self.prepare_prompt(
+                    prompt=self.build_ner_prompt(
                         row[self.prompt_feature],
                         [ex for _, ex in few_shot_examples],
                         pre_prompt,

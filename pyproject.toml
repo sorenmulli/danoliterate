@@ -1,10 +1,14 @@
 [tool.pylint]
 disable = "missing-module-docstring, missing-function-docstring, missing-class-docstring, too-few-public-methods, inconsistent-return-statements"
 notes="FIXME,XXX"
-good-names="df,i,j,k"
+good-names="df,i,j,k,ax"
 extension-pkg-allow-list="kenlm"
 generated-members="torch.*"
 known-third-party = ["wandb"]
+max-args=8
+max-locals=16
+max-attributes=8
+
 
 [tool.black]
 line-length = 100
@@ -31,6 +35,10 @@ module = [
     "safetensors.torch",
     "simple_term_menu",
     "transformers.models.auto.auto_factory",
-    "transformers.tokenization_utils_base"
+    "transformers.tokenization_utils_base",
+    "nltk",
+    "bs4",
+    "seqeval.metrics",
+    "seaborn"
 ]
 ignore_missing_imports = true

@@ -11,6 +11,8 @@ logger = logging.getLogger(__name__)
 
 
 class Analyser:
+    concat_key = "Concatenated"
+
     def __init__(self, cfg: DictConfig):
         self.wandb_cfg = cfg.wandb
         self.eval_cfg = cfg.evaluation
@@ -54,7 +56,7 @@ class Analyser:
         metric: Optional[str] = None,
         model: Optional[str] = None,
         scenario: Optional[str] = None,
-    ):
+    ) -> dict[str, pd.DataFrame]:
         if sum(kwarg is None for kwarg in (model, scenario, metric)) > 1:
             raise ValueError
         conditions = []
@@ -62,8 +64,7 @@ class Analyser:
         for given_val, col in zip((metric, model, scenario), ("metric", "model", "scenario")):
             if given_val is None:
                 multi_queries = {val: f"{col} == '{val}'" for val in self.options_dict[col]}
-            # FIXME: Make more elegant than hard-coded
-            elif given_val != "Concatenated":
+            elif given_val != self.concat_key:
                 conditions.append(f"{col} == '{given_val}'")
         if multi_queries is None:
             return {"Chosen combination": self.df.query(" & ".join(conditions))}
