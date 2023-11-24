@@ -234,6 +234,126 @@ class TextSimilarityMetric(Metric):
         return aggregate * (1 - aggregate) / len(scores) ** 0.5
 
 
+class MaxTextSimilarity(TextSimilarityMetric):
+    @property
+    def name(self) -> str:
+        return f"Max. similarity to references ({self.comparison_name})"
+
+    @property
+    def description(self) -> str:
+        return (
+            f"Maximum similarity of prediction over reference texts using {self.comparison_name}."
+        )
+
+    @staticmethod
+    def norm_option_similarities(similarities: list[float]) -> float:
+        return max(similarities)
+
+    def compute(self, examples: list[ExecutionExample]) -> list[float]:
+        comparison_function = COMPARERS[self.comparison_name]()
+        targets: list[str] = []
+        predictions: list[str] = []
+        for example in examples:
+            if example.generated_text is not None:
+                if example.options is not None:
+                    targets.extend(example.options)
+                    predictions.extend(example.generated_text for _ in example.options)
+                    continue
+            logger.error(
+                "Example with ID %s lacked generated text or reference options.", example.id_
+            )
+            raise ValueError("ExecutionExample had missing required fields.")
+        res = []
+        similarities = comparison_function(targets, predictions)
+        for example in examples:
+            option_similarities = [similarities.pop(0) for _ in example.options]  # type: ignore
+            res.append(self.norm_option_similarities(option_similarities))
+        return res
+
+
+class MinTextSimilarity(MaxTextSimilarity):
+    @property
+    def name(self) -> str:
+        return f"Min. similarity to references ({self.comparison_name})"
+
+    @property
+    def description(self) -> str:
+        return (
+            f"Minimum similarity of prediction over reference texts using {self.comparison_name}."
+        )
+
+    @staticmethod
+    def norm_option_similarities(similarities: list[float]) -> float:
+        return min(similarities)
+
+
+class AverageTextSimilarity(MaxTextSimilarity):
+    @property
+    def name(self) -> str:
+        return f"Avg. similarity to references ({self.comparison_name})"
+
+    @property
+    def description(self) -> str:
+        return f"Average similarity of prediction of reference texts using {self.comparison_name}."
+
+    @staticmethod
+    def norm_option_similarities(similarities: list[float]) -> float:
+        return sum(similarities) / len(similarities)
+
+
+class OddOneOutAccuracy(TextSimilarityMetric):
+    @property
+    def name(self) -> str:
+        return f"Accuracy of discovering AI text ({self.comparison_name})"
+
+    @property
+    def description(self) -> str:
+        return f"Accuracy of identifying generated text as odd-one-out using max total {self.comparison_name}."
+
+    @property
+    def higher_is_better(self) -> bool:
+        return False
+
+    def compute(self, examples: list[ExecutionExample]) -> list[float]:
+        comparison_function = COMPARERS[self.comparison_name]()
+        targets: list[str] = []
+        predictions: list[str] = []
+        for example in examples:
+            if example.generated_text is not None:
+                if example.options is not None:
+                    for option in example.options:
+                        targets.append(option)
+                        # Always have the similarity as the first
+                        predictions.append(example.generated_text)
+                        for option_ in example.options:
+                            targets.append(option)
+                            predictions.append(option_)
+                    continue
+            logger.error(
+                "Example with ID %s lacked generated text or reference options.", example.id_
+            )
+            raise ValueError("ExecutionExample had missing required fields.")
+        res = []
+        similarities = comparison_function(targets, predictions)
+        for example in examples:
+            generated_total_similarity = 0.0
+            reference_total_similarities = [0.0 for _ in example.options]  # type: ignore
+            for option in example.options:  # type: ignore
+                generated_total_similarity += similarities.pop(0)
+                for i in range(len(example.options)):  # type: ignore
+                    reference_total_similarities[i] += similarities.pop(0)
+            # Generated is odd one out if it has highes total dist of all option total dists
+            res.append(
+                float(
+                    all(
+                        generated_total_similarity > ref_sim
+                        for ref_sim in reference_total_similarities
+                    )
+                )
+            )
+        return res
+
+
 class GptNerParsingF1(Metric):
     def __init__(self, dataset_path: str, dataset_split: str):
         self.dataset: Dataset = load_dataset(
@@ -347,6 +467,18 @@ def get_compatible_metrics(scenario_cfg: OutDictType, model_cfg: OutDictType) ->
                     MaxSimilarityAccuracy(name),
                     MaxSimilarityF1(name),
                     TextSimilarityMetric(name),
+                ]
+            )
+    elif task_type_str == "multi-answer-similarity":
+        for name in COMPARERS:
+            if name == "Parsing of chosen class":
+                continue
+            compatible.extend(
+                [
+                    MaxTextSimilarity(name),
+                    MinTextSimilarity(name),
+                    AverageTextSimilarity(name),
+                    OddOneOutAccuracy(name),
                 ]
             )
     elif task_type_str == "gpt-ner":

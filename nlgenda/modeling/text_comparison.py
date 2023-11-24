@@ -5,6 +5,10 @@ import spacy
 from absl import logging as absl_logging
 from evaluate import load as load_metric
 
+# TODO: Add comparer cache:
+# Instantiate comparison object early and save all predicted and reuse them
+# Have a max cache
+
 
 class Comparer(ABC):
     name: str
