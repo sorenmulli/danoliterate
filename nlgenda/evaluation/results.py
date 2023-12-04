@@ -8,7 +8,11 @@ from typing import Optional
 
 from omegaconf import DictConfig, OmegaConf
 
-from nlgenda.evaluation.serialization import OutDictType, fix_args_for_dataclass
+from nlgenda.evaluation.serialization import (
+    OutDictType,
+    apply_backcomp_fixes_execution_result_metadata,
+    fix_args_for_dataclass,
+)
 from nlgenda.infrastructure.constants import SCORES_ARTIFACT_TYPE
 from nlgenda.infrastructure.logging import commit_hash
 from nlgenda.infrastructure.timing import get_now_stamp
@@ -58,6 +62,7 @@ class ExecutionResultMetadata:
     @classmethod
     def from_dict(cls, self_dict: OutDictType):
         fix_args_for_dataclass(cls, self_dict)
+        apply_backcomp_fixes_execution_result_metadata(self_dict)
         return cls(**self_dict)  # type: ignore
 
 

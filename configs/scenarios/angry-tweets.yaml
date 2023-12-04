@@ -5,6 +5,6 @@ angry_tweets:
   post_prompt: "\n# SVAR MED ÉT ORD PÅ SENTIMENT:\n"
   dataset_split: "val"
   task:
-    type: "default-mc-same-options"
+    type: "angry-tweets"
     all_labels: ["negative", "neutral", "positive"]
     id_features: []
