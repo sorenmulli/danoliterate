@@ -35,6 +35,8 @@ wandb:
   enabled: true
   entity: "sorenmulli"
   project: "nlgenda"
+  artifact_cache: "local-computations/wandb-cache.json"
+  cache_update: false
 
 hydra:
   run:

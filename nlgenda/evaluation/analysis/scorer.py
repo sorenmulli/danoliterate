@@ -36,7 +36,12 @@ class Scorer:
 
     def run(self):
         logger.info("Fetching executed results ...")
-        results = get_results_wandb(self.wandb_cfg.project, self.wandb_cfg.entity)
+        results = get_results_wandb(
+            self.wandb_cfg.project,
+            self.wandb_cfg.entity,
+            cache_file=self.wandb_cfg.artifact_cache,
+            cache_update=self.wandb_cfg.cache_update,
+        )
         if (min_time := self.eval_cfg.do_not_score_before) is not None:
             len_before = len(results)
             results = [

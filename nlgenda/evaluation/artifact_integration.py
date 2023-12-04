@@ -1,7 +1,9 @@
 import concurrent.futures
 import json
+import os
 import re
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timedelta
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Optional
@@ -14,6 +16,8 @@ from wandb.sdk.wandb_run import Run
 from nlgenda.evaluation.results import ExecutionResult, Scores
 from nlgenda.evaluation.serialization import OutDictType
 from nlgenda.infrastructure.constants import EXECUTION_RESULT_ARTIFACT_TYPE, SCORES_ARTIFACT_TYPE
+
+CACHE_DURATION = timedelta(days=7)
 
 
 def dict_from_artifact(artifact) -> OutDictType:
@@ -91,13 +95,38 @@ def yield_wandb_artifacts(wandb_project: str, wandb_entity: str, include_debug=F
                 yield artifact
 
 
+def is_cache_valid(cache_file) -> bool:
+    if not os.path.exists(cache_file):
+        return False
+    last_modified = datetime.fromtimestamp(os.path.getmtime(cache_file))
+    return datetime.now() - last_modified < CACHE_DURATION
+
+
+def get_cached_results(cache_file: str) -> list[ExecutionResult]:
+    with open(cache_file, "r", encoding="utf-8") as file:
+        return [ExecutionResult.from_dict(result) for result in json.load(file)]
+
+
+def cache_results(results: list[ExecutionResult], cache_file: str):
+    Path(cache_file).parent.mkdir(exist_ok=True)
+    with open(cache_file, "w", encoding="utf-8") as file:
+        json.dump([result.to_dict() for result in results], file)
+
+
 def get_results_wandb(
-    wandb_project: str, wandb_entity: str, include_debug=False
+    wandb_project: str,
+    wandb_entity: str,
+    cache_file: str,
+    cache_update=False,
+    include_debug=False,
 ) -> list[ExecutionResult]:
+    if is_cache_valid(cache_file) and not cache_update:
+        return get_cached_results(cache_file)
     results = []
     for artifact in yield_wandb_artifacts(wandb_project, wandb_entity, include_debug):
         result_dict = dict_from_artifact(artifact)
         results.append(ExecutionResult.from_dict(result_dict))
+    cache_results(results, cache_file)
     return results
 
 
