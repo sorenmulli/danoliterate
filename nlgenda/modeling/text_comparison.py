@@ -35,13 +35,13 @@ class Comparer(ABC):
         new_results = self.predict(
             [target for target, _ in to_predict], [pred for _, pred in to_predict]
         )
-        for i, res in enumerate(results):
-            if res is None:
-                results[i] = new_results.pop(0)
         for (target, pred), res in zip(to_predict, new_results, strict=True):
             self.cache[target, pred] = res
             if len(self.cache) > self.max_cache_size:
                 self.cache.popitem(last=False)
+        for i, old_res in enumerate(results):
+            if old_res is None:
+                results[i] = new_results.pop(0)
         return results  # type: ignore
 
     @abstractmethod
@@ -125,4 +125,4 @@ class ClassChoiceParser(Comparer):
 
 
 _COMPARERS: tuple[Type[Comparer], ...] = Rouge1, RougeL, BertSimilarity, ClassChoiceParser
-COMPARERS: dict[str, Type[Comparer]] = {comparer.key: comparer for comparer in _COMPARERS}
+COMPARERS: dict[str, Type[Comparer]] = {comparer.name: comparer for comparer in _COMPARERS}

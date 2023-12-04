@@ -11,6 +11,7 @@ from seqeval.metrics import f1_score
 from nlgenda.evaluation.results import ExecutionExample, MetricResult
 from nlgenda.modeling.gpt_ner_alignment import parse_model_pred
 from nlgenda.modeling.text_comparison import COMPARERS
+from nlgenda.modeling.uncertainty_estimation import ece_score, multiclass_brier
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +34,7 @@ class Metric(ABC):
         return True
 
     # Not an abstractmethod as you might want to not use this way to do it
-    def compute(self, examples: list[ExecutionExample]) -> list[float] | list[tuple[float, float]]:
+    def compute(self, examples: list[ExecutionExample]) -> list[float] | list[tuple[float, ...]]:
         raise NotImplementedError("compute should be overwritten")
 
     def std_error(self, _: float, scores: np.ndarray) -> float:
@@ -70,8 +71,8 @@ class BaseAccuracy(Metric, ABC):
     def get_model_predictions(self, examples: list[ExecutionExample]) -> list[int]:
         ...
 
-    def compute(self, examples: list[ExecutionExample]) -> list[tuple[float, float]]:
-        res: list[tuple[float, float]] = []
+    def compute(self, examples: list[ExecutionExample]) -> list[tuple[float, ...]]:
+        res: list[tuple[float, ...]] = []
         model_predictions = self.get_model_predictions(examples)
         for example, pred in zip(examples, model_predictions):
             if example.index_label is None:
@@ -434,3 +435,61 @@ class GptNerParsingF1(Metric):
             error=error,
             higher_is_better=self.higher_is_better,
         )
+
+
+class LikelihoodBrier(Metric):
+    @property
+    def name(self) -> str:
+        return "Brier Score (LM)"
+
+    @property
+    def description(self) -> str:
+        return "Probability MSE on model max likelihood option predictions"
+
+    @property
+    def higher_is_better(self) -> bool:
+        return False
+
+    def compute(self, examples: list[ExecutionExample]) -> list[tuple[float, ...]]:
+        res: list[tuple[float, ...]] = []
+        for example in examples:
+            if example.index_label is None:
+                logger.error("Example with ID %s had no index label.", example.id_)
+                raise ValueError("ExecutionExample had missing required fields.")
+            if example.options_model_likelihoods is None:
+                logger.error(
+                    "Example with ID %s lacked likelihoods",
+                    example.id_,
+                )
+                raise ValueError("ExecutionExample had missing required fields.")
+            # Convert to probability distribution
+            probs = np.exp(example.options_model_likelihoods)
+            probs /= probs.sum()
+            res.append(tuple([example.index_label, *[float(prob) for prob in probs]]))
+        return res
+
+    def aggregate(self, scores: np.ndarray) -> float:
+        true_classes = scores[:, 0].astype(int)
+        probs = scores[:, 1:]
+        return self.score_calibration(true_classes, probs)
+
+    def score_calibration(self, true_classes: np.ndarray, probs: np.ndarray) -> float:
+        return multiclass_brier(true_classes, probs)
+
+
+class LikelihoodExpectedCalibrationError(LikelihoodBrier):
+    bins = 10
+
+    @property
+    def name(self) -> str:
+        return "ECE Calibration (LM)"
+
+    @property
+    def description(self) -> str:
+        return (
+            f"{self.bins}-bin Expected Calibration Error of "
+            "model max likelihood option predictions"
+        )
+
+    def score_calibration(self, true_classes: np.ndarray, probs: np.ndarray) -> float:
+        return ece_score(true_classes, probs, n_bins=self.bins)

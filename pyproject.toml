@@ -6,7 +6,7 @@ extension-pkg-allow-list="kenlm"
 generated-members="torch.*"
 known-third-party = ["wandb"]
 max-args=8
-max-locals=16
+max-locals=18
 max-attributes=8
 
 
@@ -39,6 +39,7 @@ module = [
     "nltk",
     "bs4",
     "seqeval.metrics",
-    "seaborn"
+    "seaborn",
+    "sklearn.metrics"
 ]
 ignore_missing_imports = true

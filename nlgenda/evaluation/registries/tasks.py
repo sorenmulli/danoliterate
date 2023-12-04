@@ -25,6 +25,8 @@ MC_STANDARD_METRICS = [
     "text-similarity-rouge-1",
     "text-similarity-rouge-l",
     "text-similarity-bert-sim",
+    "likelihood-brier",
+    "likelihood-ece",
 ]
 
 

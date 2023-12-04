@@ -1,6 +1,8 @@
 from nlgenda.evaluation.analysis.metrics import (
     AverageTextSimilarity,
     GptNerParsingF1,
+    LikelihoodBrier,
+    LikelihoodExpectedCalibrationError,
     MaxLikelihoodAccuracy,
     MaxLikelihoodF1,
     MaxSimilarityAccuracy,
@@ -47,7 +49,18 @@ def comparison_metric_factory(metric_type: str, comparison_name: str) -> Metric:
 
 
 for metric_name, metric_class in METRICS_WITH_COMPARISONS.items():
-    for comparer_key, comparer in COMPARERS.items():
-        register_metric(f"{metric_name}-{comparer_key}")(
-            lambda _, mn=metric_name, ck=comparer.name: comparison_metric_factory(mn, ck)
+    for comparer_name, comparer in COMPARERS.items():
+        register_metric(f"{metric_name}-{comparer.key}")(
+            # pylint: disable=line-too-long
+            lambda _, mn=metric_name, ck=comparer_name: comparison_metric_factory(mn, ck)  # type: ignore
         )
+
+
+@register_metric("likelihood-brier")
+def get_likelihood_brier(_: OutDictType) -> Metric:
+    return LikelihoodBrier()
+
+
+@register_metric("likelihood-ece")
+def get_likelihood_ece(_: OutDictType) -> Metric:
+    return LikelihoodExpectedCalibrationError()

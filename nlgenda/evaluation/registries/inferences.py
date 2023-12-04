@@ -12,7 +12,13 @@ def get_hf_causal(cfg: DictConfig) -> HuggingfaceCausalLm:
 
 
 @register_inference(
-    "openai-api", unsupported_metrics=["max-likelihood-accuracy", "max-likelihood-f1"]
+    "openai-api",
+    unsupported_metrics=[
+        "max-likelihood-accuracy",
+        "max-likelihood-f1",
+        "likelihood-brier",
+        "likelihood-ece",
+    ],
 )
 def get_openai_api(cfg: DictConfig) -> OpenAiAPI:
     return OpenAiAPI(cfg.path)
