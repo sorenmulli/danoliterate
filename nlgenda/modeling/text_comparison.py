@@ -1,23 +1,51 @@
 from abc import ABC, abstractmethod
+from collections import OrderedDict
 from typing import Optional, Type
 
 import spacy
 from absl import logging as absl_logging
 from evaluate import load as load_metric
 
-# TODO: Add comparer cache:
-# Instantiate comparison object early and save all predicted and reuse them
-# Have a max cache
-
 
 class Comparer(ABC):
     key: str
     name: str
+    max_cache_size = 100_000
 
     nlp: Optional[spacy.language.Language] = None
 
-    @abstractmethod
+    def __init__(self) -> None:
+        # Make this some datastructure with a max size
+        self.cache: OrderedDict[tuple[str, str], float] = OrderedDict()
+
     def __call__(self, targets: list[str], predictions: list[str]) -> list[float]:
+        results: list[Optional[float]] = []
+        for target, pred in zip(targets, predictions, strict=True):
+            key = (target, pred)
+            if key in self.cache:
+                results.append(self.cache[key])
+                self.cache.move_to_end(key)
+            else:
+                results.append(None)
+        to_predict = [
+            (target, pred)
+            for target, pred, res in zip(targets, predictions, results, strict=True)
+            if res is None
+        ]
+        new_results = self.predict(
+            [target for target, _ in to_predict], [pred for _, pred in to_predict]
+        )
+        for i, res in enumerate(results):
+            if res is None:
+                results[i] = new_results.pop(0)
+        for (target, pred), res in zip(to_predict, new_results, strict=True):
+            self.cache[target, pred] = res
+            if len(self.cache) > self.max_cache_size:
+                self.cache.popitem(last=False)
+        return results  # type: ignore
+
+    @abstractmethod
+    def predict(self, targets: list[str], predictions: list[str]) -> list[float]:
         ...
 
     def lemmatize(self, texts: list[str], batch_size=1000) -> list[str]:
@@ -33,10 +61,11 @@ class Rouge1(Comparer):
     name = "ROUGE-1"
 
     def __init__(self):
+        super().__init__()
         self.metric = load_metric("rouge")
         self.nlp = spacy.load("da_core_news_sm")
 
-    def __call__(self, targets: list[str], predictions: list[str]) -> list[float]:
+    def predict(self, targets: list[str], predictions: list[str]) -> list[float]:
         targets = self.lemmatize(targets)
         predictions = self.lemmatize(predictions)
         scores = self.metric.compute(
@@ -50,10 +79,11 @@ class RougeL(Comparer):
     name = "ROUGE-L"
 
     def __init__(self):
+        super().__init__()
         self.metric = load_metric("rouge")
         self.nlp = spacy.load("da_core_news_sm")
 
-    def __call__(self, targets: list[str], predictions: list[str]) -> list[float]:
+    def predict(self, targets: list[str], predictions: list[str]) -> list[float]:
         targets = self.lemmatize(targets)
         predictions = self.lemmatize(predictions)
         scores = self.metric.compute(
@@ -68,10 +98,11 @@ class BertSimilarity(Comparer):
     encoder = "chcaa/dfm-encoder-large-v1"
 
     def __init__(self):
+        super().__init__()
         absl_logging.set_verbosity(absl_logging.WARNING)
         self.metric = load_metric("bertscore")
 
-    def __call__(self, targets: list[str], predictions: list[str]) -> list[float]:
+    def predict(self, targets: list[str], predictions: list[str]) -> list[float]:
         scores = self.metric.compute(predictions=predictions, references=targets, lang="da")
         return [float(score) for score in scores["f1"]]
 
@@ -80,7 +111,7 @@ class ClassChoiceParser(Comparer):
     key = "chosen-parsing"
     name = "Parsing of chosen class"
 
-    def __call__(self, targets: list[str], predictions: list[str]) -> list[float]:
+    def predict(self, targets: list[str], predictions: list[str]) -> list[float]:
         all_classes = set(targets)
         scores = []
         for target, pred in zip(targets, predictions, strict=True):
