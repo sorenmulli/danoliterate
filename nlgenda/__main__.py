@@ -10,8 +10,9 @@ from nlgenda.datasets.building.hashtag_twitterhjerne import create_hashtag_twitt
 from nlgenda.datasets.building.hyggeswag import create_hyggeswag
 from nlgenda.datasets.building.nordjylland_news import create_nordjylland_news
 from nlgenda.datasets.building.prompt_answer_da import create_prompt_answer_da
-from nlgenda.evaluation.analysis import analyse, score
-from nlgenda.evaluation.execution import evaluate
+from nlgenda.evaluation.analysis.analyser import analyse
+from nlgenda.evaluation.analysis.scorer import score
+from nlgenda.evaluation.execution.evaluator import evaluate
 from nlgenda.infrastructure import CONFIG_DIR
 from nlgenda.training import train_lm
 

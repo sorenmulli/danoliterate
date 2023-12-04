@@ -11,6 +11,7 @@ from evaluate import load as load_metric
 
 
 class Comparer(ABC):
+    key: str
     name: str
 
     nlp: Optional[spacy.language.Language] = None
@@ -28,6 +29,7 @@ class Comparer(ABC):
 
 
 class Rouge1(Comparer):
+    key = "rouge-1"
     name = "ROUGE-1"
 
     def __init__(self):
@@ -44,6 +46,7 @@ class Rouge1(Comparer):
 
 
 class RougeL(Comparer):
+    key = "rouge-l"
     name = "ROUGE-L"
 
     def __init__(self):
@@ -60,6 +63,7 @@ class RougeL(Comparer):
 
 
 class BertSimilarity(Comparer):
+    key = "bert-sim"
     name = "BERT similarity"
     encoder = "chcaa/dfm-encoder-large-v1"
 
@@ -73,6 +77,7 @@ class BertSimilarity(Comparer):
 
 
 class ClassChoiceParser(Comparer):
+    key = "chosen-parsing"
     name = "Parsing of chosen class"
 
     def __call__(self, targets: list[str], predictions: list[str]) -> list[float]:
@@ -89,4 +94,4 @@ class ClassChoiceParser(Comparer):
 
 
 _COMPARERS: tuple[Type[Comparer], ...] = Rouge1, RougeL, BertSimilarity, ClassChoiceParser
-COMPARERS: dict[str, Type[Comparer]] = {comparer.name: comparer for comparer in _COMPARERS}
+COMPARERS: dict[str, Type[Comparer]] = {comparer.key: comparer for comparer in _COMPARERS}

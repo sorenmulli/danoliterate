@@ -4,13 +4,14 @@ from typing import Sequence
 from omegaconf import DictConfig
 from tqdm import tqdm
 
-from nlgenda.evaluation.analysis.metrics import Metric, get_compatible_metrics
+from nlgenda.evaluation.analysis.metrics import Metric
 from nlgenda.evaluation.artifact_integration import (
     get_results_wandb,
     get_scores_wandb,
     send_scores_wandb,
     setup_short_run,
 )
+from nlgenda.evaluation.registries.get import get_compatible_metrics
 from nlgenda.evaluation.results import ExecutionResult, Scores, Scoring
 from nlgenda.infrastructure.logging import format_config
 from nlgenda.infrastructure.timing import from_timestamp
@@ -54,15 +55,17 @@ class Scorer:
                 self._get_scoring_comparison_key(old_scoring, []): old_scoring
                 for old_scoring in self.previous_result.scorings
             }
-
         logger.info("Acquired %i execution results. Scoring ...", len(results))
         for result in tqdm(results):
             self.result.scorings.append(self.score_result(result))
 
     def score_result(self, result: ExecutionResult) -> Scoring:
         scoring = Scoring.from_execution_metadata(result.metadata)
-
-        metrics = get_compatible_metrics(result.metadata.scenario_cfg, result.metadata.model_cfg)
+        metrics = get_compatible_metrics(
+            result.metadata.scenario_cfg["task"]["type"],  # type: ignore
+            result.metadata.model_cfg["inference"]["type"],  # type: ignore
+            result.metadata.scenario_cfg,
+        )
         if (
             self.combinations_to_skip
             and (

@@ -1,7 +1,6 @@
 import logging
 from abc import ABC, abstractmethod
 from collections import defaultdict
-from collections.abc import Sequence
 from typing import DefaultDict, Optional
 
 import numpy as np
@@ -10,7 +9,6 @@ from scipy import stats
 from seqeval.metrics import f1_score
 
 from nlgenda.evaluation.results import ExecutionExample, MetricResult
-from nlgenda.evaluation.serialization import OutDictType
 from nlgenda.modeling.gpt_ner_alignment import parse_model_pred
 from nlgenda.modeling.text_comparison import COMPARERS
 
@@ -436,55 +434,3 @@ class GptNerParsingF1(Metric):
             error=error,
             higher_is_better=self.higher_is_better,
         )
-
-
-def get_compatible_metrics(scenario_cfg: OutDictType, model_cfg: OutDictType) -> Sequence[Metric]:
-    task_type_str = scenario_cfg["task"]["type"]  # type: ignore
-    scenario_name = scenario_cfg["name"]  # type: ignore
-    compatible: list[Metric] = []
-
-    if task_type_str in {
-        "default-mc",
-        "default-mc-letter-options",
-        "default-mc-letter-context",
-        "cloze-showing-options",
-        "default-mc-same-options",
-        # TODO: Remove backwards compatibility keys
-        "hyggeswag",
-        "citizenship-test",
-    }:
-        # Save some time skipping likelihood metrics for text generators (would just give none)
-        if model_cfg["inference"]["type"] != "openai-api":  # type: ignore
-            compatible.extend([MaxLikelihoodAccuracy(), MaxLikelihoodF1()])
-        for name in COMPARERS:
-            if (scenario_name == "Angry Tweets") != (name == "Parsing of chosen class"):
-                continue
-            # For sentiment classification, only output parsing makes sense
-            compatible.extend(
-                [
-                    MaxSimilarityAccuracy(name),
-                    MaxSimilarityF1(name),
-                    TextSimilarityMetric(name),
-                ]
-            )
-    elif task_type_str == "multi-answer-similarity":
-        for name in COMPARERS:
-            if name == "Parsing of chosen class":
-                continue
-            compatible.extend(
-                [
-                    MaxTextSimilarity(name),
-                    MinTextSimilarity(name),
-                    AverageTextSimilarity(name),
-                    OddOneOutAccuracy(name),
-                ]
-            )
-    elif task_type_str == "gpt-ner":
-        compatible.append(
-            GptNerParsingF1(scenario_cfg["path"], scenario_cfg["dataset_split"])  # type: ignore
-        )
-    elif task_type_str in {"default-answer-similarity", "prompt-similarity"}:
-        compatible.extend(
-            TextSimilarityMetric(name) for name in COMPARERS if name != "Parsing of chosen class"
-        )
-    return compatible
