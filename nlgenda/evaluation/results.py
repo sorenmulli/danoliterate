@@ -14,7 +14,7 @@ from nlgenda.evaluation.serialization import (
     fix_args_for_dataclass,
 )
 from nlgenda.infrastructure.constants import SCORES_ARTIFACT_TYPE
-from nlgenda.infrastructure.logging import commit_hash
+from nlgenda.infrastructure.logging import commit_hash, get_compute_unit_string
 from nlgenda.infrastructure.timing import get_now_stamp
 
 logger = logging.getLogger(__name__)
@@ -49,6 +49,8 @@ class ExecutionResultMetadata:
     timestamp: str
     id_: Optional[str]
     commit: Optional[str]
+    compute_unit: Optional[str]
+    total_inference_seconds: Optional[float]
 
     scenario_cfg: OutDictType
     model_cfg: OutDictType
@@ -156,6 +158,7 @@ class Scoring:
     timestamp: str
     id_: Optional[str]
     commit: Optional[str]
+    compute_unit: Optional[str]
 
     execution_metadata: ExecutionResultMetadata
 
@@ -240,4 +243,6 @@ def get_reproducability_metadata_fields() -> dict[str, Optional[str]]:
         "id_": str(uuid.uuid1()),
         # If we are in the repo, we document current commit
         "commit": commit_hash(),
+        # Save the compute used
+        "compute_unit": get_compute_unit_string(),
     }

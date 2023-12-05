@@ -1,6 +1,7 @@
 import json
 from typing import Optional
 
+import torch
 from git import InvalidGitRepositoryError, Repo
 from omegaconf import DictConfig, OmegaConf
 
@@ -16,3 +17,9 @@ def commit_hash() -> Optional[str]:
         return str(Repo(REPO_PATH).head.commit)
     except InvalidGitRepositoryError:
         return None
+
+
+def get_compute_unit_string() -> str:
+    if torch.cuda.is_available():
+        return torch.cuda.get_device_name(0)
+    return "CPU"

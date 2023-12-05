@@ -1,4 +1,5 @@
 import logging
+from time import perf_counter
 from typing import Generator, Optional
 
 from datasets import Dataset, load_dataset
@@ -45,13 +46,14 @@ class Evaluator:
     def run(self):
         logger.info("Initializing example generators ...")
         examples = self.generate_examples()
+        start_time = perf_counter()
         queried_results = self.generate_results(examples)
 
         logger.info("Executing result loop ...")
         for result in self.model_inference.answer_queries(list(queried_results)):
             self.result.examples.append(result)
-
-        logger.info("Finished result loop.")
+        self.result.metadata.total_inference_seconds = total_time = perf_counter() - start_time
+        logger.info("Finished result loop in %.0f seconds.", total_time)
 
     def save_results(self):
         out = self.result.save_locally()
