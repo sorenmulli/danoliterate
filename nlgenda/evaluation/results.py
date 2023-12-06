@@ -185,6 +185,7 @@ class Scoring:
 
     @classmethod
     def from_dict(cls, self_dict: OutDictType):
+        fix_args_for_dataclass(cls, self_dict)
         metadata_dict: OutDictType = self_dict.pop("execution_metadata")  # type: ignore
         metadata = ExecutionResultMetadata.from_dict(metadata_dict)
 

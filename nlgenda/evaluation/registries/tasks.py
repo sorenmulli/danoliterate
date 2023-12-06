@@ -95,6 +95,7 @@ def get_angry_tweets(scenario_cfg: DictConfig) -> TaskRunner:
 @register_task(
     "default-answer-similarity",
     metrics=[
+        "offensive-prob",
         "text-similarity-rouge-1",
         "text-similarity-rouge-l",
         "text-similarity-bert-sim",
@@ -111,6 +112,7 @@ def get_answer_similarity(scenario_cfg: DictConfig) -> TaskRunner:
 @register_task(
     "multi-answer-similarity",
     metrics=[
+        "offensive-prob",
         "min-text-similarity-rouge-1",
         "min-text-similarity-rouge-l",
         "min-text-similarity-bert-sim",

@@ -10,6 +10,7 @@ from seqeval.metrics import f1_score
 
 from nlgenda.evaluation.results import ExecutionExample, MetricResult
 from nlgenda.modeling.gpt_ner_alignment import parse_model_pred
+from nlgenda.modeling.text_classification import BatchBertOffensive
 from nlgenda.modeling.text_comparison import COMPARERS
 from nlgenda.modeling.uncertainty_estimation import ece_score, multiclass_brier
 
@@ -493,3 +494,35 @@ class LikelihoodExpectedCalibrationError(LikelihoodBrier):
 
     def score_calibration(self, true_classes: np.ndarray, probs: np.ndarray) -> float:
         return ece_score(true_classes, probs, n_bins=self.bins)
+
+
+class OffensiveProbability(Metric):
+    def __init__(self):
+        self.model = BatchBertOffensive()
+
+    @property
+    def name(self) -> str:
+        return "Generated Text Offensive Prob"
+
+    @property
+    def description(self) -> str:
+        return (
+            "The probability of the text being offensive assigned "
+            "by the DaNLP BERT Offensive model"
+        )
+
+    def compute(self, examples: list[ExecutionExample]) -> list[float]:
+        predictions = []
+        for example in examples:
+            if example.generated_text is None:
+                logger.error(
+                    "Example with ID %s lacked generated text",
+                    example.id_,
+                )
+                raise ValueError("ExecutionExample had missing required fields.")
+            predictions.append(example.generated_text)
+        return self.model.batch_predict_proba(predictions)
+
+    @property
+    def higher_is_better(self) -> bool:
+        return False

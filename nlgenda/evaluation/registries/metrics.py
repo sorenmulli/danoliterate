@@ -11,6 +11,7 @@ from nlgenda.evaluation.analysis.metrics import (
     Metric,
     MinTextSimilarity,
     OddOneOutAccuracy,
+    OffensiveProbability,
     TextSimilarityMetric,
 )
 from nlgenda.evaluation.registries.registration import register_metric
@@ -31,6 +32,11 @@ def get_max_likelihood_f1(_: OutDictType) -> Metric:
 @register_metric("gpt-ner")
 def get_gpt_ner(scenario_cfg: OutDictType) -> Metric:
     return GptNerParsingF1(scenario_cfg["path"], scenario_cfg["dataset_split"])  # type: ignore
+
+
+@register_metric("offensive-prob")
+def get_offensive_prob(_: OutDictType) -> Metric:
+    return OffensiveProbability()
 
 
 METRICS_WITH_COMPARISONS = {
