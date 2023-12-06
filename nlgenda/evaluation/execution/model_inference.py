@@ -166,6 +166,22 @@ class ModelInference(ABC):
         return example
 
 
+class ReflectiveBaseline(ModelInference):
+    def generate_texts(self, prompts: list[str]) -> list[tuple[str, Optional[float]]]:
+        return [(prompt, 0) for prompt in prompts]
+
+    def likelihoods(self, prompt_and_targets: list[tuple[str, str]]) -> list[float]:
+        return [0] * len(prompt_and_targets)
+
+    @property
+    def can_do_lm(self) -> bool:
+        return True
+
+    @property
+    def can_do_nlg(self) -> bool:
+        return True
+
+
 def _maybe_raise_oom(error: RuntimeError, batch_size: int):
     if "alloc" not in str(error):
         raise error
