@@ -20,6 +20,8 @@ spacy~=3.5.4
 levenshtein~=0.23.0
 seqeval~=1.2.2
 beautifulsoup4~=4.12.2
+augmenty~=1.4.1
+dacy~=2.7.1
 
 streamlit~=1.27.0
 huggingface_hub~=0.16.4

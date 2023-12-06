@@ -40,6 +40,10 @@ module = [
     "bs4",
     "seqeval.metrics",
     "seaborn",
-    "sklearn.metrics"
+    "sklearn.metrics",
+    "augmenty",
+    "augmenty.character.replace",
+    "augmenty.util",
+    "dacy.datasets"
 ]
 ignore_missing_imports = true

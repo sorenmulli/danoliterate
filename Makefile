@@ -1,5 +1,4 @@
 SRC_DIR := nlgenda
-SRC_FILES := $(shell find $(SRC_DIR) -type f -name "*.py")
 
 FORMATTERS := black isort
 LINTERS := pylint mypy
@@ -23,13 +22,13 @@ tidy: clean format lint
 format:
 	@for formatter in $(FORMATTERS); do \
 		echo 🧹 $$formatter && \
-		$$formatter $(SRC_FILES); \
+		$$formatter $(SRC_DIR); \
 	done
 
 lint:
 	@for linter in $(LINTERS); do \
 		echo 🔍 $$linter && \
-		$$linter $(SRC_FILES); \
+		$$linter $(SRC_DIR); \
 	done
 
 clean:

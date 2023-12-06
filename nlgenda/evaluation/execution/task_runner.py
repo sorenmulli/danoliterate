@@ -5,6 +5,7 @@ from typing import Any, Optional
 import numpy as np
 from datasets import Dataset
 
+from nlgenda.evaluation.execution.augmentation import Augmenter
 from nlgenda.evaluation.execution.model_inference import ModelInference
 from nlgenda.evaluation.results import ExecutionExample
 
@@ -12,10 +13,13 @@ logger = logging.getLogger(__name__)
 
 
 class TaskRunner(ABC):
-    # TODO: Create init here instead of re-initting everywhere
-    prompt_feature: str = "text"
-    id_features: tuple[str, ...] = ("id",)
     can_build_multi_examples = False
+    augmenter: Optional[Augmenter]
+
+    def __init__(self, prompt_feature: str = "text", id_features: tuple[str, ...] = ("id",)):
+        self.prompt_feature = prompt_feature
+        # Allow ID to be concatenation of features
+        self.id_features = id_features
 
     @abstractmethod
     def build_example(
@@ -42,7 +46,7 @@ class TaskRunner(ABC):
         raise ValueError("Neither ID features nor index where given; cannot identify row.")
 
     def prepare_prompt(self, row: dict[str, Any], pre_prompt: str, post_prompt: str) -> str:
-        return pre_prompt + row[self.prompt_feature] + post_prompt
+        return pre_prompt + self.maybe_augment(row[self.prompt_feature]) + post_prompt
 
     def build_multi_examples(
         self,
@@ -54,17 +58,20 @@ class TaskRunner(ABC):
     ) -> list[ExecutionExample]:
         raise NotImplementedError
 
+    def set_augmenter(self, augmenter: Augmenter):
+        self.augmenter = augmenter
+
+    def maybe_augment(self, text: str) -> str:
+        if self.augmenter is None:
+            return text
+        return self.augmenter(text)
+
     @property
     def is_few_shot(self):
         return False
 
 
 class MultichoiceRunner(TaskRunner):
-    def __init__(self, prompt_feature: str = "text", id_features: tuple[str, ...] = ("id",)):
-        self.prompt_feature = prompt_feature
-        # Allow ID to be concatenation of features
-        self.id_features = id_features
-
     def get_options(self, row: dict[str, Any]) -> list[str]:
         options = []
         for name, val in row.items():
@@ -130,7 +137,7 @@ class ClozeRunnerWithOptions(MultichoiceRunner):
         self.cloze_mask_replaced = cloze_mask_replaced
 
     def prepare_prompt(self, row: dict[str, Any], pre_prompt: str, post_prompt: str) -> str:
-        std_prompt = pre_prompt + row[self.prompt_feature] + post_prompt
+        std_prompt = pre_prompt + self.maybe_augment(row[self.prompt_feature]) + post_prompt
         return std_prompt.format(
             **{
                 self.cloze_mask_key: self.cloze_mask_replaced,
@@ -150,7 +157,7 @@ class MultichoiceRunnerLetterWithContext(MultichoiceRunnerLetterOptions):
         self.context_feature = context_feature
 
     def prepare_prompt(self, row: dict[str, Any], pre_prompt: str, post_prompt: str) -> str:
-        std_prompt = pre_prompt + row[self.prompt_feature] + post_prompt
+        std_prompt = pre_prompt + self.maybe_augment(row[self.prompt_feature]) + post_prompt
         return std_prompt.format(context=row[self.context_feature] or "")
 
 
@@ -185,9 +192,8 @@ class AnswerSimilarityRunner(TaskRunner):
         answer_feature="answer",
         id_features: tuple[str, ...] = ("id",),
     ):
-        self.prompt_feature = prompt_feature
+        super().__init__(prompt_feature, id_features)
         self.answer_feature = answer_feature
-        self.id_features = id_features
 
     def build_example(
         self,
@@ -246,12 +252,13 @@ class GptNerRunner(TaskRunner):
         self,
         entity_types: list[dict[str, str]],
         prompt_feature="text",
+        id_features: tuple[str, ...] = ("id",),
         token_feature="tokens",
         label_feature="labels",
         few_shot_format="Input: {text}\nOutput: {annotated_text}",
-        id_features: tuple[str, ...] = ("id",),
         num_examples=3,
     ):
+        super().__init__(prompt_feature, id_features)
         self.entity_type_map = {key: value for dct in entity_types for key, value in dct.items()}
         self.prompt_feature = prompt_feature
         self.num_examples = num_examples
@@ -331,7 +338,7 @@ class GptNerRunner(TaskRunner):
             examples.append(
                 ExecutionExample(
                     prompt=self.build_ner_prompt(
-                        row[self.prompt_feature],
+                        self.maybe_augment(row[self.prompt_feature]),
                         [ex for _, ex in few_shot_examples],
                         pre_prompt,
                         post_prompt,

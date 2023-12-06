@@ -8,6 +8,7 @@ from typing import Optional
 
 from omegaconf import DictConfig, OmegaConf
 
+from nlgenda.evaluation.execution.augmentation import Augmenter
 from nlgenda.evaluation.serialization import (
     OutDictType,
     apply_backcomp_fixes_execution_result_metadata,
@@ -50,12 +51,13 @@ class ExecutionResultMetadata:
     id_: Optional[str]
     commit: Optional[str]
     compute_unit: Optional[str]
-    total_inference_seconds: Optional[float]
 
     scenario_cfg: OutDictType
     model_cfg: OutDictType
     evaluation_cfg: OutDictType
 
+    augmenter_key: Optional[str] = None
+    total_inference_seconds: Optional[float] = None
     sent_to_wandb: bool = False
 
     def to_dict(self) -> OutDictType:
@@ -90,11 +92,14 @@ class ExecutionResult:
         return self_dict
 
     @classmethod
-    def from_config(cls, cfg: DictConfig, scenario_cfg: DictConfig):
+    def from_config(cls, cfg: DictConfig, scenario_cfg: DictConfig, augmenter: Optional[Augmenter]):
         metadata_fields = get_reproducability_metadata_fields()
+        name_parts = [cfg.model.name, scenario_cfg.name, str(metadata_fields["timestamp"])]
+        if augmenter is not None:
+            name_parts.append(augmenter.key)
+            metadata_fields["augmenter_key"] = augmenter.key
         autoname = ".".join(
-            name_part.replace(".", "").replace(" ", "-").lower()
-            for name_part in (cfg.model.name, scenario_cfg.name, str(metadata_fields["timestamp"]))
+            name_part.replace(".", "").replace(" ", "-").lower() for name_part in name_parts
         )
 
         results_path = Path(cfg.evaluation.local_results)
