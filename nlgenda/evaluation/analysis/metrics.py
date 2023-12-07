@@ -466,6 +466,7 @@ class LikelihoodBrier(Metric):
             # Convert to probability distribution
             probs = np.exp(example.options_model_likelihoods)
             probs /= probs.sum()
+            probs = np.nan_to_num(probs)
             res.append(tuple([example.index_label, *[float(prob) for prob in probs]]))
         # Give zero likelihood to examples with missing final labels
         max_length = max(len(item) for item in res)
