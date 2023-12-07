@@ -321,29 +321,32 @@ class OddOneOutAccuracy(TextSimilarityMetric):
         targets: list[str] = []
         predictions: list[str] = []
         for example in examples:
-            if example.generated_text is not None:
-                if example.options is not None:
-                    for option in example.options:
+            if example.generated_text is None or example.options is None:
+                logger.error(
+                    "Example with ID %s lacked generated text or reference options.", example.id_
+                )
+                raise ValueError("ExecutionExample had missing required fields.")
+            seen_pairs = set()
+            for i, option in enumerate(example.options):
+                targets.append(option)
+                predictions.append(example.generated_text)
+                for j, option_ in enumerate(example.options):
+                    if i != j and sorted((i, j)) not in seen_pairs:
                         targets.append(option)
-                        # Always have the similarity as the first
-                        predictions.append(example.generated_text)
-                        for option_ in example.options:
-                            targets.append(option)
-                            predictions.append(option_)
-                    continue
-            logger.error(
-                "Example with ID %s lacked generated text or reference options.", example.id_
-            )
-            raise ValueError("ExecutionExample had missing required fields.")
+                        predictions.append(option_)
+                        seen_pairs.add(sorted((i, j)))
         res = []
         similarities = comparison_function(targets, predictions)
         for example in examples:
             generated_total_dist = 0.0
             reference_total_dists = [0.0 for _ in example.options]  # type: ignore
-            for option in example.options:  # type: ignore
+            seen_pairs = set()
+            for i in range(len(example.options)):  # type: ignore
                 generated_total_dist -= similarities.pop(0)
-                for i in range(len(example.options)):  # type: ignore
-                    reference_total_dists[i] -= similarities.pop(0)
+                for j in range(len(example.options)):  # type: ignore
+                    if i != j and sorted((i, j)) not in seen_pairs:
+                        reference_total_dists[j] -= similarities.pop(0)
+                        seen_pairs.add(sorted((i, j)))
             # Generated is odd one out if it has highest total dist of all option total dists
             res.append(
                 float(all(generated_total_dist > ref_dist for ref_dist in reference_total_dists))
