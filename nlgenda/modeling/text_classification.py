@@ -27,7 +27,6 @@ class BatchBertOffensive(BertOffensive):
         for i in range(0, len(sentences), self.batch_size):
             batch_sentences = sentences[i : i + self.batch_size]
             preds = self._get_batch_pred(batch_sentences)
-            probas = torch.nn.functional.softmax(preds, dim=1).detach().cpu().numpy()
+            probas = torch.nn.functional.softmax(preds, dim=1).detach().cpu().numpy()[:, 1]
             all_probas.extend(probas)
-
-        return [prob.tolist() for prob in all_probas]
+        return [float(prob) for prob in all_probas]
