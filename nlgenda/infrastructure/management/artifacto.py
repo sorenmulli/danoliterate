@@ -87,15 +87,15 @@ def mark_dupes(cfg: DictConfig):
     results = list(yield_wandb_artifacts(cfg.wandb.project, cfg.wandb.entity))
     logger.info("Got %i results", len(results))
     # Data structures to hold the newest and old duplicates
-    newest_artifacts: dict[tuple[str, str], Artifact] = {}
-    old_duplicates: DefaultDict[tuple[str, str], list[Artifact]] = defaultdict(list)
+    newest_artifacts: dict[tuple[str, str, str], Artifact] = {}
+    old_duplicates: DefaultDict[tuple[str, str, str], list[Artifact]] = defaultdict(list)
 
     # Dictionary to hold the most recent timestamp per unique pair
-    latest_timestamps: dict[tuple[str, str], tuple[int, ...]] = {}
+    latest_timestamps: dict[tuple[str, str, str], tuple[int, ...]] = {}
 
     for result in results:
         # Forming the key as a tuple of scenario_name and model_name
-        key = (result.metadata["scenario_cfg"]["name"], result.metadata["model_cfg"]["name"])
+        key = (result.metadata["scenario_cfg"]["name"], result.metadata["model_cfg"]["name"], result.metadata.get("augmenter_key"))
 
         # Converting timestamp string to a comparable format (as a tuple of integers)
         timestamp_tuple = tuple(map(int, result.metadata["timestamp"].split("-")))

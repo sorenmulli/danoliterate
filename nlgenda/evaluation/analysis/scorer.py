@@ -107,7 +107,7 @@ class Scorer:
         logger.info("Scores were saved locally to %s.", out)
 
     def _get_scoring_comparison_key(self, scoring: Scoring, metrics: Sequence[Metric]):
-        # TODO: Shouldn't ID in itself actually be enough? Kept the rest for now for back-comp
+        # TODO: Shouldn't metrics and ID actually be enough? Kept the rest for now for back-comp
         metric_names = (
             [metric.name for metric in metrics]
             if metrics
