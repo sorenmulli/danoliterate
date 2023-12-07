@@ -8,6 +8,7 @@ import hydra
 import streamlit as st
 from omegaconf import DictConfig
 
+from nlgenda.evaluation.analysis.meta_scorings import META_SCORERS
 from nlgenda.evaluation.artifact_integration import get_scores_wandb
 from nlgenda.evaluation.leaderboard.table import build_leaderboard_table
 from nlgenda.evaluation.results import MetricResult, Scores
@@ -27,10 +28,17 @@ def group_models_by_metrics(models):
 # TODO: Clean up this code
 def extract_metrics(scores: Scores):
     out: defaultdict[str, dict[str, list[MetricResult]]] = defaultdict(dict)
+    for meta_scorer in META_SCORERS:
+        for scenario_name, model_name, metric_results in meta_scorer.meta_score(scores):
+            out[scenario_name][model_name] = metric_results  # type: ignore
     for scoring in scores.scorings:
-        out[scoring.execution_metadata.scenario_cfg["name"]][  # type: ignore
-            scoring.execution_metadata.model_cfg["name"]  # type: ignore
-        ] = scoring.metric_results
+        scenario_name = scoring.execution_metadata.scenario_cfg["name"]
+        model_name = scoring.execution_metadata.model_cfg["name"]
+        if out[scenario_name].get(model_name) is None:  # type: ignore
+            out[scenario_name][model_name] = scoring.metric_results  # type: ignore
+        else:
+            # TODO: Warn if metric already exists
+            out[scenario_name][model_name].extend(scoring.metric_results)  # type: ignore
     return out
 
 
@@ -104,7 +112,7 @@ def setup_app(cfg: DictConfig):
             st.form_submit_button(label="Submit")
 
     logger.info("Building leaderboard table ...")
-    table = build_leaderboard_table(scores, chosen_metrics)
+    table = build_leaderboard_table(metric_structure, chosen_metrics)
 
     st.dataframe(table, use_container_width=True)
 

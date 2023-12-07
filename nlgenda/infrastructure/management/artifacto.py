@@ -78,6 +78,7 @@ def _format_result(result: Artifact) -> str:
     meta = result.metadata
     return (
         f"{meta['model_cfg']['name']} on {meta['scenario_cfg']['name']} "
+        f"({meta.get('augmenter_key','no-aug')})"
         f"[{meta['timestamp']}] ({meta.get('id_', 'NO ID')})]"
     )
 
@@ -95,7 +96,11 @@ def mark_dupes(cfg: DictConfig):
 
     for result in results:
         # Forming the key as a tuple of scenario_name and model_name
-        key = (result.metadata["scenario_cfg"]["name"], result.metadata["model_cfg"]["name"], result.metadata.get("augmenter_key"))
+        key = (
+            result.metadata["scenario_cfg"]["name"],
+            result.metadata["model_cfg"]["name"],
+            result.metadata.get("augmenter_key"),
+        )
 
         # Converting timestamp string to a comparable format (as a tuple of integers)
         timestamp_tuple = tuple(map(int, result.metadata["timestamp"].split("-")))
