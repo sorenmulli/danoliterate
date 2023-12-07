@@ -467,6 +467,9 @@ class LikelihoodBrier(Metric):
             probs = np.exp(example.options_model_likelihoods)
             probs /= probs.sum()
             res.append(tuple([example.index_label, *[float(prob) for prob in probs]]))
+        # Give zero likelihood to examples with missing final labels
+        max_length = max(len(item) for item in res)
+        res = [item + (0.0,) * (max_length - len(item)) for item in res]
         return res
 
     def aggregate(self, scores: np.ndarray) -> float:
