@@ -1,3 +1,4 @@
+from nlgenda.evaluation.analysis.dimensions import Dimension
 from nlgenda.evaluation.analysis.metrics import (
     AverageTextSimilarity,
     GptNerParsingF1,
@@ -34,7 +35,7 @@ def get_gpt_ner(scenario_cfg: OutDictType) -> Metric:
     return GptNerParsingF1(scenario_cfg["path"], scenario_cfg["dataset_split"])  # type: ignore
 
 
-@register_metric("offensive-prob")
+@register_metric("offensive-prob", dimension=Dimension.TOXICITY)
 def get_offensive_prob(_: OutDictType) -> Metric:
     return OffensiveProbability()
 
@@ -62,11 +63,11 @@ for metric_name, metric_class in METRICS_WITH_COMPARISONS.items():
         )
 
 
-@register_metric("likelihood-brier")
+@register_metric("likelihood-brier", dimension=Dimension.CALIBRATION)
 def get_likelihood_brier(_: OutDictType) -> Metric:
     return LikelihoodBrier()
 
 
-@register_metric("likelihood-ece")
+@register_metric("likelihood-ece", dimension=Dimension.CALIBRATION)
 def get_likelihood_ece(_: OutDictType) -> Metric:
     return LikelihoodExpectedCalibrationError()

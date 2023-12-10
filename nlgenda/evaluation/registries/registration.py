@@ -2,6 +2,7 @@ from typing import Callable
 
 from omegaconf import DictConfig
 
+from nlgenda.evaluation.analysis.dimensions import Dimension
 from nlgenda.evaluation.analysis.metrics import Metric
 from nlgenda.evaluation.execution.model_inference import ModelInference
 from nlgenda.evaluation.execution.task_runner import TaskRunner
@@ -10,15 +11,18 @@ from nlgenda.evaluation.serialization import OutDictType
 MetricFunctionType = Callable[[OutDictType], Metric]
 
 metric_registry: dict[str, MetricFunctionType] = {}
+metric_dimension_registry: dict[str, Dimension] = {}
 
 
 def register_metric(
     metric_name: str,
+    dimension: Dimension = Dimension.CAPABILITY,
 ) -> Callable[[MetricFunctionType], MetricFunctionType]:
     def decorator(func: MetricFunctionType) -> MetricFunctionType:
         if metric_name in metric_registry:
             raise ValueError(f"Evaluation metric {metric_name} registered more than once!")
         metric_registry[metric_name] = func
+        metric_dimension_registry[metric_name] = dimension
         return func
 
     return decorator

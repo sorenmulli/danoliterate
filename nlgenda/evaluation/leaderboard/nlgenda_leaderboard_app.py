@@ -3,15 +3,17 @@ Should be run as streamlit application
 """
 import logging
 from collections import defaultdict
+from typing import Optional
 
 import hydra
 import streamlit as st
 from omegaconf import DictConfig
 
+from nlgenda.evaluation.analysis.dimensions import Dimension
 from nlgenda.evaluation.analysis.meta_scorings import META_SCORERS
 from nlgenda.evaluation.artifact_integration import get_scores_wandb
 from nlgenda.evaluation.leaderboard.table import build_leaderboard_table
-from nlgenda.evaluation.results import MetricResult, Scores
+from nlgenda.evaluation.results import MetricResult, Scores, Scoring
 from nlgenda.infrastructure.constants import CONFIG_DIR
 
 logger = logging.getLogger(__name__)
@@ -25,20 +27,40 @@ def group_models_by_metrics(models):
     return metrics_to_models
 
 
+def get_relevant_metrics(
+    scoring: Scoring, chosen_dimension: Optional[Dimension]
+) -> list[MetricResult]:
+    out = []
+    for metric in scoring.metric_results:
+        if "Offensive" in metric.description:
+            if chosen_dimension == Dimension.TOXICITY:
+                out.append(metric)
+        elif "ECE" in metric.short_name or "Brier" in metric.short_name:
+            if chosen_dimension == Dimension.CALIBRATION:
+                out.append(metric)
+        elif chosen_dimension == Dimension.CAPABILITY:
+            out.append(metric)
+    return out
+
+
 # TODO: Clean up this code
-def extract_metrics(scores: Scores):
+def extract_metrics(scores: Scores, chosen_dimension: Optional[Dimension]):
     out: defaultdict[str, dict[str, list[MetricResult]]] = defaultdict(dict)
     for meta_scorer in META_SCORERS:
-        for scenario_name, model_name, metric_results in meta_scorer.meta_score(scores):
-            out[scenario_name][model_name] = metric_results  # type: ignore
+        for scenario_name, model_name, dimension, metric_results in meta_scorer.meta_score(scores):
+            if dimension == chosen_dimension:
+                out[scenario_name][model_name] = metric_results  # type: ignore
     for scoring in scores.scorings:
-        scenario_name = scoring.execution_metadata.scenario_cfg["name"]
-        model_name = scoring.execution_metadata.model_cfg["name"]
-        if out[scenario_name].get(model_name) is None:  # type: ignore
-            out[scenario_name][model_name] = scoring.metric_results  # type: ignore
-        else:
-            # TODO: Warn if metric already exists
-            out[scenario_name][model_name].extend(scoring.metric_results)  # type: ignore
+        scenario_name: str = scoring.execution_metadata.scenario_cfg["name"]  # type: ignore
+        model_name: str = scoring.execution_metadata.model_cfg["name"]  # type: ignore
+        # TODO: Change to saving the metric key and use the registry for this instead of hard code
+        relevant_metric_results = get_relevant_metrics(scoring, chosen_dimension)
+        if relevant_metric_results:
+            if out[scenario_name].get(model_name) is None:  # type: ignore
+                out[scenario_name][model_name] = relevant_metric_results  # type: ignore
+            else:
+                # TODO: Warn if metric already exists
+                out[scenario_name][model_name].extend(relevant_metric_results)  # type: ignore
     return out
 
 
@@ -74,7 +96,10 @@ def setup_app(cfg: DictConfig):
     logger.info("Fetching scores ...")
     # TODO: Minimize loading times
     scores = fetch_scores_cached(cfg)
-    metric_structure = extract_metrics(scores)
+    chosen_dimension = st.selectbox(
+        "Evaluation Dimension", Dimension, format_func=lambda dim: dim.value
+    )
+    metric_structure = extract_metrics(scores, chosen_dimension)
     default_metrics = default_choices(metric_structure)
     chosen_metrics = default_metrics
 

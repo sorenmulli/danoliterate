@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from collections import defaultdict
 from typing import DefaultDict, Optional
 
+from nlgenda.evaluation.analysis.dimensions import Dimension
 from nlgenda.evaluation.results import MetricResult, Scores, Scoring
 
 logger = logging.getLogger(__name__)
@@ -10,20 +11,23 @@ logger = logging.getLogger(__name__)
 
 class MetaScoring(ABC):
     @abstractmethod
-    def meta_score(self, scores: Scores) -> list[tuple[str, str, list[MetricResult]]]:
+    def meta_score(self, scores: Scores) -> list[tuple[str, str, Dimension, list[MetricResult]]]:
         ...
 
 
 class TimingScore(MetaScoring):
-    def meta_score(self, scores: Scores) -> list[tuple[str, str, list[MetricResult]]]:
+    def meta_score(self, scores: Scores) -> list[tuple[str, str, Dimension, list[MetricResult]]]:
         out = []
         for scoring in scores.scorings:
             if (total_time := scoring.execution_metadata.total_inference_seconds) is not None:
                 avg_time = total_time / len(scoring.metric_results[0].example_results)
+                scenario_name: str = scoring.execution_metadata.scenario_cfg["name"]  # type: ignore
+                model_name: str = scoring.execution_metadata.model_cfg["name"]  # type: ignore
                 out.append(
                     (
-                        scoring.execution_metadata.scenario_cfg["name"],
-                        scoring.execution_metadata.model_cfg["name"],
+                        scenario_name,
+                        model_name,
+                        Dimension.EFFICIENCY,
                         [
                             MetricResult(
                                 "Average run time",
@@ -52,10 +56,15 @@ class DisparityScoring(MetaScoring, ABC):
 
     @property
     @abstractmethod
-    def relevant_augmenter_keys(self) -> tuple[str, str]:
+    def dimension(self) -> Dimension:
         ...
 
-    def calculate_disparities(self, scorings: dict[str, Scoring]) -> list[MetricResult]:
+    @property
+    @abstractmethod
+    def relevant_augmenter_keys(self) -> tuple[str, Optional[str]]:
+        ...
+
+    def calculate_disparities(self, scorings: dict[Optional[str], Scoring]) -> list[MetricResult]:
         out = []
         first, other = self.relevant_augmenter_keys
         for result in scorings[first].metric_results:
@@ -76,7 +85,7 @@ class DisparityScoring(MetaScoring, ABC):
                 raise ValueError("Disparity calculation not possible: Different metrics")
         return out
 
-    def meta_score(self, scores: Scores) -> list[tuple[str, str, list[MetricResult]]]:
+    def meta_score(self, scores: Scores) -> list[tuple[str, str, Dimension, list[MetricResult]]]:
         out = []
         scorings_to_keep = []
         to_calculate: DefaultDict[tuple[str, str], dict] = defaultdict(dict)
@@ -95,16 +104,20 @@ class DisparityScoring(MetaScoring, ABC):
 
         for (scenario_name, model_name), scorings in to_calculate.items():
             if len(scorings) != 2:
-                logger.warning(
-                    "Unfinished disparity score for scoring %s on %s did not have 1/2 augmenters",
-                    scenario_name,
-                    model_name,
-                )
+                if list(scorings.keys()) != [None]:
+                    logger.warning(
+                        "Unfinished disparity score %s for scoring %s "
+                        "on %s did not have 2 augmenters",
+                        self.name,
+                        scenario_name,
+                        model_name,
+                    )
                 continue
             out.append(
                 (
                     f"{self.name}: {scenario_name}",
                     model_name,
+                    self.dimension,
                     self.calculate_disparities(scorings),
                 )
             )
@@ -118,11 +131,15 @@ class KeyStrokeRobustness(DisparityScoring):
 
     @property
     def description(self) -> str:
-        return "Metric value for normal version and one with 10% keystroke errors"
+        return "Metric value for version with 10% keystroke errors minus normal"
 
     @property
-    def relevant_augmenter_keys(self) -> tuple[Optional[str], str]:
-        return None, "keystroke-error"
+    def relevant_augmenter_keys(self) -> tuple[str, Optional[str]]:
+        return "keystroke-error", None
+
+    @property
+    def dimension(self) -> Dimension:
+        return Dimension.ROBUSTNESS
 
 
 class GenderNameScore(DisparityScoring):
@@ -138,8 +155,12 @@ class GenderNameScore(DisparityScoring):
         )
 
     @property
-    def relevant_augmenter_keys(self) -> tuple[str, str]:
+    def relevant_augmenter_keys(self) -> tuple[str, Optional[str]]:
         return "female-inserted", "male-inserted"
+
+    @property
+    def dimension(self) -> Dimension:
+        return Dimension.FAIRNESS
 
 
 class NameOriginScore(DisparityScoring):
@@ -155,12 +176,17 @@ class NameOriginScore(DisparityScoring):
         )
 
     @property
-    def relevant_augmenter_keys(self) -> tuple[str, str]:
+    def relevant_augmenter_keys(self) -> tuple[str, Optional[str]]:
         return "muslim-inserted", "danish-inserted"
+
+    @property
+    def dimension(self) -> Dimension:
+        return Dimension.FAIRNESS
 
 
 META_SCORERS = [
     TimingScore(),
+    KeyStrokeRobustness(),
     GenderNameScore(),
     NameOriginScore(),
 ]
