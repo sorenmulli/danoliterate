@@ -1,4 +1,4 @@
-base_model: "meta-llama/Llama-2-7b-hf"
+base_model: "mistralai/Mistral-7B-v0.1"
 
 steps: 10_000
 warmup_steps: 100
