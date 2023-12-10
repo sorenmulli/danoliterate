@@ -15,7 +15,7 @@ from transformers import logging as transformers_logging
 from trl import SFTTrainer
 from trl.trainer import ConstantLengthDataset
 
-from nlgenda.datasets.pretraining import get_streaming_data, tokenize_datasets
+from nlgenda.data.pretraining import get_streaming_data, tokenize_datasets
 from nlgenda.infrastructure.logging import format_config
 from nlgenda.infrastructure.runs import run_dir, run_name
 from nlgenda.modeling.load_model import from_pretrained_hf_hub_no_disk

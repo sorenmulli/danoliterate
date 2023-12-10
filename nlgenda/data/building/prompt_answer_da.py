@@ -8,8 +8,8 @@ from datasets import Dataset, DatasetDict, concatenate_datasets, load_dataset
 from omegaconf import DictConfig
 from tqdm import tqdm
 
-from nlgenda.datasets.building.hub import push
-from nlgenda.datasets.statistics import text_stats
+from nlgenda.data.building.hub import push
+from nlgenda.data.statistics import text_stats
 from nlgenda.infrastructure.logging import format_config
 from nlgenda.modeling.language_identification import DANISH, LanguageIdentifier
 

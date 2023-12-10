@@ -3,13 +3,13 @@ import logging
 import hydra
 from omegaconf import DictConfig
 
-from nlgenda.datasets.building.citizenship_test_da import create_citizen_da
-from nlgenda.datasets.building.da_cloze_self_test import create_da_cloze_self_test
-from nlgenda.datasets.building.da_gym_2000 import create_da_gym_200
-from nlgenda.datasets.building.hashtag_twitterhjerne import create_hashtag_twitterhjerne
-from nlgenda.datasets.building.hyggeswag import create_hyggeswag
-from nlgenda.datasets.building.nordjylland_news import create_nordjylland_news
-from nlgenda.datasets.building.prompt_answer_da import create_prompt_answer_da
+from nlgenda.data.building.citizenship_test_da import create_citizen_da
+from nlgenda.data.building.da_cloze_self_test import create_da_cloze_self_test
+from nlgenda.data.building.da_gym_2000 import create_da_gym_200
+from nlgenda.data.building.hashtag_twitterhjerne import create_hashtag_twitterhjerne
+from nlgenda.data.building.hyggeswag import create_hyggeswag
+from nlgenda.data.building.nordjylland_news import create_nordjylland_news
+from nlgenda.data.building.prompt_answer_da import create_prompt_answer_da
 from nlgenda.evaluation.analysis.analyser import analyse
 from nlgenda.evaluation.analysis.scorer import score
 from nlgenda.evaluation.execution.evaluator import evaluate

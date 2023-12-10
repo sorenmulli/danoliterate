@@ -4,7 +4,7 @@ import pandas as pd
 from datasets import Dataset
 from omegaconf import DictConfig
 
-from nlgenda.datasets.building.hub import push
+from nlgenda.data.building.hub import push
 from nlgenda.infrastructure.logging import format_config
 
 logger = logging.getLogger(__name__)

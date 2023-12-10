@@ -12,7 +12,7 @@ from datasets import Dataset, load_dataset
 from omegaconf import DictConfig
 from pypdf import PdfReader
 
-from nlgenda.datasets.building.hub import push
+from nlgenda.data.building.hub import push
 from nlgenda.infrastructure.logging import format_config
 from nlgenda.modeling.ngram_language_modeling import NgramLm
 
