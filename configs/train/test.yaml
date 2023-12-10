@@ -1,4 +1,4 @@
-base_model: "hf-internal-testing/tiny-random-gpt2"
+base_model: "echarlaix/tiny-random-mistral"
 
 steps: 3
 warmup_steps: 2
@@ -21,6 +21,8 @@ eval_every: 2
 save_every: 2
 save_limit: 1
 log_every: 1
+
+use_sft: true
 
 lora:
   enabled: false

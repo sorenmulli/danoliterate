@@ -12,6 +12,8 @@ from transformers import (
     TrainingArguments,
 )
 from transformers import logging as transformers_logging
+from trl import SFTTrainer
+from trl.trainer import ConstantLengthDataset
 
 from nlgenda.datasets.pretraining import get_streaming_data, tokenize_datasets
 from nlgenda.infrastructure.logging import format_config
@@ -89,7 +91,19 @@ def train_lm(cfg: DictConfig):
 
     logger.info("Setting up streaming datasets %s ...", " + ".join(cfg.train.data.datasets))
     datasets = get_streaming_data(cfg.train.data)
-    datasets = tokenize_datasets(datasets, tokenizer, cfg)
+    if cfg.train.use_sft:
+        # We have to set up manually here to use an IterableDataset
+        datasets = {
+            name: ConstantLengthDataset(
+                tokenizer,
+                dataset,
+                cfg.train.data.text_col,
+                seq_length=cfg.train.data.context_tokens,
+            )
+            for name, dataset in datasets.items()
+        }
+    else:
+        datasets = tokenize_datasets(datasets, tokenizer, cfg)
     logger.info(
         "Datasets set up! %i were skipped for test, %i are validation, rest train. "
         "Splits were divided after shuffle with seed=%i",
@@ -97,8 +111,6 @@ def train_lm(cfg: DictConfig):
         cfg.train.data.validation_examples,
         cfg.train.data.seed,
     )
-
-    collator = DataCollatorForLanguageModeling(tokenizer, mlm=False)
 
     logger.info("Setting up trainer%s...", " and W&B integration" if cfg.wandb.enabled else "")
     if cfg.wandb.enabled:
@@ -112,14 +124,25 @@ def train_lm(cfg: DictConfig):
             config=OmegaConf.to_container(cfg),  # type: ignore
         )
     train_args = get_arguments(cfg.train, wandb_enabled=cfg.wandb.enabled)
-    trainer = Trainer(
-        model,
-        train_args,
-        tokenizer=tokenizer,
-        train_dataset=datasets["train"],
-        eval_dataset=datasets["val"] if cfg.train.eval else None,
-        data_collator=collator,
-    )
+    if cfg.train.use_sft:
+        trainer = SFTTrainer(
+            model,
+            train_args,
+            train_dataset=datasets["train"],
+            eval_dataset=datasets["val"] if cfg.train.eval else None,
+            max_seq_length=cfg.train.data.context_tokens,
+            dataset_text_field=cfg.train.data.text_col,
+        )
+    else:
+        collator = DataCollatorForLanguageModeling(tokenizer, mlm=False)
+        trainer = Trainer(
+            model,
+            train_args,
+            tokenizer=tokenizer,
+            train_dataset=datasets["train"],
+            eval_dataset=datasets["val"] if cfg.train.eval else None,
+            data_collator=collator,
+        )
 
     logger.info(
         "Everything ready! Here we go %s🚀🚀🚀", "(resuming previous run) " if cfg.train.resume else ""

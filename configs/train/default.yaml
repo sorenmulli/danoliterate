@@ -22,6 +22,8 @@ save_every: 100
 save_limit: 5
 log_every: 10
 
+use_sft: true
+
 lora:
   enabled: true
   r: 8

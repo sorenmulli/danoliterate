@@ -46,5 +46,7 @@ module = [
     "augmenty.util",
     "dacy.datasets",
     "danlp.models",
+    "trl",
+    "trl.trainer"
 ]
 ignore_missing_imports = true
