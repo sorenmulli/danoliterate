@@ -30,4 +30,4 @@ def get_hf_causal(cfg: DictConfig) -> HuggingfaceCausalLm:
     ],
 )
 def get_openai_api(cfg: DictConfig) -> OpenAiAPI:
-    return OpenAiAPI(cfg.path)
+    return OpenAiAPI(cfg.model.path, cfg.evaluation.api_call_cache)

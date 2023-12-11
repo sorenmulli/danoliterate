@@ -23,6 +23,7 @@ evaluation:
   seed: 1887
   robustness_augment: false
   fairness_augment: false
+  api_call_cache: "local-computations/api-cache"
 
 model:
   batch_size:  32

@@ -1,0 +1,4 @@
+name: "OpenAI Ada 001"
+path: "text-ada-001"
+inference:
+  type: "openai-api"

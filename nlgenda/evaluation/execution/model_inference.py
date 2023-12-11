@@ -2,6 +2,7 @@ import json
 import logging
 import os
 import random
+import time
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field, fields
@@ -10,6 +11,7 @@ from typing import Optional
 
 import openai
 import torch
+from openai.openai_object import OpenAIObject
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from transformers.tokenization_utils_base import VERY_LARGE_INTEGER
@@ -352,18 +354,21 @@ class HuggingfaceCausalLm(ModelInference):
         return True
 
 
-# TODO: Default to temperature = 0
-# TODO: Save maximal info from the result
-# TODO: Make tenacious
-# TODO: Threading?
 class OpenAiAPI(ModelInference):
+    cache: dict[str, dict]
+    is_chat: bool
+
     secret_file = "secret.json"
     api_key_str = "OPENAI_API_KEY"
+    api_retries = 5
 
-    def __init__(self, model_key: str, api_key: Optional[str] = None):
+    def __init__(self, model_key: str, api_call_cache: str, api_key: Optional[str] = None, seed=1):
         super().__init__()
 
         self.model_key = model_key
+        self.is_chat = "turbo" in self.model_key or "gpt-4" in self.model_key
+        self.seed = seed
+
         if not api_key:
             api_key = os.getenv(self.api_key_str)
         if not api_key:
@@ -378,18 +383,60 @@ class OpenAiAPI(ModelInference):
             )
         openai.api_key = api_key
 
+        self.load_cache(api_call_cache)
+        self.completion_args = {
+            "seed": seed,
+            "temperature": 0,
+            # TODO: Should be set at scenario level
+            "max_tokens": 256,
+        }
+
     def generate_texts(self, prompts: list[str]) -> list[tuple[str, Optional[float]]]:
-        out: list[tuple[str, Optional[float]]] = []
         for prompt in tqdm(prompts):
-            if "turbo" in self.model_key or "gpt-4" in self.model_key:
-                completion = openai.ChatCompletion.create(
-                    model=self.model_key, messages=[{"role": "user", "content": prompt}]
-                )
-                return completion.choices[0].message.content
-            completion = openai.Completion.create(model=self.model_key, prompt=prompt)
+            if prompt in self.cache:
+                continue
+            completion = self.call_completion(prompt)
+            self.cache_add(prompt, completion)
+
+        out: list[tuple[str, Optional[float]]] = []
+        for prompt in prompts:
+            generated_dict = self.cache[prompt]
+            answer = generated_dict["choices"][0]
+            generated = answer["message"]["text"] if self.is_chat else answer["text"]
             # We have no scores from API
-            out.append((completion.choices[0].text, None))
+            out.append((generated, None))
         return out
+
+    def call_completion(self, prompt: str):
+        for i in range(self.api_retries):
+            try:
+                if self.is_chat:
+                    return openai.ChatCompletion.create(
+                        model=self.model_key,
+                        messages=[{"role": "user", "content": prompt}],
+                        **self.completion_args,
+                    )
+                return openai.Completion.create(
+                    model=self.model_key,
+                    prompt=prompt,
+                    **self.completion_args,
+                )
+            except (
+                openai.error.ServiceUnavailableError,
+                openai.error.APIError,
+                openai.error.RateLimitError,
+                openai.error.Timeout,
+                openai.error.APIConnectionError,
+                openai.error.TryAgain,
+            ) as openai_error:
+                if i + 1 == self.api_retries:
+                    logger.error("Retried %i times, failed to get connection.", self.api_retries)
+                    raise
+                retry_time = i + 1
+                logger.warning(
+                    "Got connectivity error %s, retrying in %i seconds...", openai_error, retry_time
+                )
+                time.sleep(retry_time)
 
     @property
     def can_do_lm(self) -> bool:
@@ -398,3 +445,25 @@ class OpenAiAPI(ModelInference):
     @property
     def can_do_nlg(self) -> bool:
         return True
+
+    def cache_add(self, prompt: str, completion: OpenAIObject):
+        completion_dict = completion.to_dict_recursive()
+        with open(self.api_call_cache, "a", encoding="utf-8") as file:
+            file.write(json.dumps({"prompt": prompt, "completion": completion_dict}) + "\n")
+        self.cache[prompt] = completion_dict
+
+    def load_cache(self, location):
+        self.cache = {}
+        self.api_call_cache = Path(location) / f"{self.model_key}.json"
+        if self.api_call_cache.exists():
+            with open(self.api_call_cache, "r", encoding="utf-8") as file:
+                for line in file.readlines():
+                    result = json.loads(line)
+                    self.cache[result["prompt"]] = result["completion"]
+            logger.info(
+                "Loaded %i results from cache %s. Delete file to recompute.",
+                len(self.cache),
+                self.api_call_cache,
+            )
+        else:
+            self.api_call_cache.parent.mkdir(parents=True, exist_ok=True)

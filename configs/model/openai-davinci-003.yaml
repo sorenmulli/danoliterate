@@ -1,0 +1,4 @@
+name: "OpenAI Davinci 003"
+path: "text-davinci-003"
+inference:
+  type: "openai-api"

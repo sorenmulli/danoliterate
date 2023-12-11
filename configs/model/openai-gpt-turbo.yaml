@@ -1,4 +1,4 @@
-name: "GPT 3.5 Turbo"
+name: "OpenAI GPT 3.5 Turbo"
 path: "gpt-3.5-turbo"
 inference:
   type: "openai-api"
