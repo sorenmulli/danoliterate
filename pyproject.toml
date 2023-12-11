@@ -47,6 +47,7 @@ module = [
     "dacy.datasets",
     "danlp.models",
     "trl",
-    "trl.trainer"
+    "trl.trainer",
+    "accelerate"
 ]
 ignore_missing_imports = true

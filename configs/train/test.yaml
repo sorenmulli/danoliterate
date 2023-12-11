@@ -14,7 +14,8 @@ accumulation: 2
 eval_batch_size: 2
 eval_accumulation: 1
 
-fp16: true
+fp16: false
+bf16: true
 
 eval: true
 eval_every: 2

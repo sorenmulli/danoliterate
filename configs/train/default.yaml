@@ -5,8 +5,8 @@ warmup_steps: 100
 resume: false
 
 optimizer: "adamw_torch"
-lr: 5e-5
-scheduler: "cosine_with_restarts"
+lr: 1e-4
+scheduler: "cosine"
 weight_decay: 0.01
 
 batch_size: 4
@@ -14,18 +14,19 @@ accumulation: 4
 eval_batch_size: 8
 eval_accumulation: 1
 
-fp16: true
+fp16: false
+bf16: true
 
 eval: true
 eval_every: 100
-save_every: 100
+save_every: 1000
 save_limit: 5
 log_every: 10
 
 use_sft: true
 
 lora:
-  enabled: true
+  enabled: false
   r: 8
   alpha: 32
   dropout: 0.1
@@ -36,7 +37,7 @@ data:
   seed: 1887
   text_col: "text"
   test_examples: 10000
-  validation_examples: 100
+  validation_examples: 1000
   context_tokens: 1024
   workers: 0
 

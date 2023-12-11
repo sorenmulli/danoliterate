@@ -3,6 +3,7 @@ from pathlib import Path
 
 import torch
 import wandb
+from accelerate import Accelerator
 from omegaconf import DictConfig, OmegaConf
 from transformers import (
     AutoModelForCausalLM,
@@ -43,6 +44,7 @@ def get_arguments(cfg: DictConfig, wandb_enabled: bool):
         auto_find_batch_size=True,
         # Compute
         fp16=cfg.fp16 if torch.cuda.is_available() else False,
+        bf16=cfg.bf16 if torch.cuda.is_available() else False,
         # Evaluation
         evaluation_strategy="steps" if cfg.eval else "no",
         eval_steps=cfg.eval_every,
@@ -69,13 +71,14 @@ def train_lm(cfg: DictConfig):
 
     logger.info("Setting up model and tokenizer from %s ...", cfg.train.base_model)
     model_cls = AutoModelForCausalLM
-    model = (
-        from_pretrained_hf_hub_no_disk(cfg.train.base_model, model_cls)
-        if cfg.download_no_cache
-        else model_cls.from_pretrained(cfg.train.base_model)
-    )
+    if not cfg.train.use_sft:
+        model = (
+            from_pretrained_hf_hub_no_disk(cfg.train.base_model, model_cls)
+            if cfg.download_no_cache
+            else model_cls.from_pretrained(cfg.train.base_model)
+        )
+        logger.info("Loaded model with %.1f M parameters.", model.num_parameters() / 1e6)
     tokenizer = AutoTokenizer.from_pretrained(cfg.train.base_model)
-    logger.info("Loaded model with %.1f M parameters.", model.num_parameters() / 1e6)
     logger.info("Loaded tokenizer with vocabulary size %i.", tokenizer.vocab_size)
 
     if cfg.train.lora.enabled:
@@ -92,6 +95,7 @@ def train_lm(cfg: DictConfig):
     logger.info("Setting up streaming datasets %s ...", " + ".join(cfg.train.data.datasets))
     datasets = get_streaming_data(cfg.train.data)
     if cfg.train.use_sft:
+        tokenizer.padding_side = "right"
         # We have to set up manually here to use an IterableDataset
         datasets = {
             name: ConstantLengthDataset(
@@ -113,7 +117,7 @@ def train_lm(cfg: DictConfig):
     )
 
     logger.info("Setting up trainer%s...", " and W&B integration" if cfg.wandb.enabled else "")
-    if cfg.wandb.enabled:
+    if cfg.wandb.enabled and Accelerator().is_main_process:
         wandb.init(
             name=run_name(),
             entity=cfg.wandb.entity,
@@ -126,7 +130,7 @@ def train_lm(cfg: DictConfig):
     train_args = get_arguments(cfg.train, wandb_enabled=cfg.wandb.enabled)
     if cfg.train.use_sft:
         trainer = SFTTrainer(
-            model,
+            cfg.train.base_model,
             train_args,
             train_dataset=datasets["train"],
             eval_dataset=datasets["val"] if cfg.train.eval else None,
