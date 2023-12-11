@@ -1,4 +1,4 @@
-name: "LlaMa 2"
+name: "LlaMa 2 7B Chat"
 path: "meta-llama/Llama-2-7b-chat-hf"
 inference:
   type: "hf-causal"

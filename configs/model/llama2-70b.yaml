@@ -1,0 +1,4 @@
+name: "LlaMa 2 70B"
+path: "meta-llama/Llama-2-70b-hf"
+inference:
+  type: "hf-causal"
