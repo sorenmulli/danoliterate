@@ -50,8 +50,7 @@ def clean_annotations(text: str) -> str:
 
 
 def parse_model_pred(tokens: list[str], generated: str, entity: str) -> list[str]:
-    # Heuristic: The model may ramble on, so we limit rambling to max 50% over
-    generated_tokens = default_ner_tokenize(generated)[: int(len(tokens) * 1.5)]
+    generated_tokens = default_ner_tokenize(generated)
     comparison_gen_tokens = [
         token.replace("@@", "").replace("##", "") for token in generated_tokens
     ]

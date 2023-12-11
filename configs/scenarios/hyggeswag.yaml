@@ -1,6 +1,7 @@
 hyggeswag:
   name: "HyggeSwag"
   path: "sorenmulli/hyggeswag"
+  pre_prompt: "Fuldend sætningen.\n"
   task:
     prompt_feature: "ctx"
     id_features: ["source_id", "ind"]

@@ -12,13 +12,11 @@ from nlgenda.infrastructure.logging import format_config
 logger = logging.getLogger(__name__)
 
 
-# TODO: Also add scores
+# TODO: Also add scores and correct results
 def output_for_inspection(cfg: DictConfig, name: str, results: list[ExecutionResult]):
     df = pd.DataFrame({"prompt": [ex.prompt for ex in results[0].examples]})
     for res in results:
-        df[results[0].metadata.model_cfg["name"]] = pd.Series(
-            [ex.generated_text for ex in res.examples]
-        )
+        df[res.metadata.model_cfg["name"]] = pd.Series([ex.generated_text for ex in res.examples])
     short_name = (
         name.lower().replace(" ", "-").replace(".", "-").replace("#", "-").replace("--", "-")
     )
@@ -40,4 +38,4 @@ def inspect(cfg: DictConfig):
     for res in results:
         scenario_groups[res.metadata.scenario_cfg["name"]].append(res)
     for name, group in scenario_groups.items():
-        output_for_inspection(cfg, name, group) # type: ignore
+        output_for_inspection(cfg, name, group)  # type: ignore
