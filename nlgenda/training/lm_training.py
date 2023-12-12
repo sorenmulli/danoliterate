@@ -14,9 +14,12 @@ from transformers import (
 )
 from transformers import logging as transformers_logging
 from trl import SFTTrainer
-from trl.trainer import ConstantLengthDataset
 
-from nlgenda.data.pretraining import get_streaming_data, tokenize_datasets
+from nlgenda.data.pretraining import (
+    ConstantLengthDatasetRandomSubsequence,
+    get_streaming_data,
+    tokenize_datasets,
+)
 from nlgenda.infrastructure.logging import format_config
 from nlgenda.infrastructure.runs import run_dir, run_name
 from nlgenda.modeling.load_model import from_pretrained_hf_hub_no_disk
@@ -96,13 +99,16 @@ def train_lm(cfg: DictConfig):
     datasets = get_streaming_data(cfg.train.data)
     if cfg.train.use_sft:
         tokenizer.padding_side = "right"
-        # We have to set up manually here to use an IterableDataset
         datasets = {
-            name: ConstantLengthDataset(
+            name: ConstantLengthDatasetRandomSubsequence(
                 tokenizer,
                 dataset,
                 cfg.train.data.text_col,
                 seq_length=cfg.train.data.context_tokens,
+                shuffle=name == "train",
+                one_seq_per_example=name == "train",
+                # Increase buffer
+                num_of_sequences=4096,
             )
             for name, dataset in datasets.items()
         }
