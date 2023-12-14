@@ -95,8 +95,6 @@ class Scorer:
             ", ".join(metric.name for metric in metrics),
         )
         for metric in metrics:
-            if "odd-one-out" not in metric.name:
-                continue
             scoring.metric_results.append(metric(result.examples))
         return scoring
 
