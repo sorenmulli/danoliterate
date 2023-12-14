@@ -1,4 +1,4 @@
-base_model: "echarlaix/tiny-random-mistral"
+base_model: "HuggingFaceH4/tiny-random-LlamaForCausalLM"
 
 steps: 3
 warmup_steps: 2
@@ -40,5 +40,8 @@ data:
   validation_examples: 2
   context_tokens: 16
   workers: 0
+  buffer_size: 1000
+  save_splits: false
+  splits_path: "local-computations/pretraining-splits"
 
 debug: true

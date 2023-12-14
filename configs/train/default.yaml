@@ -40,5 +40,8 @@ data:
   validation_examples: 1000
   context_tokens: 1024
   workers: 0
+  buffer_size: 1000
+  save_splits: false
+  splits_path: "local-computations/pretraining-splits"
 
 debug: false

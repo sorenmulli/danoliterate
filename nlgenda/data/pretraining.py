@@ -1,15 +1,20 @@
+import logging
 import random
 import warnings
 from functools import partial
+from pathlib import Path
 
 import torch
-from datasets import IterableDataset, interleave_datasets, load_dataset
+from datasets import Dataset, IterableDataset, interleave_datasets, load_dataset, load_from_disk
 from omegaconf import DictConfig
+from tqdm import tqdm
 from transformers import PreTrainedTokenizerBase
 from trl.trainer import ConstantLengthDataset
 
+logger = logging.getLogger(__name__)
 
-def get_streaming_data(cfg: DictConfig) -> dict[str, IterableDataset]:
+
+def get_streaming_data(cfg: DictConfig) -> dict[str, Dataset | IterableDataset]:
     data_paths = []
     for data_path in cfg.datasets:
         name = None
@@ -17,12 +22,61 @@ def get_streaming_data(cfg: DictConfig) -> dict[str, IterableDataset]:
             data_path, name = data_path.split(":")
         data_paths.append(load_dataset(data_path, name=name, split="train", streaming=True))
 
-    dataset = interleave_datasets(data_paths).shuffle(seed=cfg.seed).select_columns(cfg.text_col)
-    datasets = {
+    dataset = interleave_datasets(data_paths, seed=cfg.seed).shuffle(
+        seed=cfg.seed, buffer_size=cfg.buffer_size
+    )
+    if (splits_path := Path(cfg.splits_path)).exists():
+        datasets = load_splits(splits_path)
+        if cfg.save_splits:
+            raise RuntimeError(
+                f"Splits already exist at {cfg.splits_path}, "
+                "set train.data.save_splits=false or delete it."
+            )
+    elif cfg.save_splits:
+        datasets = create_splits(cfg, dataset, splits_path)
+    else:
+        raise RuntimeError(
+            f"Splits did not exist at {cfg.splits_path}, "
+            "set train.data.save_splits=true to create new ones."
+        )
+    # Make sure that ordering was the same when the splits were generated
+    example_iter = iter(dataset)
+    i = 0
+    while i < 10:
+        if datasets["test"][i] != next(example_iter):
+            raise ValueError(
+                "Difference between order of current iterable dataset and "
+                "the dataset used to create the loaded splits. "
+                "Risk of training on test! Fix seed or implement explicit test data skipping"
+            )
+        i += 1
+
+    datasets["train"] = dataset.skip(cfg.test_examples + cfg.validation_examples)
+    return datasets
+
+
+def create_splits(
+    cfg: DictConfig, dataset: IterableDataset, splits_path: Path
+) -> dict[str, Dataset]:
+    split_datasets = {
         "test": dataset.take(cfg.test_examples),
         "val": dataset.skip(cfg.test_examples).take(cfg.validation_examples),
-        "train": dataset.skip(cfg.test_examples + cfg.validation_examples),
     }
+    out_datasets = {}
+    for split, iterable_dataset in split_datasets.items():
+        out_datasets[split] = Dataset.from_list(
+            list(tqdm(iterable_dataset, desc=f"Generating split={split!r}"))
+        )
+        out_datasets[split].save_to_disk(out := splits_path / split)
+        logger.info("Saved dataset split %s to %s", split, out)
+    return out_datasets
+
+
+def load_splits(path: Path) -> dict[str, Dataset]:
+    datasets = {}
+    for split in "test", "val":
+        datasets[split] = load_from_disk(out := path / split)
+        logger.info("Loaded dataset split %s from %s", split, out)
     return datasets
 
 
@@ -73,7 +127,9 @@ class ConstantLengthDatasetRandomSubsequence(ConstantLengthDataset):
                 if buffer_len >= self.max_buffer_size:
                     break
                 try:
-                    buffer.append(self.formatting_func(next(iterator)))
+                    # TODO: Before formatting, save which examples have been seen in some way!
+                    data_sample = next(iterator)
+                    buffer.append(self.formatting_func(data_sample))
                     buffer_len += len(buffer[-1])
                 except StopIteration:
                     if self.infinite:
@@ -84,6 +140,14 @@ class ConstantLengthDatasetRandomSubsequence(ConstantLengthDataset):
                     else:
                         more_examples = False
                         break
+            if self.one_seq_per_example:
+                for i, text in enumerate(buffer):
+                    # Computational hack to avoid tokenizing long examples
+                    # that would just in a moment be subsampled
+                    if len(text) > (max_len := self.seq_length * 5):
+                        random_start = random.randint(0, len(text) - max_len)
+                        buffer[i] = text[random_start : random_start + max_len]
+
             tokenized_inputs = self.tokenizer(buffer, truncation=False)["input_ids"]
             all_token_ids = []
             examples = []

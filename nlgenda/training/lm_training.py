@@ -55,7 +55,7 @@ def get_arguments(cfg: DictConfig, wandb_enabled: bool):
         greater_is_better=False,
         # Saving
         save_strategy="steps",
-        save_steps=cfg.eval_every,
+        save_steps=cfg.save_every,
         save_total_limit=cfg.save_limit,
         load_best_model_at_end=cfg.eval,
         # Logging
@@ -85,6 +85,7 @@ def train_lm(cfg: DictConfig):
     logger.info("Loaded tokenizer with vocabulary size %i.", tokenizer.vocab_size)
 
     if cfg.train.lora.enabled:
+        assert not cfg.train.use_sft
         model = (
             resume_lora(model, cfg.train.lora)
             if cfg.train.resume
