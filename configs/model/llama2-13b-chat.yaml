@@ -1,4 +1,4 @@
 name: "LlaMa 2 13B Chat"
-path: "https://huggingface.co/meta-llama/Llama-2-13b-chat-hf"
+path: "meta-llama/Llama-2-13b-chat-hf"
 inference:
   type: "hf-causal"

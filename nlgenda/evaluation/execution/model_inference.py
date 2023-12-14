@@ -402,7 +402,7 @@ class OpenAiAPI(ModelInference):
         for prompt in prompts:
             generated_dict = self.cache[prompt]
             answer = generated_dict["choices"][0]
-            generated = answer["message"]["text"] if self.is_chat else answer["text"]
+            generated = answer["message"]["content"] if self.is_chat else answer["text"]
             # We have no scores from API
             out.append((generated, None))
         return out
