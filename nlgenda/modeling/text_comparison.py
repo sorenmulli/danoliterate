@@ -117,8 +117,8 @@ class ClassChoiceParser(Comparer):
         for target, pred in zip(targets, predictions, strict=True):
             class_counts = {cla: pred.count(cla) for cla in all_classes}
             # If the true class is the only mentioned: Score is 1
-            # If a class is the only mentioned: Score i 0
-            # If both true true and some wrong classes are mentioned
+            # If a class is the only mentioned: Score is 0
+            # If both true and some wrong classes are mentioned, choose most mentioned
             total_mentions = sum(class_counts.values())
             scores.append(class_counts[target] / total_mentions if total_mentions else 0.0)
         return scores

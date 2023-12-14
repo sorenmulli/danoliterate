@@ -146,7 +146,7 @@ class ClozeRunnerWithOptions(MultichoiceRunner):
         )
 
 
-class MultichoiceRunnerLetterWithContext(MultichoiceRunnerLetterOptions):
+class MultichoiceRunnerLetterWithContextAndOptions(MultichoiceRunnerLetterOptions):
     def __init__(
         self,
         prompt_feature: str = "text",
@@ -158,7 +158,26 @@ class MultichoiceRunnerLetterWithContext(MultichoiceRunnerLetterOptions):
 
     def prepare_prompt(self, row: dict[str, Any], pre_prompt: str, post_prompt: str) -> str:
         std_prompt = pre_prompt + self.maybe_augment(row[self.prompt_feature]) + post_prompt
-        return std_prompt.format(context=row[self.context_feature] or "")
+        options = "\n".join(
+            f"{chr(65+i)}. {option}" for i, option in enumerate(self.get_options(row))
+        )
+        prompt = std_prompt.format(context=row[self.context_feature] or "", options=options)
+        return prompt
+
+    def build_example(
+        self,
+        row: dict[str, Any],
+        pre_prompt="",
+        post_prompt="",
+        idx: Optional[int] = None,
+        _: Optional[list[dict[str, Any]]] = None,
+    ) -> ExecutionExample:
+        return ExecutionExample(
+            prompt=self.prepare_prompt(row, pre_prompt, post_prompt),
+            id_=self.get_example_id(row, idx),
+            options=[chr(65 + i) for i in range(len(self.get_options(row)))],
+            index_label=self.get_correct_idx(row),
+        )
 
 
 class MultiChoiceRunnerSameOptions(MultichoiceRunner):

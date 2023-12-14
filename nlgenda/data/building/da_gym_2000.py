@@ -71,8 +71,18 @@ def get_questions() -> pd.DataFrame:
                 assert len(options) == 4
 
                 if "Figur 10.6" not in question_text:
+                    # Manual, hacky fix of italic
+                    question_text = question_text.replace(
+                        "harmindstfornemmelse", "har mindst fornemmelse"
+                    )
                     index = int(question_text.split(".")[0])
                     question_text = " ".join(question_text.split()[1:])
+                    # Manual, even more hacky fix of a text across multiple *strongs*
+                    if "figur 10.6" in question_text:
+                        question_text = (
+                            "Næringsstofferne skal fra tarmen ud til cellerne i kroppen."
+                            " På vejen passerer næringsstofferne disse organer i denne rækkefølge:"
+                        )
                     data.append(
                         {
                             "question": question_text,

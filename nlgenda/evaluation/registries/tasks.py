@@ -7,7 +7,7 @@ from nlgenda.evaluation.execution.task_runner import (
     MultiAnswerSimilarityRunner,
     MultichoiceRunner,
     MultichoiceRunnerLetterOptions,
-    MultichoiceRunnerLetterWithContext,
+    MultichoiceRunnerLetterWithContextAndOptions,
     MultiChoiceRunnerSameOptions,
     TaskRunner,
 )
@@ -25,6 +25,15 @@ MC_STANDARD_METRICS = [
     "text-similarity-rouge-1",
     "text-similarity-rouge-l",
     "text-similarity-bert-sim",
+    "likelihood-brier",
+    "likelihood-ece",
+]
+MC_SHOWING_OPTIONS_METRICS = [
+    "max-likelihood-accuracy",
+    "max-likelihood-f1",
+    "max-similarity-accuracy-chosen-parsing",
+    "max-similarity-f1-chosen-parsing",
+    "text-similarity-chosen-parsing",
     "likelihood-brier",
     "likelihood-ece",
 ]
@@ -51,15 +60,6 @@ def get_mc_letter_options(scenario_cfg: DictConfig) -> TaskRunner:
     return MultichoiceRunnerLetterOptions(**kwargs)
 
 
-@register_task("default-mc-letter-context", metrics=MC_STANDARD_METRICS)
-def get_mc_letter_context(scenario_cfg: DictConfig) -> TaskRunner:
-    kwargs = {}
-    for feature in "prompt_feature", "id_features", "context_feature":
-        if (config_value := scenario_cfg.task.get(feature)) is not None:
-            kwargs[feature] = config_value
-    return MultichoiceRunnerLetterWithContext(**kwargs)
-
-
 @register_task("default-mc-same-options", metrics=MC_STANDARD_METRICS)
 def get_mc_same_options(scenario_cfg: DictConfig) -> TaskRunner:
     kwargs = {}
@@ -69,7 +69,19 @@ def get_mc_same_options(scenario_cfg: DictConfig) -> TaskRunner:
     return MultiChoiceRunnerSameOptions(**kwargs)
 
 
-@register_task("cloze-showing-options", metrics=MC_STANDARD_METRICS)
+@register_task("default-mc-letter-context-and-options", metrics=MC_SHOWING_OPTIONS_METRICS)
+def get_mc_letter_context(scenario_cfg: DictConfig) -> TaskRunner:
+    kwargs = {}
+    for feature in "prompt_feature", "id_features", "context_feature":
+        if (config_value := scenario_cfg.task.get(feature)) is not None:
+            kwargs[feature] = config_value
+    return MultichoiceRunnerLetterWithContextAndOptions(**kwargs)
+
+
+@register_task(
+    "cloze-showing-options",
+    metrics=MC_SHOWING_OPTIONS_METRICS,
+)
 def get_cloze_showing_options(scenario_cfg: DictConfig) -> TaskRunner:
     kwargs = {}
     for feature in "prompt_feature", "id_features", "cloze_mask_key", "cloze_mask_replaced":
@@ -78,16 +90,7 @@ def get_cloze_showing_options(scenario_cfg: DictConfig) -> TaskRunner:
     return ClozeRunnerWithOptions(**kwargs)
 
 
-@register_task(
-    "angry-tweets",
-    metrics=[
-        "max-likelihood-accuracy",
-        "max-likelihood-f1",
-        "max-similarity-accuracy-chosen-parsing",
-        "max-similarity-f1-chosen-parsing",
-        "text-similarity-chosen-parsing",
-    ],
-)
+@register_task("angry-tweets", metrics=MC_SHOWING_OPTIONS_METRICS)
 def get_angry_tweets(scenario_cfg: DictConfig) -> TaskRunner:
     return get_mc_same_options(scenario_cfg)
 
