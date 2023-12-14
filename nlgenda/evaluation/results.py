@@ -48,8 +48,8 @@ class ExecutionExample:
 @dataclass
 class ExecutionResultMetadata:
     timestamp: str
-    id_: Optional[str]
-    commit: Optional[str]
+    id_: str
+    commit: str
     compute_unit: Optional[str]
 
     scenario_cfg: OutDictType

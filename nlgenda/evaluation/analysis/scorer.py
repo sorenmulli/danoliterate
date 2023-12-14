@@ -95,6 +95,8 @@ class Scorer:
             ", ".join(metric.name for metric in metrics),
         )
         for metric in metrics:
+            if "odd-one-out" not in metric.name:
+                continue
             scoring.metric_results.append(metric(result.examples))
         return scoring
 
@@ -107,21 +109,12 @@ class Scorer:
         logger.info("Scores were saved locally to %s.", out)
 
     def _get_scoring_comparison_key(self, scoring: Scoring, metrics: Sequence[Metric]):
-        # TODO: Shouldn't metrics and ID actually be enough? Kept the rest for now for back-comp
         metric_names = (
             [metric.name for metric in metrics]
             if metrics
             else [metric_res.short_name for metric_res in scoring.metric_results]
         )
-        return (
-            str(scoring.execution_metadata.scenario_cfg["name"])
-            + "-"
-            + str(scoring.execution_metadata.id_)
-            + "-"
-            + str(scoring.execution_metadata.model_cfg["name"])
-            + "-"
-            + "-".join(sorted(metric_names))
-        )
+        return scoring.execution_metadata.id_ + "-" + "-".join(sorted(metric_names))
 
 
 def score(cfg: DictConfig):
