@@ -10,6 +10,7 @@ TASK_TYPE_RENAMES = {
     "hyggeswag": "default-mc",
     "citizenship-test": "default-mc-letter-options",
     "prompt-similarity": "default-answer-similarity",
+    "default-mc-letter-context": "default-mc-letter-context-and-options",
 }
 
 

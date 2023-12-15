@@ -137,7 +137,9 @@ def setup_app(cfg: DictConfig):
             st.form_submit_button(label="Submit")
 
     logger.info("Building leaderboard table ...")
-    table = build_leaderboard_table(metric_structure, chosen_metrics)
+    table = build_leaderboard_table(
+        metric_structure, chosen_metrics, efficiency=chosen_dimension == Dimension.EFFICIENCY
+    )
 
     st.dataframe(table, use_container_width=True)
 

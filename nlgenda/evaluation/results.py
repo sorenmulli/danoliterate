@@ -161,7 +161,7 @@ class MetricResult:
 @dataclass
 class Scoring:
     timestamp: str
-    id_: Optional[str]
+    id_: str
     commit: Optional[str]
     compute_unit: Optional[str]
 

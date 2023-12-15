@@ -347,6 +347,7 @@ class OddOneOutAccuracy(TextSimilarityMetric):
                 for j in range(len(example.options)):
                     if i != j and tuple(sorted((i, j))) not in seen_pairs:
                         reference_total_dists[j] -= similarities.pop(0)
+                        reference_total_dists[i] -= similarities.pop(0)
                         seen_pairs.add(tuple(sorted((i, j))))
             generated_avg_dist = generated_total_dist / len(example.options)
             reference_avg_dists = [

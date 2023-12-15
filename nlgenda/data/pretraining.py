@@ -117,8 +117,8 @@ class ConstantLengthDatasetRandomSubsequence(ConstantLengthDataset):
         super().__init__(*args, **kwargs)
         self.one_seq_per_example = one_seq_per_example
 
-    # Mostly a copy from parent class
-    def __iter__(self):
+    # pylint: disable=too-many-branches
+    def __iter__(self):  # This function is mostly a copy from parent class
         iterator = iter(self.dataset)
         more_examples = True
         while more_examples:

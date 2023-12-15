@@ -20,7 +20,7 @@ class TimingScore(MetaScoring):
         out = []
         for scoring in scores.scorings:
             if (total_time := scoring.execution_metadata.total_inference_seconds) is not None:
-                avg_time = total_time / len(scoring.metric_results[0].example_results)
+                avg_time = total_time / len(scoring.metric_results[0].example_results) * 1000
                 scenario_name: str = scoring.execution_metadata.scenario_cfg["name"]  # type: ignore
                 model_name: str = scoring.execution_metadata.model_cfg["name"]  # type: ignore
                 out.append(
@@ -30,8 +30,9 @@ class TimingScore(MetaScoring):
                         Dimension.EFFICIENCY,
                         [
                             MetricResult(
-                                "Average run time",
-                                "Total inference seconds divided by number of examples",
+                                "Inference milliseconds",
+                                "Total dataset wall time in milliseconds "
+                                "divided by number of examples",
                                 {},
                                 aggregate=avg_time,
                                 error=None,
