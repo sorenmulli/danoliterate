@@ -1,7 +1,7 @@
 import logging
 import pytest
 import numpy as np
-from nlgenda.evaluation.execution.model_inference import HuggingfaceCausalLm, set_deterministic
+from danoliterate.evaluation.execution.model_inference import HuggingfaceCausalLm, set_deterministic
 
 logger = logging.getLogger(__name__)
 

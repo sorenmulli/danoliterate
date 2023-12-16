@@ -1,8 +1,8 @@
 import torch
 from transformers import AutoModelForCausalLM
 
-from nlgenda.modeling.load_model import from_pretrained_hf_hub_no_disk
-from nlgenda.evaluation.execution.model_inference import set_deterministic
+from danoliterate.modeling.load_model import from_pretrained_hf_hub_no_disk
+from danoliterate.evaluation.execution.model_inference import set_deterministic
 
 def test_model_loading():
     set_deterministic(1887)

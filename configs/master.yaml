@@ -54,4 +54,4 @@ hydra:
       file:
         filename: ${hydra.runtime.output_dir}/${job_base_name}.log
 
-job_base_name: nlgenda
+job_base_name: job

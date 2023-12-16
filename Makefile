@@ -1,4 +1,4 @@
-SRC_DIR := nlgenda
+SRC_DIR := danoliterate
 
 FORMATTERS := black isort
 LINTERS := pylint mypy

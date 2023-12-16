@@ -13,5 +13,5 @@ make install
 ## Usage
 
 ```
-python -m nlgenda do=evaluate
+python -m danoliterate do=evaluate
 ```
