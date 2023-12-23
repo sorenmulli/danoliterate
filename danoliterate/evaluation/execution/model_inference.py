@@ -166,9 +166,9 @@ class ModelInference(ABC):
         return example
 
 
-class ReflectiveBaseline(ModelInference):
+class ConstantBaseline(ModelInference):
     def generate_texts(self, prompts: list[str]) -> list[tuple[str, Optional[float]]]:
-        return [(prompt, 0) for prompt in prompts]
+        return [("a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å", 0) for _ in prompts]
 
     def likelihoods(self, prompt_and_targets: list[tuple[str, str]]) -> list[float]:
         return [0] * len(prompt_and_targets)

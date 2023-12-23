@@ -1,16 +1,16 @@
 from omegaconf import DictConfig
 
 from danoliterate.evaluation.execution.model_inference import (
+    ConstantBaseline,
     HuggingfaceCausalLm,
     OpenAiAPI,
-    ReflectiveBaseline,
 )
 from danoliterate.evaluation.registries.registration import register_inference
 
 
 @register_inference("baseline", unsupported_metrics=[])
-def get_baseline(_: DictConfig) -> ReflectiveBaseline:
-    return ReflectiveBaseline()
+def get_baseline(_: DictConfig) -> ConstantBaseline:
+    return ConstantBaseline()
 
 
 @register_inference("hf-causal", unsupported_metrics=[])
