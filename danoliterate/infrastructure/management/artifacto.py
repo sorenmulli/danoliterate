@@ -26,7 +26,7 @@ LOGO = """
 class CleanDebugOptions(Enum):
     DISPLAY_DEBUG = 0
     DELETE_ALL = 1
-    CANCEL = None
+    CANCEL = 2
 
 
 def clean_debug(cfg: DictConfig):
@@ -70,7 +70,7 @@ def clean_debug(cfg: DictConfig):
 class DupeMarkerOptions(Enum):
     PRINT = 0
     MARK_ALL = 1
-    CANCEL = None
+    CANCEL = 2
 
 
 def _format_result(result: Artifact) -> str:
@@ -207,7 +207,7 @@ class MainMenuOptions(Enum):
     MARK_DUPES = 0
     MARK_BEFORE = 1
     CLEAN_DEBUG = 2
-    EXIT = None
+    EXIT = 3
 
 
 def main_menu(cfg: DictConfig):
