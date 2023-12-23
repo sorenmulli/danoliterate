@@ -137,12 +137,12 @@ def get_answer_similarity(scenario_cfg: DictConfig) -> TaskRunner:
 @register_task(
     "multi-answer-similarity",
     metrics=[
-        "odd-one-out-accuracy-bert-sim",
-        "odd-one-out-accuracy-rouge-l",
-        "odd-one-out-accuracy-rouge-1",
         "avg-text-similarity-bert-sim",
         "avg-text-similarity-rouge-l",
         "avg-text-similarity-rouge-1",
+        "odd-one-out-accuracy-bert-sim",
+        "odd-one-out-accuracy-rouge-l",
+        "odd-one-out-accuracy-rouge-1",
         "max-text-similarity-bert-sim",
         "max-text-similarity-rouge-l",
         "max-text-similarity-rouge-1",

@@ -301,7 +301,7 @@ class AverageTextSimilarity(MaxTextSimilarity):
 class OddOneOutAccuracy(TextSimilarityMetric):
     @property
     def name(self) -> str:
-        return f"Odd-one-out frequency ({self.comparison_name})"
+        return f"Prediction odd-one-out frequency ({self.comparison_name})"
 
     @property
     def description(self) -> str:
@@ -316,45 +316,22 @@ class OddOneOutAccuracy(TextSimilarityMetric):
 
     def compute(self, examples: list[ExecutionExample]) -> list[float]:
         comparison_function = COMPARERS[self.comparison_name]()
-        targets: list[str] = []
-        predictions: list[str] = []
+        res = []
         for example in examples:
             if example.generated_text is None or example.options is None:
                 logger.error(
                     "Example with ID %s lacked generated text or reference options.", example.id_
                 )
                 raise ValueError("ExecutionExample had missing required fields.")
-            seen_pairs = set()
-            for i, option in enumerate(example.options):
-                targets.append(option)
-                predictions.append(example.generated_text)
-                for j, option_ in enumerate(example.options):
-                    if i != j and tuple(sorted((i, j))) not in seen_pairs:
-                        targets.append(option)
-                        predictions.append(option_)
-                        seen_pairs.add(tuple(sorted((i, j))))
-        res = []
-        similarities = comparison_function(targets, predictions)
-        for example in examples:
-            assert example.options is not None
-            generated_total_dist = 0.0
-            reference_total_dists = [0.0 for _ in example.options]
-            seen_pairs = set()
-            for i in range(len(example.options)):
-                generated_total_dist -= similarities.pop(0)
-                for j in range(len(example.options)):
-                    if i != j and tuple(sorted((i, j))) not in seen_pairs:
-                        reference_total_dists[j] -= similarities.pop(0)
-                        reference_total_dists[i] -= similarities.pop(0)
-                        seen_pairs.add(tuple(sorted((i, j))))
-            generated_avg_dist = generated_total_dist / len(example.options)
-            reference_avg_dists = [
-                total_dist / (len(example.options) - 1) for total_dist in reference_total_dists
-            ]
-            # Generated is odd one out if it has highest dist of all option total dists
-            res.append(
-                float(all(generated_avg_dist > ref_dist for ref_dist in reference_avg_dists))
-            )
+            texts = [example.generated_text, *example.options]
+            text_similarities = []
+            for i, text in enumerate(texts):
+                compare_to = [_text for j, _text in enumerate(texts) if i != j]
+                text_similarities.append(
+                    np.mean(comparison_function(compare_to, [text] * len(compare_to)))
+                )
+            argmin_sim = min(range(len(texts)), key=text_similarities.__getitem__)
+            res.append(float(argmin_sim == 0))
         return res
 
 
