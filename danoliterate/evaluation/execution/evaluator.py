@@ -11,8 +11,7 @@ from danoliterate.evaluation.execution.model_inference import ModelInference, se
 from danoliterate.evaluation.registries.get import get_inference, get_task_runner
 from danoliterate.evaluation.results import ExecutionExample, ExecutionResult
 from danoliterate.infrastructure import format_config
-
-logger = logging.getLogger(__name__)
+from danoliterate.infrastructure.logging import logger
 
 
 class Evaluator:

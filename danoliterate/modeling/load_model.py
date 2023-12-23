@@ -1,6 +1,5 @@
 import gc
 import json
-import logging
 from functools import partial
 from io import BytesIO
 from typing import Any
@@ -17,7 +16,7 @@ from transformers.modeling_utils import _load_state_dict_into_model as hf_state_
 from transformers.modeling_utils import no_init_weights
 from transformers.models.auto.auto_factory import _get_model_class as hf_get_model_class
 
-logger = logging.getLogger(__name__)
+from danoliterate.infrastructure.logging import logger
 
 
 def download(url: str, chunk_size=8192):

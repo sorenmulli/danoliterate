@@ -1,7 +1,6 @@
 """
 Should be run as streamlit application
 """
-import logging
 
 import hydra
 import hydra.core.global_hydra
@@ -13,8 +12,6 @@ from omegaconf import DictConfig
 
 from danoliterate.evaluation.analysis.analyser import Analyser
 from danoliterate.infrastructure.constants import CONFIG_DIR
-
-logger = logging.getLogger(__name__)
 
 ALL_KEY = "All"
 

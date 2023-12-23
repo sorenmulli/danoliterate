@@ -1,4 +1,3 @@
-import logging
 import re
 import time
 from dataclasses import dataclass
@@ -13,10 +12,8 @@ from omegaconf import DictConfig
 from pypdf import PdfReader
 
 from danoliterate.data.building.hub import push
-from danoliterate.infrastructure.logging import format_config
+from danoliterate.infrastructure.logging import format_config, logger
 from danoliterate.modeling.ngram_language_modeling import NgramLm
-
-logger = logging.getLogger(__name__)
 
 QUESTION_PATTERN = r"^\d+\."
 ANSWER_PATTERN = r"^[A-Z]:"

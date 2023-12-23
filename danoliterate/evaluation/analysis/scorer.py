@@ -1,4 +1,3 @@
-import logging
 from typing import Sequence
 
 from omegaconf import DictConfig
@@ -13,10 +12,8 @@ from danoliterate.evaluation.artifact_integration import (
 )
 from danoliterate.evaluation.registries.get import get_compatible_metrics
 from danoliterate.evaluation.results import ExecutionResult, Scores, Scoring
-from danoliterate.infrastructure.logging import format_config
+from danoliterate.infrastructure.logging import format_config, logger
 from danoliterate.infrastructure.timing import from_timestamp
-
-logger = logging.getLogger(__name__)
 
 
 class Scorer:

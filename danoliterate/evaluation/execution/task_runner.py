@@ -1,4 +1,3 @@
-import logging
 from abc import ABC, abstractmethod
 from typing import Any, Optional
 
@@ -8,8 +7,6 @@ from datasets import Dataset
 from danoliterate.evaluation.execution.augmentation import Augmenter
 from danoliterate.evaluation.execution.model_inference import ModelInference
 from danoliterate.evaluation.results import ExecutionExample
-
-logger = logging.getLogger(__name__)
 
 
 class TaskRunner(ABC):

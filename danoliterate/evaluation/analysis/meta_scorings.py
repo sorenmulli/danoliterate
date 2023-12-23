@@ -1,12 +1,10 @@
-import logging
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from typing import DefaultDict, Optional
 
 from danoliterate.evaluation.analysis.dimensions import Dimension
 from danoliterate.evaluation.results import MetricResult, Scores, Scoring
-
-logger = logging.getLogger(__name__)
+from danoliterate.infrastructure.logging import logger
 
 
 class MetaScoring(ABC):

@@ -1,4 +1,3 @@
-import logging
 import sys
 from collections import defaultdict
 from enum import Enum
@@ -13,9 +12,8 @@ from wandb import Artifact
 
 from danoliterate.evaluation.artifact_integration import dict_from_artifact, yield_wandb_artifacts
 from danoliterate.evaluation.results import ExecutionResult
+from danoliterate.infrastructure.logging import logger
 from danoliterate.infrastructure.timing import get_now_stamp
-
-logger = logging.getLogger(__name__)
 
 LOGO = """
 ░█▀█░█▀▄░▀█▀░▀█▀░█▀▀░█▀█░█▀▀░▀█▀░█▀█

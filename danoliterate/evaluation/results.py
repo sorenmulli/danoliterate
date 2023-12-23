@@ -1,5 +1,4 @@
 import json
-import logging
 import os
 import uuid
 from dataclasses import asdict, dataclass, field
@@ -15,10 +14,8 @@ from danoliterate.evaluation.serialization import (
     fix_args_for_dataclass,
 )
 from danoliterate.infrastructure.constants import SCORES_ARTIFACT_TYPE
-from danoliterate.infrastructure.logging import commit_hash, get_compute_unit_string
+from danoliterate.infrastructure.logging import commit_hash, get_compute_unit_string, logger
 from danoliterate.infrastructure.timing import get_now_stamp
-
-logger = logging.getLogger(__name__)
 
 
 # pylint: disable=too-many-instance-attributes

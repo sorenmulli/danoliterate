@@ -5,9 +5,7 @@ import pandas as pd
 from omegaconf import DictConfig
 
 from danoliterate.evaluation.artifact_integration import get_scores_wandb
-from danoliterate.infrastructure.logging import format_config
-
-logger = logging.getLogger(__name__)
+from danoliterate.infrastructure.logging import format_config, logger
 
 
 class Analyser:

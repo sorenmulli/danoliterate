@@ -1,5 +1,4 @@
 import json
-import logging
 from collections import defaultdict
 from typing import DefaultDict, Optional
 
@@ -10,10 +9,8 @@ from tqdm import tqdm
 
 from danoliterate.data.building.hub import push
 from danoliterate.data.statistics import text_stats
-from danoliterate.infrastructure.logging import format_config
+from danoliterate.infrastructure.logging import format_config, logger
 from danoliterate.modeling.language_identification import DANISH, LanguageIdentifier
-
-logger = logging.getLogger(__name__)
 
 
 def deduplicate(dataset: Dataset) -> Dataset:

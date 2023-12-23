@@ -1,4 +1,3 @@
-import logging
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from typing import DefaultDict, Optional
@@ -9,12 +8,11 @@ from scipy import stats
 from seqeval.metrics import f1_score
 
 from danoliterate.evaluation.results import ExecutionExample, MetricResult
+from danoliterate.infrastructure.logging import logger
 from danoliterate.modeling.gpt_ner_alignment import parse_model_pred
 from danoliterate.modeling.text_classification import BatchBertOffensive
 from danoliterate.modeling.text_comparison import COMPARERS
 from danoliterate.modeling.uncertainty_estimation import ece_score, multiclass_brier
-
-logger = logging.getLogger(__name__)
 
 
 class Metric(ABC):

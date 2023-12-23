@@ -1,10 +1,9 @@
-import logging
 import re
 
 import kenlm
 from omegaconf import DictConfig
 
-logger = logging.getLogger(__name__)
+from danoliterate.infrastructure.logging import logger
 
 
 class NgramLm:

@@ -17,11 +17,10 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from transformers.tokenization_utils_base import VERY_LARGE_INTEGER
 
 from danoliterate.evaluation.results import ExecutionExample
+from danoliterate.infrastructure.logging import logger
 from danoliterate.modeling.load_model import from_pretrained_hf_hub_no_disk
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-logger = logging.getLogger(__name__)
 
 
 def set_deterministic(seed=0):

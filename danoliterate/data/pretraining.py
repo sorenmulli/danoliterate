@@ -1,4 +1,3 @@
-import logging
 import random
 import warnings
 from functools import partial
@@ -11,7 +10,7 @@ from tqdm import tqdm
 from transformers import PreTrainedTokenizerBase
 from trl.trainer import ConstantLengthDataset
 
-logger = logging.getLogger(__name__)
+from danoliterate.infrastructure.logging import logger
 
 
 def get_streaming_data(cfg: DictConfig) -> dict[str, Dataset | IterableDataset]:

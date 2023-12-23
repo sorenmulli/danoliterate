@@ -1,4 +1,3 @@
-import logging
 from collections import defaultdict
 from pathlib import Path
 
@@ -7,9 +6,7 @@ from omegaconf import DictConfig
 
 from danoliterate.evaluation.artifact_integration import get_results_wandb
 from danoliterate.evaluation.results import ExecutionResult
-from danoliterate.infrastructure.logging import format_config
-
-logger = logging.getLogger(__name__)
+from danoliterate.infrastructure.logging import format_config, logger
 
 
 # TODO: Also add scores and correct results

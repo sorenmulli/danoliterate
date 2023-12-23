@@ -7,9 +7,7 @@ from datasets import Dataset
 from omegaconf import DictConfig
 
 from danoliterate.data.building.hub import push
-from danoliterate.infrastructure.logging import format_config
-
-logger = logging.getLogger(__name__)
+from danoliterate.infrastructure.logging import format_config, logger
 
 QUESTIONS_URL = "http://static.uvm.dk/Publikationer/2000/laesetekster/2/hel.htm"
 ANSWERS_URL = "http://static.uvm.dk/Publikationer/2000/laesetekster/1/2.htm"

@@ -1,8 +1,7 @@
-import logging
 from dataclasses import _MISSING_TYPE, fields
 from typing import Any, Union
 
-logger = logging.getLogger(__name__)
+from danoliterate.infrastructure.logging import logger
 
 OutDictType = dict[str, Union[str, int, float, bool, None, "OutDictType", list["OutDictType"]]]
 

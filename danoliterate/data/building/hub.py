@@ -3,7 +3,7 @@ import logging
 from datasets import Dataset
 from omegaconf import DictConfig
 
-logger = logging.getLogger(__name__)
+from danoliterate.infrastructure.logging import logger
 
 
 def push(dataset: Dataset, cfg: DictConfig, config_name="default"):

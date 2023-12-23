@@ -1,13 +1,9 @@
-import logging
-
 import pandas as pd
 from datasets import Dataset, load_dataset
 from omegaconf import DictConfig
 
 from danoliterate.data.building.hub import push
-from danoliterate.infrastructure.logging import format_config
-
-logger = logging.getLogger(__name__)
+from danoliterate.infrastructure.logging import format_config, logger
 
 
 def run_extract(cfg: DictConfig, hellaswag: Dataset):

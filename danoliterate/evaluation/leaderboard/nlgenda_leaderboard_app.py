@@ -1,7 +1,6 @@
 """
 Should be run as streamlit application
 """
-import logging
 from collections import defaultdict
 from typing import Optional
 
@@ -15,8 +14,7 @@ from danoliterate.evaluation.artifact_integration import get_scores_wandb
 from danoliterate.evaluation.leaderboard.table import build_leaderboard_table
 from danoliterate.evaluation.results import MetricResult, Scores, Scoring
 from danoliterate.infrastructure.constants import CONFIG_DIR
-
-logger = logging.getLogger(__name__)
+from danoliterate.infrastructure.logging import logger
 
 
 def group_models_by_metrics(models):

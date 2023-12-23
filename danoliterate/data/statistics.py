@@ -1,12 +1,9 @@
-import logging
 import os
 
 import matplotlib.pyplot as plt
 import pandas as pd
 from datasets import Dataset, load_dataset
 from tqdm import tqdm
-
-logger = logging.getLogger(__name__)
 
 
 def text_stats(dataset: Dataset, text_cols: list[str]) -> dict[str, int]:

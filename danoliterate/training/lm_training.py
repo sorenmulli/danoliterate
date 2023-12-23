@@ -1,4 +1,3 @@
-import logging
 from pathlib import Path
 
 import torch
@@ -20,12 +19,10 @@ from danoliterate.data.pretraining import (
     get_streaming_data,
     tokenize_datasets,
 )
-from danoliterate.infrastructure.logging import format_config
+from danoliterate.infrastructure.logging import format_config, logger
 from danoliterate.infrastructure.runs import run_dir, run_name
 from danoliterate.modeling.load_model import from_pretrained_hf_hub_no_disk
 from danoliterate.training.efficiency import resume_lora, setup_lora
-
-logger = logging.getLogger(__name__)
 
 
 def get_arguments(cfg: DictConfig, wandb_enabled: bool):

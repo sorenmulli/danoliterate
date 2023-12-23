@@ -1,4 +1,5 @@
 import json
+import logging
 from typing import Optional
 
 import torch
@@ -6,6 +7,8 @@ from git import InvalidGitRepositoryError, Repo
 from omegaconf import DictConfig, OmegaConf
 
 from danoliterate.infrastructure.constants import REPO_PATH
+
+logger = logging.getLogger(__name__)
 
 
 def format_config(cfg: DictConfig) -> str:
