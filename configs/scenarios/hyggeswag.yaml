@@ -1,8 +1,9 @@
 hyggeswag:
   name: "HyggeSwag"
   path: "sorenmulli/hyggeswag"
-  pre_prompt: "Fuldend sætningen. Skriv intet andet end sætningens korte fortsættelse.\n"
+  pre_prompt: "Svar kun med bogstavet for den rigtige fortsættelse af sætningen\n# SÆTNING\n"
+  post_prompt: "\n# SVARMULIGHEDER\n{options}\n# SVAR\nDen rigtige fortsættelse er mulighed "
   task:
     prompt_feature: "ctx"
     id_features: ["source_id", "ind"]
-    type: "default-mc"
+    type: "default-mc-options"

@@ -1,4 +1,3 @@
-import logging
 from time import perf_counter
 from typing import Generator, Optional
 

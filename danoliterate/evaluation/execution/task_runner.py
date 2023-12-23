@@ -143,7 +143,36 @@ class ClozeRunnerWithOptions(MultichoiceRunner):
         )
 
 
-class MultichoiceRunnerLetterWithContextAndOptions(MultichoiceRunnerLetterOptions):
+class MultichoiceRunnerWithOptions(MultichoiceRunner):
+    def prepare_prompt(self, row: dict[str, Any], pre_prompt: str, post_prompt: str) -> str:
+        std_prompt = pre_prompt + self.maybe_augment(row[self.prompt_feature]) + post_prompt
+        options = "\n".join(f"{i+1}. {option}" for i, option in enumerate(self.get_options(row)))
+        prompt = std_prompt.format(options=options)
+        return prompt
+
+    def build_example(
+        self,
+        row: dict[str, Any],
+        pre_prompt="",
+        post_prompt="",
+        idx: Optional[int] = None,
+        _: Optional[list[dict[str, Any]]] = None,
+    ) -> ExecutionExample:
+        return ExecutionExample(
+            prompt=self.prepare_prompt(row, pre_prompt, post_prompt),
+            id_=self.get_example_id(row, idx),
+            options=[str(i + 1) for i in range(len(self.get_options(row)))],
+            index_label=self.get_correct_idx(row),
+        )
+
+
+class MultichoiceRunnerLetterWithOptions(
+    MultichoiceRunnerWithOptions, MultichoiceRunnerLetterOptions
+):
+    ...
+
+
+class MultichoiceRunnerLetterWithContextAndOptions(MultichoiceRunnerLetterWithOptions):
     def __init__(
         self,
         prompt_feature: str = "text",
@@ -160,21 +189,6 @@ class MultichoiceRunnerLetterWithContextAndOptions(MultichoiceRunnerLetterOption
         )
         prompt = std_prompt.format(context=row[self.context_feature] or "", options=options)
         return prompt
-
-    def build_example(
-        self,
-        row: dict[str, Any],
-        pre_prompt="",
-        post_prompt="",
-        idx: Optional[int] = None,
-        _: Optional[list[dict[str, Any]]] = None,
-    ) -> ExecutionExample:
-        return ExecutionExample(
-            prompt=self.prepare_prompt(row, pre_prompt, post_prompt),
-            id_=self.get_example_id(row, idx),
-            options=[chr(65 + i) for i in range(len(self.get_options(row)))],
-            index_label=self.get_correct_idx(row),
-        )
 
 
 class MultiChoiceRunnerSameOptions(MultichoiceRunner):

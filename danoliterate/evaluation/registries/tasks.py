@@ -8,32 +8,33 @@ from danoliterate.evaluation.execution.task_runner import (
     MultichoiceRunner,
     MultichoiceRunnerLetterOptions,
     MultichoiceRunnerLetterWithContextAndOptions,
+    MultichoiceRunnerLetterWithOptions,
     MultiChoiceRunnerSameOptions,
+    MultichoiceRunnerWithOptions,
     TaskRunner,
 )
 from danoliterate.evaluation.registries.registration import register_task
 
 MC_STANDARD_METRICS = [
+    "text-similarity-bert-sim",
+    "text-similarity-rouge-l",
+    "text-similarity-rouge-1",
     "max-likelihood-accuracy",
     "max-likelihood-f1",
-    "max-similarity-accuracy-rouge-1",
-    "max-similarity-accuracy-rouge-l",
     "max-similarity-accuracy-bert-sim",
-    "max-similarity-f1-rouge-1",
-    "max-similarity-f1-rouge-l",
+    "max-similarity-accuracy-rouge-l",
+    "max-similarity-accuracy-rouge-1",
     "max-similarity-f1-bert-sim",
-    "text-similarity-rouge-1",
-    "text-similarity-rouge-l",
-    "text-similarity-bert-sim",
+    "max-similarity-f1-rouge-l",
+    "max-similarity-f1-rouge-1",
     "likelihood-brier",
     "likelihood-ece",
 ]
 MC_SHOWING_OPTIONS_METRICS = [
-    "max-likelihood-accuracy",
-    "max-likelihood-f1",
     "max-similarity-accuracy-chosen-parsing",
     "max-similarity-f1-chosen-parsing",
-    "text-similarity-chosen-parsing",
+    "max-likelihood-accuracy",
+    "max-likelihood-f1",
     "likelihood-brier",
     "likelihood-ece",
 ]
@@ -51,6 +52,18 @@ def get_mc(scenario_cfg: DictConfig) -> TaskRunner:
     return MultichoiceRunner(**kwargs)
 
 
+@register_task(
+    "default-mc-options",
+    metrics=MC_SHOWING_OPTIONS_METRICS,
+)
+def get_mc_options(scenario_cfg: DictConfig) -> TaskRunner:
+    kwargs = {}
+    for feature in "prompt_feature", "id_features":
+        if (config_value := scenario_cfg.task.get(feature)) is not None:
+            kwargs[feature] = config_value
+    return MultichoiceRunnerWithOptions(**kwargs)
+
+
 @register_task("default-mc-letter-options", metrics=MC_STANDARD_METRICS)
 def get_mc_letter_options(scenario_cfg: DictConfig) -> TaskRunner:
     kwargs = {}
@@ -58,6 +71,15 @@ def get_mc_letter_options(scenario_cfg: DictConfig) -> TaskRunner:
         if (config_value := scenario_cfg.task.get(feature)) is not None:
             kwargs[feature] = config_value
     return MultichoiceRunnerLetterOptions(**kwargs)
+
+
+@register_task("default-mc-letter-options-showing", metrics=MC_SHOWING_OPTIONS_METRICS)
+def get_mc_letter_options_showing(scenario_cfg: DictConfig) -> TaskRunner:
+    kwargs = {}
+    for feature in "prompt_feature", "id_features":
+        if (config_value := scenario_cfg.task.get(feature)) is not None:
+            kwargs[feature] = config_value
+    return MultichoiceRunnerLetterWithOptions(**kwargs)
 
 
 @register_task("default-mc-same-options", metrics=MC_STANDARD_METRICS)
@@ -98,10 +120,10 @@ def get_angry_tweets(scenario_cfg: DictConfig) -> TaskRunner:
 @register_task(
     "default-answer-similarity",
     metrics=[
-        "offensive-prob",
-        "text-similarity-rouge-1",
-        "text-similarity-rouge-l",
         "text-similarity-bert-sim",
+        "text-similarity-rouge-l",
+        "text-similarity-rouge-1",
+        "offensive-prob",
     ],
 )
 def get_answer_similarity(scenario_cfg: DictConfig) -> TaskRunner:
@@ -115,19 +137,19 @@ def get_answer_similarity(scenario_cfg: DictConfig) -> TaskRunner:
 @register_task(
     "multi-answer-similarity",
     metrics=[
-        "offensive-prob",
-        "min-text-similarity-rouge-1",
-        "min-text-similarity-rouge-l",
-        "min-text-similarity-bert-sim",
-        "max-text-similarity-rouge-1",
-        "max-text-similarity-rouge-l",
-        "max-text-similarity-bert-sim",
-        "avg-text-similarity-rouge-1",
-        "avg-text-similarity-rouge-l",
-        "avg-text-similarity-bert-sim",
-        "odd-one-out-accuracy-rouge-1",
-        "odd-one-out-accuracy-rouge-l",
         "odd-one-out-accuracy-bert-sim",
+        "odd-one-out-accuracy-rouge-l",
+        "odd-one-out-accuracy-rouge-1",
+        "avg-text-similarity-bert-sim",
+        "avg-text-similarity-rouge-l",
+        "avg-text-similarity-rouge-1",
+        "max-text-similarity-bert-sim",
+        "max-text-similarity-rouge-l",
+        "max-text-similarity-rouge-1",
+        "min-text-similarity-bert-sim",
+        "min-text-similarity-rouge-l",
+        "min-text-similarity-rouge-1",
+        "offensive-prob",
     ],
 )
 def get_multi_answer_similarity(scenario_cfg: DictConfig) -> TaskRunner:

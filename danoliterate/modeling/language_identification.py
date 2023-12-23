@@ -1,9 +1,9 @@
 import fasttext
 from omegaconf import DictConfig
 
-DANISH = "da"
-
 from danoliterate.infrastructure.logging import logger
+
+DANISH = "da"
 
 
 class LanguageIdentifier:

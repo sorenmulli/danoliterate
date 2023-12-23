@@ -1,7 +1,9 @@
 citizenship_test:
   name: "Citizenship Test"
   path: "sorenmulli/citizenship-test-da"
+  pre_prompt: "Svar kun med bogstavet for den rigtige mulighed\n# SPØRGSMÅL\n"
+  post_prompt: "\n# SVARMULIGHEDER\n{options}\n# SVAR\nSvaret er mulighed "
   task:
     prompt_feature: "question"
     id_features: ["origin", "index"]
-    type: "default-mc-letter-options"
+    type: "default-mc-letter-options-showing"

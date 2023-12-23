@@ -2,7 +2,7 @@ hashtag_twitterhjerne:
   name: "#twitterhjerne"
   path: "sorenmulli/da-hashtag-twitterhjerne"
   pre_prompt: "Skriv et kort tweet på dansk, der besvarer nedenstående spørgsmål. Svar kun med tweetet.\n# TWEET MED SPØRGSMÅL\n"
-  post_prompt: "\n# TWEET MED SVAR\n"
+  post_prompt: "\n# TWEET MED SVAR\nEt svar kunne være:"
   task:
     type: "multi-answer-similarity"
     prompt_feature: "Question"

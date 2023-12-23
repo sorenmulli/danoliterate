@@ -2,7 +2,7 @@ angry_tweets:
   name: "Angry Tweets"
   path: "ScandEval/angry-tweets-mini"
   pre_prompt: "Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.\n# TWEET\n"
-  post_prompt: "\n# SENTIMENT:\n"
+  post_prompt: "\n# SENTIMENT:\nSentimentet var "
   dataset_split: "val"
   task:
     type: "angry-tweets"
