@@ -79,7 +79,7 @@ def fetch_scores_cached(_cfg: DictConfig):
 # pylint: disable=too-many-locals
 @hydra.main(config_path=f"../../{CONFIG_DIR}", config_name="master", version_base=None)
 def setup_app(cfg: DictConfig):
-    st.set_page_config("NLGenDa Leaderboard", page_icon="🇩🇰")
+    st.set_page_config("Danoliterate Leaderboard", page_icon="🇩🇰")
     # https://discuss.streamlit.io/t/remove-made-with-streamlit-from-bottom-of-app/1370/17
     hide_streamlit_style = """
             <style>
@@ -89,7 +89,7 @@ def setup_app(cfg: DictConfig):
             """
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-    st.title("NLGenDa Leaderboard")
+    st.title("Danoliterate LLM Leaderboard")
 
     logger.info("Fetching scores ...")
     # TODO: Minimize loading times
