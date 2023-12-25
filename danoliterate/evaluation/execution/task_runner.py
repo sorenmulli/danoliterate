@@ -145,10 +145,12 @@ class ClozeRunnerWithOptions(MultichoiceRunner):
 
 class MultichoiceRunnerWithOptions(MultichoiceRunner):
     def prepare_prompt(self, row: dict[str, Any], pre_prompt: str, post_prompt: str) -> str:
-        std_prompt = pre_prompt + self.maybe_augment(row[self.prompt_feature]) + post_prompt
         options = "\n".join(f"{i+1}. {option}" for i, option in enumerate(self.get_options(row)))
-        prompt = std_prompt.format(options=options)
-        return prompt
+        return (
+            pre_prompt
+            + self.maybe_augment(row[self.prompt_feature].format(options=options))
+            + post_prompt
+        )
 
     def build_example(
         self,
@@ -183,12 +185,13 @@ class MultichoiceRunnerLetterWithContextAndOptions(MultichoiceRunnerLetterWithOp
         self.context_feature = context_feature
 
     def prepare_prompt(self, row: dict[str, Any], pre_prompt: str, post_prompt: str) -> str:
-        std_prompt = pre_prompt + self.maybe_augment(row[self.prompt_feature]) + post_prompt
-        options = "\n".join(
-            f"{chr(65+i)}. {option}" for i, option in enumerate(self.get_options(row))
+        options = "\n".join(f"{i+1}. {option}" for i, option in enumerate(self.get_options(row)))
+        context = row[self.context_feature] or ""
+        return (
+            pre_prompt
+            + self.maybe_augment(row[self.prompt_feature].format(options=options, context=context))
+            + post_prompt
         )
-        prompt = std_prompt.format(context=row[self.context_feature] or "", options=options)
-        return prompt
 
 
 class MultiChoiceRunnerSameOptions(MultichoiceRunner):
