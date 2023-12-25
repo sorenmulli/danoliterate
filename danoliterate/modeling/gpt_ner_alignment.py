@@ -19,7 +19,9 @@ def default_ner_tokenize(text):
         if i + 2 < len(custom_tokens) and custom_tokens[i] == "@" and custom_tokens[i + 1] == "@":
             fixed_tokens.append("@@" + custom_tokens[i + 2])
             i += 3
-        elif i - 1 >= 0 and custom_tokens[i] == "#" and custom_tokens[i - 1] == "#" and fixed_tokens:
+        elif (
+            i - 1 >= 0 and custom_tokens[i] == "#" and custom_tokens[i - 1] == "#" and fixed_tokens
+        ):
             fixed_tokens[-1] += "##"
             i += 1
         else:

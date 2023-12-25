@@ -50,7 +50,10 @@ def get_streaming_data(cfg: DictConfig) -> dict[str, Dataset | IterableDataset]:
             )
         i += 1
 
-    datasets["train"] = dataset.skip(cfg.test_examples + cfg.validation_examples)
+    # Shuffle train without seed to aboid same training order between runs
+    datasets["train"] = dataset.skip(cfg.test_examples + cfg.validation_examples).shuffle(
+        buffer_size=cfg.buffer_size
+    )
     return datasets
 
 
