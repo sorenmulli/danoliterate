@@ -1,4 +1,4 @@
-name: "GPT-Sw3"
+name: "GPT-Sw3 7B v2 Instruct"
 path: "AI-Sweden-Models/gpt-sw3-6.7b-v2-instruct"
 inference:
   type: "hf-causal"

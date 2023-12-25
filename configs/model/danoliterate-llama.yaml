@@ -1,0 +1,4 @@
+name: "Danoliterate LlaMa 2 7B"
+path: "/dtu/p1/s183911/thesis/outputs/backups-danoliterate-llama-v0.1/checkpoint-30000/"
+inference:
+  type: "hf-causal"
