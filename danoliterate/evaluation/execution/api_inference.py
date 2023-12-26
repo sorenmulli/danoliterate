@@ -3,14 +3,15 @@ import os
 import time
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 import google.auth
 import openai
 import vertexai
+from google.cloud.aiplatform_v1beta1 import SafetySetting
 from tqdm import tqdm
 from vertexai.generative_models._generative_models import GenerationConfig
-from vertexai.preview.generative_models import GenerationResponse, GenerativeModel
+from vertexai.preview.generative_models import GenerationResponse, GenerativeModel, HarmCategory
 
 from danoliterate.evaluation.execution.model_inference import ModelInference
 from danoliterate.infrastructure.logging import logger
@@ -159,6 +160,9 @@ class GoogleApi(ApiInference):
             # TODO: Should be set at scenario level
             max_output_tokens=256,
         )
+        self.safety_settings = {
+            cat: SafetySetting.HarmBlockThreshold.BLOCK_NONE for cat in HarmCategory
+        }
 
     def extract_answer(self, generated_dict: dict) -> tuple[str, Optional[float]]:
         # Google does not give scores
@@ -169,9 +173,9 @@ class GoogleApi(ApiInference):
         # for i in range(self.api_retries):
         #     try:
         completion: GenerationResponse = self.model.generate_content(
-            prompt, generation_config=self.config
+            prompt, generation_config=self.config, safety_settings=self.safety_settings
         )
-        out = {}
+        out: dict[str, Any] = {}
         out["candidates"] = [
             {"text": cand.text, "finish_reason": cand.finish_reason.value}
             for cand in completion.candidates
