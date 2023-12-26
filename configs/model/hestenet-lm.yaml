@@ -1,0 +1,5 @@
+name: "Hestenettet LM"
+path: "mhenrichsen/hestenettetLM"
+inference:
+  type: "hf-causal"
+  auto_device_map: true

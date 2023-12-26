@@ -1,0 +1,4 @@
+name: "OpenAI GPT 4 Turbo"
+path: "gpt-4-1106-preview"
+inference:
+  type: "openai-api"

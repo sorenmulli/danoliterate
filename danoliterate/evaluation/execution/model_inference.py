@@ -196,14 +196,17 @@ class HuggingfaceCausalLm(ModelInference):
     max_new_tokens = 256
     default_max_length = 1024
 
-    def __init__(self, hf_key: str, batch_size=1, download_no_cache=True):
+    def __init__(self, hf_key: str, batch_size=1, auto_device_map=False, download_no_cache=False):
         super().__init__()
 
+        init_kwargs = {}
+        if auto_device_map:
+            init_kwargs["device_map"] = "auto"
         model_cls = AutoModelForCausalLM
         self.model = (
             from_pretrained_hf_hub_no_disk(hf_key, model_cls)
             if download_no_cache
-            else model_cls.from_pretrained(hf_key)
+            else model_cls.from_pretrained(hf_key, **init_kwargs)
         )
         self.model.to(DEVICE)
         self.model.eval()

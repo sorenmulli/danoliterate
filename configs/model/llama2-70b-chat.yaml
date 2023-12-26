@@ -1,4 +1,5 @@
 name: "LlaMa 2 70B Chat"
-path: "https://huggingface.co/meta-llama/Llama-2-70b-chat-hf"
+path: "meta-llama/Llama-2-70b-chat-hf"
 inference:
   type: "hf-causal"
+  auto_device_map: true

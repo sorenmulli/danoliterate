@@ -1,0 +1,4 @@
+name: "Mistral 7B Instruct (v0.2)"
+path: "mistralai/Mistral-7B-Instruct-v0.2"
+inference:
+  type: "hf-causal"
