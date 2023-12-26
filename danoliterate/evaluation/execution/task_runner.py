@@ -148,8 +148,8 @@ class MultichoiceRunnerWithOptions(MultichoiceRunner):
         options = "\n".join(f"{i+1}. {option}" for i, option in enumerate(self.get_options(row)))
         return (
             pre_prompt
-            + self.maybe_augment(row[self.prompt_feature].format(options=options))
-            + post_prompt
+            + self.maybe_augment(row[self.prompt_feature])
+            + post_prompt.format(options=options)
         )
 
     def build_example(
@@ -188,9 +188,9 @@ class MultichoiceRunnerLetterWithContextAndOptions(MultichoiceRunnerLetterWithOp
         options = "\n".join(f"{i+1}. {option}" for i, option in enumerate(self.get_options(row)))
         context = row[self.context_feature] or ""
         return (
-            pre_prompt
-            + self.maybe_augment(row[self.prompt_feature].format(options=options, context=context))
-            + post_prompt
+            pre_prompt.format(context=context)
+            + self.maybe_augment(row[self.prompt_feature])
+            + post_prompt.format(options=options)
         )
 
 
