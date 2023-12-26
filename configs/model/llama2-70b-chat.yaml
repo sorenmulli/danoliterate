@@ -1,5 +1,6 @@
 name: "LlaMa 2 70B Chat"
 path: "meta-llama/Llama-2-70b-chat-hf"
+batch_size: 1
 inference:
   type: "hf-causal"
   auto_device_map: true
