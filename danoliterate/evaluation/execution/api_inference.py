@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 import google.auth
+from google.api_core.exceptions import ResourceExhausted
 import openai
 import vertexai
 from google.cloud.aiplatform_v1beta1 import SafetySetting
@@ -149,6 +150,8 @@ class OpenAiApi(ApiInference):
 
 
 class GoogleApi(ApiInference):
+    api_retries = 10
+
     def __init__(self, model_key: str, api_call_cache: str):
         super().__init__(model_key, api_call_cache)
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-secret.json"
@@ -169,38 +172,37 @@ class GoogleApi(ApiInference):
         return generated_dict["candidates"][0]["text"], None
 
     def call_completion(self, prompt: str) -> dict:
-        # TODO: Implement tenacity when I know exception types
-        # for i in range(self.api_retries):
-        #     try:
-        completion: GenerationResponse = self.model.generate_content(
-            prompt, generation_config=self.config, safety_settings=self.safety_settings
-        )
-        out: dict[str, Any] = {}
-        out["candidates"] = [
-            {"text": cand.text, "finish_reason": cand.finish_reason.value}
-            for cand in completion.candidates
-        ]
-        try:
-            out["usage"] = {
-                # pylint: disable=protected-access
-                key: getattr(completion._raw_response.usage_metadata, key)
-                for key in ("prompt_token_count", "candidates_token_count")
-            }
-        except (KeyError, AttributeError) as error:
-            logger.warning("Could not get usage due to error %s", error)
-        return out
-        # except (
-        #     Exception
-        # ) as api_error:
-        #     if i + 1 == self.api_retries:
-        #         logger.error("Retried %i times, failed to get connection.", self.api_retries)
-        #         raise
-        #     retry_time = i + 1
-        #     logger.warning(
-        #         "Got connectivity error %s, retrying in %i seconds...", api_error, retry_time
-        #     )
-        #     time.sleep(retry_time)
-        # raise ValueError("Retries must be > 0")
+        for i in range(self.api_retries):
+            try:
+                completion: GenerationResponse = self.model.generate_content(
+                    prompt, generation_config=self.config, safety_settings=self.safety_settings
+                )
+                out = {}
+                out["candidates"] = [
+                    {"text": cand.text, "finish_reason": cand.finish_reason.value}
+                    for cand in completion.candidates
+                ]
+                try:
+                    out["usage"] = {
+                        # pylint: disable=protected-access
+                        key: getattr(completion._raw_response.usage_metadata, key)
+                        for key in ("prompt_token_count", "candidates_token_count")
+                    }
+                except (KeyError, AttributeError) as error:
+                    logger.warning("Could not get usage due to error %s", error)
+                return out
+            except (
+                ResourceExhausted
+            ) as api_error:
+                if i + 1 == self.api_retries:
+                    logger.error("Retried %i times, failed to get connection.", self.api_retries)
+                    raise
+                retry_time = i + 1
+                logger.warning(
+                    "Got connectivity error %s, retrying in %i seconds...", api_error, retry_time
+                )
+                time.sleep(retry_time)
+        raise ValueError("Retries must be > 0")
 
     @property
     def can_do_lm(self) -> bool:
