@@ -299,7 +299,7 @@ class GptNerRunner(TaskRunner):
         self.label_feature = label_feature
         self.few_shot_format = few_shot_format
         self.id_features = id_features
-        self.rng = np.random.default_rng()
+        self.rng = np.random.default_rng(seed=1887)
 
     def annotate_ground_truth(self, example: dict[str, Any], entity: str) -> str:
         words = []
