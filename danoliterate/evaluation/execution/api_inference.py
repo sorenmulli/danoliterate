@@ -197,7 +197,7 @@ class GoogleApi(ApiInference):
                 if i + 1 == self.api_retries:
                     logger.error("Retried %i times, failed to get connection.", self.api_retries)
                     raise
-                retry_time = i + 1
+                retry_time = i + 4
                 logger.warning(
                     "Got connectivity error %s, retrying in %i seconds...", api_error, retry_time
                 )
