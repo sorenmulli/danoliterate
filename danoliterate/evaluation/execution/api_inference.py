@@ -9,6 +9,7 @@ import google.auth
 import openai
 import vertexai
 from tqdm import tqdm
+from vertexai.generative_models._generative_models import GenerationConfig
 from vertexai.preview.generative_models import GenerationResponse, GenerativeModel
 
 from danoliterate.evaluation.execution.model_inference import ModelInference
@@ -153,8 +154,11 @@ class GoogleApi(ApiInference):
         creds, project_id = google.auth.default()
         vertexai.init(project=project_id, credentials=creds)
         self.model = GenerativeModel("gemini-pro")
-        # TODO: Seed?
-        # TODO: Temperature?
+        self.config = GenerationConfig(
+            temperature=0.0,
+            # TODO: Should be set at scenario level
+            max_output_tokens=256,
+        )
 
     def extract_answer(self, generated_dict: dict) -> tuple[str, Optional[float]]:
         # Google does not give scores
@@ -164,7 +168,9 @@ class GoogleApi(ApiInference):
         # TODO: Implement tenacity when I know exception types
         # for i in range(self.api_retries):
         #     try:
-        completion: GenerationResponse = self.model.generate_content(prompt)
+        completion: GenerationResponse = self.model.generate_content(
+            prompt, generation_config=self.config
+        )
         out = {}
         out["candidates"] = [
             {"text": cand.text, "finish_reason": cand.finish_reason.value}
