@@ -1,0 +1,4 @@
+name: "Google Gemini Pro"
+path: "gemini-rpo"
+inference:
+  type: "google-api"

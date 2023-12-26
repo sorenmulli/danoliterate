@@ -48,6 +48,10 @@ module = [
     "danlp.models",
     "trl",
     "trl.trainer",
-    "accelerate"
+    "accelerate",
+    "google.auth",
+    "google",
+    "vertexai",
+    "vertexai.preview.generative_models"
 ]
 ignore_missing_imports = true

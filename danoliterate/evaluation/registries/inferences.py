@@ -1,10 +1,8 @@
 from omegaconf import DictConfig
 
-from danoliterate.evaluation.execution.model_inference import (
-    ConstantBaseline,
-    HuggingfaceCausalLm,
-    OpenAiAPI,
-)
+from danoliterate.evaluation.execution.api_inference import GoogleApi, OpenAiApi
+from danoliterate.evaluation.execution.huggingface_inference import HuggingfaceCausalLm
+from danoliterate.evaluation.execution.model_inference import ConstantBaseline
 from danoliterate.evaluation.registries.registration import register_inference
 
 
@@ -32,5 +30,18 @@ def get_hf_causal(cfg: DictConfig) -> HuggingfaceCausalLm:
         "likelihood-ece",
     ],
 )
-def get_openai_api(cfg: DictConfig) -> OpenAiAPI:
-    return OpenAiAPI(cfg.model.path, cfg.evaluation.api_call_cache)
+def get_openai_api(cfg: DictConfig) -> OpenAiApi:
+    return OpenAiApi(cfg.model.path, cfg.evaluation.api_call_cache)
+
+
+@register_inference(
+    "google-api",
+    unsupported_metrics=[
+        "max-likelihood-accuracy",
+        "max-likelihood-f1",
+        "likelihood-brier",
+        "likelihood-ece",
+    ],
+)
+def get_google_api(cfg: DictConfig) -> GoogleApi:
+    return GoogleApi(cfg.model.path, cfg.evaluation.api_call_cache)

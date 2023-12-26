@@ -27,6 +27,7 @@ danlp~=0.1.2
 gensim~=4.3.2
 trl~=0.7.4
 deepspeed~=0.12.4
+google-cloud-aiplatform~=1.38.1
 
 streamlit~=1.27.0
 huggingface_hub~=0.19.4
