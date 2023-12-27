@@ -14,6 +14,7 @@ from wandb.sdk.lib import RunDisabled
 from wandb.sdk.wandb_run import Run
 
 from danoliterate.evaluation.results import ExecutionResult, Scores
+from danoliterate.infrastructure.logging import logger
 from danoliterate.evaluation.serialization import OutDictType
 from danoliterate.infrastructure.constants import (
     EXECUTION_RESULT_ARTIFACT_TYPE,
@@ -76,7 +77,8 @@ def fetch_artifact_data(collection):
     if not artifacts:
         # Artifact was deleted
         return None
-    assert len(artifacts) == 1
+    if len(artifacts) > 1:
+        logger.warning("More than 1 artifact for collection %s", collection)
     return artifacts[0]
 
 
