@@ -14,12 +14,12 @@ from wandb.sdk.lib import RunDisabled
 from wandb.sdk.wandb_run import Run
 
 from danoliterate.evaluation.results import ExecutionResult, Scores
-from danoliterate.infrastructure.logging import logger
 from danoliterate.evaluation.serialization import OutDictType
 from danoliterate.infrastructure.constants import (
     EXECUTION_RESULT_ARTIFACT_TYPE,
     SCORES_ARTIFACT_TYPE,
 )
+from danoliterate.infrastructure.logging import logger
 
 CACHE_DURATION = timedelta(days=7)
 

@@ -97,6 +97,7 @@ def setup_app(cfg: DictConfig):
     chosen_dimension = st.selectbox(
         "Evaluation Dimension", Dimension, format_func=lambda dim: dim.value
     )
+    index_micro = st.selectbox("Index Average", ["Micro Avg.", "Macro Avg."]) == "Micro Avg."
     metric_structure = extract_metrics(scores, chosen_dimension)
     default_metrics = default_choices(metric_structure)
     chosen_metrics = default_metrics
@@ -136,7 +137,10 @@ def setup_app(cfg: DictConfig):
 
     logger.info("Building leaderboard table ...")
     table = build_leaderboard_table(
-        metric_structure, chosen_metrics, efficiency=chosen_dimension == Dimension.EFFICIENCY
+        metric_structure,
+        chosen_metrics,
+        efficiency=chosen_dimension == Dimension.EFFICIENCY,
+        micro=index_micro,
     )
 
     st.dataframe(table, use_container_width=True)

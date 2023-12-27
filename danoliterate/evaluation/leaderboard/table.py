@@ -1,8 +1,9 @@
+import numpy as np
 import pandas as pd
 
 from danoliterate.evaluation.results import MetricResult
 
-INDEX_TITLE = "🏆Average Index"
+INDEX_TITLE = "🏆Avg. Index"
 
 
 def _space(val: str, spacing=5) -> str:
@@ -13,9 +14,11 @@ def build_leaderboard_table(
     metric_structure: dict[str, dict[str, list[MetricResult]]],
     chosen_metrics: dict[str, dict[str, MetricResult]],
     efficiency=True,
+    micro=True,
 ) -> pd.DataFrame:
     df = pd.DataFrame()
     metric_df = pd.DataFrame()
+    examples = {}
     lower_is_better = set()
     for scenario_name, models in metric_structure.items():
         for model_name in models:
@@ -35,6 +38,8 @@ def build_leaderboard_table(
             df.at[model_name, scenario_name] = f"{agg}{err}"
             metric_df.at[model_name, scenario_name] = metric.aggregate
 
+            examples[scenario_name] = len(metric.example_results)
+
             if not metric.higher_is_better:
                 lower_is_better.add(scenario_name)
 
@@ -45,7 +50,13 @@ def build_leaderboard_table(
             else (col - col.min()) / (col.max() - col.min())
         )
     )
-    df[INDEX_TITLE] = [_space(str(round(score * 100))) for score in index_scores_df.mean(axis=1)]
+    weights = np.array(list(examples.values()))
+    index_means = (
+        index_scores_df.apply(lambda x: np.average(x, weights=weights), axis=1)
+        if micro
+        else index_scores_df.mean(axis=1)
+    )
+    df[INDEX_TITLE] = [_space(str(round(score * 100))) for score in index_means]
     df = df[[INDEX_TITLE, *[col for col in df.columns if col != INDEX_TITLE]]]
     df = df.sort_values(INDEX_TITLE, ascending=False)
     return df

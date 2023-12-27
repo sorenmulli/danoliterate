@@ -6,9 +6,9 @@ from pathlib import Path
 from typing import Any, Optional
 
 import google.auth
-from google.api_core.exceptions import ResourceExhausted
 import openai
 import vertexai
+from google.api_core.exceptions import ResourceExhausted
 from google.cloud.aiplatform_v1beta1 import SafetySetting
 from tqdm import tqdm
 from vertexai.generative_models._generative_models import GenerationConfig
@@ -169,12 +169,17 @@ class GoogleApi(ApiInference):
 
     def extract_answer(self, generated_dict: dict) -> tuple[str, Optional[float]]:
         # Google does not give scores
-        return generated_dict["candidates"][0]["text"] if len(generated_dict["candidates"]) else "", None
+        return (
+            generated_dict["candidates"][0]["text"] if len(generated_dict["candidates"]) else "",
+            None,
+        )
 
     def call_completion(self, prompt: str) -> dict:
         for i in range(self.api_retries):
             try:
-                completion: GenerationResponse = self.model.generate_content( prompt, generation_config=self.config, safety_settings=self.safety_settings)
+                completion: GenerationResponse = self.model.generate_content(
+                    prompt, generation_config=self.config, safety_settings=self.safety_settings
+                )
                 out = {}
                 out["candidates"] = [
                     {"text": _get_google_text(cand), "finish_reason": cand.finish_reason.value}
@@ -189,9 +194,7 @@ class GoogleApi(ApiInference):
                 except (KeyError, AttributeError) as error:
                     logger.warning("Could not get usage due to error %s", error)
                 return out
-            except (
-                ResourceExhausted
-            ) as api_error:
+            except ResourceExhausted as api_error:
                 if i + 1 == self.api_retries:
                     logger.error("Retried %i times, failed to get connection.", self.api_retries)
                     raise
@@ -209,6 +212,7 @@ class GoogleApi(ApiInference):
     @property
     def can_do_nlg(self) -> bool:
         return True
+
 
 def _get_google_text(candidate):
     try:
