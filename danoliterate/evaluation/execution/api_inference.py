@@ -169,17 +169,15 @@ class GoogleApi(ApiInference):
 
     def extract_answer(self, generated_dict: dict) -> tuple[str, Optional[float]]:
         # Google does not give scores
-        return generated_dict["candidates"][0]["text"], None
+        return generated_dict["candidates"][0]["text"] if len(generated_dict["candidates"]) else "", None
 
     def call_completion(self, prompt: str) -> dict:
         for i in range(self.api_retries):
             try:
-                completion: GenerationResponse = self.model.generate_content(
-                    prompt, generation_config=self.config, safety_settings=self.safety_settings
-                )
+                completion: GenerationResponse = self.model.generate_content( prompt, generation_config=self.config, safety_settings=self.safety_settings)
                 out = {}
                 out["candidates"] = [
-                    {"text": cand.text, "finish_reason": cand.finish_reason.value}
+                    {"text": _get_google_text(cand), "finish_reason": cand.finish_reason.value}
                     for cand in completion.candidates
                 ]
                 try:
@@ -211,3 +209,10 @@ class GoogleApi(ApiInference):
     @property
     def can_do_nlg(self) -> bool:
         return True
+
+def _get_google_text(candidate):
+    try:
+        return candidate.text
+    except ValueError as error:
+        logger.warning("Could not extract text from candidate %s", candidate)
+        return ""
