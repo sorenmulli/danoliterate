@@ -180,7 +180,7 @@ class GoogleApi(ApiInference):
                 completion: GenerationResponse = self.model.generate_content(
                     prompt, generation_config=self.config, safety_settings=self.safety_settings
                 )
-                out = {}
+                out: dict[str, Any] = {}
                 out["candidates"] = [
                     {"text": _get_google_text(cand), "finish_reason": cand.finish_reason.value}
                     for cand in completion.candidates
@@ -218,5 +218,5 @@ def _get_google_text(candidate):
     try:
         return candidate.text
     except ValueError as error:
-        logger.warning("Could not extract text from candidate %s", candidate)
+        logger.warning("Could not extract text from candidate %s due to error %s", candidate, error)
         return ""
