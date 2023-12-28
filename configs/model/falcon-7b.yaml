@@ -1,4 +1,4 @@
-name: "Falcon"
+name: "Falcon 7B"
 path: "tiiuae/falcon-7b"
 inference:
   type: "hf-causal"
