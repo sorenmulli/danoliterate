@@ -3,7 +3,8 @@ import pandas as pd
 
 from danoliterate.evaluation.results import MetricResult
 
-INDEX_TITLE = "🏆Avg. Index"
+WIN_EMOJI = "🏆"
+INDEX_TITLE = WIN_EMOJI + "Avg. Index"
 
 
 def _space(val: str, spacing=5) -> str:
@@ -15,7 +16,7 @@ def build_leaderboard_table(
     chosen_metrics: dict[str, dict[str, MetricResult]],
     efficiency=True,
     micro=True,
-) -> pd.DataFrame:
+) -> tuple[pd.DataFrame, set[str]]:
     df = pd.DataFrame()
     metric_df = pd.DataFrame()
     examples = {}
@@ -38,7 +39,7 @@ def build_leaderboard_table(
             df.at[model_name, scenario_name] = f"{agg}{err}"
             metric_df.at[model_name, scenario_name] = metric.aggregate
 
-            examples[scenario_name] = len(metric.example_results)
+            examples[scenario_name] = len(metric.example_results) or 1
 
             if not metric.higher_is_better:
                 lower_is_better.add(scenario_name)
@@ -59,4 +60,29 @@ def build_leaderboard_table(
     df[INDEX_TITLE] = [_space(str(round(score * 100))) for score in index_means]
     df = df[[INDEX_TITLE, *[col for col in df.columns if col != INDEX_TITLE]]]
     df = df.sort_values(INDEX_TITLE, ascending=False)
-    return df
+    return df, lower_is_better
+
+
+def format_table_for_latex(table: pd.DataFrame, lower_is_better: set[str]) -> str:
+    df = table.copy()
+    for col in df.columns:
+        # Extracting numbers and uncertainties.
+        nums = df[col].str.extract(r"(\d+)(?:± (\d+))?")
+
+        nums[0] = nums[0].astype(float)
+        top1, top2, top3 = (nums[0].nsmallest if col in lower_is_better else nums[0].nlargest)(
+            3
+        ).index
+
+        for idx, num in df[col].items():
+            formatted_number = "$" + num.strip().replace("±", r"\pm") + "$"
+            if idx == top1:
+                formatted_number = r"\underline{\underline{\underline{" + formatted_number + "}}}"
+            elif idx == top2:
+                formatted_number = r"\underline{\underline{" + formatted_number + "}}"
+            elif idx == top3:
+                formatted_number = r"\underline{" + formatted_number + "}"
+            df.at[idx, col] = formatted_number
+    df.columns = df.columns.str.replace("#", r"\#")
+    df.columns = df.columns.str.replace(WIN_EMOJI, "")
+    return df.style.to_latex()

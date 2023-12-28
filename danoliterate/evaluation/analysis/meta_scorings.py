@@ -31,7 +31,7 @@ class TimingScore(MetaScoring):
                                 "Inference milliseconds",
                                 "Total dataset wall time in milliseconds "
                                 "divided by number of examples",
-                                {},
+                                {},  # TODO: Add examples so we can do micro avg
                                 aggregate=avg_time,
                                 error=None,
                                 higher_is_better=False,

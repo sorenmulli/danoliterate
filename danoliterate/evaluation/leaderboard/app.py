@@ -2,17 +2,18 @@
 Should be run as streamlit application
 """
 from collections import defaultdict
-from typing import Optional
 
 import hydra
 import streamlit as st
 from omegaconf import DictConfig
 
 from danoliterate.evaluation.analysis.dimensions import Dimension
-from danoliterate.evaluation.analysis.meta_scorings import META_SCORERS
 from danoliterate.evaluation.artifact_integration import get_scores_wandb
-from danoliterate.evaluation.leaderboard.table import build_leaderboard_table
-from danoliterate.evaluation.results import MetricResult, Scores, Scoring
+from danoliterate.evaluation.leaderboard.metric_parsing import default_choices, extract_metrics
+from danoliterate.evaluation.leaderboard.table import (
+    build_leaderboard_table,
+    format_table_for_latex,
+)
 from danoliterate.infrastructure.constants import CONFIG_DIR
 from danoliterate.infrastructure.logging import logger
 
@@ -23,51 +24,6 @@ def group_models_by_metrics(models):
         metrics_key = tuple(metric.short_name for metric in metrics)
         metrics_to_models[metrics_key].append(model)
     return metrics_to_models
-
-
-def get_relevant_metrics(
-    scoring: Scoring, chosen_dimension: Optional[Dimension]
-) -> list[MetricResult]:
-    out = []
-    for metric in scoring.metric_results:
-        if "Offensive" in metric.description:
-            if chosen_dimension == Dimension.TOXICITY:
-                out.append(metric)
-        elif "ECE" in metric.short_name or "Brier" in metric.short_name:
-            if chosen_dimension == Dimension.CALIBRATION:
-                out.append(metric)
-        elif chosen_dimension == Dimension.CAPABILITY:
-            out.append(metric)
-    return out
-
-
-# TODO: Clean up this code
-def extract_metrics(scores: Scores, chosen_dimension: Optional[Dimension]):
-    out: defaultdict[str, dict[str, list[MetricResult]]] = defaultdict(dict)
-    for meta_scorer in META_SCORERS:
-        for scenario_name, model_name, dimension, metric_results in meta_scorer.meta_score(scores):
-            if dimension == chosen_dimension:
-                out[scenario_name][model_name] = metric_results  # type: ignore
-    for scoring in scores.scorings:
-        scenario_name: str = scoring.execution_metadata.scenario_cfg["name"]  # type: ignore
-        model_name: str = scoring.execution_metadata.model_cfg["name"]  # type: ignore
-        # TODO: Change to saving the metric key and use the registry for this instead of hard code
-        relevant_metric_results = get_relevant_metrics(scoring, chosen_dimension)
-        if relevant_metric_results:
-            if out[scenario_name].get(model_name) is None:  # type: ignore
-                out[scenario_name][model_name] = relevant_metric_results  # type: ignore
-            else:
-                # TODO: Warn if metric already exists
-                out[scenario_name][model_name].extend(relevant_metric_results)  # type: ignore
-    return out
-
-
-def default_choices(metric_structure):
-    out = defaultdict(dict)
-    for scenario, models in metric_structure.items():
-        for model, metrics in models.items():
-            out[scenario][model] = metrics[0]
-    return out
 
 
 @st.cache_data
@@ -136,7 +92,7 @@ def setup_app(cfg: DictConfig):
             st.form_submit_button(label="Submit")
 
     logger.info("Building leaderboard table ...")
-    table = build_leaderboard_table(
+    table, lower_is_better = build_leaderboard_table(
         metric_structure,
         chosen_metrics,
         efficiency=chosen_dimension == Dimension.EFFICIENCY,
@@ -144,6 +100,10 @@ def setup_app(cfg: DictConfig):
     )
 
     st.dataframe(table, use_container_width=True)
+
+    if st.button("Log current table as LaTeX"):
+        latex = format_table_for_latex(table, lower_is_better)
+        logger.info("Table:\n%s", latex)
 
     logger.info("App built!")
 
