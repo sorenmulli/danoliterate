@@ -90,7 +90,7 @@ def train_lm(cfg: DictConfig):
         )
         logger.info(
             "Set up PEFT with LoRa.\n - Trainable parameters:\t%i\n - Total parameters:\t\t%i",
-            *model.get_nb_trainable_parameters()
+            *model.get_nb_trainable_parameters(),
         )
 
     logger.info("Setting up streaming datasets %s ...", " + ".join(cfg.train.data.datasets))
@@ -105,6 +105,9 @@ def train_lm(cfg: DictConfig):
                 seq_length=cfg.train.data.context_tokens,
                 shuffle=name == "train",
                 one_seq_per_example=name == "train",
+                save_data_debug=None
+                if cfg.train.data.debug_data is None
+                else Path(cfg.train.data.debug_data) / f"{name}.txt",
                 # Increase buffer
                 num_of_sequences=4096,
             )

@@ -2,6 +2,7 @@ import random
 import warnings
 from functools import partial
 from pathlib import Path
+from typing import Optional
 
 import torch
 from datasets import Dataset, IterableDataset, interleave_datasets, load_dataset, load_from_disk
@@ -115,9 +116,16 @@ def tokenize_datasets(
 
 # pylint: disable=abstract-method
 class ConstantLengthDatasetRandomSubsequence(ConstantLengthDataset):
-    def __init__(self, *args, one_seq_per_example: bool = False, **kwargs):
+    def __init__(
+        self,
+        *args,
+        one_seq_per_example: bool = False,
+        save_data_debug: Optional[Path] = None,
+        **kwargs,
+    ):
         super().__init__(*args, **kwargs)
         self.one_seq_per_example = one_seq_per_example
+        self.save_data_debug = save_data_debug
 
     # pylint: disable=too-many-branches
     def __iter__(self):  # This function is mostly a copy from parent class
@@ -129,9 +137,12 @@ class ConstantLengthDatasetRandomSubsequence(ConstantLengthDataset):
                 if buffer_len >= self.max_buffer_size:
                     break
                 try:
-                    # TODO: Before formatting, save which examples have been seen in some way!
                     data_sample = next(iterator)
                     buffer.append(self.formatting_func(data_sample))
+                    if self.save_data_debug is not None:
+                        with open(self.save_data_debug, "a", encoding="utf-8") as file:
+                            file.write(str(hash(buffer[-1])) + "\n")
+
                     buffer_len += len(buffer[-1])
                 except StopIteration:
                     if self.infinite:
