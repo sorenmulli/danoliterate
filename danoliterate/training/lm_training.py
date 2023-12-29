@@ -71,13 +71,16 @@ def train_lm(cfg: DictConfig):
 
     logger.info("Setting up model and tokenizer from %s ...", cfg.train.base_model)
     model_cls = AutoModelForCausalLM
-    if not cfg.train.use_sft:
-        model = (
-            from_pretrained_hf_hub_no_disk(cfg.train.base_model, model_cls)
-            if cfg.download_no_cache
-            else model_cls.from_pretrained(cfg.train.base_model)
-        )
-        logger.info("Loaded model with %.1f M parameters.", model.num_parameters() / 1e6)
+    model = (
+        from_pretrained_hf_hub_no_disk(cfg.train.base_model, model_cls)
+        if cfg.download_no_cache
+        else model_cls.from_pretrained(cfg.train.base_model)
+    )
+    if cfg.train.reinit:
+        model = model.apply(model._init_weights)
+        logger.info("Randomly reinitialized model paramters")
+
+    logger.info("Loaded model with %.1f M parameters.", model.num_parameters() / 1e6)
     tokenizer = AutoTokenizer.from_pretrained(cfg.train.base_model)
     logger.info("Loaded tokenizer with vocabulary size %i.", tokenizer.vocab_size)
 
@@ -137,7 +140,7 @@ def train_lm(cfg: DictConfig):
     train_args = get_arguments(cfg.train, wandb_enabled=cfg.wandb.enabled)
     if cfg.train.use_sft:
         trainer = SFTTrainer(
-            cfg.train.base_model,
+            model,
             train_args,
             train_dataset=datasets["train"],
             eval_dataset=datasets["val"] if cfg.train.eval else None,

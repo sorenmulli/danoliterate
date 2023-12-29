@@ -1,4 +1,5 @@
 base_model: "HuggingFaceH4/tiny-random-LlamaForCausalLM"
+reinit: false
 
 steps: 3
 warmup_steps: 2
