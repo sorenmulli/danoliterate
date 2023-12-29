@@ -140,12 +140,13 @@ class ConstantLengthDatasetRandomSubsequence(ConstantLengthDataset):
                     data_sample = next(iterator)
                     formatted_sample = self.formatting_func(data_sample)
                     # Skip empty strings
-                    if formatted_sample:
-                        buffer.append(formatted_sample)
+                    if not formatted_sample:
+                        continue
+                    buffer.append(formatted_sample)
                     if self.save_data_debug is not None:
                         with open(self.save_data_debug, "a", encoding="utf-8") as file:
                             file.write(str(hash(formatted_sample)) + "\n")
-                    buffer_len += len(buffer[-1])
+                    buffer_len += len(formatted_sample)
                 except StopIteration:
                     if self.infinite:
                         iterator = iter(self.dataset)
