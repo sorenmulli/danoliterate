@@ -34,7 +34,7 @@ def build_leaderboard_table(
             agg = _space(
                 str(round(metric.aggregate)) if efficiency else f"{round(metric.aggregate * 100)}"
             )
-            err = f"± {metric.error * (1 if efficiency else  100):.0f}" if metric.error else ""
+            err = f"± {metric.error * (1 if efficiency else 100):.0f}" if metric.error else ""
 
             df.at[model_name, scenario_name] = f"{agg}{err}"
             metric_df.at[model_name, scenario_name] = metric.aggregate

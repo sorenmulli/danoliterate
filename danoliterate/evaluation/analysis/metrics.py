@@ -36,8 +36,8 @@ class Metric(ABC):
     def compute(self, examples: list[ExecutionExample]) -> list[float] | list[tuple[float, ...]]:
         raise NotImplementedError("compute should be overwritten")
 
-    def std_error(self, _: float, scores: np.ndarray) -> float:
-        return float(np.std(scores, ddof=1) / np.sqrt(len(scores)))
+    def std_error(self, aggregate: float, scores: np.ndarray) -> float:
+        return aggregate * (1 - aggregate) / len(scores) ** 0.5
 
     def error(self, aggregate: float, scores: np.ndarray) -> float:
         # Two sided Students t test with N - 1 degrees of freedom
@@ -83,9 +83,6 @@ class BaseAccuracy(Metric, ABC):
     # pylint: disable=arguments-renamed
     def aggregate(self, examples: np.ndarray) -> float:
         return float((examples[:, 0] == examples[:, 1]).mean())
-
-    def std_error(self, aggregate: float, scores: np.ndarray) -> float:
-        return aggregate * (1 - aggregate) / len(scores) ** 0.5
 
 
 class MaxLikelihoodAccuracy(BaseAccuracy):
@@ -226,9 +223,6 @@ class TextSimilarityMetric(Metric):
             )
             raise ValueError("ExecutionExample had missing required fields.")
         return comparison_function(targets, predictions)
-
-    def std_error(self, aggregate: float, scores: np.ndarray) -> float:
-        return aggregate * (1 - aggregate) / len(scores) ** 0.5
 
 
 class MaxTextSimilarity(TextSimilarityMetric):
@@ -397,9 +391,6 @@ class GptNerParsingF1(Metric):
             float(f1_score([label], [pred], zero_division=0))
             for label, pred in zip(labels, preds, strict=True)
         ]
-
-    def std_error(self, aggregate: float, scores: np.ndarray) -> float:
-        return aggregate * (1 - aggregate) / len(scores) ** 0.5
 
     def __call__(self, examples: list[ExecutionExample]) -> MetricResult:
         labels, preds = self.extract_ner(examples)
