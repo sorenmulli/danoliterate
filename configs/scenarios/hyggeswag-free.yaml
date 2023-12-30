@@ -1,0 +1,9 @@
+hyggeswag:
+  name: "HyggeSwag"
+  path: "sorenmulli/hyggeswag"
+  pre_prompt: "Svar med en kort fortsættelse af sætningen.\n"
+  type: "free-generation"
+  task:
+    prompt_feature: "ctx"
+    id_features: ["source_id", "ind"]
+    type: "default-mc-options"
