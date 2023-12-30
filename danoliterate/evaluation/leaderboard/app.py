@@ -53,8 +53,13 @@ def setup_app(cfg: DictConfig):
     chosen_dimension = st.selectbox(
         "Evaluation Dimension", Dimension, format_func=lambda dim: dim.value
     )
+    chosen_type = st.selectbox(
+        "Leaderboard type",
+        ("standard", "free-generation"),
+        format_func=lambda text: text.replace("-", " ").capitalize(),
+    )
     index_micro = st.selectbox("Index Average", ["Micro Avg.", "Macro Avg."]) == "Micro Avg."
-    metric_structure = extract_metrics(scores, chosen_dimension)
+    metric_structure = extract_metrics(scores, chosen_dimension, chosen_type)
     default_metrics = default_choices(metric_structure)
     chosen_metrics = default_metrics
 

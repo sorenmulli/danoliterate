@@ -23,7 +23,13 @@ def get_relevant_metrics(
 
 
 # TODO: Clean up this code
-def extract_metrics(scores: Scores, chosen_dimension: Optional[Dimension]):
+def extract_metrics(scores: Scores, chosen_dimension: Optional[Dimension], chosen_type="standard"):
+    scores.scorings = [
+        scoring
+        for scoring in scores.scorings
+        if scoring.execution_metadata.scenario_cfg.get("type", "standard") == chosen_type
+    ]
+
     out: defaultdict[str, dict[str, list[MetricResult]]] = defaultdict(dict)
     for meta_scorer in META_SCORERS:
         for scenario_name, model_name, dimension, metric_results in meta_scorer.meta_score(scores):
