@@ -98,6 +98,7 @@ def mark_dupes(cfg: DictConfig):
         key = (
             result.metadata["scenario_cfg"]["name"],
             result.metadata["model_cfg"]["name"],
+            result.metadata["scenario_cfg"].get("type"),
             result.metadata.get("augmenter_key"),
         )
 
