@@ -43,6 +43,23 @@ def apply_backcomp_fixes_execution_result_metadata(input_args: OutDictType):
         logger.debug("Performed backwards compatability fixing:\n%s", ",".join(warnings))
 
 
+METRICS_TO_BE_PUT_TO_FRONT = [
+    "Prediction odd-one-out frequency (BERT similarity)",
+    "Prediction odd-one-out frequency (ROUGE-L)",
+    "Prediction odd-one-out frequency (ROUGE-1)",
+]
+
+
+def apply_backcomp_reordering_metric_results(input_args: list[dict]) -> list[dict]:
+    name_to_res = {metric["short_name"]: metric for metric in input_args}
+    if len(name_to_res) != len(input_args):
+        raise ValueError("Duplicate metrics")
+    for metric in METRICS_TO_BE_PUT_TO_FRONT[::-1]:
+        if metric in name_to_res:
+            name_to_res = {metric: name_to_res.pop(metric), **name_to_res}
+    return list(name_to_res.values())
+
+
 def fix_args_for_dataclass(dataclass: Any, input_args: OutDictType):
     class_fields = {field.name: field for field in fields(dataclass)}
     input_keys = set(input_args.keys())

@@ -144,7 +144,6 @@ def get_scores_wandb(wandb_project: str, wandb_entity: str, include_debug=False)
     ).collections()
     assert len(collections) == 1
     collection = collections[0]
-    # TODO: Make sure that we iterate right order
     for artifact in collection.versions():
         scores_dict = dict_from_artifact(artifact)
         scores = Scores.from_dict(scores_dict)

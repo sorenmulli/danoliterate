@@ -1,15 +1,13 @@
 """
 Should be run as streamlit application
 """
+from argparse import ArgumentParser, Namespace
 from collections import defaultdict
 
-import hydra
-import hydra.core
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 import streamlit as st
-from omegaconf import DictConfig
 
 from danoliterate.evaluation.analysis.analyser import Analyser
 from danoliterate.evaluation.analysis.dimensions import Dimension
@@ -21,10 +19,9 @@ from danoliterate.evaluation.leaderboard.table import (
     format_table_for_latex,
 )
 from danoliterate.evaluation.results import MetricResult
-from danoliterate.infrastructure.constants import CONFIG_DIR
 from danoliterate.infrastructure.logging import logger
 
-ALL_KEY = "All"
+ALL_KEY = "Each Individually"
 
 
 def group_models_by_metrics(models):
@@ -36,8 +33,8 @@ def group_models_by_metrics(models):
 
 
 @st.cache_data
-def fetch_scores_cached(_cfg: DictConfig):
-    return get_scores_wandb(_cfg.wandb.project, _cfg.wandb.entity)
+def fetch_scores_cached(_args: Namespace):
+    return get_scores_wandb(_args.wandb_project, _args.wandb_entity)
 
 
 def setup_analysis(chosen_metrics: dict[str, dict[str, MetricResult]]):
@@ -52,13 +49,19 @@ def setup_analysis(chosen_metrics: dict[str, dict[str, MetricResult]]):
         options=[ALL_KEY, analyser.concat_key, *analyser.options_dict["scenario"]],
         index=0,
     )
+    aggregate = st.toggle(
+        "Average scores when joining",
+        disabled=analyser.concat_key not in (model, scenario),
+    )
 
-    # Button to perform action
-    if st.button("Analyse"):
+    if model == ALL_KEY and scenario == ALL_KEY:
+        st.write(f"One of model or scenario must be different from '{ALL_KEY}'")
+    elif st.button("Analyse"):
         # Call the get_subset function with user inputs
         subset = analyser.get_subset(
             model=None if model == ALL_KEY else model,
             scenario=None if scenario == ALL_KEY else scenario,
+            aggregate=aggregate,
         )
 
         summary_stats = pd.DataFrame()
@@ -76,7 +79,9 @@ def setup_analysis(chosen_metrics: dict[str, dict[str, MetricResult]]):
         plt.title("Score Distributions")
         st.pyplot(plt.gcf())
 
-        if scenario != ALL_KEY and len(subset) > 1:
+        if len(subset) > 1:
+            # if scenario != ALL_KEY:
+            #     assert aggregate
             temp_dfs = []
             for name, df in subset.items():
                 df: pd.DataFrame  # type: ignore
@@ -117,10 +122,7 @@ def setup_analysis(chosen_metrics: dict[str, dict[str, MetricResult]]):
             plt.clf()
 
 
-# TODO: Move to config dir more elegantly
-# pylint: disable=too-many-locals
-@hydra.main(config_path=f"../../{CONFIG_DIR}", config_name="master", version_base=None)
-def setup_app(cfg: DictConfig):
+def setup_app(args: Namespace):
     st.set_page_config("Danoliterate Leaderboard", page_icon="🇩🇰")
     # https://discuss.streamlit.io/t/remove-made-with-streamlit-from-bottom-of-app/1370/17
     hide_streamlit_style = """
@@ -134,7 +136,7 @@ def setup_app(cfg: DictConfig):
     st.title("Danoliterate LLM Leaderboard")
 
     logger.info("Fetching scores ...")
-    scores = fetch_scores_cached(cfg)
+    scores = fetch_scores_cached(args)
 
     chosen_dimension = st.selectbox(
         "Evaluation Dimension", Dimension, format_func=lambda dim: dim.value
@@ -206,6 +208,7 @@ def setup_app(cfg: DictConfig):
 
 
 if __name__ == "__main__":
-    # pylint: disable=no-value-for-parameter
-    setup_app()
-    hydra.core.global_hydra.GlobalHydra.instance().clear()
+    parser = ArgumentParser()
+    parser.add_argument("--wandb-entity", default="sorenmulli")
+    parser.add_argument("--wandb-project", default="nlgenda")
+    setup_app(parser.parse_args())
