@@ -1,4 +1,0 @@
-name: "BLOOM 7B"
-path: "bigscience/bloom-7b1"
-inference:
-  type: "hf-causal"

@@ -1,0 +1,4 @@
+name: "OpenAI GPT 3.5 Turbo Instruct"
+path: "gpt-3.5-turbo-instruct"
+inference:
+  type: "openai-api"

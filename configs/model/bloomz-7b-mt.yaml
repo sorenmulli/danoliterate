@@ -1,4 +1,0 @@
-name: "BLOOMZ 7B mt"
-path: "bigscience/bloomz-7b1-mt"
-inference:
-  type: "hf-causal"

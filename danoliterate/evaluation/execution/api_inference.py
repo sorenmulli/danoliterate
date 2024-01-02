@@ -77,7 +77,7 @@ class OpenAiApi(ApiInference):
 
     def __init__(self, model_key: str, api_call_cache: str, api_key: Optional[str] = None, seed=1):
         super().__init__(model_key, api_call_cache)
-        self.is_chat = "turbo" in self.model_key or "gpt-4" in self.model_key
+        self.is_chat = "instruct" not in self.model_key and ("turbo" in self.model_key or "gpt-4" in self.model_key)
         self.seed = seed
 
         if not api_key:

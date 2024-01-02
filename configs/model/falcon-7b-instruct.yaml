@@ -1,4 +1,0 @@
-name: "Falcon 7B Instruct"
-path: "tiiuae/falcon-7b-instruct"
-inference:
-  type: "hf-causal"

@@ -1,0 +1,4 @@
+name: "GPT-Sw3 20B"
+path: "AI-Sweden-Models/gpt-sw3-20b"
+inference:
+  type: "hf-causal"

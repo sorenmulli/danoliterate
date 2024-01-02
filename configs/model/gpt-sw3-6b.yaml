@@ -1,0 +1,4 @@
+name: "GPT-Sw3 6.7B (v. 2)"
+path: "AI-Sweden-Models/gpt-sw3-6.7b-v2"
+inference:
+  type: "hf-causal"

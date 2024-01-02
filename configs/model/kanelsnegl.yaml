@@ -1,0 +1,4 @@
+name: "Kanelsnegl (v. 0.2)"
+path: "RJuro/kanelsnegl-v0.2"
+inference:
+  type: "hf-causal"

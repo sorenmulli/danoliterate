@@ -1,0 +1,4 @@
+name: "NB GPT-J NorPaca"
+path: "NbAiLab/nb-gpt-j-6B-norpaca"
+inference:
+  type: "hf-causal"

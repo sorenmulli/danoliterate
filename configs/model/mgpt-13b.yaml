@@ -1,0 +1,4 @@
+name: "mGPT"
+path: "ai-forever/mGPT-13B"
+inference:
+  type: "hf-causal"
