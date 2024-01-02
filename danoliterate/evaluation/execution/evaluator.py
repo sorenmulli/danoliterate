@@ -6,6 +6,7 @@ from omegaconf import DictConfig
 
 from danoliterate.evaluation.artifact_integration import send_result_wandb, setup_short_run
 from danoliterate.evaluation.execution.augmentation import Augmenter, get_augmenters
+from danoliterate.evaluation.execution.eval_types import EVALUATION_TYPES
 from danoliterate.evaluation.execution.model_inference import ModelInference, set_deterministic
 from danoliterate.evaluation.registries.get import get_inference, get_task_runner
 from danoliterate.evaluation.results import ExecutionExample, ExecutionResult
@@ -54,6 +55,8 @@ class Evaluator:
 
         self.wandb = setup_short_run(self.result.name, "eval", cfg.wandb)
         self.scenario_cfg: DictConfig = scenario_cfg
+        if (eval_type := self.scenario_cfg.get("type")) is not None:
+            assert eval_type in EVALUATION_TYPES, f"scenario.type must be one of {EVALUATION_TYPES}"
 
     def run(self):
         logger.info("Initializing example generators ...")

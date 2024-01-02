@@ -5,5 +5,5 @@ da_cloze_self_test:
   post_prompt: "\"\nErstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med det rigtige ord. Svar *kun* med det ordet:\nDet rigtige ord var "
   type: "free-generation"
   task:
-    type: "cloze-showing-options"
+    type: "cloze"
     id_features: ["text-idx", "cloze-idx"]

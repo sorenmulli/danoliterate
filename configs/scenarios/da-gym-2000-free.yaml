@@ -5,6 +5,6 @@ da_gym_2000:
   post_prompt: "\n# SVAR\nSvaret er "
   type: "free-generation"
   task:
-    type: "default-mc-letter-context-and-options"
+    type: "default-mc-letter-context"
     prompt_feature: "question"
     id_features: ["task_title", "index"]

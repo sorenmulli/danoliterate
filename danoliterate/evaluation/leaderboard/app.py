@@ -13,6 +13,7 @@ from omegaconf import DictConfig
 from danoliterate.evaluation.analysis.analyser import Analyser
 from danoliterate.evaluation.analysis.dimensions import Dimension
 from danoliterate.evaluation.artifact_integration import get_scores_wandb
+from danoliterate.evaluation.execution.eval_types import EVALUATION_TYPES
 from danoliterate.evaluation.leaderboard.metric_parsing import default_choices, extract_metrics
 from danoliterate.evaluation.leaderboard.table import (
     build_leaderboard_table,
@@ -139,7 +140,7 @@ def setup_app(cfg: DictConfig):
     )
     chosen_type = st.selectbox(
         "Leaderboard type",
-        ("standard", "free-generation"),
+        EVALUATION_TYPES,
         format_func=lambda text: text.replace("-", " ").capitalize(),
     )
     index_micro = st.selectbox("Index Average", ["Micro Avg.", "Macro Avg."]) == "Micro Avg."

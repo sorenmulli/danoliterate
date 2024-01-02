@@ -1,0 +1,2 @@
+EVALUATION_TYPES = "standard", "free-generation"
+DEFAULT_EVALUATION_TYPE = EVALUATION_TYPES[0]

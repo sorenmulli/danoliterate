@@ -1,5 +1,5 @@
 from dataclasses import _MISSING_TYPE, fields
-from typing import Any, Union
+from typing import Any, Optional, Union
 
 from danoliterate.infrastructure.logging import logger
 
@@ -12,14 +12,30 @@ TASK_TYPE_RENAMES = {
     "default-mc-letter-context": "default-mc-letter-context-and-options",
 }
 
+SCENARIO_NAME_TO_TASK_TYPE = {
+    "Angry Tweets": "angry-tweets",
+}
+SCENARIO_NAME_AND_TYPE_TO_TASK_TYPE: dict[tuple[str, Optional[str]], str] = {
+    ("HyggeSwag", "free-generation"): "default-mc",
+    ("Da. Cloze Self Test", "free-generation"): "cloze",
+    ("Citizenship Test", "free-generation"): "default-mc-letter-options",
+    ("Da. Gym 2000", "free-generation"): "default-mc-letter-context",
+}
+
 
 def apply_backcomp_fixes_execution_result_metadata(input_args: OutDictType):
     warnings = []
-    scenario_cfg: OutDictType = input_args["scenario_cfg"]  # type: ignore # type: ignore
+    scenario_cfg: OutDictType = input_args["scenario_cfg"]  # type: ignore
     task_type: str = scenario_cfg["task"]["type"]  # type: ignore
-    if scenario_cfg["name"] == "Angry Tweets" and task_type != "angry-tweets":
-        scenario_cfg["task"]["type"] = "angry-tweets"  # type: ignore
-        warnings.append("Changed Angry Tweets task type to angry-tweets.")
+    scenario_name: str = scenario_cfg["name"]  # type: ignore
+    scenario_type: Optional[str] = scenario_cfg["type"]  # type: ignore
+    if (desired_task_type := SCENARIO_NAME_TO_TASK_TYPE.get(scenario_name)) is not None or (
+        desired_task_type := SCENARIO_NAME_AND_TYPE_TO_TASK_TYPE.get((scenario_name, scenario_type))
+    ) is not None:
+        if task_type != desired_task_type:
+            scenario_cfg["task"]["type"] = desired_task_type  # type: ignore
+            warnings.append(f"Changed {scenario_cfg['name']} task type to {desired_task_type}")
+
     elif (new_name := TASK_TYPE_RENAMES.get(task_type)) is not None:
         scenario_cfg["task"]["type"] = new_name  # type: ignore
         warnings.append(f"Renamed {task_type} to {new_name}.")

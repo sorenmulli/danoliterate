@@ -7,4 +7,4 @@ citizenship_test:
   task:
     prompt_feature: "question"
     id_features: ["origin", "index"]
-    type: "default-mc-letter-options-showing"
+    type: "default-mc-letter-options"

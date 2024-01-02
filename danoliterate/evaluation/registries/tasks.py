@@ -91,6 +91,7 @@ def get_mc_same_options(scenario_cfg: DictConfig) -> TaskRunner:
     return MultiChoiceRunnerSameOptions(**kwargs)
 
 
+@register_task("default-mc-letter-context", metrics=MC_STANDARD_METRICS)
 @register_task("default-mc-letter-context-and-options", metrics=MC_SHOWING_OPTIONS_METRICS)
 def get_mc_letter_context(scenario_cfg: DictConfig) -> TaskRunner:
     kwargs = {}
@@ -100,6 +101,7 @@ def get_mc_letter_context(scenario_cfg: DictConfig) -> TaskRunner:
     return MultichoiceRunnerLetterWithContextAndOptions(**kwargs)
 
 
+@register_task("cloze", metrics=MC_STANDARD_METRICS)
 @register_task(
     "cloze-showing-options",
     metrics=MC_SHOWING_OPTIONS_METRICS,

@@ -3,6 +3,7 @@ from typing import Optional
 
 from danoliterate.evaluation.analysis.dimensions import Dimension
 from danoliterate.evaluation.analysis.meta_scorings import META_SCORERS
+from danoliterate.evaluation.execution.eval_types import DEFAULT_EVALUATION_TYPE
 from danoliterate.evaluation.results import MetricResult, Scores, Scoring
 
 
@@ -23,11 +24,14 @@ def get_relevant_metrics(
 
 
 # TODO: Clean up this code
-def extract_metrics(scores: Scores, chosen_dimension: Optional[Dimension], chosen_type="standard"):
+def extract_metrics(
+    scores: Scores, chosen_dimension: Optional[Dimension], chosen_type=DEFAULT_EVALUATION_TYPE
+):
     scores.scorings = [
         scoring
         for scoring in scores.scorings
-        if scoring.execution_metadata.scenario_cfg.get("type", "standard") == chosen_type
+        if scoring.execution_metadata.scenario_cfg.get("type", DEFAULT_EVALUATION_TYPE)
+        == chosen_type
     ]
 
     out: defaultdict[str, dict[str, list[MetricResult]]] = defaultdict(dict)
