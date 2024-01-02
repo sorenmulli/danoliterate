@@ -28,7 +28,7 @@ def apply_backcomp_fixes_execution_result_metadata(input_args: OutDictType):
     scenario_cfg: OutDictType = input_args["scenario_cfg"]  # type: ignore
     task_type: str = scenario_cfg["task"]["type"]  # type: ignore
     scenario_name: str = scenario_cfg["name"]  # type: ignore
-    scenario_type: Optional[str] = scenario_cfg["type"]  # type: ignore
+    scenario_type: Optional[str] = scenario_cfg.get("type")  # type: ignore
     if (desired_task_type := SCENARIO_NAME_TO_TASK_TYPE.get(scenario_name)) is not None or (
         desired_task_type := SCENARIO_NAME_AND_TYPE_TO_TASK_TYPE.get((scenario_name, scenario_type))
     ) is not None:

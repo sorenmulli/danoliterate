@@ -6,6 +6,11 @@ from danoliterate.evaluation.analysis.meta_scorings import META_SCORERS
 from danoliterate.evaluation.execution.eval_types import DEFAULT_EVALUATION_TYPE
 from danoliterate.evaluation.results import MetricResult, Scores, Scoring
 
+SPECIAL_TO_SHOW: dict[str, tuple[str, ...]] = {
+    "standard": (),
+    "free-generation": ("DaNE", "Nordjylland News", "#twitterhjerne", "Angry Tweets"),
+}
+
 
 def get_relevant_metrics(
     scoring: Scoring, chosen_dimension: Optional[Dimension]
@@ -32,6 +37,7 @@ def extract_metrics(
         for scoring in scores.scorings
         if scoring.execution_metadata.scenario_cfg.get("type", DEFAULT_EVALUATION_TYPE)
         == chosen_type
+        or scoring.execution_metadata.scenario_cfg["name"] in SPECIAL_TO_SHOW[chosen_type]
     ]
 
     out: defaultdict[str, dict[str, list[MetricResult]]] = defaultdict(dict)

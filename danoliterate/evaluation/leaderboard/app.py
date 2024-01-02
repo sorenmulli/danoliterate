@@ -133,7 +133,6 @@ def setup_app(cfg: DictConfig):
     st.title("Danoliterate LLM Leaderboard")
 
     logger.info("Fetching scores ...")
-    # TODO: Minimize loading times
     scores = fetch_scores_cached(cfg)
     chosen_dimension = st.selectbox(
         "Evaluation Dimension", Dimension, format_func=lambda dim: dim.value
