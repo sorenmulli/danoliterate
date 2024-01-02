@@ -30,12 +30,16 @@ def get_relevant_metrics(
 
 # TODO: Clean up this code
 def extract_metrics(
-    scores: Scores, chosen_dimension: Optional[Dimension], chosen_type=DEFAULT_EVALUATION_TYPE
+    scores: Scores,
+    chosen_dimension: Optional[Dimension],
+    chosen_type=DEFAULT_EVALUATION_TYPE,
+    chosen_models: Optional[list[str]] = None,
 ):
     scores.scorings = [
         scoring
         for scoring in scores.scorings
-        if scoring.execution_metadata.scenario_cfg.get("type", DEFAULT_EVALUATION_TYPE)
+        if (chosen_models is None or scoring.execution_metadata.model_cfg["name"] in chosen_models)
+        and scoring.execution_metadata.scenario_cfg.get("type", DEFAULT_EVALUATION_TYPE)
         == chosen_type
         or scoring.execution_metadata.scenario_cfg["name"] in SPECIAL_TO_SHOW[chosen_type]
     ]

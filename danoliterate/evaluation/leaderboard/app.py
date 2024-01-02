@@ -4,6 +4,7 @@ Should be run as streamlit application
 from collections import defaultdict
 
 import hydra
+import hydra.core
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
@@ -134,6 +135,7 @@ def setup_app(cfg: DictConfig):
 
     logger.info("Fetching scores ...")
     scores = fetch_scores_cached(cfg)
+
     chosen_dimension = st.selectbox(
         "Evaluation Dimension", Dimension, format_func=lambda dim: dim.value
     )
@@ -142,8 +144,12 @@ def setup_app(cfg: DictConfig):
         EVALUATION_TYPES,
         format_func=lambda text: text.replace("-", " ").capitalize(),
     )
+    all_models = sorted(list({scoring.execution_metadata.model_cfg["name"] for scoring in scores.scorings}))  # type: ignore
+    excluded_models = st.multiselect("Select models to exclude", all_models)
+    chosen_models = [model for model in all_models if model not in excluded_models]
+
     index_micro = st.selectbox("Index Average", ["Micro Avg.", "Macro Avg."]) == "Micro Avg."
-    metric_structure = extract_metrics(scores, chosen_dimension, chosen_type)
+    metric_structure = extract_metrics(scores, chosen_dimension, chosen_type, chosen_models)
     default_metrics = default_choices(metric_structure)
     chosen_metrics = default_metrics
 
@@ -193,12 +199,13 @@ def setup_app(cfg: DictConfig):
         latex = format_table_for_latex(table, lower_is_better)
         logger.info("Table:\n%s", latex)
 
-    with st.expander("Open to analyse results"):
+    with st.expander("Click to open analysis widget"):
         setup_analysis(chosen_metrics)
 
     logger.info("App built!")
 
 
 if __name__ == "__main__":
+    hydra.core.global_hydra.GlobalHydra.instance().clear()
     # pylint: disable=no-value-for-parameter
     setup_app()
