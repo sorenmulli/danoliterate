@@ -11,31 +11,40 @@ def _space(val: str, spacing=5) -> str:
     return " " * (spacing - len(val)) + val
 
 
+def get_table_values(
+    chosen_metrics: dict[str, dict[str, MetricResult]],
+) -> pd.DataFrame:
+    df = pd.DataFrame()
+    for scenario_name, models in chosen_metrics.items():
+        for model_name, metric in models.items():
+            if model_name not in df.index:
+                assert isinstance(model_name, str)
+                df.loc[model_name, :] = [float("nan")] * len(df.columns)
+            if scenario_name not in df.columns:
+                df[scenario_name] = [float("nan")] * len(df)
+            df.at[model_name, scenario_name] = metric.aggregate
+    return df
+
+
 def build_leaderboard_table(
     chosen_metrics: dict[str, dict[str, MetricResult]],
-    efficiency=True,
+    efficiency=False,
     micro=True,
 ) -> tuple[pd.DataFrame, set[str]]:
-    df = pd.DataFrame()
+    df = get_table_values(chosen_metrics)
     metric_df = pd.DataFrame()
     examples = {}
     lower_is_better = set()
     for scenario_name, models in chosen_metrics.items():
         for model_name, metric in models.items():
-            if model_name not in df.index:
-                assert isinstance(model_name, str)
-                df.loc[model_name, :] = [None] * len(df.columns)
-            if scenario_name not in df.columns:
-                df[scenario_name] = [None] * len(df)
-
             agg = _space(
                 str(round(metric.aggregate)) if efficiency else f"{round(metric.aggregate * 100)}"
             )
             err = f"± {metric.error * (1 if efficiency else 100):.0f}" if metric.error else ""
 
-            df.at[model_name, scenario_name] = f"{agg}{err}"
             metric_df.at[model_name, scenario_name] = metric.aggregate
 
+            df.at[model_name, scenario_name] = f"{agg}{err}"
             examples[scenario_name] = len(metric.example_results) or 1
 
             if not metric.higher_is_better:

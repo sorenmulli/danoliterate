@@ -18,6 +18,9 @@ profile = "black"
 line_length = 100
 known_third_party = ["wandb"]
 
+[tool.jupytext]
+formats = "ipynb,py:percent"
+
 
 [[tool.mypy.overrides]]
 module = [

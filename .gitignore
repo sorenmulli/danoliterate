@@ -1,3 +1,4 @@
+*.ipynb
 google-secret.json
 local-data
 secret.json
@@ -7,7 +8,6 @@ local-models
 job-outputs
 multirun
 jobs
-
 .python-version
 
 ## Below is from https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
