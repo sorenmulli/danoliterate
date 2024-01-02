@@ -1,4 +1,4 @@
 name: "OpenAI Babbage 002"
-path: "text-babbage-002"
+path: "babbage-002"
 inference:
   type: "openai-api"

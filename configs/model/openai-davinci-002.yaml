@@ -1,4 +1,4 @@
 name: "OpenAI Davinci 002"
-path: "text-davinci-002"
+path: "davinci-002"
 inference:
   type: "openai-api"
