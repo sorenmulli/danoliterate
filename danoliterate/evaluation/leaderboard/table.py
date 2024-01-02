@@ -12,7 +12,6 @@ def _space(val: str, spacing=5) -> str:
 
 
 def build_leaderboard_table(
-    metric_structure: dict[str, dict[str, list[MetricResult]]],
     chosen_metrics: dict[str, dict[str, MetricResult]],
     efficiency=True,
     micro=True,
@@ -21,10 +20,8 @@ def build_leaderboard_table(
     metric_df = pd.DataFrame()
     examples = {}
     lower_is_better = set()
-    for scenario_name, models in metric_structure.items():
-        for model_name in models:
-            metric = chosen_metrics[scenario_name][model_name]
-
+    for scenario_name, models in chosen_metrics.items():
+        for model_name, metric in models.items():
             if model_name not in df.index:
                 assert isinstance(model_name, str)
                 df.loc[model_name, :] = [None] * len(df.columns)

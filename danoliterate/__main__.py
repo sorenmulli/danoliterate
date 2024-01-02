@@ -10,7 +10,6 @@ from danoliterate.data.building.hashtag_twitterhjerne import create_hashtag_twit
 from danoliterate.data.building.hyggeswag import create_hyggeswag
 from danoliterate.data.building.nordjylland_news import create_nordjylland_news
 from danoliterate.data.building.prompt_answer_da import create_prompt_answer_da
-from danoliterate.evaluation.analysis.analyser import analyse
 from danoliterate.evaluation.analysis.inspection import inspect
 from danoliterate.evaluation.analysis.scorer import score
 from danoliterate.evaluation.execution.evaluator import evaluate
@@ -46,8 +45,6 @@ def hydra_entry(cfg: DictConfig) -> None:
             train_lm(cfg)
         case "score":
             score(cfg)
-        case "analyse":
-            analyse(cfg)
         case "inspect":
             inspect(cfg)
         case _:
