@@ -89,7 +89,8 @@ def yield_wandb_artifacts(wandb_project: str, wandb_entity: str, include_debug=F
         type_name=EXECUTION_RESULT_ARTIFACT_TYPE, project=wandb_project
     ).collections()
 
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    # TODO: Do this serially instead of this mess
+    with ThreadPoolExecutor(max_workers=1) as executor:
         futures = [executor.submit(fetch_artifact_data, coll) for coll in collections]
 
         for future in concurrent.futures.as_completed(futures):
