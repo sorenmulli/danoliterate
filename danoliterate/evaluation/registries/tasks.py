@@ -7,6 +7,7 @@ from danoliterate.evaluation.execution.task_runner import (
     MultiAnswerSimilarityRunner,
     MultichoiceRunner,
     MultichoiceRunnerLetterOptions,
+    MultichoiceRunnerLetterWithContext,
     MultichoiceRunnerLetterWithContextAndOptions,
     MultichoiceRunnerLetterWithOptions,
     MultiChoiceRunnerSameOptions,
@@ -92,8 +93,16 @@ def get_mc_same_options(scenario_cfg: DictConfig) -> TaskRunner:
 
 
 @register_task("default-mc-letter-context", metrics=MC_STANDARD_METRICS)
-@register_task("default-mc-letter-context-and-options", metrics=MC_SHOWING_OPTIONS_METRICS)
 def get_mc_letter_context(scenario_cfg: DictConfig) -> TaskRunner:
+    kwargs = {}
+    for feature in "prompt_feature", "id_features", "context_feature":
+        if (config_value := scenario_cfg.task.get(feature)) is not None:
+            kwargs[feature] = config_value
+    return MultichoiceRunnerLetterWithContext(**kwargs)
+
+
+@register_task("default-mc-letter-context-and-options", metrics=MC_SHOWING_OPTIONS_METRICS)
+def get_mc_letter_context_options(scenario_cfg: DictConfig) -> TaskRunner:
     kwargs = {}
     for feature in "prompt_feature", "id_features", "context_feature":
         if (config_value := scenario_cfg.task.get(feature)) is not None:

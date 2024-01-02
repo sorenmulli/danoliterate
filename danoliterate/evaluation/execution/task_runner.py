@@ -174,7 +174,7 @@ class MultichoiceRunnerLetterWithOptions(
     ...
 
 
-class MultichoiceRunnerLetterWithContextAndOptions(MultichoiceRunnerLetterWithOptions):
+class MultichoiceRunnerLetterWithContext(MultichoiceRunnerLetterOptions):
     def __init__(
         self,
         prompt_feature: str = "text",
@@ -184,6 +184,18 @@ class MultichoiceRunnerLetterWithContextAndOptions(MultichoiceRunnerLetterWithOp
         super().__init__(prompt_feature, id_features)
         self.context_feature = context_feature
 
+    def prepare_prompt(self, row: dict[str, Any], pre_prompt: str, post_prompt: str) -> str:
+        context = row[self.context_feature] or ""
+        return (
+            pre_prompt.format(context=context)
+            + self.maybe_augment(row[self.prompt_feature])
+            + post_prompt
+        )
+
+
+class MultichoiceRunnerLetterWithContextAndOptions(
+    MultichoiceRunnerLetterWithContext, MultichoiceRunnerLetterWithOptions
+):
     def prepare_prompt(self, row: dict[str, Any], pre_prompt: str, post_prompt: str) -> str:
         options = "\n".join(f"{i+1}. {option}" for i, option in enumerate(self.get_options(row)))
         context = row[self.context_feature] or ""
