@@ -206,6 +206,6 @@ def setup_app(cfg: DictConfig):
 
 
 if __name__ == "__main__":
-    hydra.core.global_hydra.GlobalHydra.instance().clear()
     # pylint: disable=no-value-for-parameter
     setup_app()
+    hydra.core.global_hydra.GlobalHydra.instance().clear()

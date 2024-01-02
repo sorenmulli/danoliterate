@@ -50,7 +50,13 @@ def build_leaderboard_table(
     )
     weights = np.array(list(examples.values()))
     index_means = (
-        index_scores_df.apply(lambda x: np.average(x, weights=weights), axis=1)
+        index_scores_df.apply(
+            lambda x: np.ma.average(
+                np.ma.MaskedArray(x, mask=np.isnan(x)),
+                weights=weights,
+            ),
+            axis=1,
+        )
         if micro
         else index_scores_df.mean(axis=1)
     )
