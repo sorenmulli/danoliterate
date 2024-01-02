@@ -1,15 +1,18 @@
+from argparse import Namespace
 import logging
 import pytest
 import numpy as np
-from danoliterate.evaluation.execution.model_inference import HuggingfaceCausalLm, set_deterministic
+from danoliterate.evaluation.execution.model_inference import set_deterministic
+from danoliterate.evaluation.execution.huggingface_inference import HuggingfaceCausalLm
 
 logger = logging.getLogger(__name__)
 
 lm_eval_imported = False
 try:
-    from lm_eval.models.huggingface import AutoCausalLM
+    from lm_eval.models.huggingface import HFLM
     lm_eval_imported = True
-except ImportError:
+except ImportError as error:
+    print(error)
     logger.warning("LM Evaluation Harness could not be imported, install with " "`git+https://github.com/EleutherAI/lm-evaluation-harness.git`")
 
 TEST_LM_KEY = "sshleifer/tiny-gpt2"
@@ -23,8 +26,8 @@ def test_huggingface_causallm():
     inference_to_test = HuggingfaceCausalLm(TEST_LM_KEY, download_no_cache=False, batch_size=2)
     predictions = inference_to_test.likelihoods(requests)
 
-    reference_implementation = AutoCausalLM(TEST_LM_KEY, device="cpu")
-    reference_predictions = [score for score, _ in reference_implementation.loglikelihood(requests)]
+    reference_implementation = HFLM(TEST_LM_KEY, device="cpu")
+    reference_predictions = [score for score, _ in reference_implementation.loglikelihood([Namespace(args=req) for req in requests])]
     assert np.allclose(predictions, reference_predictions, atol=1e-5), f"Mismatch:\n{predictions} vs\n{reference_predictions}"
 
 if __name__ == "__main__":
