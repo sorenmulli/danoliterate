@@ -1,6 +1,10 @@
-# NLGenDa
+# Are LLMs Danoliterate?
 
-Benchmark of *N*atural *L*anguage *Gen*eration in *Da*nish
+
+A benchmark tool for Generative Large Language Models in Danish.
+
+Note: This repository is currently work-in-progress while the master's thesis is finished.
+Implementations are subject to change.
 
 ## Installation
 
