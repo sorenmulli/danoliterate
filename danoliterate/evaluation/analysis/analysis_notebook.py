@@ -14,6 +14,11 @@ import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap
 from scipy.cluster import hierarchy
 
+from danoliterate.evaluation.analysis.dimensions import Dimension
+
+# %%
+from danoliterate.evaluation.artifact_integration import get_scores_wandb
+
 # %%
 P = Path("/home/sorenmulli/Nextcloud/cand4/thesis/imgs/plots")
 
@@ -21,12 +26,8 @@ P = Path("/home/sorenmulli/Nextcloud/cand4/thesis/imgs/plots")
 plt.rcParams["font.family"] = "serif"
 
 # %%
-from danoliterate.evaluation.artifact_integration import get_scores_wandb
-
 scores = get_scores_wandb("nlgenda", "sorenmulli")
 len(scores.scorings)
-
-from danoliterate.evaluation.analysis.dimensions import Dimension
 
 # %%
 from danoliterate.evaluation.leaderboard.metric_parsing import default_choices, extract_metrics
@@ -38,7 +39,7 @@ from danoliterate.evaluation.leaderboard.table import build_leaderboard_table, g
 # %%
 chosen_metrics = default_choices(extract_metrics(scores, Dimension.CAPABILITY, "standard"))
 table = get_table_values(chosen_metrics)
-ld, _ = build_leaderboard_table(chosen_metrics)
+ld, _ = build_leaderboard_table(chosen_metrics, show_missing=False)
 index = ld[ld.columns[0]]
 table = table.loc[index.index]
 table
@@ -89,5 +90,12 @@ plt.savefig(P / "scenario-corr.pdf")
 plt.show()
 
 # %%
+
+# %%
+freegen = default_choices(extract_metrics(scores, Dimension.CAPABILITY, "free-generation"))
+
+
+# %%
+freegen
 
 # %%
