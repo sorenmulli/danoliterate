@@ -25,7 +25,7 @@ setup_args = dict(
     author="Søren Winkel Holm",
     author_email="swholm@protonmail.com",
     install_requires=requires["base"],
-    extras_requires={
+    extras_require={
         "full": requires["full"],
     },
     include_package_data=True,
