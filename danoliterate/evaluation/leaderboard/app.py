@@ -1,6 +1,7 @@
 """
 Should be run as streamlit application
 """
+import logging
 from argparse import ArgumentParser, Namespace
 from collections import defaultdict
 
@@ -19,9 +20,12 @@ from danoliterate.evaluation.leaderboard.table import (
     format_table_for_latex,
 )
 from danoliterate.evaluation.results import MetricResult
-from danoliterate.infrastructure.logging import logger
 
 ALL_KEY = "Each Individually"
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+logger.addHandler(logging.StreamHandler())
 
 
 def group_models_by_metrics(models):
