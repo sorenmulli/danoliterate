@@ -12,6 +12,8 @@ class Comparer(ABC):
     name: str
     max_cache_size = 100_000
 
+    cutoff: Optional[float] = 1.5
+
     nlp: Optional[spacy.language.Language] = None
 
     def __init__(self) -> None:
@@ -20,6 +22,8 @@ class Comparer(ABC):
 
     def __call__(self, targets: list[str], predictions: list[str]) -> list[float]:
         results: list[Optional[float]] = []
+        if self.cutoff is not None:
+            self.cutoff_texts(targets, predictions)
         for target, pred in zip(targets, predictions, strict=True):
             key = (target, pred)
             if key in self.cache:
@@ -54,6 +58,18 @@ class Comparer(ABC):
         for doc in self.nlp.pipe(texts, batch_size=batch_size):
             out.append(" ".join(token.lemma_ for token in doc))
         return out
+
+    def cutoff_texts(self, targets: list[str], predictions: list[str]) -> list[str]:
+        assert self.cutoff is not None, "Cutoff value is not set."
+        new_predictions = []
+        for target, pred in zip(targets, predictions, strict=True):
+            if len(pred_words := pred.split()) > (
+                cutoff_len := int(self.cutoff * len(target.split()))
+            ):
+                new_predictions.append(" ".join(pred_words[:cutoff_len]))
+            else:
+                new_predictions.append(pred)
+        return new_predictions
 
 
 class Rouge1(Comparer):
@@ -109,7 +125,7 @@ class BertSimilarity(Comparer):
 
 class ClassChoiceParser(Comparer):
     key = "chosen-parsing"
-    name = "Parsing of chosen class"
+    name = "Parsing of chosen option"
 
     def predict(self, targets: list[str], predictions: list[str]) -> list[float]:
         all_classes = set(targets)
