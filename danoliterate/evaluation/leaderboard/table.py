@@ -12,7 +12,7 @@ def _space(val: str, spacing=5) -> str:
 
 
 def get_table_values(
-    chosen_metrics: dict[str, dict[str, MetricResult]],
+    chosen_metrics: dict[str, dict[str, MetricResult]], show_missing=False
 ) -> pd.DataFrame:
     df = pd.DataFrame()
     for scenario_name, models in chosen_metrics.items():
@@ -23,6 +23,8 @@ def get_table_values(
             if scenario_name not in df.columns:
                 df[scenario_name] = [float("nan")] * len(df)
             df.at[model_name, scenario_name] = metric.aggregate
+    if not show_missing:
+        df = df.dropna()
     return df
 
 
@@ -30,13 +32,16 @@ def build_leaderboard_table(
     chosen_metrics: dict[str, dict[str, MetricResult]],
     efficiency=False,
     micro=True,
+    show_missing=False,
 ) -> tuple[pd.DataFrame, set[str]]:
-    df = get_table_values(chosen_metrics)
+    df = get_table_values(chosen_metrics, show_missing)
     metric_df = pd.DataFrame()
     examples = {}
     lower_is_better = set()
     for scenario_name, models in chosen_metrics.items():
         for model_name, metric in models.items():
+            if model_name not in df.index:
+                continue
             agg = _space(
                 str(round(metric.aggregate)) if efficiency else f"{round(metric.aggregate * 100)}"
             )

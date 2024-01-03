@@ -148,6 +148,7 @@ def setup_app(args: Namespace):
         EVALUATION_TYPES,
         format_func=lambda text: text.replace("-", " ").capitalize(),
     )
+    show_missing = st.checkbox("Show models with missing values")
     all_models = sorted(
         list({scoring.execution_metadata.model_cfg["name"] for scoring in scores.scorings})
     )
@@ -197,6 +198,7 @@ def setup_app(args: Namespace):
         chosen_metrics,
         efficiency=chosen_dimension == Dimension.EFFICIENCY,
         micro=index_micro,
+        show_missing=show_missing,
     )
 
     st.dataframe(table, use_container_width=True)
