@@ -75,6 +75,8 @@ class HuggingfaceCausalLm(ModelInference):
                 batch = prompts[i : i + batch_size]
                 try:
                     # TODO: Extract parameters nicely in a generationconfig
+                    if self.tokenizer.chat_template is not None:
+                        batch = self.apply_chat_template(batch)
                     model_inputs = self.tokenizer(
                         batch,
                         return_tensors="pt",
@@ -176,6 +178,14 @@ class HuggingfaceCausalLm(ModelInference):
                     batch_size = batch_size // 2
         pbar.close()
         return out
+
+    def apply_chat_template(self, texts: list[str]) -> list[str]:
+        return [
+            self.tokenizer.apply_chat_template(
+                [{"role": "user", "content": text}], tokenize=False, add_generation_prompt=True
+            )
+            for text in texts
+        ]
 
     @property
     def can_do_lm(self) -> bool:
