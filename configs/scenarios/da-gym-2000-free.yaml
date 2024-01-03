@@ -2,7 +2,7 @@ da_gym_2000:
   name: "Da. Gym 2000"
   path: "sorenmulli/da-gym-2000"
   pre_prompt: "\"{context}\"\n# SPØRGSMÅL\n"
-  post_prompt: "\n# SVAR\nSvaret er "
+  post_prompt: "\n# SVAR\nSvaret er\n"
   type: "free-generation"
   task:
     type: "default-mc-letter-context"

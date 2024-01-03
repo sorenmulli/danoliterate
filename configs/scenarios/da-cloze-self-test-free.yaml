@@ -2,7 +2,7 @@ da_cloze_self_test:
   name: "Da. Cloze Self Test"
   path: "sorenmulli/da-cloze-self-test"
   pre_prompt: "\""
-  post_prompt: "\"\nErstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med det rigtige ord. Svar *kun* med det ordet:\nDet rigtige ord var "
+  post_prompt: "\"\nErstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med det rigtige ord. Svar *kun* med det ordet:\nDet rigtige ord var\n"
   type: "free-generation"
   task:
     type: "cloze"

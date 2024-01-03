@@ -2,7 +2,7 @@ citizenship_test:
   name: "Citizenship Test"
   path: "sorenmulli/citizenship-test-da"
   pre_prompt: "Svar helt kort på spørgsmålet.\n# SPØRGSMÅL\n"
-  post_prompt: "\n# SVAR\nSvaret er "
+  post_prompt: "\n# SVAR\nSvaret er\n"
   type: "free-generation"
   task:
     prompt_feature: "question"

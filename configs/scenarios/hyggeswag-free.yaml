@@ -2,6 +2,7 @@ hyggeswag:
   name: "HyggeSwag"
   path: "sorenmulli/hyggeswag"
   pre_prompt: "Svar med en kort fortsættelse af sætningen.\n"
+  post_prompt: " "
   type: "free-generation"
   task:
     prompt_feature: "ctx"
