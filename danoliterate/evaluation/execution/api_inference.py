@@ -7,6 +7,7 @@ from typing import Any, Optional
 
 import google.auth
 import openai
+import requests
 import vertexai
 from google.api_core.exceptions import ResourceExhausted
 from google.cloud.aiplatform_v1beta1 import SafetySetting
@@ -214,6 +215,38 @@ class GoogleApi(ApiInference):
     @property
     def can_do_nlg(self) -> bool:
         return True
+
+
+class DanskGptAPi(ApiInference):
+    api_retries = 10
+
+    def extract_answer(self, generated_dict: dict) -> tuple[str, Optional[float]]:
+        return (generated_dict.get("text"), None)  # type: ignore
+
+    def call_completion(self, prompt: str) -> dict:
+        for i in range(self.api_retries):
+            try:
+                response = requests.post(self.model_key, data={"prompt": prompt}, timeout=120)
+                response.raise_for_status()
+                return response.json()
+            except requests.exceptions.RequestException as api_error:
+                if i + 1 == self.api_retries:
+                    logger.error("Retried %i times, failed to get connection.", self.api_retries)
+                    raise
+                retry_time = i + 1
+                logger.warning(
+                    "Got connectivity error %s, retrying in %i seconds...", api_error, retry_time
+                )
+                time.sleep(retry_time)
+        raise ValueError("Retries must be > 0")
+
+    @property
+    def can_do_nlg(self) -> bool:
+        return True
+
+    @property
+    def can_do_lm(self) -> bool:
+        return False
 
 
 def _get_google_text(candidate):

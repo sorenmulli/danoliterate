@@ -2,7 +2,7 @@ from typing import Callable
 
 from omegaconf import DictConfig
 
-from danoliterate.evaluation.execution.api_inference import GoogleApi, OpenAiApi
+from danoliterate.evaluation.execution.api_inference import DanskGptAPi, GoogleApi, OpenAiApi
 from danoliterate.evaluation.execution.huggingface_inference import HuggingfaceCausalLm
 from danoliterate.evaluation.execution.model_inference import ConstantBaseline, ModelInference
 
@@ -69,6 +69,19 @@ def get_openai_api(cfg: DictConfig) -> OpenAiApi:
 )
 def get_google_api(cfg: DictConfig) -> GoogleApi:
     return GoogleApi(cfg.model.path, cfg.evaluation.api_call_cache)
+
+
+@register_inference(
+    "danskgpt-api",
+    unsupported_metrics=[
+        "max-likelihood-accuracy",
+        "max-likelihood-f1",
+        "likelihood-brier",
+        "likelihood-ece",
+    ],
+)
+def get_danskgpt_api(cfg: DictConfig) -> DanskGptAPi:
+    return DanskGptAPi(cfg.model.path, cfg.evaluation.api_call_cache)
 
 
 def get_inference(cfg: DictConfig):

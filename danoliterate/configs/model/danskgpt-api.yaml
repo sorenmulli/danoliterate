@@ -1,0 +1,4 @@
+name: "DanskGPT (API)"
+path: ???
+inference:
+  type: "danskgpt-api"
