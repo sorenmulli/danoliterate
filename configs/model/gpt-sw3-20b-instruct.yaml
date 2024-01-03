@@ -1,4 +1,4 @@
 name: "GPT-Sw3 20B Instruct"
-path: "AI-Sweden-Models/gpt-sw3-6.7b-v2-instruct"
+path: "AI-Sweden-Models/gpt-sw3-20b-instruct"
 inference:
   type: "hf-causal"
