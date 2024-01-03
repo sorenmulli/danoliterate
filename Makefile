@@ -13,7 +13,7 @@ DSL3GRAM_SOURCE := https://github.com/danspeech/danspeech/releases/download/v0.0
 all: install
 
 install:
-	pip install --editable . --upgrade
+	pip install --editable .[full] --upgrade
 	python -c 'import nltk; nltk.download("punkt")'
 	python -m spacy download da_core_news_sm
 

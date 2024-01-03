@@ -1,9 +1,8 @@
-import logging
-
 import hydra
 from omegaconf import DictConfig
 
 from danoliterate.infrastructure import CONFIG_DIR
+from danoliterate.infrastructure.logging import logger
 
 
 # pylint: disable=import-outside-toplevel
@@ -49,7 +48,7 @@ def hydra_entry(cfg: DictConfig) -> None:
 
                     create_hashtag_twitterhjerne(cfg)
                 case _:
-                    logging.error("Unsupported databuild.type=%s.", cfg.do)
+                    logger.error("Unsupported databuild.type=%s.", cfg.do)
                     raise ValueError("Unsupported databuild type")
         case "train":
             from danoliterate.training import train_lm
@@ -64,12 +63,21 @@ def hydra_entry(cfg: DictConfig) -> None:
 
             inspect(cfg)
         case _:
-            logging.error(
+            logger.error(
                 "Unsupported do=%s. 'evaluate', 'databuild', 'train', 'score' are supported", cfg.do
             )
             raise ValueError("Unsupported do")
 
 
 if __name__ == "__main__":
-    # pylint: disable=no-value-for-parameter
-    hydra_entry()
+    try:
+        # pylint: disable=no-value-for-parameter
+        hydra_entry()
+    except ImportError as error:
+        logger.warning(
+            "%s\nGot above ImportError.\n"
+            "You might need to install the [full] version of the package with "
+            "pip install danoliterate[full]",
+            error,
+        )
+        raise

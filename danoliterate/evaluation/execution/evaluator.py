@@ -8,7 +8,8 @@ from danoliterate.evaluation.artifact_integration import send_result_wandb, setu
 from danoliterate.evaluation.execution.augmentation import Augmenter, get_augmenters
 from danoliterate.evaluation.execution.eval_types import EVALUATION_TYPES
 from danoliterate.evaluation.execution.model_inference import ModelInference, set_deterministic
-from danoliterate.evaluation.registries.get import get_inference, get_task_runner
+from danoliterate.evaluation.registries.inferences import get_inference
+from danoliterate.evaluation.registries.tasks import get_task_runner
 from danoliterate.evaluation.results import ExecutionExample, ExecutionResult
 from danoliterate.infrastructure import format_config
 from danoliterate.infrastructure.logging import logger

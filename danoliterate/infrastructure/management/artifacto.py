@@ -10,6 +10,7 @@ from omegaconf import DictConfig
 from simple_term_menu import TerminalMenu
 from tqdm import tqdm
 from wandb import Artifact
+from wandb.env import CONFIG_DIR
 
 from danoliterate.evaluation.artifact_integration import dict_from_artifact, yield_wandb_artifacts
 from danoliterate.evaluation.results import ExecutionResult
@@ -234,7 +235,7 @@ def main_menu(cfg: DictConfig):
             sys.exit()
 
 
-@hydra.main(config_path="../../../configs", config_name="master", version_base=None)
+@hydra.main(config_path=CONFIG_DIR, config_name="master", version_base=None)
 def hydra_entry(cfg: DictConfig):
     main_menu(cfg)
 

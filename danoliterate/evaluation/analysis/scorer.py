@@ -10,7 +10,7 @@ from danoliterate.evaluation.artifact_integration import (
     send_scores_wandb,
     setup_short_run,
 )
-from danoliterate.evaluation.registries.get import get_compatible_metrics
+from danoliterate.evaluation.registries.metrics import get_compatible_metrics
 from danoliterate.evaluation.results import ExecutionResult, Scores, Scoring
 from danoliterate.infrastructure.logging import format_config, logger
 from danoliterate.infrastructure.timing import from_timestamp

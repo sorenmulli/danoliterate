@@ -1,0 +1,4 @@
+name: "DanskGPT"
+path: ???
+inference:
+  type: "hf-causal"

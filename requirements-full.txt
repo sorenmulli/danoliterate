@@ -1,0 +1,14 @@
+kenlm @ https://github.com/kpu/kenlm/archive/master.zip
+pypdf~=3.16.1
+fasttext-wheel~=0.9.2
+peft~=0.5.0
+scipy~=1.11.3
+nltk~=3.8.1
+rouge_score~=0.1.2
+evaluate~=0.4.0
+bert_score~=0.3.13
+spacy~=3.5.4
+levenshtein~=0.23.0
+seqeval~=1.2.2
+beautifulsoup4~=4.12.2
+trl~=0.7.4

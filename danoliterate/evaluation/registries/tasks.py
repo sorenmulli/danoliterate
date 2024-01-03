@@ -1,3 +1,5 @@
+from typing import Callable
+
 from omegaconf import DictConfig
 
 from danoliterate.evaluation.execution.task_runner import (
@@ -14,7 +16,29 @@ from danoliterate.evaluation.execution.task_runner import (
     MultichoiceRunnerWithOptions,
     TaskRunner,
 )
-from danoliterate.evaluation.registries.registration import register_task
+
+TaskFunctionType = Callable[[DictConfig], TaskRunner]
+
+task_registry: dict[str, TaskFunctionType] = {}
+task_supported_metrics_registry: dict[str, list[str]] = {}
+
+
+class UnknownTask(KeyError):
+    """A task key was given without a registered task inference"""
+
+
+def register_task(
+    task_name: str, metrics: list[str]
+) -> Callable[[TaskFunctionType], TaskFunctionType]:
+    def decorator(func: TaskFunctionType) -> TaskFunctionType:
+        if task_name in task_registry:
+            raise ValueError(f"Task {task_name} registered more than once!")
+        task_registry[task_name] = func
+        task_supported_metrics_registry[task_name] = metrics
+        return func
+
+    return decorator
+
 
 MC_STANDARD_METRICS = [
     "text-similarity-bert-sim",
@@ -186,3 +210,11 @@ def get_gpt_ner(scenario_cfg: DictConfig) -> TaskRunner:
         if (config_value := scenario_cfg.task.get(feature)) is not None:
             kwargs[feature] = config_value
     return GptNerRunner(**kwargs)
+
+
+def get_task_runner(scenario_cfg: DictConfig):
+    task_name = scenario_cfg.task.type
+    try:
+        return task_registry[task_name](scenario_cfg)
+    except KeyError as error:
+        raise UnknownTask(f"No task registered with scenario.task.type {task_name}") from error

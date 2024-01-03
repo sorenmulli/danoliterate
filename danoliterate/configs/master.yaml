@@ -3,6 +3,13 @@ defaults:
 # Used if running do=evaluate
   - scenarios: 
     - hyggeswag
+    - dane
+    - da-gym-2000
+    - nordjylland-news
+    - hashtag-twitterhjerne
+    - citizenship-test
+    - da-cloze-self-test
+    - angry-tweets
   - model: test
 # Used if running do=databuild
   - databuild: prompt_answer

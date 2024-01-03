@@ -1,0 +1,3 @@
+include requirements.txt
+include requirements-full.txt
+global-include *.yaml
