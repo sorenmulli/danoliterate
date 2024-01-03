@@ -77,6 +77,7 @@ def train_lm(cfg: DictConfig):
         else model_cls.from_pretrained(cfg.train.base_model)
     )
     if cfg.train.reinit:
+        # pylint: disable=protected-access
         model = model.apply(model._init_weights)
         logger.info("Randomly reinitialized model paramters")
 

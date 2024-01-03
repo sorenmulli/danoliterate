@@ -37,6 +37,7 @@ def fetch_scores_cached(_args: Namespace):
     return get_scores_wandb(_args.wandb_project, _args.wandb_entity)
 
 
+# pylint: disable=too-many-locals
 def setup_analysis(chosen_metrics: dict[str, dict[str, MetricResult]]):
     analyser = Analyser(chosen_metrics)
     model = st.selectbox(
@@ -122,6 +123,7 @@ def setup_analysis(chosen_metrics: dict[str, dict[str, MetricResult]]):
             plt.clf()
 
 
+# pylint: disable=too-many-locals
 def setup_app(args: Namespace):
     st.set_page_config("Danoliterate Leaderboard", page_icon="🇩🇰")
     # https://discuss.streamlit.io/t/remove-made-with-streamlit-from-bottom-of-app/1370/17
@@ -146,7 +148,9 @@ def setup_app(args: Namespace):
         EVALUATION_TYPES,
         format_func=lambda text: text.replace("-", " ").capitalize(),
     )
-    all_models = sorted(list({scoring.execution_metadata.model_cfg["name"] for scoring in scores.scorings}))  # type: ignore
+    all_models = sorted(
+        list({scoring.execution_metadata.model_cfg["name"] for scoring in scores.scorings})
+    )
     excluded_models = st.multiselect("Select models to exclude", all_models)
     chosen_models = [model for model in all_models if model not in excluded_models]
 

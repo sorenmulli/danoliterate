@@ -7,7 +7,6 @@ from typing import Optional
 
 from omegaconf import DictConfig, OmegaConf
 
-from danoliterate.evaluation.execution.augmentation import Augmenter
 from danoliterate.evaluation.serialization import (
     OutDictType,
     apply_backcomp_fixes_execution_result_metadata,
@@ -90,7 +89,7 @@ class ExecutionResult:
         return self_dict
 
     @classmethod
-    def from_config(cls, cfg: DictConfig, scenario_cfg: DictConfig, augmenter: Optional[Augmenter]):
+    def from_config(cls, cfg: DictConfig, scenario_cfg: DictConfig, augmenter):
         metadata_fields = get_reproducability_metadata_fields()
         name_parts = [cfg.model.name, scenario_cfg.name, str(metadata_fields["timestamp"])]
         if augmenter is not None:
@@ -187,7 +186,9 @@ class Scoring:
         metadata_dict: OutDictType = self_dict.pop("execution_metadata")  # type: ignore
         metadata = ExecutionResultMetadata.from_dict(metadata_dict)
 
-        result_dicts: list[OutDictType] = apply_backcomp_reordering_metric_results(self_dict.pop("metric_results"))  # type: ignore
+        result_dicts: list[OutDictType] = apply_backcomp_reordering_metric_results(
+            self_dict.pop("metric_results")  # type: ignore
+        )
 
         results = [MetricResult.from_dict(result_dict) for result_dict in result_dicts]
         return cls(execution_metadata=metadata, metric_results=results, **self_dict)  # type: ignore

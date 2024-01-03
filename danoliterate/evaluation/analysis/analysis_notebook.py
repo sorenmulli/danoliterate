@@ -3,7 +3,7 @@
 This file is a jupytext notebook. Install jupytext and jupyter lab and right-click on the file -> Open as Notebook in JL
 """
 # pylint: skip-file
-# type: ignore
+# mypy: ignore-errors
 
 # %%
 from pathlib import Path
@@ -11,6 +11,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+from matplotlib.colors import LinearSegmentedColormap
 from scipy.cluster import hierarchy
 
 # %%
