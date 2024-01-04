@@ -43,6 +43,17 @@ def apply_backcomp_fixes_execution_result_metadata(input_args: OutDictType):
         logger.debug("Performed backwards compatability fixing:\n%s", ",".join(warnings))
 
 
+RENAME_OPTIONS = {
+    "negative": "negativ",
+    "positive": "positiv",
+}
+
+
+def apply_backcomp_fixes_execution_example(input_args: dict):
+    if (opts := input_args.get("options")) is not None:
+        input_args["options"] = [RENAME_OPTIONS.get(opt, opt) for opt in opts]
+
+
 METRICS_TO_BE_PUT_TO_FRONT = [
     "Prediction odd-one-out frequency (BERT similarity)",
     "Prediction odd-one-out frequency (ROUGE-L)",

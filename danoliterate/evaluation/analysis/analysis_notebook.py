@@ -197,11 +197,16 @@ plt.show()
 from danoliterate.evaluation.artifact_integration import get_results_wandb
 
 # %%
-all_res = get_results_wandb("nlgenda", "sorenmulli", "/home/sorenmulli/Nextcloud/cand4/framework/local-computations/wandb-cache.json")
+all_res = get_results_wandb(
+    "nlgenda",
+    "sorenmulli",
+    "/home/sorenmulli/Nextcloud/cand4/framework/local-computations/wandb-cache.json",
+)
 len(all_res)
 
 # %%
 from collections import defaultdict
+
 interesting_executions = defaultdict(dict)
 for res in all_res:
     if (mname := res.metadata.model_cfg["name"]) in INTERESTING_SUBSET:
@@ -218,7 +223,9 @@ def save_results(scenario, col, name):
     df.insert(0, "Prompt", [ex.prompt for ex in exes])
     df.insert(0, "Answer", [ex.target_answer or ex.options[ex.index_label] for ex in exes])
 
-    df.to_csv(Path("/home/sorenmulli/Nextcloud/cand4/framework/local-data") / f"{scenario}-{name}.csv")
+    df.to_csv(
+        Path("/home/sorenmulli/Nextcloud/cand4/framework/local-data") / f"{scenario}-{name}.csv"
+    )
 
 
 # %%
@@ -231,7 +238,13 @@ for scenario, models in chosen_metrics.items():
     dfs = []
     for model, result in models.items():
         df = pd.DataFrame(
-            {"idx": result.example_results.keys(), model: [x if isinstance(x, float) else int(x[0] == x[1]) for x in result.example_results.values()] }
+            {
+                "idx": result.example_results.keys(),
+                model: [
+                    x if isinstance(x, float) else int(x[0] == x[1])
+                    for x in result.example_results.values()
+                ],
+            }
         )
         df = df.set_index("idx")
         dfs.append(df)
@@ -241,7 +254,7 @@ for scenario, models in chosen_metrics.items():
     print("Top easiest")
     print(df.tail(10).Mean)
     save_results(scenario, df.tail(10)["Mean"], "easiest")
-    
+
     print("Top hardest")
     print(df.head(10).Mean)
     save_results(scenario, df.head(10)["Mean"], "hardest")

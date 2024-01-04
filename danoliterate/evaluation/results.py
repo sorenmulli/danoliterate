@@ -9,6 +9,7 @@ from omegaconf import DictConfig, OmegaConf
 
 from danoliterate.evaluation.serialization import (
     OutDictType,
+    apply_backcomp_fixes_execution_example,
     apply_backcomp_fixes_execution_result_metadata,
     apply_backcomp_reordering_metric_results,
     fix_args_for_dataclass,
@@ -38,6 +39,7 @@ class ExecutionExample:
     @classmethod
     def from_dict(cls, self_dict: OutDictType):
         fix_args_for_dataclass(cls, self_dict)
+        apply_backcomp_fixes_execution_example(self_dict)
         # Dict is mutable; does not guarantee type safety
         return cls(**self_dict)  # type: ignore
 
