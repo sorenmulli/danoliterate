@@ -127,6 +127,8 @@ class ClassChoiceParser(Comparer):
     key = "chosen-parsing"
     name = "Parsing of chosen option"
 
+    cutoff = None
+
     def predict(self, targets: list[str], predictions: list[str]) -> list[float]:
         all_classes = set(targets)
         scores = []
