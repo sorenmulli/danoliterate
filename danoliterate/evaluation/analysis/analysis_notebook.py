@@ -50,7 +50,7 @@ index
 
 # %%
 plt.figure(figsize=(10, 7))
-model_tab = table.loc[index[index.astype(int) > 10].index]
+model_tab = table.loc[index[index.astype(int) >= 20].index]
 sns.heatmap(
     model_tab.T.corr() * 100,
     annot=True,

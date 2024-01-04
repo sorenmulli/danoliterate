@@ -211,8 +211,8 @@ def setup_app(args: Namespace):
         latex = format_table_for_latex(table, lower_is_better)
         logger.info("Table:\n%s", latex)
 
-    with st.expander("Click to open analysis widget"):
-        setup_analysis(chosen_metrics)
+    # with st.expander("Click to open analysis widget"):
+    #     setup_analysis(chosen_metrics)
 
     logger.info("App built!")
 

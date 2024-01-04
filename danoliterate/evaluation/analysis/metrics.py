@@ -402,7 +402,7 @@ class GptNerParsingF1(Metric):
                 "GPT-NER currently assumes that first part of ID is an index "
             ) from exception
         scores = np.array(self.example_scores_ner(labels, preds))
-        error = self.std_error(aggregate, scores)
+        error = self.error(aggregate, scores)
         return MetricResult(
             short_name=self.name,
             description=self.description,
