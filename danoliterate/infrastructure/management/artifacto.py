@@ -10,10 +10,10 @@ from omegaconf import DictConfig
 from simple_term_menu import TerminalMenu
 from tqdm import tqdm
 from wandb import Artifact
-from wandb.env import CONFIG_DIR
 
 from danoliterate.evaluation.artifact_integration import dict_from_artifact, yield_wandb_artifacts
 from danoliterate.evaluation.results import ExecutionResult
+from danoliterate.infrastructure.constants import CONFIG_DIR
 from danoliterate.infrastructure.logging import logger
 from danoliterate.infrastructure.timing import FORMAT, from_timestamp, get_now_stamp
 
