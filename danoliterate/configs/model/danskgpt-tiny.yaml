@@ -1,0 +1,4 @@
+name: "DanskGPT-tiny"
+path: "mhenrichsen/danskgpt-tiny"
+inference:
+  type: "hf-causal"
