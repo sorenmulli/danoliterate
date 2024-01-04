@@ -194,3 +194,68 @@ plt.show()
 # # Qualitative error analysis
 
 # %%
+from danoliterate.evaluation.artifact_integration import get_results_wandb
+
+# %%
+all_res = get_results_wandb("nlgenda", "sorenmulli", "/home/sorenmulli/Nextcloud/cand4/framework/local-computations/wandb-cache.json")
+len(all_res)
+
+# %%
+from collections import defaultdict
+interesting_executions = defaultdict(dict)
+for res in all_res:
+    if (mname := res.metadata.model_cfg["name"]) in INTERESTING_SUBSET:
+        interesting_executions[res.metadata.scenario_cfg["name"]][mname] = res
+
+
+# %%
+def save_results(scenario, col, name):
+    df = pd.DataFrame()
+    for model, res in interesting_executions[scenario].items():
+        exes = [ex for ex in res.examples if ex.id_ in col.index]
+        df[model] = [ex.generated_text for ex in exes]
+    df = df.set_index(col.index)
+    df.insert(0, "Prompt", [ex.prompt for ex in exes])
+    df.insert(0, "Answer", [ex.target_answer or ex.options[ex.index_label] for ex in exes])
+
+    df.to_csv(Path("/home/sorenmulli/Nextcloud/cand4/framework/local-data") / f"{scenario}-{name}.csv")
+
+
+# %%
+
+# %%
+for scenario, models in chosen_metrics.items():
+    if scenario in {"DaNE", "#twitterhjerne"}:
+        continue
+    print(scenario)
+    dfs = []
+    for model, result in models.items():
+        df = pd.DataFrame(
+            {"idx": result.example_results.keys(), model: [x if isinstance(x, float) else int(x[0] == x[1]) for x in result.example_results.values()] }
+        )
+        df = df.set_index("idx")
+        dfs.append(df)
+    df = pd.concat(dfs, axis=1)
+    df["Mean"] = df.apply(np.mean, axis=1)
+    df = df.sort_values("Mean")
+    print("Top easiest")
+    print(df.tail(10).Mean)
+    save_results(scenario, df.tail(10)["Mean"], "easiest")
+    
+    print("Top hardest")
+    print(df.head(10).Mean)
+    save_results(scenario, df.head(10)["Mean"], "hardest")
+
+    df["Std"] = df.apply(np.std, axis=1)
+    df = df.sort_values("Std")
+
+    print("Top same performance")
+    print(df.head(10).Std)
+    save_results(scenario, df.head(10)["Std"], "same")
+
+    print("Top different performance")
+    print(df.tail(10).Std)
+    save_results(scenario, df.tail(10)["Std"], "different")
+    print()
+
+# %%
