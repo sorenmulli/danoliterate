@@ -115,6 +115,7 @@ class HuggingfaceCausalLm(ModelInference):
                     )
                     batch_size = batch_size // 2
         pbar.close()
+        torch.cuda.empty_cache()
         return out
 
     def _compute_likelihoods(self, logits: torch.Tensor, target_ids: torch.Tensor) -> list[float]:
@@ -177,6 +178,7 @@ class HuggingfaceCausalLm(ModelInference):
                     )
                     batch_size = batch_size // 2
         pbar.close()
+        torch.cuda.empty_cache()
         return out
 
     def apply_chat_template(self, texts: list[str]) -> list[str]:
