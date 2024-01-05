@@ -1,0 +1,4 @@
+name: "SOLAR 10.7B"
+path: "upstage/SOLAR-10.7B-v1.0"
+inference:
+  type: "hf-causal"

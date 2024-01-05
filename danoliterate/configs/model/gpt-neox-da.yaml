@@ -1,0 +1,4 @@
+name: "GPT Neox Da."
+path: "peter-sk/gpt-neox-da"
+inference:
+  type: "hf-causal"

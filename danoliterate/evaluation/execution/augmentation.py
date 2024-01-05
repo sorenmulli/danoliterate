@@ -9,6 +9,8 @@ from dacy.datasets import danish_names, female_names, male_names, muslim_names
 from omegaconf import DictConfig
 from spacy.language import Language
 
+from danoliterate.infrastructure.logging import logger
+
 
 class Augmenter(ABC):
     @abstractmethod
@@ -34,7 +36,14 @@ class AugmentyBasedAugmenter(Augmenter, ABC):
         self.augmenter = self.create_augmenter()
 
     def __call__(self, text: str) -> str:
-        return list(augmenty.texts([text], augmenter=self.augmenter, nlp=self.nlp))[0]
+        try:
+            return list(augmenty.texts([text], augmenter=self.augmenter, nlp=self.nlp))[0]
+        except ValueError as error:
+            logger.warning(
+                "%s\nCould not augment text due to above error. Using it in non-augmented form. Text was:\n%s.",
+                error,
+                text,
+            )
 
     @abstractmethod
     def create_augmenter(self) -> Callable[[Language, Example], Iterator[Example]]:
