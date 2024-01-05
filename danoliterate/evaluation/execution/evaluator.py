@@ -117,6 +117,8 @@ def evaluate(cfg: DictConfig):
             evaluator = Evaluator(cfg, scenario_cfg, model_inference, augmenter=augmenter)
             evaluator.run()
             evaluator.save_results()
+        if cfg.evaluation.get("skip_unaugmented"):
+            continue
         evaluator = Evaluator(cfg, scenario_cfg, model_inference)
         evaluator.run()
         evaluator.save_results()

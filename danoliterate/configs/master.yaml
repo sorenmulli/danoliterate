@@ -30,6 +30,7 @@ evaluation:
   seed: 1887
   robustness_augment: false
   fairness_augment: false
+  skip_unaugmented: false
   api_call_cache: "local-computations/api-cache"
 
 model:

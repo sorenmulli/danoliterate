@@ -44,6 +44,7 @@ class AugmentyBasedAugmenter(Augmenter, ABC):
                 error,
                 text,
             )
+            return text
 
     @abstractmethod
     def create_augmenter(self) -> Callable[[Language, Example], Iterator[Example]]:
