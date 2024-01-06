@@ -15,6 +15,9 @@ import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap
 from scipy.cluster import hierarchy
 
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
 from danoliterate.evaluation.analysis.dimensions import Dimension
 
 # %%
@@ -49,6 +52,10 @@ table
 index
 
 # %%
+corr_matrix = model_tab.T.corr()
+corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool)).stack().mean()
+
+# %%
 plt.figure(figsize=(10, 7))
 model_tab = table.loc[index[index.astype(int) >= 20].index]
 sns.heatmap(
@@ -61,6 +68,19 @@ sns.heatmap(
 plt.title("How Models Correlate Across Scenarios", fontsize=15)
 plt.tight_layout()
 plt.savefig(P / "model-corr.pdf")
+plt.show()
+
+# %%
+df_standardized = StandardScaler().fit_transform(table.T)
+pca = PCA(n_components=min(df_standardized.shape[0], df_standardized.shape[1]))
+pcs = pca.fit_transform(df_standardized)
+explained_variance = pca.explained_variance_ratio_*100
+plt.figure()
+plt.plot(range(1, len(explained_variance) + 1), np.cumsum(explained_variance))
+plt.xlabel('Number of Components')
+plt.ylabel('Total Variance Prop. [%]')
+plt.title('Explained Variance')
+plt.grid(True)
 plt.show()
 
 # %%
