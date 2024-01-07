@@ -52,7 +52,7 @@ table
 index
 
 # %%
-corr_matrix = model_tab.T.corr()
+corr_matrix = table.T.corr()
 corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool)).stack().mean()
 
 # %%
@@ -64,6 +64,8 @@ sns.heatmap(
     fmt=".0f",
     cmap=plt.cm.Spectral,
     cbar_kws={"label": "Pearson Corr. [%]"},
+        vmin=-100,
+    vmax=100,
 )
 plt.title("How Models Correlate Across Scenarios", fontsize=15)
 plt.tight_layout()
@@ -72,16 +74,61 @@ plt.show()
 
 # %%
 df_standardized = StandardScaler().fit_transform(table.T)
-pca = PCA(n_components=min(df_standardized.shape[0], df_standardized.shape[1]))
+pca = PCA()
 pcs = pca.fit_transform(df_standardized)
 explained_variance = pca.explained_variance_ratio_*100
 plt.figure()
-plt.plot(range(1, len(explained_variance) + 1), np.cumsum(explained_variance))
+plt.plot(range(0, len(explained_variance) + 1), [0, *np.cumsum(explained_variance)])
 plt.xlabel('Number of Components')
 plt.ylabel('Total Variance Prop. [%]')
-plt.title('Explained Variance')
+plt.title('Scenario Variance is Explained by Model PCs')
 plt.grid(True)
+plt.savefig(P / "pca-model-var.pdf")
 plt.show()
+
+# %%
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import cm  # Import the colormap
+
+# Assume loadings and feature_names are defined as per your context
+loadings = pca.components_  # Shape n_components x n_features
+feature_names = np.array(table.T.columns)  # Ensure feature_names is a numpy array for advanced indexing
+
+# Constants
+num_pc_to_display = 3  # or any other number of components you are interested in
+num_top_features = 28  # Number of top features to display
+
+for i in range(num_pc_to_display):
+    # Sorting the loadings of the i-th PC by absolute value while keeping track of the indices
+    sorted_indices = np.argsort(np.abs(loadings[i]))[::-1]
+    top_indices = sorted_indices[:num_top_features]
+
+    # Selecting the top loadings and the corresponding feature names
+    top_loadings = loadings[i][top_indices]
+    top_feature_names = feature_names[top_indices]
+
+    # Normalize the absolute values of the loadings between 0 and 1 for the colormap
+    norm = plt.Normalize(np.min(top_loadings), np.max(top_loadings))
+    colors = plt.cm.Spectral(norm(top_loadings))  # Get colors from the colormap
+
+    # Plotting
+    fig, ax = plt.subplots(figsize=(5, 7))
+    y_pos = np.arange(num_top_features)
+    ax.barh(y_pos, top_loadings, align='center', color=colors)  # Add color to the bars
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(top_feature_names)
+    ax.invert_yaxis()  # labels read top-to-bottom
+    ax.set_xlabel('Loading')
+    ax.set_title(f'Principal Component {i+1}')
+    plt.tight_layout()
+    # Update the path as needed
+    plt.savefig(P / f"pca-model-load-{i+1}.pdf")  
+    plt.show()  
+
+# %%
+corr_matrix = table.corr().abs()
+corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool)).stack().mean()
 
 # %%
 plt.figure(figsize=(10, 7))
@@ -94,6 +141,7 @@ corr = table.corr()
 pdist = hierarchy.distance.pdist(corr.abs())
 linkage = hierarchy.linkage(pdist, method="complete")
 order = hierarchy.leaves_list(hierarchy.optimal_leaf_ordering(linkage, pdist))
+#corr = table.corr("spearman")
 ordered_corr = corr.iloc[order, :].iloc[:, order]
 
 sns.heatmap(
@@ -101,21 +149,83 @@ sns.heatmap(
     annot=True,
     fmt=".0f",
     cmap=mirrored_cmap,
+    #cbar_kws={"label": "Spearman Rank Corr. [%]"},
     cbar_kws={"label": "Pearson Corr. [%]"},
+    vmin=-100,
+    vmax=100,
+
 )
-plt.title("How Scenarios Correlate", fontsize=15)
+plt.title("How Scenario Results Correlate", fontsize=15)
+#plt.title("How Scenario Ranks Correlate", fontsize=15)
 
 plt.tight_layout()
 plt.savefig(P / "scenario-corr.pdf")
+#plt.savefig(P / "scenario-rank-corr.pdf")
 
 plt.show()
+
+# %%
+_table = table.copy()
+_table["#twitterhjerne"] *= -1
+df_standardized = StandardScaler().fit_transform(_table)
+pca = PCA()
+pcs = pca.fit_transform(df_standardized)
+explained_variance = pca.explained_variance_ratio_*100
+plt.figure()
+plt.plot(range(0, len(explained_variance) + 1), [0, *np.cumsum(explained_variance)])
+plt.xlabel('Number of Components')
+plt.ylabel('Total Variance Prop. [%]')
+plt.title('Model Variance Explained by Scenario PCs')
+plt.grid(True)
+plt.savefig(P / "pca-scenario-var.pdf")
+plt.show()
+
+# %%
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import cm  # Import the colormap
+
+# Assume loadings and feature_names are defined as per your context
+loadings = pca.components_  # Shape n_components x n_features
+feature_names = np.array(table.columns)  # Ensure feature_names is a numpy array for advanced indexing
+
+# Constants
+num_pc_to_display = 3  # or any other number of components you are interested in
+num_top_features = 8  # Number of top features to display
+
+for i in range(num_pc_to_display):
+    # Sorting the loadings of the i-th PC by absolute value while keeping track of the indices
+    sorted_indices = np.argsort(np.abs(loadings[i]))[::-1]
+    top_indices = sorted_indices[:num_top_features]
+
+    # Selecting the top loadings and the corresponding feature names
+    top_loadings = loadings[i][top_indices]
+    top_feature_names = feature_names[top_indices]
+
+    # Normalize the absolute values of the loadings between 0 and 1 for the colormap
+    norm = plt.Normalize(min(np.min(top_loadings), 0), np.max(top_loadings))
+    colors = plt.cm.Spectral(norm(top_loadings))  # Get colors from the colormap
+
+    # Plotting
+    fig, ax = plt.subplots(figsize=(5, 5))
+    y_pos = np.arange(num_top_features)
+    ax.barh(y_pos, top_loadings, align='center', color=colors)  # Add color to the bars
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(top_feature_names)
+    ax.invert_yaxis()  # labels read top-to-bottom
+    ax.set_xlabel('Loading')
+    ax.set_title(f'Principal Component {i+1}')
+    plt.tight_layout()
+    # Update the path as needed
+    plt.savefig(P / f"pca-scenario-load-{i+1}.pdf")  
+    plt.show()  
 
 # %%
 INTERESTING_SUBSET = (
     "OpenAI GPT 4",
     "OpenAI GPT 3.5 Turbo",
+    "SOLAR 10.7B Instruct",
     "Google Gemini Pro",
-    "LlaMa 2 13B Chat",
     "Mistral 7B Instruct (v0.2)",
     "Danoliterate Mistral 7B",
     "OpenAI Davinci 002",
@@ -225,6 +335,8 @@ all_res = get_results_wandb(
 len(all_res)
 
 # %%
+
+# %%
 from collections import defaultdict
 
 interesting_executions = defaultdict(dict)
@@ -249,14 +361,14 @@ def save_results(scenario, col, name):
 
 
 # %%
-
-# %%
 for scenario, models in chosen_metrics.items():
     if scenario in {"DaNE", "#twitterhjerne"}:
         continue
     print(scenario)
     dfs = []
     for model, result in models.items():
+        if "baseline" in model.lower():
+            continue
         df = pd.DataFrame(
             {
                 "idx": result.example_results.keys(),
