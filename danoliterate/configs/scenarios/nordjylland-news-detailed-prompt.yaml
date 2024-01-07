@@ -1,0 +1,11 @@
+nordjylland_news:
+  name: "Nordjylland News"
+  path: "sorenmulli/nordjylland-news-summarization-subset"
+  pre_prompt: "Skriv et ultrakort resumé af det vigtigste indhold i følgende avis-tekst. Resuméet skal være på maksimalt to sætninger, gerne én enkelt sætning. Resuméet skal være på dansk. Det skal have en simpel sætningsstruktur som f.eks. \"En hund løb bort fra sin ejer og blev fundet i en McDonald's i Søborg\". Du må *ikke* svare med andet end resuméet. Teksten kommer nu herunder.\n# TEKST\n"
+  post_prompt: "\n# RESUMÉ\nEt kort resumé, der opfylder ovenstående instrukser er: "
+  type: "alternative-prompt"
+  task:
+    type: "default-answer-similarity"
+    prompt_feature: "text"
+    answer_feature: "summary"
+    id_features: ["ind"]

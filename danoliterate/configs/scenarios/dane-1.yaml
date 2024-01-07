@@ -4,6 +4,7 @@ dane:
   pre_prompt: "Fuldfør annotering af sidste eksempel i opgaven.\nHer er en lingvists arbejde med at annotere entiteter af typen '{entity_str}'. {few_shot_str}\n\n# TEKST\n"
   post_prompt: "\n# ANNOTERING\n"
   dataset_split: "val"
+  type: "few-shot-experiment-1"
   task:
     type: "gpt-ner"
     few_shot_format: "# TEKST\n{text}\n# ANNOTERING\n{annotated_text}"
@@ -13,5 +14,4 @@ dane:
       - ORG: "organisation"
       - MISC: "diverse"
     id_features: []
-    type: "few-shot-experiment-1"
     n_examples: 1

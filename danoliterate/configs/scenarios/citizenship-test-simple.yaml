@@ -1,0 +1,9 @@
+citizenship_test:
+  name: "Citizenship Test"
+  path: "sorenmulli/citizenship-test-da"
+  post_prompt: "\n{options}\nSvaret er mulighed nummer "
+  type: "alternative-prompt"
+  task:
+    prompt_feature: "question"
+    id_features: ["origin", "index"]
+    type: "default-mc-letter-options-showing"

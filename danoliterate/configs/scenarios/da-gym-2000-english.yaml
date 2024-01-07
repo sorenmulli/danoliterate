@@ -1,0 +1,10 @@
+da_gym_2000:
+  name: "Da. Gym 2000"
+  path: "sorenmulli/da-gym-2000"
+  pre_prompt: "\"{context}\"\n\nAnswer only with the number for the right option\n# QUESTION\n"
+  post_prompt: "\n# OPTIONS \n{options}\n# ANSWER\nThe answer is option number "
+  type: "alternative-prompt"
+  task:
+    type: "default-mc-letter-context-and-options"
+    prompt_feature: "question"
+    id_features: ["task_title", "index"]
