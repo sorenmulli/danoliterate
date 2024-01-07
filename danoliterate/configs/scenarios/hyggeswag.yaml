@@ -1,8 +1,8 @@
 hyggeswag:
   name: "HyggeSwag"
   path: "sorenmulli/hyggeswag"
-  pre_prompt: "Svar kun med bogstavet for den rigtige fortsættelse af sætningen\n# SÆTNING\n"
-  post_prompt: "\n# SVARMULIGHEDER\n{options}\n# SVAR\nDen rigtige fortsættelse er mulighed "
+  pre_prompt: "Svar kun med tallet for den rigtige fortsættelse af sætningen\n# SÆTNING\n"
+  post_prompt: "\n# SVARMULIGHEDER\n{options}\n# SVAR\nDen rigtige fortsættelse er mulighed nummer "
   task:
     prompt_feature: "ctx"
     id_features: ["source_id", "ind"]

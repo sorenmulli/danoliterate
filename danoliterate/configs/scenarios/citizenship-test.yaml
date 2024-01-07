@@ -1,8 +1,8 @@
 citizenship_test:
   name: "Citizenship Test"
   path: "sorenmulli/citizenship-test-da"
-  pre_prompt: "Svar kun med bogstavet for den rigtige mulighed\n# SPØRGSMÅL\n"
-  post_prompt: "\n# SVARMULIGHEDER\n{options}\n# SVAR\nSvaret er mulighed "
+  pre_prompt: "Svar kun med tallet for den rigtige mulighed\n# SPØRGSMÅL\n"
+  post_prompt: "\n# SVARMULIGHEDER\n{options}\n# SVAR\nSvaret er mulighed nummer "
   task:
     prompt_feature: "question"
     id_features: ["origin", "index"]

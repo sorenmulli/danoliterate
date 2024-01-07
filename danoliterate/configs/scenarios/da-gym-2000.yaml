@@ -1,8 +1,8 @@
 da_gym_2000:
   name: "Da. Gym 2000"
   path: "sorenmulli/da-gym-2000"
-  pre_prompt: "\"{context}\"\n\nSvar kun med bogstavet for den rigtige mulighed\n# SPØRGSMÅL\n"
-  post_prompt: "\n# SVARMULIGHEDER\n{options}\n# SVAR\nSvaret er mulighed "
+  pre_prompt: "\"{context}\"\n\nSvar kun med tallet for den rigtige mulighed\n# SPØRGSMÅL\n"
+  post_prompt: "\n# SVARMULIGHEDER\n{options}\n# SVAR\nSvaret er mulighed nummer "
   task:
     type: "default-mc-letter-context-and-options"
     prompt_feature: "question"
