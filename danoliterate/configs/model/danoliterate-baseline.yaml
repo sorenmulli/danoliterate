@@ -1,0 +1,4 @@
+name: "Danoliterate 7B Baseline"
+path: "/dtu/p1/s183911/thesis/outputs/danoliterate-baseline-llm/checkpoint-20000"
+inference:
+  type: "hf-causal"
