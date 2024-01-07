@@ -6,6 +6,12 @@ This file is a jupytext notebook. Install jupytext and jupyter lab and right-cli
 # mypy: ignore-errors
 
 # %%
+# %load_ext autoreload
+# %autoreload 2
+
+from collections import defaultdict
+
+# %%
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -34,7 +40,11 @@ len(scores.scorings)
 
 # %%
 from danoliterate.evaluation.leaderboard.metric_parsing import default_choices, extract_metrics
-from danoliterate.evaluation.leaderboard.table import build_leaderboard_table, get_table_values
+from danoliterate.evaluation.leaderboard.table import (
+    build_leaderboard_table,
+    format_table_for_latex,
+    get_table_values,
+)
 
 # %% [markdown]
 # # Main leaderboard analysis
@@ -406,5 +416,156 @@ for scenario, models in chosen_metrics.items():
     print(df.tail(10).Std)
     save_results(scenario, df.tail(10)["Std"], "different")
     print()
+
+# %%
+INTERESTING_SUBSET2 = (
+    "OpenAI GPT 3.5 Turbo",
+    "Google Gemini Pro",
+    "Mistral 7B Instruct (v0.2)",
+    "Danoliterate Mistral 7B",
+    "Mistral 7B",
+    "Constant Baseline",
+)
+
+# %%
+main_table = ld.loc[pd.Series(INTERESTING_SUBSET2)]
+main_table
+
+# %%
+freegen_nlg_metrics = {}
+for s, models in extract_metrics(scores, Dimension.CAPABILITY, "free-generation").items():
+    if s in {"DaNE", "#twitterhjerne", "Nordjylland News"}:
+        continue
+    freegen_nlg_metrics[s] = {}
+    for m, metrics in models.items():
+        met = [me for me in metrics if me.short_name == "Accuracy (NLG BERT similarity)"]
+        if met:
+            freegen_nlg_metrics[s][m] = met[0]
+freegen_nlg_ld, _ = build_leaderboard_table(freegen_nlg_metrics, show_missing=True)
+
+options_lm_metrics = {}
+for s, models in extract_metrics(scores, Dimension.CAPABILITY, "standard").items():
+    if s in {"DaNE", "#twitterhjerne", "Nordjylland News"}:
+        continue
+    options_lm_metrics[s] = {}
+    for m, metrics in models.items():
+        met = [me for me in metrics if me.short_name == "Accuracy (LM)"]
+        if met:
+            options_lm_metrics[s][m] = met[0]
+options_lm_ld, _ = build_leaderboard_table(options_lm_metrics, show_missing=True)
+
+freegen_lm_metrics = {}
+for s, models in extract_metrics(scores, Dimension.CAPABILITY, "free-generation").items():
+    if s in {"DaNE", "#twitterhjerne", "Nordjylland News"}:
+        continue
+    freegen_lm_metrics[s] = {}
+    for m, metrics in models.items():
+        met = [me for me in metrics if me.short_name == "Accuracy (LM)"]
+        if met:
+            freegen_lm_metrics[s][m] = met[0]
+freegen_lm_ld, _ = build_leaderboard_table(freegen_lm_metrics, show_missing=True)
+
+# %%
+ct_versions = pd.DataFrame()
+ct_versions["Options+NLG"] = ld["Citizenship Test"]
+ct_versions["Options+LM"] = options_lm_ld["Citizenship Test"]
+ct_versions["Free+NLG"] = freegen_nlg_ld["Citizenship Test"]
+ct_versions["Free+LM"] = freegen_lm_ld["Citizenship Test"]
+ct_versions = ct_versions.loc[pd.Series(INTERESTING_SUBSET2)]
+print(format_table_for_latex(ct_versions, {}))
+ct_versions
+
+# %%
+hs_versions = pd.DataFrame()
+hs_versions["Options+NLG"] = ld["HyggeSwag"]
+hs_versions["Options+LM"] = options_lm_ld["HyggeSwag"]
+hs_versions["Free+NLG"] = freegen_nlg_ld["HyggeSwag"]
+hs_versions["Free+LM"] = freegen_lm_ld["HyggeSwag"]
+hs_versions = hs_versions.loc[pd.Series(INTERESTING_SUBSET2)]
+print(format_table_for_latex(hs_versions, {}))
+hs_versions
+
+# %%
+INTERESTING_SUBSET3 = (
+    "OpenAI GPT 4",
+    "OpenAI GPT 3.5 Turbo",
+    "SOLAR 10.7B Instruct",
+    "Google Gemini Pro",
+    "Mistral 7B Instruct (v0.2)",
+    "LlaMa 2 13B Chat",
+    "OpenAI Davinci 002",
+    "Danoliterate Mistral 7B",
+    "Mistral 7B",
+    "Danoliterate LlaMa 2 7B",
+    "LlaMa 2 7B",
+    "Constant Baseline",
+)
+
+# %%
+th_metric_names = {
+    "Prediction odd-one-out frequency (BERT similarity)": "Pred odd-one-out freq.",
+    "Avg. similarity to references (BERT similarity)": "Avg. similarity",
+    "Min. similarity to references (BERT similarity)": "Min, similarity",
+    "Max. similarity to references (BERT similarity)": "Max. similarity",
+}
+th_metrics = defaultdict(dict)
+for m, metrics in extract_metrics(scores, Dimension.CAPABILITY, "standard")[
+    "#twitterhjerne"
+].items():
+    for met, name in th_metric_names.items():
+        th_metrics[name][m] = [me for me in metrics if me.short_name == met][0]
+th_metrics_ld, lower = build_leaderboard_table(th_metrics, show_missing=True)
+th_metrics_ld = th_metrics_ld.loc[:, pd.Series(th_metric_names.values())]
+th_metrics_ld = th_metrics_ld.loc[
+    pd.Series([idx for idx in th_metrics_ld.index if idx in INTERESTING_SUBSET3])
+]
+print(format_table_for_latex(th_metrics_ld, lower))
+th_metrics_ld
+
+# %%
+nn_metric_names = {
+    "Similarity (BERT similarity)": "BERT similarity",
+    "Similarity (ROUGE-1)": "ROUGE-1",
+    "Similarity (ROUGE-L)": "ROUGE-L",
+}
+nn_metrics = defaultdict(dict)
+for m, metrics in extract_metrics(scores, Dimension.CAPABILITY, "standard")[
+    "Nordjylland News"
+].items():
+    for met, name in nn_metric_names.items():
+        nn_metrics[name][m] = [me for me in metrics if me.short_name == met][0]
+nn_metrics_ld, lower = build_leaderboard_table(nn_metrics, show_missing=True)
+nn_metrics_ld = nn_metrics_ld.loc[:, pd.Series(nn_metric_names.values())]
+nn_metrics_ld = nn_metrics_ld.loc[
+    pd.Series([idx for idx in nn_metrics_ld.index if idx in INTERESTING_SUBSET3])
+]
+print(format_table_for_latex(nn_metrics_ld, lower))
+nn_metrics_ld
+
+# %%
+cal_metric_names = {
+    "Brier Score (LM)": "Brier Score",
+    "ECE Calibration (LM)": "ECE",
+    "Accuracy (LM)": "Accuracy (LM)",
+}
+cal_metrics = defaultdict(dict)
+for m, metrics in extract_metrics(scores, Dimension.CALIBRATION, "standard")[
+    "Angry Tweets"
+].items():
+    for met, name in cal_metric_names.items():
+        try:
+            cal_metrics[name][m] = [me for me in metrics if me.short_name == met][0]
+        except:
+            ...
+for m, metrics in extract_metrics(scores, Dimension.CAPABILITY, "standard")["Angry Tweets"].items():
+    for met, name in cal_metric_names.items():
+        try:
+            cal_metrics[name][m] = [me for me in metrics if me.short_name == met][0]
+        except:
+            ...
+cal_metrics_ld, lower = build_leaderboard_table(cal_metrics, show_missing=True)
+cal_metrics_ld = cal_metrics_ld.loc[:, pd.Series(cal_metric_names.values())]
+print(format_table_for_latex(cal_metrics_ld, lower))
+cal_metrics_ld
 
 # %%

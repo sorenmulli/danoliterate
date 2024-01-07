@@ -1,3 +1,5 @@
+from math import isnan
+
 import numpy as np
 import pandas as pd
 
@@ -28,6 +30,19 @@ def get_table_values(
     return df
 
 
+def _format_err(num):
+    if round(num) >= 1:
+        return f"{num:.0f}"
+    else:
+        num_str = str(num)
+        if "." in num_str:
+            decimal_part = num_str.split(".")[1]
+            for i, digit in enumerate(decimal_part):
+                if digit != "0":
+                    return f"{num:.{i+1}f}"
+        return str(num)
+
+
 def build_leaderboard_table(
     chosen_metrics: dict[str, dict[str, MetricResult]],
     efficiency=False,
@@ -45,10 +60,11 @@ def build_leaderboard_table(
             agg = _space(
                 str(round(metric.aggregate)) if efficiency else f"{round(metric.aggregate * 100)}"
             )
-            err = f"± {metric.error * (1 if efficiency else 100):.0f}" if metric.error else ""
-            # Round zero up
-            if err == "± 0":
-                err = "± 1"
+            err = (
+                f"± {_format_err(metric.error * (1 if efficiency else 100))}"
+                if metric.error
+                else ""
+            )
 
             metric_df.at[model_name, scenario_name] = metric.aggregate
 
@@ -95,13 +111,18 @@ def format_table_for_latex(table: pd.DataFrame, lower_is_better: set[str]) -> st
         ).index
 
         for idx, num in df[col].items():
-            formatted_number = "$" + num.strip().replace("±", r"\pm") + "$"
-            if idx == top1:
-                formatted_number = r"\underline{\underline{\underline{" + formatted_number + "}}}"
-            elif idx == top2:
-                formatted_number = r"\underline{\underline{" + formatted_number + "}}"
-            elif idx == top3:
-                formatted_number = r"\underline{" + formatted_number + "}"
+            if not isinstance(num, str) and isnan(num):
+                formatted_number = "--"
+            else:
+                formatted_number = "$" + num.strip().replace("±", r"\pm") + "$"
+                if idx == top1:
+                    formatted_number = (
+                        r"\underline{\underline{\underline{" + formatted_number + "}}}"
+                    )
+                elif idx == top2:
+                    formatted_number = r"\underline{\underline{" + formatted_number + "}}"
+                elif idx == top3:
+                    formatted_number = r"\underline{" + formatted_number + "}"
             df.at[idx, col] = formatted_number
     df.columns = df.columns.str.replace("#", r"\#")
     df.columns = df.columns.str.replace(WIN_EMOJI, "")

@@ -1,4 +1,5 @@
 from collections import defaultdict
+from copy import deepcopy
 from typing import Optional
 
 from danoliterate.evaluation.analysis.dimensions import Dimension
@@ -35,6 +36,7 @@ def extract_metrics(
     chosen_type=DEFAULT_EVALUATION_TYPE,
     chosen_models: Optional[list[str]] = None,
 ):
+    scores = deepcopy(scores)
     scores.scorings = [
         scoring
         for scoring in scores.scorings
