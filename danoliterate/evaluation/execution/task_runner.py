@@ -134,12 +134,12 @@ class ClozeRunnerWithOptions(MultichoiceRunner):
         self.cloze_mask_replaced = cloze_mask_replaced
 
     def prepare_prompt(self, row: dict[str, Any], pre_prompt: str, post_prompt: str) -> str:
-        std_prompt = pre_prompt + self.maybe_augment(row[self.prompt_feature]) + post_prompt
-        return std_prompt.format(
-            **{
-                self.cloze_mask_key: self.cloze_mask_replaced,
-                "options": ", ".join(self.get_options(row)),
-            }
+        return (
+            pre_prompt
+            + self.maybe_augment(
+                row[self.prompt_feature].format(**{self.cloze_mask_key: self.cloze_mask_replaced})
+            )
+            + post_prompt.format(options=", ".join(self.get_options(row)))
         )
 
 
