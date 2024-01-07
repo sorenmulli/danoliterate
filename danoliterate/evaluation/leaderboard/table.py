@@ -45,9 +45,6 @@ def build_leaderboard_table(
             agg = _space(
                 str(round(metric.aggregate)) if efficiency else f"{round(metric.aggregate * 100)}"
             )
-            # FIXME: Remove this when DaNE is rescored
-            if scenario_name == "DaNE" and metric.error is not None:
-                metric.error *= 2
             err = f"± {metric.error * (1 if efficiency else 100):.0f}" if metric.error else ""
             # Round zero up
             if err == "± 0":
