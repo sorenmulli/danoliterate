@@ -206,6 +206,7 @@ def get_gpt_ner(scenario_cfg: DictConfig) -> TaskRunner:
         "few_shot_format",
         "num_examples",
         "id_features",
+        "n_examples",
     ):
         if (config_value := scenario_cfg.task.get(feature)) is not None:
             kwargs[feature] = config_value
