@@ -59,6 +59,8 @@ class Scorer:
             }
         logger.info("Acquired %i execution results. Scoring ...", len(results))
         for result in tqdm(results):
+            if _should_skip(result):
+                continue
             self.result.scorings.append(self.score_result(result))
 
     def score_result(self, result: ExecutionResult) -> Scoring:
@@ -110,6 +112,17 @@ class Scorer:
             else [metric_res.short_name for metric_res in scoring.metric_results]
         )
         return scoring.execution_metadata.id_ + "-" + "-".join(sorted(metric_names))
+
+
+def _should_skip(result: ExecutionResult):
+    # TODO: Remove these partial results
+    if mname := result.metadata.model_cfg["name"] in {
+        "mGPT 13B",
+        "Hestenettet LM",
+        "SOLAR 10.7B",
+        "OpenAI Davinci 003",
+    }:
+        logger.warning("Manually skipped scoring of result for model %s", mname)
 
 
 def score(cfg: DictConfig):
