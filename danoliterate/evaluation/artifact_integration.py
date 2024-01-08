@@ -1,8 +1,6 @@
-import concurrent.futures
 import json
 import os
 import re
-from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -76,10 +74,10 @@ def fetch_artifact_data(collection):
     artifacts = list(collection.versions())
     if not artifacts:
         # Artifact was deleted
-        return None
+        return []
     if len(artifacts) > 1:
         logger.warning("More than 1 artifact for collection %s", collection)
-    return artifacts[0]
+    return artifacts
 
 
 def yield_wandb_artifacts(wandb_project: str, wandb_entity: str, include_debug=False):
@@ -89,12 +87,8 @@ def yield_wandb_artifacts(wandb_project: str, wandb_entity: str, include_debug=F
         type_name=EXECUTION_RESULT_ARTIFACT_TYPE, project=wandb_project
     ).collections()
 
-    # TODO: Do this serially instead of this mess
-    with ThreadPoolExecutor(max_workers=1) as executor:
-        futures = [executor.submit(fetch_artifact_data, coll) for coll in collections]
-
-        for future in concurrent.futures.as_completed(futures):
-            artifact = future.result()
+    for collection in collections:
+        for artifact in fetch_artifact_data(collection):
             if (artifact is not None) and not (
                 artifact.metadata["evaluation_cfg"].get("debug") and not include_debug
             ):
