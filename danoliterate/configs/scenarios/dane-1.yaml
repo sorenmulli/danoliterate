@@ -14,4 +14,4 @@ dane:
       - ORG: "organisation"
       - MISC: "diverse"
     id_features: []
-    n_examples: 1
+    num_examples: 1
