@@ -116,13 +116,15 @@ class Scorer:
 
 def _should_skip(result: ExecutionResult):
     # TODO: Remove these partial results
-    if mname := result.metadata.model_cfg["name"] in {
+    if (mname := result.metadata.model_cfg["name"]) in {
         "mGPT 13B",
         "Hestenettet LM",
         "SOLAR 10.7B",
         "OpenAI Davinci 003",
     }:
         logger.warning("Manually skipped scoring of result for model %s", mname)
+        return True
+    return False
 
 
 def score(cfg: DictConfig):
