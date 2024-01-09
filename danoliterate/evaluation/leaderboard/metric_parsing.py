@@ -43,7 +43,7 @@ def extract_metrics(
         if (chosen_models is None or scoring.execution_metadata.model_cfg["name"] in chosen_models)
         and scoring.execution_metadata.scenario_cfg.get("type", DEFAULT_EVALUATION_TYPE)
         == chosen_type
-        or scoring.execution_metadata.scenario_cfg["name"] in SPECIAL_TO_SHOW[chosen_type]
+        or scoring.execution_metadata.scenario_cfg["name"] in SPECIAL_TO_SHOW.get(chosen_type, [])
     ]
 
     out: defaultdict[str, dict[str, list[MetricResult]]] = defaultdict(dict)

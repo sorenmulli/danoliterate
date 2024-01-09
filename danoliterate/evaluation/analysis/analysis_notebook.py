@@ -9,7 +9,8 @@ This file is a jupytext notebook. Install jupytext and jupyter lab and right-cli
 # %load_ext autoreload
 # %autoreload 2
 
-from collections import defaultdict
+import json
+from collections import Counter, defaultdict
 
 # %%
 from pathlib import Path
@@ -18,6 +19,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from datasets import Dataset
 from matplotlib.colors import LinearSegmentedColormap
 from scipy.cluster import hierarchy
 from sklearn.decomposition import PCA
@@ -109,7 +111,7 @@ feature_names = np.array(
 
 # Constants
 num_pc_to_display = 3  # or any other number of components you are interested in
-num_top_features = 28  # Number of top features to display
+num_top_features = len(table)  # Number of top features to display
 
 for i in range(num_pc_to_display):
     # Sorting the loadings of the i-th PC by absolute value while keeping track of the indices
@@ -565,7 +567,145 @@ for m, metrics in extract_metrics(scores, Dimension.CAPABILITY, "standard")["Ang
             ...
 cal_metrics_ld, lower = build_leaderboard_table(cal_metrics, show_missing=True)
 cal_metrics_ld = cal_metrics_ld.loc[:, pd.Series(cal_metric_names.values())]
-print(format_table_for_latex(cal_metrics_ld, lower))
-cal_metrics_ld
+# print(format_table_for_latex(cal_metrics_ld, lower))
+# cal_metrics_ld
 
 # %%
+ct_prompt_metrics = {
+    "Standard Structured Prompt": extract_metrics(scores, Dimension.CAPABILITY, "standard")[
+        "Citizenship Test"
+    ],
+    "Simple Question": extract_metrics(scores, Dimension.CAPABILITY, "alternative-prompt")[
+        "Citizenship Test"
+    ],
+}
+ct_prompt_metrics = default_choices(ct_prompt_metrics)
+
+ct_prompt_ld, lower = build_leaderboard_table(ct_prompt_metrics, show_missing=True)
+ct_prompt_ld = ct_prompt_ld.loc[
+    pd.Series([idx for idx in ct_prompt_ld.index if idx in INTERESTING_SUBSET2])
+]
+ct_prompt_ld = ct_prompt_ld.loc[:, pd.Series(ct_prompt_metrics.keys())]
+print(format_table_for_latex(ct_prompt_ld, lower))
+ct_prompt_ld
+
+# %%
+dg_prompt_metrics = {
+    "Standard Danish Prompt": extract_metrics(scores, Dimension.CAPABILITY, "standard")[
+        "Da. Gym 2000"
+    ],
+    "English Prompt Text": extract_metrics(scores, Dimension.CAPABILITY, "alternative-prompt")[
+        "Da. Gym 2000"
+    ],
+}
+dg_prompt_metrics = default_choices(dg_prompt_metrics)
+
+dg_prompt_ld, lower = build_leaderboard_table(dg_prompt_metrics, show_missing=True)
+dg_prompt_ld = dg_prompt_ld.loc[
+    pd.Series([idx for idx in dg_prompt_ld.index if idx in INTERESTING_SUBSET2])
+]
+dg_prompt_ld = dg_prompt_ld.loc[:, pd.Series(dg_prompt_metrics.keys())]
+print(format_table_for_latex(dg_prompt_ld, lower))
+dg_prompt_ld
+
+# %%
+nn_prompt_metrics = {
+    "Standard Simple Prompt": extract_metrics(scores, Dimension.CAPABILITY, "standard")[
+        "Nordjylland News"
+    ],
+    "Detailed Instructions in Prompt": extract_metrics(
+        scores, Dimension.CAPABILITY, "alternative-prompt"
+    )["Nordjylland News"],
+}
+nn_prompt_metrics = default_choices(nn_prompt_metrics)
+
+nn_prompt_ld, lower = build_leaderboard_table(nn_prompt_metrics, show_missing=True)
+nn_prompt_ld = nn_prompt_ld.loc[
+    pd.Series([idx for idx in nn_prompt_ld.index if idx in INTERESTING_SUBSET2])
+]
+nn_prompt_ld = nn_prompt_ld.loc[:, pd.Series(nn_prompt_metrics.keys())]
+print(format_table_for_latex(nn_prompt_ld, lower))
+nn_prompt_ld
+
+# %%
+da_prompt_metrics = {
+    "1-shot": extract_metrics(scores, Dimension.CAPABILITY, "few-shot-experiment-1")["DaNE"],
+    "3-shot (standard)": extract_metrics(scores, Dimension.CAPABILITY, "standard")["DaNE"],
+    "5-shot": extract_metrics(scores, Dimension.CAPABILITY, "few-shot-experiment-5")["DaNE"],
+}
+da_prompt_metrics = default_choices(da_prompt_metrics)
+
+da_prompt_ld, lower = build_leaderboard_table(da_prompt_metrics, show_missing=True)
+da_prompt_ld = da_prompt_ld.loc[
+    pd.Series([idx for idx in da_prompt_ld.index if idx in INTERESTING_SUBSET2])
+]
+da_prompt_ld = da_prompt_ld.loc[:, pd.Series(da_prompt_metrics.keys())]
+print(format_table_for_latex(da_prompt_ld, lower))
+da_prompt_ld
+
+# %%
+from pelutils.ds.plots import moving_avg
+
+# %%
+for model, name in zip(
+    ("llama", "mistral", "baseline"),
+    ("Danoliterate LlaMa 2 7B", "Danoliterate Mistral 7B", "Danoliterate Baseline LLM"),
+):
+    state_path = (
+        Path("/home/sorenmulli/Nextcloud/cand4/framework/local-data/trainer-states")
+        / f"{model}.json"
+    )
+    with open(state_path, "r") as f:
+        res = json.load(f)["log_history"]
+    eval_losses = []
+    train_losses = []
+    for log in res:
+        if (train_loss := log.get("loss")) is not None:
+            train_losses.append((log["step"], train_loss))
+        if (eval_loss := log.get("eval_loss")) is not None:
+            eval_losses.append((log["step"], eval_loss))
+    plt.figure(figsize=(10, 5) if model == "llama" else (5, 5))
+    plt.plot(*np.array(eval_losses).T, label="Evaluation Loss", linewidth=2)
+    if model == "baseline":
+        plt.plot(*np.array(train_losses).T, label="Batch Train Loss", alpha=1)
+    else:
+        plt.plot(*np.array(train_losses).T, label="Batch Train Loss", alpha=0.2)
+        plt.plot(*moving_avg(*np.array(train_losses).T, neighbors=100), label="Smooth Train Loss")
+    plt.title(f"{name} Loss Trajectory")
+    plt.xlabel("Step")
+    plt.ylabel("LM Loss")
+    plt.grid()
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(P / f"{model}-loss.pdf")
+    plt.show()
+
+
+# %%
+for split, name in zip(("val", "test"), ("Validation", "Test")):
+    data = Dataset.load_from_disk(
+        Path("/home/sorenmulli/Nextcloud/cand4/framework/local-data") / split
+    )["source"]
+    category_counts = Counter(data)
+    total_count = sum(category_counts.values())
+    adjusted_counts = Counter()
+    for category, count in category_counts.items():
+        if (count / total_count) * 100 < 1:
+            adjusted_counts["Other"] += count
+        else:
+            adjusted_counts[category] = count
+
+    sorted_adjusted_counts = dict(
+        sorted(adjusted_counts.items(), key=lambda item: (item[0] != "Other", item[1]))
+    )
+    colors = plt.cm.Set3(np.linspace(0, 1, len(adjusted_counts)))
+    labels = [label.capitalize() for label in sorted_adjusted_counts]
+    sizes = sorted_adjusted_counts.values()
+
+    plt.figure(figsize=(8, 8))
+    plt.pie(sizes, labels=labels, autopct="%1.0f%%", startangle=140, colors=colors)
+    plt.axis("equal")
+    plt.title(f"Pretraining Dataset Sources (n={len(data)})")
+    plt.tight_layout()
+    plt.savefig(P / f"pretrain-{name}-source.pdf")
+    plt.show()
