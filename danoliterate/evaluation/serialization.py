@@ -21,10 +21,17 @@ SCENARIO_NAME_AND_TYPE_TO_TASK_TYPE: dict[tuple[str, Optional[str]], str] = {
     ("Citizenship Test", "free-generation"): "default-mc-letter-options",
     ("Da. Gym 2000", "free-generation"): "default-mc-letter-context",
 }
+MODEL_KEY_TO_NEW_NAME = {
+    "gpt-4": "OpenAI GPT 4",
+    "gpt-4-1106-preview": "OpenAI GPT 4",
+}
 
 
 def apply_backcomp_fixes_execution_result_metadata(input_args: OutDictType):
     warnings = []
+    model_cfg: OutDictType = input_args["model_cfg"]  # type: ignore
+    if (new_name := MODEL_KEY_TO_NEW_NAME.get(model_cfg.get("path"))) is not None:
+        model_cfg["name"] = new_name
     scenario_cfg: OutDictType = input_args["scenario_cfg"]  # type: ignore
     task_type: str = scenario_cfg["task"]["type"]  # type: ignore
     scenario_name: str = scenario_cfg["name"]  # type: ignore
