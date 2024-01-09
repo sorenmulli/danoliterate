@@ -8,6 +8,7 @@ from typing import Optional
 
 import wandb
 from omegaconf import DictConfig
+from tqdm import tqdm
 from wandb.sdk.lib import RunDisabled
 from wandb.sdk.wandb_run import Run
 
@@ -87,7 +88,7 @@ def yield_wandb_artifacts(wandb_project: str, wandb_entity: str, include_debug=F
         type_name=EXECUTION_RESULT_ARTIFACT_TYPE, project=wandb_project
     ).collections()
 
-    for collection in collections:
+    for collection in tqdm(collections):
         for artifact in fetch_artifact_data(collection):
             if (artifact is not None) and not (
                 artifact.metadata["evaluation_cfg"].get("debug") and not include_debug

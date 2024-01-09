@@ -1,4 +1,4 @@
 name: "Danoliterate Mistral 7B"
-path: "/dtu/p1/s183911/thesis/outputs/backups-danoliterate-mistral-v0.1/checkpoint-80000/"
+path: "/dtu/p1/s183911/thesis/outputs/backups-danoliterate-mistral-v0.1/checkpoint-44000/"
 inference:
   type: "hf-causal"
