@@ -51,26 +51,14 @@ from danoliterate.evaluation.leaderboard.table import (
 
 # %%
 def exclude_models(metric_struct, to_exclude):
-    return {
-        s: {m: me for m, me in models.items() if m not in to_exclude}
-        for s, models in metric_struct.items()
-    }
+    return {s: {m: me for m, me in models.items() if m not in to_exclude} for s, models in metric_struct.items()}
 
 
 # %% [markdown]
 # # Main leaderboard analysis
 
 # %%
-SCENARIO_ORDER = (
-    "Citizenship Test",
-    "HyggeSwag",
-    "#twitterhjerne",
-    "Da. Cloze Self Test",
-    "Da. Gym 2000",
-    "Nordjylland News",
-    "DaNE",
-    "Angry Tweets",
-)
+SCENARIO_ORDER = "Citizenship Test", "HyggeSwag", "#twitterhjerne", "Da. Cloze Self Test", "Da. Gym 2000", "Nordjylland News", "DaNE", "Angry Tweets", 
 chosen_metrics = default_choices(extract_metrics(scores, Dimension.CAPABILITY, "standard"))
 table = get_table_values(chosen_metrics)
 ld, lower = build_leaderboard_table(chosen_metrics, show_missing=False)
@@ -80,82 +68,28 @@ index = ld[ld.columns[0]]
 table = table.loc[index.index]
 
 # %%
-SCENARIO_ORDER = (
-    "Citizenship Test",
-    "HyggeSwag",
-    "#twitterhjerne",
-    "Da. Cloze Self Test",
-    "Da. Gym 2000",
-    "Nordjylland News",
-    "DaNE",
-    "Angry Tweets",
-)
-cal_ld, lower = build_leaderboard_table(
-    default_choices(
-        exclude_models(
-            extract_metrics(scores, Dimension.CALIBRATION, "standard"), ["Constant Baseline"]
-        )
-    ),
-    show_missing=True,
-)
-cal_ld = cal_ld.loc[
-    :, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])
-]
+SCENARIO_ORDER = "Citizenship Test", "HyggeSwag", "#twitterhjerne", "Da. Cloze Self Test", "Da. Gym 2000", "Nordjylland News", "DaNE", "Angry Tweets", 
+cal_ld, lower = build_leaderboard_table(default_choices(exclude_models(extract_metrics(scores, Dimension.CALIBRATION, "standard"), ["Constant Baseline"])), show_missing=True)
+cal_ld = cal_ld.loc[:, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])]
 print(format_table_for_latex(cal_ld, lower))
 cal_ld
 
 # %%
-SCENARIO_ORDER = (
-    "Citizenship Test",
-    "HyggeSwag",
-    "#twitterhjerne",
-    "Da. Cloze Self Test",
-    "Da. Gym 2000",
-    "Nordjylland News",
-    "DaNE",
-    "Angry Tweets",
-)
-cal_ld, lower = build_leaderboard_table(
-    default_choices(
-        exclude_models(
-            extract_metrics(scores, Dimension.EFFICIENCY, "standard"),
-            ["Constant Baseline", *[m for m in ld.index if "OpenAI" in m or "Google" in m]],
-        )
-    ),
-    efficiency=True,
-    show_missing=False,
-)
-cal_ld = cal_ld.loc[
-    :, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])
-]
+SCENARIO_ORDER = "Citizenship Test", "HyggeSwag", "#twitterhjerne", "Da. Cloze Self Test", "Da. Gym 2000", "Nordjylland News", "DaNE", "Angry Tweets", 
+cal_ld, lower = build_leaderboard_table(default_choices(exclude_models(extract_metrics(scores, Dimension.EFFICIENCY, "standard"), ["Constant Baseline", *[m for m in ld.index if "OpenAI" in m or "Google" in m]])), efficiency=True, show_missing=False)
+cal_ld = cal_ld.loc[:, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])]
 print(format_table_for_latex(cal_ld, lower))
 
 # %%
-fairs["#twitterhjerne"]["Danoliterate 7B Baseline"][0].example_results
-
-# %%
-SCENARIO_ORDER = (
-    "Citizenship Test",
-    "HyggeSwag",
-    "#twitterhjerne",
-    "Da. Cloze Self Test",
-    "Da. Gym 2000",
-    "Nordjylland News",
-    "DaNE",
-    "Angry Tweets",
-)
-fairs = exclude_models(
-    extract_metrics(scores, Dimension.TOXICITY, "standard"), ["Constant Baseline"]
-)
+SCENARIO_ORDER = "Citizenship Test", "HyggeSwag", "#twitterhjerne", "Da. Cloze Self Test", "Da. Gym 2000", "Nordjylland News", "DaNE", "Angry Tweets", 
+fairs = exclude_models(extract_metrics(scores, Dimension.TOXICITY, "standard"), ["Constant Baseline"])
 fairs = {s: f for s, f in fairs.items() if s in ("#twitterhjerne", "Nordjylland News")}
 cal_ld, lower = build_leaderboard_table(default_choices(fairs), show_missing=False)
-cal_ld = cal_ld.loc[
-    :, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])
-]
+cal_ld = cal_ld.loc[:, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])]
 print(format_table_for_latex(cal_ld, lower))
 
 # %%
-to_show = {
+to_show =  {
     "Keystroke robustness: #twitterhjerne": "#twitterhjerne",
     "Keystroke robustness: Angry Tweets": "Angry Tweets",
     "Keystroke robustness: Nordjylland News": "Nordjylland News",
@@ -170,7 +104,7 @@ print(format_table_for_latex(cal_ld, to_show.values(), abso_num=True))
 cal_ld
 
 # %%
-to_show = {
+to_show =  {
     "Female to male disparity: #twitterhjerne": "Female/male #twi.",
     "Female to male disparity: Nordjylland News": "Female/male NN",
     "Female to male disparity: Angry Tweets": "Female/male AT",
@@ -196,7 +130,7 @@ corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool)).stack()
 
 # %%
 plt.figure(figsize=(10, 7))
-model_tab = table.loc[index[index.astype(int) >= 15].index]
+model_tab = table.loc[index[index.astype(int) >= 19].index]
 sns.heatmap(
     model_tab.T.corr() * 100,
     annot=True,
@@ -243,7 +177,7 @@ num_top_features = len(table)  # Number of top features to display
 
 for i in range(num_pc_to_display):
     # Sorting the loadings of the i-th PC by absolute value while keeping track of the indices
-    sorted_indices = np.argsort(np.abs(loadings[i]))[::-1]
+    sorted_indices = np.argsort((loadings[i]))[::-1]
     top_indices = sorted_indices[:num_top_features]
 
     # Selecting the top loadings and the corresponding feature names
