@@ -54,7 +54,6 @@ def extract_metrics(
     for scoring in scores.scorings:
         scenario_name: str = scoring.execution_metadata.scenario_cfg["name"]  # type: ignore
         model_name: str = scoring.execution_metadata.model_cfg["name"]  # type: ignore
-        # TODO: Change to saving the metric key and use the registry for this instead of hard code
         relevant_metric_results = get_relevant_metrics(scoring, chosen_dimension)
         if relevant_metric_results:
             if out[scenario_name].get(model_name) is None:  # type: ignore

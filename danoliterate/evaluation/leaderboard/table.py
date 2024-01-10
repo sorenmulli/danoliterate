@@ -48,6 +48,7 @@ def build_leaderboard_table(
     efficiency=False,
     micro=True,
     show_missing=False,
+    reverse_abso_sort=False,
 ) -> tuple[pd.DataFrame, set[str]]:
     df = get_table_values(chosen_metrics, show_missing)
     metric_df = pd.DataFrame()
@@ -58,7 +59,7 @@ def build_leaderboard_table(
             if model_name not in df.index:
                 continue
             agg = _space(
-                str(round(metric.aggregate)) if efficiency else f"{round(metric.aggregate * 100)}"
+                f"{metric.aggregate:.1f}" if efficiency else f"{round(metric.aggregate * 100)}"
             )
             err = (
                 f"± {_format_err(metric.error * (1 if efficiency else 100))}"
@@ -74,10 +75,12 @@ def build_leaderboard_table(
             if not metric.higher_is_better:
                 lower_is_better.add(scenario_name)
 
+    if reverse_abso_sort:
+        metric_df = -metric_df.abs()
     index_scores_df = metric_df.apply(
         lambda col: (
             1 - (col - col.min()) / (col.max() - col.min())
-            if col.name in lower_is_better
+            if col.name in lower_is_better and not reverse_abso_sort
             else (col - col.min()) / (col.max() - col.min())
         )
     )
@@ -99,13 +102,15 @@ def build_leaderboard_table(
     return df, lower_is_better
 
 
-def format_table_for_latex(table: pd.DataFrame, lower_is_better: set[str]) -> str:
+def format_table_for_latex(table: pd.DataFrame, lower_is_better: set[str], abso_num=False) -> str:
     df = table.copy()
     for col in df.columns:
         # Extracting numbers and uncertainties.
         nums = df[col].str.extract(r"(\d+)(?:± (\d+))?")
 
         nums[0] = nums[0].astype(float)
+        if abso_num:
+            nums[0] = nums[0].abs()
         top1, top2, top3 = (nums[0].nsmallest if col in lower_is_better else nums[0].nlargest)(
             3
         ).index

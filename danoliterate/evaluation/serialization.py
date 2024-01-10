@@ -23,7 +23,7 @@ SCENARIO_NAME_AND_TYPE_TO_TASK_TYPE: dict[tuple[str, Optional[str]], str] = {
 }
 MODEL_KEY_TO_NEW_NAME = {
     "gpt-4": "OpenAI GPT 4",
-    "gpt-4-1106-preview": "OpenAI GPT 4",
+    "gpt-4-1106-preview": "OpenAI GPT 4 Turbo",
 }
 
 

@@ -17,8 +17,10 @@ class TimingScore(MetaScoring):
     def meta_score(self, scores: Scores) -> list[tuple[str, str, Dimension, list[MetricResult]]]:
         out = []
         for scoring in scores.scorings:
+            if scoring.execution_metadata.augmenter_key is not None:
+                continue
             if (total_time := scoring.execution_metadata.total_inference_seconds) is not None:
-                avg_time = total_time / len(scoring.metric_results[0].example_results) * 1000
+                avg_time = total_time / len(scoring.metric_results[0].example_results)
                 scenario_name: str = scoring.execution_metadata.scenario_cfg["name"]  # type: ignore
                 model_name: str = scoring.execution_metadata.model_cfg["name"]  # type: ignore
                 out.append(
@@ -28,8 +30,8 @@ class TimingScore(MetaScoring):
                         Dimension.EFFICIENCY,
                         [
                             MetricResult(
-                                "Inference milliseconds",
-                                "Total dataset wall time in milliseconds "
+                                "Inference seconds",
+                                "Total dataset wall time in seconds "
                                 "divided by number of examples",
                                 {},  # TODO: Add examples so we can do micro avg
                                 aggregate=avg_time,
@@ -43,6 +45,8 @@ class TimingScore(MetaScoring):
 
 
 class DisparityScoring(MetaScoring, ABC):
+    cannot_be_positive = False
+
     @property
     @abstractmethod
     def name(self) -> str:
@@ -69,14 +73,24 @@ class DisparityScoring(MetaScoring, ABC):
         for result in scorings[first].metric_results:
             for other_result in scorings[other].metric_results:
                 if result.short_name == other_result.short_name:
+                    diff = result.aggregate - other_result.aggregate
+                    if diff:
+                        if diff > 0 and self.cannot_be_positive:
+                            res = 0
+                        elif result.aggregate:
+                            res = diff / result.aggregate
+                        else:
+                            res = 1
+                    else:
+                        res = 0
                     out.append(
                         MetricResult(
                             result.short_name,
                             f"{self.description}: {result.description}",
                             {},
-                            aggregate=result.aggregate - other_result.aggregate,
+                            aggregate=res,
                             error=None,
-                            higher_is_better=True,
+                            higher_is_better=result.higher_is_better,
                         )
                     )
                     break
@@ -124,6 +138,8 @@ class DisparityScoring(MetaScoring, ABC):
 
 
 class KeyStrokeRobustness(DisparityScoring):
+    cannot_be_positive = True
+
     @property
     def name(self) -> str:
         return "Keystroke robustness"

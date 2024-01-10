@@ -1,5 +1,5 @@
 # %%
-"""
+""" 
 This file is a jupytext notebook. Install jupytext and jupyter lab and right-click on the file -> Open as Notebook in JL
 """
 # pylint: skip-file
@@ -48,16 +48,144 @@ from danoliterate.evaluation.leaderboard.table import (
     get_table_values,
 )
 
+
+# %%
+def exclude_models(metric_struct, to_exclude):
+    return {
+        s: {m: me for m, me in models.items() if m not in to_exclude}
+        for s, models in metric_struct.items()
+    }
+
+
 # %% [markdown]
 # # Main leaderboard analysis
 
 # %%
+SCENARIO_ORDER = (
+    "Citizenship Test",
+    "HyggeSwag",
+    "#twitterhjerne",
+    "Da. Cloze Self Test",
+    "Da. Gym 2000",
+    "Nordjylland News",
+    "DaNE",
+    "Angry Tweets",
+)
 chosen_metrics = default_choices(extract_metrics(scores, Dimension.CAPABILITY, "standard"))
 table = get_table_values(chosen_metrics)
-ld, _ = build_leaderboard_table(chosen_metrics, show_missing=False)
+ld, lower = build_leaderboard_table(chosen_metrics, show_missing=False)
+ld = ld.loc[:, [ld.columns[0], *SCENARIO_ORDER]]
+print(format_table_for_latex(ld, lower))
 index = ld[ld.columns[0]]
 table = table.loc[index.index]
-table
+
+# %%
+SCENARIO_ORDER = (
+    "Citizenship Test",
+    "HyggeSwag",
+    "#twitterhjerne",
+    "Da. Cloze Self Test",
+    "Da. Gym 2000",
+    "Nordjylland News",
+    "DaNE",
+    "Angry Tweets",
+)
+cal_ld, lower = build_leaderboard_table(
+    default_choices(
+        exclude_models(
+            extract_metrics(scores, Dimension.CALIBRATION, "standard"), ["Constant Baseline"]
+        )
+    ),
+    show_missing=True,
+)
+cal_ld = cal_ld.loc[
+    :, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])
+]
+print(format_table_for_latex(cal_ld, lower))
+cal_ld
+
+# %%
+SCENARIO_ORDER = (
+    "Citizenship Test",
+    "HyggeSwag",
+    "#twitterhjerne",
+    "Da. Cloze Self Test",
+    "Da. Gym 2000",
+    "Nordjylland News",
+    "DaNE",
+    "Angry Tweets",
+)
+cal_ld, lower = build_leaderboard_table(
+    default_choices(
+        exclude_models(
+            extract_metrics(scores, Dimension.EFFICIENCY, "standard"),
+            ["Constant Baseline", *[m for m in ld.index if "OpenAI" in m or "Google" in m]],
+        )
+    ),
+    efficiency=True,
+    show_missing=False,
+)
+cal_ld = cal_ld.loc[
+    :, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])
+]
+print(format_table_for_latex(cal_ld, lower))
+
+# %%
+fairs["#twitterhjerne"]["Danoliterate 7B Baseline"][0].example_results
+
+# %%
+SCENARIO_ORDER = (
+    "Citizenship Test",
+    "HyggeSwag",
+    "#twitterhjerne",
+    "Da. Cloze Self Test",
+    "Da. Gym 2000",
+    "Nordjylland News",
+    "DaNE",
+    "Angry Tweets",
+)
+fairs = exclude_models(
+    extract_metrics(scores, Dimension.TOXICITY, "standard"), ["Constant Baseline"]
+)
+fairs = {s: f for s, f in fairs.items() if s in ("#twitterhjerne", "Nordjylland News")}
+cal_ld, lower = build_leaderboard_table(default_choices(fairs), show_missing=False)
+cal_ld = cal_ld.loc[
+    :, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])
+]
+print(format_table_for_latex(cal_ld, lower))
+
+# %%
+to_show = {
+    "Keystroke robustness: #twitterhjerne": "#twitterhjerne",
+    "Keystroke robustness: Angry Tweets": "Angry Tweets",
+    "Keystroke robustness: Nordjylland News": "Nordjylland News",
+}
+fairs = default_choices(extract_metrics(scores, Dimension.ROBUSTNESS, "standard"))
+fairs = {s: f for s, f in fairs.items() if s in to_show}
+cal_ld, lower = build_leaderboard_table(fairs, show_missing=True, reverse_abso_sort=True)
+cal_ld = cal_ld.loc[:, pd.Series([ld.columns[0], *[o for o in to_show]])]
+cal_ld = cal_ld.rename(to_show, axis=1)
+print(format_table_for_latex(cal_ld, to_show.values(), abso_num=True))
+
+cal_ld
+
+# %%
+to_show = {
+    "Female to male disparity: #twitterhjerne": "Female/male #twi.",
+    "Female to male disparity: Nordjylland News": "Female/male NN",
+    "Female to male disparity: Angry Tweets": "Female/male AT",
+    "Muslim to Danish disparity: #twitterhjerne": "Muslim/Danish #twi",
+    "Muslim to Danish disparity: Nordjylland News": "Muslim/Danish NN",
+    "Muslim to Danish disparity: Angry Tweets": "Muslim/Danish AT",
+}
+fairs = default_choices(extract_metrics(scores, Dimension.FAIRNESS, "standard"))
+fairs = {s: f for s, f in fairs.items() if s in to_show}
+cal_ld, lower = build_leaderboard_table(fairs, show_missing=True, reverse_abso_sort=True)
+cal_ld = cal_ld.loc[:, pd.Series([ld.columns[0], *[o for o in to_show]])]
+cal_ld = cal_ld.rename(to_show, axis=1)
+print(format_table_for_latex(cal_ld, to_show.values(), abso_num=True))
+
+cal_ld
 
 # %%
 index
@@ -68,7 +196,7 @@ corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool)).stack()
 
 # %%
 plt.figure(figsize=(10, 7))
-model_tab = table.loc[index[index.astype(int) >= 20].index]
+model_tab = table.loc[index[index.astype(int) >= 15].index]
 sns.heatmap(
     model_tab.T.corr() * 100,
     annot=True,
@@ -424,8 +552,10 @@ INTERESTING_SUBSET2 = (
     "OpenAI GPT 3.5 Turbo",
     "Google Gemini Pro",
     "Mistral 7B Instruct (v0.2)",
-    "Danoliterate Mistral 7B",
     "Mistral 7B",
+    "Danoliterate Mistral 7B",
+    "LlaMa 2 7B",
+    "Danoliterate LlaMa 2 7B",
     "Constant Baseline",
 )
 
