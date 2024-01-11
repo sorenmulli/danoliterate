@@ -51,14 +51,26 @@ from danoliterate.evaluation.leaderboard.table import (
 
 # %%
 def exclude_models(metric_struct, to_exclude):
-    return {s: {m: me for m, me in models.items() if m not in to_exclude} for s, models in metric_struct.items()}
+    return {
+        s: {m: me for m, me in models.items() if m not in to_exclude}
+        for s, models in metric_struct.items()
+    }
 
 
 # %% [markdown]
 # # Main leaderboard analysis
 
 # %%
-SCENARIO_ORDER = "Citizenship Test", "HyggeSwag", "#twitterhjerne", "Da. Cloze Self Test", "Da. Gym 2000", "Nordjylland News", "DaNE", "Angry Tweets", 
+SCENARIO_ORDER = (
+    "Citizenship Test",
+    "HyggeSwag",
+    "#twitterhjerne",
+    "Da. Cloze Self Test",
+    "Da. Gym 2000",
+    "Nordjylland News",
+    "DaNE",
+    "Angry Tweets",
+)
 chosen_metrics = default_choices(extract_metrics(scores, Dimension.CAPABILITY, "standard"))
 table = get_table_values(chosen_metrics)
 ld, lower = build_leaderboard_table(chosen_metrics, show_missing=False)
@@ -68,28 +80,79 @@ index = ld[ld.columns[0]]
 table = table.loc[index.index]
 
 # %%
-SCENARIO_ORDER = "Citizenship Test", "HyggeSwag", "#twitterhjerne", "Da. Cloze Self Test", "Da. Gym 2000", "Nordjylland News", "DaNE", "Angry Tweets", 
-cal_ld, lower = build_leaderboard_table(default_choices(exclude_models(extract_metrics(scores, Dimension.CALIBRATION, "standard"), ["Constant Baseline"])), show_missing=True)
-cal_ld = cal_ld.loc[:, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])]
+SCENARIO_ORDER = (
+    "Citizenship Test",
+    "HyggeSwag",
+    "#twitterhjerne",
+    "Da. Cloze Self Test",
+    "Da. Gym 2000",
+    "Nordjylland News",
+    "DaNE",
+    "Angry Tweets",
+)
+cal_ld, lower = build_leaderboard_table(
+    default_choices(
+        exclude_models(
+            extract_metrics(scores, Dimension.CALIBRATION, "standard"), ["Constant Baseline"]
+        )
+    ),
+    show_missing=True,
+)
+cal_ld = cal_ld.loc[
+    :, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])
+]
 print(format_table_for_latex(cal_ld, lower))
 cal_ld
 
 # %%
-SCENARIO_ORDER = "Citizenship Test", "HyggeSwag", "#twitterhjerne", "Da. Cloze Self Test", "Da. Gym 2000", "Nordjylland News", "DaNE", "Angry Tweets", 
-cal_ld, lower = build_leaderboard_table(default_choices(exclude_models(extract_metrics(scores, Dimension.EFFICIENCY, "standard"), ["Constant Baseline", *[m for m in ld.index if "OpenAI" in m or "Google" in m]])), efficiency=True, show_missing=False)
-cal_ld = cal_ld.loc[:, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])]
+SCENARIO_ORDER = (
+    "Citizenship Test",
+    "HyggeSwag",
+    "#twitterhjerne",
+    "Da. Cloze Self Test",
+    "Da. Gym 2000",
+    "Nordjylland News",
+    "DaNE",
+    "Angry Tweets",
+)
+cal_ld, lower = build_leaderboard_table(
+    default_choices(
+        exclude_models(
+            extract_metrics(scores, Dimension.EFFICIENCY, "standard"),
+            ["Constant Baseline", *[m for m in ld.index if "OpenAI" in m or "Google" in m]],
+        )
+    ),
+    efficiency=True,
+    show_missing=False,
+)
+cal_ld = cal_ld.loc[
+    :, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])
+]
 print(format_table_for_latex(cal_ld, lower))
 
 # %%
-SCENARIO_ORDER = "Citizenship Test", "HyggeSwag", "#twitterhjerne", "Da. Cloze Self Test", "Da. Gym 2000", "Nordjylland News", "DaNE", "Angry Tweets", 
-fairs = exclude_models(extract_metrics(scores, Dimension.TOXICITY, "standard"), ["Constant Baseline"])
+SCENARIO_ORDER = (
+    "Citizenship Test",
+    "HyggeSwag",
+    "#twitterhjerne",
+    "Da. Cloze Self Test",
+    "Da. Gym 2000",
+    "Nordjylland News",
+    "DaNE",
+    "Angry Tweets",
+)
+fairs = exclude_models(
+    extract_metrics(scores, Dimension.TOXICITY, "standard"), ["Constant Baseline"]
+)
 fairs = {s: f for s, f in fairs.items() if s in ("#twitterhjerne", "Nordjylland News")}
 cal_ld, lower = build_leaderboard_table(default_choices(fairs), show_missing=False)
-cal_ld = cal_ld.loc[:, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])]
+cal_ld = cal_ld.loc[
+    :, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])
+]
 print(format_table_for_latex(cal_ld, lower))
 
 # %%
-to_show =  {
+to_show = {
     "Keystroke robustness: #twitterhjerne": "#twitterhjerne",
     "Keystroke robustness: Angry Tweets": "Angry Tweets",
     "Keystroke robustness: Nordjylland News": "Nordjylland News",
@@ -104,7 +167,7 @@ print(format_table_for_latex(cal_ld, to_show.values(), abso_num=True))
 cal_ld
 
 # %%
-to_show =  {
+to_show = {
     "Female to male disparity: #twitterhjerne": "Female/male #twi.",
     "Female to male disparity: Nordjylland News": "Female/male NN",
     "Female to male disparity: Angry Tweets": "Female/male AT",
@@ -306,6 +369,7 @@ INTERESTING_SUBSET = (
     "Google Gemini Pro",
     "Mistral 7B Instruct (v0.2)",
     "Danoliterate Mistral 7B",
+    "Mistral 7B",
     "OpenAI Davinci 002",
 )
 
@@ -419,19 +483,41 @@ from collections import defaultdict
 
 interesting_executions = defaultdict(dict)
 for res in all_res:
-    if (mname := res.metadata.model_cfg["name"]) in INTERESTING_SUBSET:
-        interesting_executions[res.metadata.scenario_cfg["name"]][mname] = res
+    if (mname := res.metadata.model_cfg["name"]) in [
+        *INTERESTING_SUBSET,
+        "Danoliterate LlaMa 2 7B",
+        "LlaMa 2 7B",
+        "LlaMa 2 7B Chat",
+    ]:
+        if (
+            res.metadata.augmenter_key is None
+            and res.metadata.scenario_cfg.get("type", "standard") == "standard"
+        ):
+            if interesting_executions[res.metadata.scenario_cfg["name"]].get(mname):
+                raise
+            interesting_executions[res.metadata.scenario_cfg["name"]][mname] = res
+
+# %%
+interesting_executions["HyggeSwag"]["Danoliterate Mistral 7B"].examples[1].generated_text
 
 
 # %%
 def save_results(scenario, col, name):
     df = pd.DataFrame()
     for model, res in interesting_executions[scenario].items():
-        exes = [ex for ex in res.examples if ex.id_ in col.index]
+        all_exes = {ex.id_: ex for ex in res.examples}
+        exes = [all_exes[idx] for idx in col.index]
         df[model] = [ex.generated_text for ex in exes]
     df = df.set_index(col.index)
     df.insert(0, "Prompt", [ex.prompt for ex in exes])
-    df.insert(0, "Answer", [ex.target_answer or ex.options[ex.index_label] for ex in exes])
+    df.insert(
+        0,
+        "Answer",
+        [
+            ex.target_answer or (ex.options[ex.index_label] if ex.index_label is not None else "")
+            for ex in exes
+        ],
+    )
 
     df.to_csv(
         Path("/home/sorenmulli/Nextcloud/cand4/framework/local-data") / f"{scenario}-{name}.csv"
@@ -440,25 +526,33 @@ def save_results(scenario, col, name):
 
 # %%
 for scenario, models in chosen_metrics.items():
-    if scenario in {"DaNE", "#twitterhjerne"}:
+    if scenario not in {"#twitterhjerne"}:  # , "Hyggeswag", "#twitterhjerne"}:
         continue
     print(scenario)
     dfs = []
     for model, result in models.items():
-        if "baseline" in model.lower():
+        if int(index[model]) < 25:
             continue
         df = pd.DataFrame(
             {
                 "idx": result.example_results.keys(),
-                model: [
-                    x if isinstance(x, float) else int(x[0] == x[1])
-                    for x in result.example_results.values()
-                ],
             }
         )
+        df[model] = pd.Series(
+            [
+                x if isinstance(x, float) else float(x[0] == x[1])
+                for x in result.example_results.values()
+            ]
+        )
+        for idx, val in result.example_results.items():
+            if not isinstance(val, float):
+                if int(val[0]) == 0:
+                    df[df.idx == idx] = float("nan")
+        df = df.dropna()
         df = df.set_index("idx")
         dfs.append(df)
     df = pd.concat(dfs, axis=1)
+
     df["Mean"] = df.apply(np.mean, axis=1)
     df = df.sort_values("Mean")
     print("Top easiest")
@@ -466,8 +560,8 @@ for scenario, models in chosen_metrics.items():
     save_results(scenario, df.tail(10)["Mean"], "easiest")
 
     print("Top hardest")
-    print(df.head(10).Mean)
-    save_results(scenario, df.head(10)["Mean"], "hardest")
+    print(df.head(45).Mean)
+    save_results(scenario, df.head(45)["Mean"], "hardest")
 
     df["Std"] = df.apply(np.std, axis=1)
     df = df.sort_values("Std")
