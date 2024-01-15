@@ -1,5 +1,5 @@
 # %%
-""" 
+"""
 This file is a jupytext notebook. Install jupytext and jupyter lab and right-click on the file -> Open as Notebook in JL
 """
 # pylint: skip-file
@@ -61,6 +61,21 @@ def exclude_models(metric_struct, to_exclude):
 # # Main leaderboard analysis
 
 # %%
+ex_met = exclude_models(
+    extract_metrics(scores, Dimension.CAPABILITY, "standard"),
+    [
+        m
+        for m in ld.index
+        if not ("Dano" in m or "Baseline" in m or m in {"Mistral 7B", "LlaMa 2 7B"})
+    ],
+)
+chosen_metrics = default_choices(ex_met)
+table = get_table_values(chosen_metrics)
+ld, lower = build_leaderboard_table(chosen_metrics, show_missing=False)
+ld = ld.loc[:, [ld.columns[0], *SCENARIO_ORDER]]
+print(format_table_for_latex(ld, lower))
+
+# %%
 SCENARIO_ORDER = (
     "Citizenship Test",
     "HyggeSwag",
@@ -71,13 +86,50 @@ SCENARIO_ORDER = (
     "DaNE",
     "Angry Tweets",
 )
-chosen_metrics = default_choices(extract_metrics(scores, Dimension.CAPABILITY, "standard"))
+ex_met = extract_metrics(scores, Dimension.CAPABILITY, "standard")
+chosen_metrics = default_choices(ex_met)
 table = get_table_values(chosen_metrics)
 ld, lower = build_leaderboard_table(chosen_metrics, show_missing=False)
 ld = ld.loc[:, [ld.columns[0], *SCENARIO_ORDER]]
 print(format_table_for_latex(ld, lower))
 index = ld[ld.columns[0]]
 table = table.loc[index.index]
+
+# %%
+
+# %%
+extraaa = exclude_models(
+    extract_metrics(scores, Dimension.CALIBRATION, "standard"),
+    [model for model in ld.index if model not in INTERESTING_SUBSET3] + ["Constant Baseline"],
+)
+
+# %%
+SCENARIO_ORDER = (
+    "Citizenship Test",
+    "HyggeSwag",
+    "#twitterhjerne",
+    "Da. Cloze Self Test",
+    "Da. Gym 2000",
+    "Nordjylland News",
+    "DaNE",
+    "Angry Tweets",
+)
+extrooo = {
+    scenario: {model: metrics[1] for model, metrics in models.items()}
+    for scenario, models in extraaa.items()
+}
+cal_ld, lower = build_leaderboard_table(
+    extrooo,
+    # default_choices(
+    #    extraaa
+    # ),
+    show_missing=True,
+)
+cal_ld = cal_ld.loc[
+    :, pd.Series([ld.columns[0], *[o for o in SCENARIO_ORDER if o in cal_ld.columns]])
+]
+print(format_table_for_latex(cal_ld, lower))
+cal_ld
 
 # %%
 SCENARIO_ORDER = (
@@ -213,7 +265,7 @@ df_standardized = StandardScaler().fit_transform(table.T)
 pca = PCA()
 pcs = pca.fit_transform(df_standardized)
 explained_variance = pca.explained_variance_ratio_ * 100
-plt.figure()
+plt.figure(figsize=(10, 5))
 plt.plot(range(0, len(explained_variance) + 1), [0, *np.cumsum(explained_variance)])
 plt.xlabel("Number of Components")
 plt.ylabel("Total Variance Prop. [%]")
@@ -309,7 +361,7 @@ df_standardized = StandardScaler().fit_transform(_table)
 pca = PCA()
 pcs = pca.fit_transform(df_standardized)
 explained_variance = pca.explained_variance_ratio_ * 100
-plt.figure()
+plt.figure(figsize=(5, 2))
 plt.plot(range(0, len(explained_variance) + 1), [0, *np.cumsum(explained_variance)])
 plt.xlabel("Number of Components")
 plt.ylabel("Total Variance Prop. [%]")
@@ -404,8 +456,9 @@ sns.heatmap(
 )
 plt.subplot(122)
 for col in nn_df.columns:
-    sns.kdeplot(nn_df[col], label=col)
+    sns.kdeplot([x for x in nn_df[col] if x > 0.3], label=col)
 plt.xlabel("Summary BERT score")
+plt.ylim(0, 15)
 plt.legend(fontsize=7)
 
 plt.suptitle("How Models Covary on Nordjylland News BERT-scores")
@@ -477,8 +530,6 @@ all_res = get_results_wandb(
 len(all_res)
 
 # %%
-
-# %%
 from collections import defaultdict
 
 interesting_executions = defaultdict(dict)
@@ -496,6 +547,77 @@ for res in all_res:
             if interesting_executions[res.metadata.scenario_cfg["name"]].get(mname):
                 raise
             interesting_executions[res.metadata.scenario_cfg["name"]][mname] = res
+
+# %%
+ex = " Det 19-årige stortalent i speedway Mikkel B. Andersen er blevet udtaget til landsholdet af træner Hans Nielsen. I første omgang er Mikkel B. Andersen, der til daglig står i lære ved Peugeot i Bejstrup ved Fjerritslev, udtaget til den ni mand store bruttotrup, og kun fem kørere skal på banen når landsholdet 23. juli kører VM-semifinale i Vojens"
+from danoliterate.evaluation.execution.augmentation import (
+    DanishNameInserter,
+    FemaleNameInserter,
+    KeystrokeErrorAdder,
+    MaleNameInserter,
+    MuslimNameInserter,
+)
+
+for aug in (
+    KeystrokeErrorAdder,
+    MaleNameInserter,
+    FemaleNameInserter,
+    DanishNameInserter,
+    MuslimNameInserter,
+):
+    print(aug()(ex))
+
+# %%
+gpt_4_at = {}
+for res in all_res:
+    if "GPT 4" in (mname := res.metadata.model_cfg["name"]):
+        if (
+            res.metadata.scenario_cfg.get("type", "standard") == "standard"
+            and res.metadata.augmenter_key == "keystroke-error"
+            and res.metadata.scenario_cfg["name"] == "Angry Tweets"
+        ):
+            gpt_4_at[mname] = res
+exes = {m: [] for m in gpt_4_at}
+for m_n, m_t in zip(gpt_4_at["OpenAI GPT 4"].examples, gpt_4_at["OpenAI GPT 4 Turbo"].examples):
+    assert m_n.id_ == m_t.id_
+    assert m_n.prompt == m_t.prompt
+    assert m_n.options[m_n.index_label] == m_t.options[m_t.index_label]
+    print(m_n.prompt, m_n.generated_text, m_t.generated_text, m_n.options[m_n.index_label])
+    break
+abe = pd.Series([m_n.generated_text for m_n in gpt_4_at["OpenAI GPT 4"].examples])
+print(abe.value_counts())
+abe = pd.Series([m_n.generated_text for m_n in gpt_4_at["OpenAI GPT 4 Turbo"].examples])
+print(abe.value_counts())
+
+# %%
+for res in all_res:
+    if (
+        "DaNE" in res.metadata.scenario_cfg["name"]
+        and res.metadata.scenario_cfg.get("type", "standard") == "standard"
+        and res.metadata.augmenter_key is None
+    ):
+        print(res.examples[0].prompt)
+        print()
+        break
+
+# %%
+foodstuffs = default_choices(extract_metrics(scores, Dimension.TOXICITY, "standard"))
+
+
+# %%
+for res in all_res:
+    if (
+        "Nordjylland" in (sn := res.metadata.scenario_cfg["name"])
+        and res.metadata.scenario_cfg.get("type", "standard") == "standard"
+        and res.metadata.augmenter_key is None
+    ):
+        mn = res.metadata.model_cfg["name"]
+        if "Google" not in mn:
+            continue
+        if (exes := foodstuffs[sn].get(mn)) is not None:
+            for ex in res.examples:
+                if (p := exes.example_results[ex.id_]) > 0.05:
+                    print(ex.id_, p, mn, ex.generated_text)
 
 # %%
 interesting_executions["HyggeSwag"]["Danoliterate Mistral 7B"].examples[1].generated_text
@@ -806,8 +928,13 @@ from pelutils.ds.plots import moving_avg
 
 # %%
 for model, name in zip(
-    ("llama", "mistral", "baseline"),
-    ("Danoliterate LlaMa 2 7B", "Danoliterate Mistral 7B", "Danoliterate Baseline LLM"),
+    ("llama", "mistral", "baseline", "mistral-full"),
+    (
+        "Danoliterate LlaMa 2 7B",
+        "Danoliterate Mistral 7B",
+        "Danoliterate Baseline LLM",
+        "Danoliterate Mistral 7B",
+    ),
 ):
     state_path = (
         Path("/home/sorenmulli/Nextcloud/cand4/framework/local-data/trainer-states")
@@ -822,7 +949,7 @@ for model, name in zip(
             train_losses.append((log["step"], train_loss))
         if (eval_loss := log.get("eval_loss")) is not None:
             eval_losses.append((log["step"], eval_loss))
-    plt.figure(figsize=(10, 5) if model == "llama" else (5, 5))
+    plt.figure(figsize=(10, 5) if model in {"llama", "mistral-full"} else (5, 5))
     plt.plot(*np.array(eval_losses).T, label="Evaluation Loss", linewidth=2)
     if model == "baseline":
         plt.plot(*np.array(train_losses).T, label="Batch Train Loss", alpha=1)
@@ -860,10 +987,10 @@ for split, name in zip(("val", "test"), ("Validation", "Test")):
     labels = [label.capitalize() for label in sorted_adjusted_counts]
     sizes = sorted_adjusted_counts.values()
 
-    plt.figure(figsize=(8, 8))
+    plt.figure(figsize=(5, 5))
     plt.pie(sizes, labels=labels, autopct="%1.0f%%", startangle=140, colors=colors)
     plt.axis("equal")
-    plt.title(f"Pretraining Dataset Sources (n={len(data)})")
+    plt.title(f"Data Sources (n={len(data)})")
     plt.tight_layout()
     plt.savefig(P / f"pretrain-{name}-source.pdf")
     plt.show()
