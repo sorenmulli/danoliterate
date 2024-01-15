@@ -1,0 +1,1863 @@
+,prompt,Danoliterate Mistral 7B,Danoliterate LlaMa 2 7B,Danoliterate 7B Baseline,SOLAR 10.7B Instruct,GPT Neox Da.,DanskGPT-tiny,GPT-Sw3 6.7B Instruct (v. 2),GPT-Sw3 6.7B (v. 2),Kanelsnegl (v. 0.2),NB GPT-J NorPaca,Mistral 7B Instruct (v0.2),mGPT,NB GPT-J,GPT Neo Danish,LlaMa 2 13B Chat,LlaMa 2 13B,LlaMa 2 7B Chat,Mistral 7B Instruct,LlaMa 2 7B,Mistral 7B,OpenAI GPT 4 Turbo,OpenAI GPT 4,OpenAI GPT 3.5 Turbo Instruct,mGPT 13B,OpenAI Davinci 002,OpenAI Babbage 002,Google Gemini Pro,OpenAI Davinci 003,OpenAI GPT 3.5 Turbo,Constant Baseline
+0-LOC,"Fuldfør annotering af sidste eksempel i opgaven.
+Her er en lingvists arbejde med at annotere entiteter af typen 'lokation'. # TEKST
+Det blev naboens store, sorte hund også, ""siger Københavns politidirektør, Poul Eefsen, galgenhumoristisk til B.T. efter et stort smykkekup i hans Holte-villa og en række tilsvarende kup i området.
+# ANNOTERING
+Det blev naboens store , sorte hund også , "" siger @@Københavns## politidirektør , Poul Eefsen , galgenhumoristisk til B.T. efter et stort smykkekup i hans Holte-villa og en række tilsvarende kup i området .
+# TEKST
+Diskussionen om forklaringen på det ""japanske økonomiske mirakel"" har især drejet sig om, hvorvidt man kunne nøjes med økonomiske faktorer i sin forklaring, eller om det også er nødvendigt at inddrage særlige kulturelle og historiske forhold for at finde en rimelig forklaring.
+# ANNOTERING
+Diskussionen om forklaringen på det "" japanske økonomiske mirakel "" har især drejet sig om , hvorvidt man kunne nøjes med økonomiske faktorer i sin forklaring , eller om det også er nødvendigt at inddrage særlige kulturelle og historiske forhold for at finde en rimelig forklaring .
+# TEKST
+De lyssky fremmede elementer af enhver art, der har sneget sig til landet, er fjenden.
+# ANNOTERING
+De lyssky fremmede elementer af enhver art , der har sneget sig til landet , er fjenden .
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Hvad er det for noget, at du ikke kan få din kone til at vaske rigtigt efter det der toiletbesøg?""
+# ANNOTERING
+""Hvad er det for noget , at du ikke kan få din kone til at vaske rigtigt efter det der toiletbesøg ?""
+
+# TEKST
+""Hvad er det for noget, at du ikke kan få din kone til at vaske rigtigt efter det der toiletbesøg?""
+# ANNOTERING
+""Hvad er det for noget , at du ikke kan få din kone til at vaske rigtigt efter det der toiletbesøg ?""
+
+# TEKST
+""Hvad er det for noget, at du ikke kan få din kone til at vaske rigtigt efter det der toiletbesøg?""
+# ANNOTERING
+""H",""" Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+"" Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+"" Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt",................................................................................................................................................................................................................................................................,"""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""","""Det er ikke kun de lokale, der har været udsat for en økonomisk katastrofe, der er også mange, der har været udsat for en katastrofe, der har kostet mange menneskeliv. Det er også vigtigt at se på, hvordan vi som samfund håndterer katastrofen, og hvordan vi som samfund håndterer den. Det er vigtigt at se på, hvordan vi som samfund håndterer katastrofen, og hvordan vi som samfund håndterer den. Det er også vigtigt at se på, hvordan vi som samfund håndterer katastrofen, og hvordan vi som samfund håndterer den. Det er vigtigt at se på, hvordan vi som samfund håndterer katastrofen, og hvordan vi som samfund håndterer den. Det er også vigtigt at se på, hvordan vi som samfund håndterer katastrofen, og hvordan vi som samfund håndterer den. Det er vigtigt at se på, hvordan vi som samfund håndterer katastrofen, og hvordan vi som samfund håndterer den. Det er også vigtigt at se på, hvordan vi som samfund håndterer katastrofen, og hvordan vi som samfund håndterer den. Det er vigtigt at se på, hvordan vi som samfund håndterer katastrofen, og hvordan vi som samfund håndterer den. Det er også vigtigt at se på, hvordan vi som samfund håndterer katastrofen, og hvordan vi som samfund håndterer den. Det er vigtigt at se på,","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lid","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt ! ""
+
+# TEKST
+""Jeg er ikke racist, men...""
+# ANNOTERING
+""Jeg er ikke racist , men ""
+
+# TEKST
+""Jeg er ikke racist, men jeg foretrækker klart en sort præsident.""
+# ANNOTERING
+""Jeg er ikke racist , men jeg foretrækker klart en sort præsident ""
+
+# TEKST
+""Jeg er ikke racist, men jeg foretrækker klart en sort præsident.""
+# ANNOTERING
+""Jeg er ikke racist , men jeg foretrækker klart en sort præsident ""
+
+# TEKST
+""Jeg er ikke racist, men jeg foretrækker klart en sort præsident.""
+# ANNOTERING
+""Jeg er ikke racist , men jeg foretrækker klart en sort præsident ""
+
+# TEKST
+""Jeg er ikke racist, men jeg foretrækker klart en sort præsident.""
+# ANNOTERING
+""Jeg er ikke racist , men jeg foretrækker klart en sort præsident ""
+
+# TEKST
+""Jeg er ikke racist, men jeg foretrækker klart en sort præsident.""
+# ANNOTERING
+""Jeg er ikke racist","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Det er ikke så meget, at jeg er imod, at man har en anden religion, men jeg er imod, at man ikke vil være dansk. Jeg er imod, at man ikke vil være en del af det danske samfund. Jeg er imod, at man ikke vil være en del af det danske fællesskab.""
+# ANNOTERING
+""Det er ikke så meget, at jeg er imod, at man har en anden religion, men jeg er imod, at man ikke vil være dansk. Jeg er imod, at man ikke vil være en del af det danske samfund. Jeg er imod, at man ikke vil være en del af det danske fællesskab.""
+
+# TEKST
+""Jeg er ikke racist, men jeg er imod, at man ikke vil være dansk. Jeg er imod, at man ikke vil være en del af det danske samfund. Jeg er imod, at man ikke vil være en del af det danske fællesskab.""
+# ANNOTERING
+""Jeg er ikke racist, men jeg er imod, at man ikke vil være dansk. Jeg er","
+<|user|>
+Can you translate the Danish text ""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" into English?
+<|assistant|>
+""We bring the German forward, we bring the German back, we bring the German forward, ah ah ah, we give him a little shake!""
+
+Note: The Danish text is a song lyric, and the ""åååårrr"" is meant to be sung as a long ""a"" sound. The English translation is a rough approximation of the original Danish.","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, ååå","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+@@Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, @@åååårrr så ryster vi ham lidt! @@
+
+(Note: The annotation includes the Danish phrase ""åååårrr så ryster vi ham lidt!"" which translates to ""hug him a little"" in English. However, without additional context, it is unclear who or what ""vi"" refers to in this phrase, making it difficult to accurately annotate it as a specific entity. Therefore, I have left it as is in the text.)","""Vi tar'en tysker frem, vi tar'en tysker tilbage, åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, ååååååårrrrrrrr så ryster vi ham lidt!""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så ryster vi ham lidt! og så","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster"," Sure, I'd be happy to help you annotate the last example! Here's the text with my annotations:
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# ANNOTERING
+
+* ""Vi tar'en tysker"" - This is a pronoun referring to a person of German descent, and the phrase ""frem"" and ""tilbage"" suggest a movement towards or away from something.
+* ""Vi tar'en tysker frem"" - This phrase could be interpreted as ""We're bringing the German [person] forward"" or ""We're advancing the German [person]"".
+* ""Vi tar'en tysker tilbage"" - This phrase could be interpreted as ""We're taking the German [person] back"" or ""We're retreating the German [person]"".
+* ""Vi tar'en tysker frem"" - This phrase is repeated, emphasizing the idea of movement or action towards",""" Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""
+# TEKST
+""Jeg er ikke så sikker på, at vi kan sige, at vi har en klar forståelse af, hvordan vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få det til, at vi kan få"," Sure, here are the annotations for the last example:
+
+# TEKST
+De lyssky fremmede elementer af enhver art, der har sneget sig til landet, er fjenden.
+# ANNOTERING
+The phrase ""lyssky fremmede elementer"" refers to foreign elements that are perceived as threatening or undesirable. The use of the word ""lys"" (light) suggests a sense of purity or cleanliness, and the term ""fremmede"" (foreign) implies something that is not part of the norm or culture. The phrase ""sneget sig til landet"" (snuck into the country) implies that these elements have entered the country surreptitiously, without permission or proper authorization. The phrase ""er fjenden"" (are the enemy) emphasizes the negative connotation of these foreign elements.
+
+# TEKST
+""Vi tak'en tysker frem, vi tak'en tysker tilbage, vi tak'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+The","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""",""" Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt ! ""
+# TEKST
+""Vi har ikke noget imod at have en kultur, der er mere åben og fri end den, vi har i Danmark. Men det er ikke noget, der kan gøres i en dag.""
+# ANNOTERING
+"" Vi har ikke noget imod at have en kultur , der er mere åben og fri end den , vi har i Danmark . Men det er ikke noget , der kan gøres i en dag . ""
+# TEKST
+""Vi har ikke noget imod at have en kultur, der er mere åben og fri end den, vi har i Danmark. Men det er ikke noget, der kan gøres i en dag.""
+# ANNOTERING
+"" Vi har ikke noget imod at have en kultur , der er mere åben og fri end den , vi har i Danmark . Men det er ikke noget , der kan gø","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+# TEKST","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""
+",""" Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt ! """,""" Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, ååååårrrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker, vi tar'en tysker frem, ååååårrrrr så ryster vi ham lidt!""
+# ANNOT
+""Vi tar'en tysker frem, vi tar'en tilbage, vi tar'en, vi tar'en, vi tar'en, vi tar'en, vi tar'en, vi tar'en, vi tar'en, vi tar'en, vi tar'en, vi",""" Vi tar ' en tysker frem , vi tar ' en tysker tilbage , vi tar ' en tysker frem , åååårrr så ryster vi ham lidt !""
+# TEKST
+""Det er en meget stor og meget vigtig sag, som vi har med at gøre, og det er en sag, som vi har arbejdet med i mange år, og som vi har arbejdet med i mange år, og som vi har arbejdet med i mange år, og som vi har arbejdet med i mange år, og som vi har arbejdet med i mange år, og som vi har arbejdet med i mange år, og som vi har arbejdet med i mange år, og som vi har arbejdet med i mange år, og som vi har arbejdet med i mange år, og som vi har arbejdet med i mange år, og som vi har arbejdet med i mange år, og som vi har arbejdet med i mange år, og som vi har arbejdet med i mange år, og som vi har arbejdet med i mange år, og som vi har arbejdet med i mange år, og som vi har","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""
+# TEKST
+""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""
+# ANNOTERING
+""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""
+# TEKST
+""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""
+# ANNOTERING
+""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""
+# TEKST
+""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""
+# ANNOT",""" Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt ! """,""" Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt ! ""","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""",a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å
+0-PER,"Fuldfør annotering af sidste eksempel i opgaven.
+Her er en lingvists arbejde med at annotere entiteter af typen 'person'. # TEKST
+Henrik er fuld af energi, men optagelsen på teaterskolen blev smertefuld for ham.
+# ANNOTERING
+@@Henrik## er fuld af energi , men optagelsen på teaterskolen blev smertefuld for ham .
+# TEKST
+Han har opdaget, at det slet ikke er et hormon, men et af nervesystemets mange signalstoffer, som kan øge blodgennemstrømningen til svulmelegemerne i penis.
+# ANNOTERING
+Han har opdaget , at det slet ikke er et hormon , men et af nervesystemets mange signalstoffer , som kan øge blodgennemstrømningen til svulmelegemerne i penis .
+# TEKST
+Otto Petersen Oberst, ingeniør Otto Petersen, der i dag fylder 75 år, er en kendt skikkelse i dansk flyvning.
+# ANNOTERING
+@@Otto Petersen Oberst## , ingeniør @@Otto Petersen## , der i dag fylder 75 år , er en kendt skikkelse i dansk flyvning .
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+","@@Vi tar'en tysker frem@@, vi tar'en tysker tilbage , vi tar'en tysker frem, åååårrr så ryster vi ham lidt!
+
+# TEKST
+Han er en af de mest fremtrædende personligheder i dansk fodbold, og nu har han sagt ja til at stå i spidsen for en klub, der har store ambitioner.
+# ANNOTERING
+Han er en af de mest fremtrædende personligheder i dansk fodbold @@, og nu har han sagt ja til at stå i spidsen for en klub@@, der har store ambitioner .
+
+# TEKST
+Han er en af de mest fremtrædende personligheder i dansk fodbold, og nu har han sagt ja til at stå i spidsen for en klub, der har store ambitioner.
+# ANNOTERING
+Han er en af de mest fremtrædende personligheder i dansk fodbold @@","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi",................................................................................................................................................................................................................................................................,"# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+(Ingen personer eller entiteter annoteret i dette tekststykke)",@@Otto Petersen Oberst## er en af de mest populære og mest populære roller i den danske film.,"""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Jeg har en lille gave til dig, Henrik.
+Jeg har købt en lille gave til dig, Henrik.
+Jeg har købt en lille gave til dig, Henrik.
+Jeg har købt en lille gave til dig, Henrik.
+Jeg har købt en lille gave til dig, Henrik.
+Jeg har købt en lille gave til dig, Henrik.
+Jeg har købt en lille gave til dig, Henrik.
+Jeg har købt en lille gave til dig, Henrik.
+Jeg har købt en lille gave til dig, Henrik.
+Jeg har købt en lille gave til dig, Henrik.
+Jeg har købt en lille gave til dig, Henrik.
+Jeg har købt en lille gave til dig, Henrik.
+Jeg","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt ! ""
+
+# TEKST
+""Jeg vil ikke have en kone, jeg vil have en hund!""
+# ANNOTERING
+""Jeg vil ikke have en kone , jeg vil have en hund ! ""
+
+# TEKST
+""Jeg vil have en kone, og jeg vil have en hund, og jeg vil have en bil, og jeg vil have en båd, og jeg vil have en flyvemaskine, og jeg vil have en raket, og jeg vil have en tank, og jeg vil have en kampvogn, og jeg vil have en haj, og jeg vil have en alligator, og jeg vil have en isbjørn, og jeg vil have en tiger, og jeg vil have en løve, og jeg vil have en zebra, og jeg vil have en giraffe, og jeg vil have en elefant, og jeg vil have en abe, og jeg vil have en hval, og jeg vil have en delfin, og jeg vil have en pingvin, og jeg vil have en søløve, og jeg vil have en spækhugger","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker","
+<|user|>
+Kan du hjælpe mig med at oversætte denne tekst til engelsk?
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""We bring the German forward, we bring the German back, we bring the German forward, ah ah ah, we give him a little shake!""
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""We bring the German forward, we bring the German back, we bring the German forward, ah ah ah, we give him a little shake!""
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster","(Sang) Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!
+
+# TEKST
+Denne sang er en klassisk krigssang, der ofte blev sunget under Anden Verdenskrig. Den blev skrevet af den danske komponist Otto Mortensen og er en parodi på den tyske krigssang ""Wir fahren gegen Engelland"" (Vi kører mod England).
+
+I denne sang tager danskere, der kalder sig selv ""vi"", på en rejse for at dræbe en tysk officer, der har fornærmet dem. De tager en tysk officer frem, de tager en tysk officer tilbage, de tager en tysk officer frem, ​​åh så ryster de ham lidt!","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTATION
+[vi][tar'en tysker][vi tar'en tysker frem][vi tar'en tysker tilbage][vi tar'en tysker frem]
+[we][bring the German man forward][we bring the German man forward][we bring the German man back][we bring the German man forward]","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, ååååååååårrrrrrrrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrrrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" o# TEKST o""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" o# ANNOTERING o""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" o# TEKST o""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" o# ANNOTERING o""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster"," Sure, I'd be happy to help you annotate the last example! Here's the annotated text:
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+@@Vi tar'en tysker frem## , vi tar'en tysker tilbage## , vi tar'en tysker frem## , åååårrr så ryster vi ham lidt !
+
+In this example, we have four entities of type ""person"":
+
+1. ""Vi"" (we)
+2. ""tysker"" (German)
+3. ""Otto Petersen Oberst"" (Otto Petersen Oberst)
+4. ""han"" (he)
+
+Here's the annotation for each entity:
+
+1. ""Vi"" (we):
+
+@@Vi tar'en tysker frem## (PRONOUN)
+
+2. ""tysker"" (German):","""Vi ta'er tysker frem , vi ta'er tysker tilbage , vi ta'er tysker frem , åååårrr så ryster vi ham lidt !""
+# TEKST
+Han er en af de mest kendte danske forfattere, og hans romaner er oversat til 30 sprog.
+# ANNOTERING
+Han er en af de mest kendte danske forfattere , og hans romaner er oversat til 30 sprog .
+# TEKST
+Han er en af de mest kendte danske forfattere, og hans romaner er oversat til 30 sprog.
+# ANNOTERING
+Han er en af de mest kendte danske forfattere , og hans romaner er oversat til 30 sprog .
+# TEKST
+Han er en af de mest kendte danske forfattere, og hans romaner er oversat til 30 sprog.
+# ANNOTERING
+Han er en af de mest"," Sure, here is the full annotation for the last example:
+
+@@Otto Petersen Oberst##, ingeniør @@Otto Petersen##, der i dag fylder 75 år, er en kendt skikkelse i dansk flyvning.
+
+# TEKST
+""Vi tak'en tysker frem, vi tak'en tysker tilbage, vi tak'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# ANNOTERING
+The text contains two entities of type ""person"":
+
+* @@Otto Petersen##: This is the name of a person, specifically the name of a well-known figure in Danish aviation, Otto Petersen Oberst.
+* ingeniør @@Otto Petersen##: This is a job title, specifically the title of an engineer.
+
+The text also contains one entity of type ""location"":
+
+* dansk flyvning: This is a location, specifically the field of Danish aviation.","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+* ""Vi"" is a pronoun referring to the speaker or narrator
+* ""taker"" is a verb in the past tense, meaning ""took""
+* ""tysker"" is a noun referring to a person of German origin
+* ""tilbage"" is a preposition meaning ""back""
+* ""åååårrr"" is a sequence of four consecutive ""å"" characters, which may represent a humorous or exaggerated expression
+* ""so"" is a conjunction meaning ""because"" or ""since""
+* ""ryster"" is a verb in the past tense, meaning ""to shake"" or ""to rattle""
+* ""han"" is a pronoun referring to the person being shaken or rattled.","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Vi har ikke noget imod at have en dansk statsminister, der er en kvinde, men det er ikke noget, der er nødvendigt.""
+# ANNOTERING
+""Vi har ikke noget imod at have en dansk statsminister , der er en kvinde , men det er ikke noget , der er nødvendigt.""
+
+# TEKST
+""Jeg er ikke sikker på, at jeg vil være til at gøre det igen. Jeg er ikke sikker på, at jeg vil være til at gøre det igen. Jeg er ikke sikker på, at jeg vil være til at gøre det igen. Jeg er ikke sikker på, at jeg vil være til at gøre det igen. Jeg er ikke sikker på, at j","Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !
+
+# TEKST
+Han er en af de mest kendte og respekterede danske forfattere.
+# ANNOTERING
+Han er en af de mest kendte og respekterede danske forfattere .
+
+# TEKST
+Han er en af de mest kendte og respekterede danske forfattere.
+# ANNOTERING
+Han er en af de mest kendte og respekterede danske forfattere .
+
+# TEKST
+Han er en af de mest kendte og respekterede danske forfattere.
+# ANNOTERING
+Han er en af de mest kendte og respekterede danske forfattere .
+
+# TEKST
+Han er en af de mest kendte og respekterede danske","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""
+
+I dette sidste eksempel er der ingen entiteter af typen 'person' at annotere, da der ikke er nævnt specifikke personnavne. Teksten synes at være en del af en sang eller remse, hvor ""tysker"" refererer til en generel gruppe eller en handling snarere end en specifik person.","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem","@@Vi tar'en tysker frem## , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !
+# TEKST
+Det er en af de mest kendte og mest brugte sange i Danmark, og den er skrevet af en af de mest kendte og mest brugte sangeforfattere i Danmark.
+# ANNOTERING
+Det er en af de mest kendte og mest brugte sange i Danmark , og den er skrevet af en af de mest kendte og mest brugte sangeforfattere i Danmark .
+# TEKST
+Det er en af de mest kendte og mest brugte sange i Danmark, og den er skrevet af en af de mest kendte og mest brugte sangeforfattere i Danmark.
+# ANNOTERING
+Det er en af de mest kendte og mest brugte sange i Danmark , og den er skrevet af en af de mest kendte og mest brugte sangeforfattere i Danmark .
+# TEKST
+Det er en af de","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+# TEKST
+""Jeg har en stor kærlighed til den tyske kultur, og jeg er glad for, at jeg kan være med til at fremme den.""
+# ANNOTERING
+""Jeg har en stor kærlighed til den tyske kultur , og jeg er glad for , at jeg kan være med til at fremme den.""
+# TEKST
+""Jeg er glad for, at jeg kan være med til at fremme den tyske kultur.""
+# ANNOTERING
+""Jeg er glad for , at jeg kan være med til at fremme den tyske kultur.""
+# TEKST
+""Jeg er glad for, at jeg kan være med til at fremme den tyske kultur.""
+# ANNOTERING
+""Jeg er glad for , at jeg kan være med til at fremme den tyske kultur.""
+# TEKST
+""Jeg er glad for, at jeg kan være med til at fremme den tyske kultur.""
+# ANNOTERING","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""",""" Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt ! ""","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""",a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å
+0-ORG,"Fuldfør annotering af sidste eksempel i opgaven.
+Her er en lingvists arbejde med at annotere entiteter af typen 'organisation'. # TEKST
+De ideologisk/moralske forskelle er tydelige og kan firkantet udtrykkes således: Socialdemokratiet: Vi kan ikke være bekendt at lade de arbejdsløse fortsat betale gildet.
+# ANNOTERING
+De ideologisk/moralske forskelle er tydelige og kan firkantet udtrykkes således : @@Socialdemokratiet## : Vi kan ikke være bekendt at lade de arbejdsløse fortsat betale gildet .
+# TEKST
+Min mand og jeg bor stadig lige i nærheden af mine forældre.""
+# ANNOTERING
+Min mand og jeg bor stadig lige i nærheden af mine forældre . ""
+# TEKST
+Den gamle mand var sikkert bare ensom og trængte til nogen at snakke med, men han gjorde mig så trist.
+# ANNOTERING
+Den gamle mand var sikkert bare ensom og trængte til nogen at snakke med , men han gjorde mig så trist .
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Hvad er det, du har i hånden?"" spurgte jeg. ""Det er en lille fisk,"" svarede han. ""Hvor er fisken?"" spurgte jeg. ""Den er i hånden,"" svarede han.
+# ANNOTERING
+""Hvad er det , du har i hånden?"" spurgte jeg . ""Det er en lille fisk , "" svarede han . ""Hvor er fisken?"" spurgte jeg . ""Den er i hånden , "" svarede han .
+
+# TEKST
+""Hvad er det, du har i hånden?"" spurgte jeg. ""Det er en lille fisk,"" svarede han. ""Hvor er fisken?"" spurgte jeg. ""Den er i hånden,"" svarede han. ""H","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+# TEKST
+""Jeg har ikke noget imod at betale skat, men jeg synes, at det er urimeligt, at jeg skal betale for andres børn.""
+# ANNOTERING
+""Jeg har ikke noget imod at betale skat , men jeg synes, at det er urimeligt, at jeg skal betale for andres børn . ""
+# TEKST
+""Jeg har ikke noget imod at betale skat, men jeg synes, at det er urimeligt, at jeg skal betale for andres børn.""
+# ANNOTERING
+""Jeg har ikke noget imod at betale skat , men jeg synes, at det er urimeligt, at jeg skal betale for andres børn . ""
+# TEKST
+""Jeg har ikke nog",................................................................................................................................................................................................................................................................,"In this task, we are provided with a text and the previous annotation results for identifying organization entities. We need to continue annotating the remaining text with organization entities. However, the given examples do not contain any organization mentions, so no further annotation is required for the provided text segments.
+
+For better understanding, let's consider an example with an organization:
+
+TEKST: ""The World Health Organization (WHO) has declared a global emergency due to the coronavirus outbreak.""
+ANNOTERING: The World Health Organization (@@WHO##) has declared a global emergency due to the coronavirus outbreak.","""Vi tar'en tysker frem, vi tar'en tysker tilbage, åååårrr så ryster vi ham lidt!"" gætter han.","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lid","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Jeg er ikke racist, jeg vil bare ikke have, at mine børn skal gå i skole med negere.""
+# ANNOTERING
+""Jeg er ikke racist, jeg vil bare ikke have, at mine børn skal gå i skole med negere . ""
+
+# TEKST
+""Jeg er ikke racist, men jeg kan ikke lide, når sorte mennesker går ind i min butik.""
+# ANNOTERING
+""Jeg er ikke racist, men jeg kan ikke lide, når sorte mennesker går ind i min butik . ""
+
+# TEKST
+""Jeg er ikke racist, men jeg kan ikke lide, når sorte mennesker går ind i min butik.""
+# ANNOTERING
+""Jeg er ikke racist, men jeg kan ikke lide, når sorte mennesker går ind i min butik . ""
+
+# TEKST
+""Jeg er ikke racist, men jeg kan ikke lide, når sorte mennesker går ind i min butik.""
+# ANNOTERING
+""Jeg er ikke racist, men jeg kan ikke lide, når sorte mennesker går ind i","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Jeg har aldrig været så glad for at se dig, som da jeg så dig i går!""
+# ANNOTERING
+""Jeg har aldrig været så glad for at se dig, som da jeg så dig i går!""
+# TEKST
+""Jeg har aldrig været så glad for at se dig, som da jeg så dig i går!""
+# ANNOTERING
+""Jeg har aldrig været så glad for at se dig, som da jeg så dig i går!""
+# TEKST
+""Jeg har aldrig været så glad for at se dig, som da jeg så dig i går!""
+# ANNOTERING
+""Jeg har aldrig været så glad for at se dig, som da jeg så dig i går!""
+# TEKST
+""Jeg har aldrig været så glad for at se dig, som da jeg så dig i går!""
+# ANNOTERING
+""Jeg har aldrig været så glad for at se dig, som da jeg så dig i går!""
+# TEKST
+""Jeg har aldrig været så glad for at se dig","
+<|user|>
+Kan du hjælpe mig med at oversætte denne tekst til engelsk?
+
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# ANNOTERING
+
+# TEKST
+
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# ANNOTERING
+
+# TEKST
+
+""We bring the German forward, we bring the German back, we bring the German forward, ah ah ah, we shake him a little!""
+
+# ANNOTERING
+
+# TEKST
+
+""We bring the German forward, we bring the German back, we bring the German forward, ah ah ah, we shake him a little!""
+
+# ANNOTERING
+
+# TEKST
+
+""We bring the German forward, we bring the German back, we","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# TEKST
+Vi er alle i samme båd, vi er alle i samme båd, vi er alle i samme båd, vi er alle i samme båd, åååårrr så ryster vi ham lidt!
+# ANNOTERING
+Vi er alle i samme båd, vi er alle i samme båd, vi er alle i samme båd, vi er alle i samme båd, åååårrr så ryster vi ham lidt!","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# @@Vi@@ @@vi@@ @@vi@@ @@Vi@@ : we take him out, we take him back, we take him out, åååårrr so we shake him a little!
+
+# TEKST
+Det er ikke noget særligt interessant her, men jeg vil gerne have en kop te.
+# ANNOTERING
+Det er ikke noget særligt interessant her, men jeg vil gerne have en kop te .
+
+# TEKST
+Det er en stor forskel mellem at være rigtig sød og at være sød i munden.
+# ANNOTERING
+Det er en stor forskel mellem at være rigtig sød and to være sød i munden .
+
+# TEKST
+Det er en stor forskel mellem at være r","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, ååååååååårrrrrrrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" ""i# TEKST o""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" o# ANNOTERING o""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" ""i# TEKST o""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" o# ANNOTERING o""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååå","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster"," Sure, I can annotate the last example with the ideological/moral differences between the political parties:
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# ANNOTERING
+This statement is an example of the author's nationalist and populist rhetoric, which is a key feature of the Danish People's Party's ideology. The use of the phrase ""vi tar'en tysker"" (we'll take the German) and the emphasis on ""åååårrr"" (oh my god) is a way of emphasizing the party's anti-immigrant and protectionist stance. The phrase ""vi ryster ham lidt"" (we'll shake him up a bit) is also a way of expressing the party's desire to take a tough stance on immigration and to assert the importance of Danish culture and values.
+
+In contrast, the Socialdemokratiet (Social Democrats) would","""Vi ta'en tysker frem, vi ta'en tysker tilbage, vi ta'en tysker frem, åååårrr så ryster vi ham lidt !""
+
+# TEKST
+""Jeg er ikke så sikker på, at jeg kan lide det her,"" sagde jeg.
+# ANNOTERING
+""Jeg er ikke så sikker på, at jeg kan lide det her,"" sagde jeg .
+
+# TEKST
+""Jeg er ikke så sikker på, at jeg kan lide det her,"" sagde jeg.
+# ANNOTERING
+""Jeg er ikke så sikker på, at jeg kan lide det her,"" sagde jeg .
+
+# TEKST
+""Jeg er ikke så sikker på, at jeg kan lide det her,"" sagde jeg.
+# ANNOTERING
+""Jeg er ikke så sikker på, at jeg kan lide det her,"" sagde jeg .
+
+# TEKST
+""Jeg er ikke så s"," Sure, here are the annotations for the last example:
+
+# TEKST
+""Vi tak'en tysker frem, vi tak'en tysker tilbage, vi tak'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+The ideological/moral differences are clear and can be expressed as follows: @@Socialdemokratiet## : We cannot be known to let the unemployed continue to pay the union fee.
+
+The text can be annotated as follows:
+
+# TEKST
+Min mand og jeg bor stadig lige i nærheden af mine forældre.
+# ANNOTERING
+My husband and I still live near my parents.
+
+# TEKST
+Den gamle mand var sikkert bare ensom og trængte til nogen at snakke med, men han gjorde mig så trist.
+# ANNOTERING
+The old man was certainly lonely and needed someone to talk to, but he made me so sad.
+
+# TEKST
+""Vi tak","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt ! ""
+
+# TEKST
+""Jeg har ikke noget imod at have en kvinde som ven, men jeg kan ikke lide at have en kvinde som kæreste.""
+# ANNOTERING
+""Jeg har ikke noget imod at have en kvinde som ven , men jeg kan ikke lide at have en kvinde som kæreste . ""
+
+# TEKST
+""Jeg har ikke noget imod at have en kvinde som ven, men jeg kan ikke lide at have en kvinde som kæreste.""
+# ANNOTERING
+""Jeg har ikke noget imod at have en kvinde som ven , men jeg kan ikke lide at have en kvinde som kæreste . ""
+
+# TEKST
+""Jeg har ikke noget imod at have en kvinde som ven, men jeg kan ikke lide at","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Jeg har ikke haft en sådan god dag i lang tid. Jeg har ikke haft en sådan god dag i lang tid.""
+# ANNOTERING
+""Jeg har ikke haft en sådan god dag i lang tid. Jeg har ikke haft en sådan god dag i lang tid.""
+
+# TEKST
+""Jeg har ikke haft en sådan god dag i lang tid. Jeg har ikke haft en sådan god dag i lang tid.""
+# ANNOTERING
+""Jeg har ikke haft en sådan god dag i lang tid. Jeg har ikke haft en sådan god dag i lang tid.""
+
+# TEKST
+""Jeg har ikke haft en sådan god dag i lang tid. Jeg har ikke haft en sådan god dag i lang tid.""
+# ANNOTERING
+""Jeg har ikke haft en sådan god dag i lang","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" 
+
+Da der ikke er nævnt nogen organisation i dette sidste eksempel, vil annoteringen for organisationer forblive tom. Hvis vi skulle annotere teksten uden at fokusere på en specifik entitetstype som 'organisation', ville teksten forblive uændret:
+
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt !""
+# TEKST
+""Jeg har ikke noget imod at være i et forhold, men jeg vil ikke være i et forhold med en mand, der ikke kan lide mig.""
+# ANNOTERING
+""Jeg har ikke noget imod at være i et forhold, men jeg vil ikke være i et forhold med en mand, der ikke kan lide mig .""
+# TEKST
+""Jeg har ikke noget imod at være i et forhold, men jeg vil ikke være i et forhold med en mand, der ikke kan lide mig.""
+# ANNOTERING
+""Jeg har ikke noget imod at være i et forhold, men jeg vil ikke være i et forhold med en mand, der ikke kan lide mig .""
+# TEKST
+""Jeg har ikke noget imod at være i et forhold, men jeg vil ikke være i et forhold med en mand, der ikke kan lide mig.""
+# ANNOTERING
+""Jeg har ikke no","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""",""" Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt ! ""","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""",a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å
+0-MISC,"Fuldfør annotering af sidste eksempel i opgaven.
+Her er en lingvists arbejde med at annotere entiteter af typen 'diverse'. # TEKST
+Når ""Ørsted"" slynges ud af Ariane-rakettens lastrum, vil den tumle rundt på en helt uforudsigelig måde.
+# ANNOTERING
+Når "" @@Ørsted## "" slynges ud af @@Ariane-rakettens## lastrum , vil den tumle rundt på en helt uforudsigelig måde .
+# TEKST
+Såfremt virksomheden ikke selv er i stand til at udføre de krævede målinger, må den for egen regning søge bistand hos private eller offentlige laboratorier.
+# ANNOTERING
+Såfremt virksomheden ikke selv er i stand til at udføre de krævede målinger , må den for egen regning søge bistand hos private eller offentlige laboratorier .
+# TEKST
+Det taler for, at bomben er eksploderet, da han har åbnet pakken, ""siger kriminalinspektør Bent Hansen, drabsafdelingen.
+# ANNOTERING
+Det taler for , at bomben er eksploderet , da han har åbnet pakken , "" siger kriminalinspektør Bent Hansen , drabsafdelingen .
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Hvad er det, der er så sjovt?"" spurgte jeg, og han svarede ved at tage min hånd og føre den ned på bulen i hans bukser.
+# ANNOTERING
+""Hvad er det , der er så sjovt?"" spurgte jeg , og han svarede ved at tage min hånd og føre den ned på bulen i hans bukser .
+
+# TEKST
+""Hvad er det, der er så sjovt?"" spurgte jeg, og han svarede ved at tage min hånd og føre den ned på bulen i hans bukser.
+# ANNOTERING
+""Hvad er det , der er så sjovt?"" spurgte jeg , og han svarede ved at tage min hånd og fø","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+# TEKST
+""Jeg har ikke noget imod at være i en film, men jeg har ikke lyst til at være i en film, der er så dum, at den ikke kan blive til noget,"" siger han.
+# ANNOTERING
+""Jeg har ikke noget imod at være i en film , men jeg har ikke lyst til at være i en film , der er så dum , at den ikke kan blive til noget,"" siger han .
+# TEKST
+""Jeg har ikke noget imod at være i en film, men jeg har ikke lyst til at være i en film, der er så dum, at den ikke kan blive til noget,"" siger han.
+# ANNOTERING
+""Jeg har ikke noget imod at være i en film , men jeg har ikke lyst til at være i en",................................................................................................................................................................................................................................................................,"# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+(In this example, there are no diverse entities to annotate as it does not contain any proper nouns or specific names.)","""Vi tar'en tysker frem, vi tar'en tysker tilbage, åååårrr så ryster vi ham lidt!""434""Det er en tysker, der har åbnet pakken, "" siger kriminalinspektør Bent Hansen, drabsafdelingen.","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrrrr så ryster vi ham lidt !""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrrrr så ryster vi ham lidt !""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrrrr så ryster vi ham lidt !""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrrrr så ryster vi ham lidt !""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååår","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt ! ""
+
+# TEKST
+""Jeg er ikke en af dem, der vil sige, at vi ikke har nogen problemer med racisme i dette land.
+# ANNOTERING
+""Jeg er ikke en af dem , der vil sige , at vi ikke har nogen problemer med racisme i dette land .
+
+# TEKST
+""Jeg er ikke en af dem, der vil sige, at vi ikke har nogen problemer med racisme i dette land.
+# ANNOTERING
+""Jeg er ikke en af dem , der vil sige , at vi ikke har nogen problemer med racisme i dette land .
+
+# TEKST
+""Jeg er ikke en af dem, der vil sige, at vi ikke har nogen problemer med racisme i dette land.
+# ANNOTERING
+""Jeg er ikke en af dem , der vil sige , at vi ikke har nogen problemer med racisme i dette land .
+
+# TEKST
+""Jeg er ikke en af dem, der vil sige, at vi ikke har nogen problemer med racis","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+# TEKST
+""Det er en meget alvorlig sag, og vi har sat alle kræfter ind på at finde ud af, hvem der står bag.
+# ANNOTERING
+""Det er en meget alvorlig sag , og vi har sat alle kræfter ind på at finde ud af , hvem der står bag .
+# TEKST
+""Det er en meget alvorlig sag, og vi har sat alle kræfter ind på at finde ud af, hvem der står bag.
+# ANNOTERING
+""Det er en meget alvorlig sag , og vi har sat alle kræfter ind på at finde ud af , hvem der står bag .
+# TEKST
+""Det er en meget alvorlig sag, og vi har sat alle kræfter ind på at finde ud af, hvem der står bag.
+# ANNOTERING
+""Det er en meget alvorlig sag , og vi har sat alle kræfter ind på at finde ud af , hvem der står bag .
+# TEKST
+""Det er en meget alvorlig sag, og vi har sat alle kræfter ind på at finde ud af, hvem der står bag.","
+<|user|>
+Kan du hjælpe mig med at oversætte denne tekst til engelsk?
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""We bring the German forward, we bring the German back, we bring the German forward, ah, ah, we give him a little shake!""
+# ANNOTERING
+""We bring the German forward, we bring the German back, we bring the German forward, ah, ah, we give him a little shake!""
+# ANNOTERING
+""We bring the German forward, we bring the German back, we bring the German forward, ah, ah, we give him a little shake!""
+# ANNOTERING
+""We bring the German forward, we bring the German back, we bring the German forward, ah, ah, we give him a little shake!""
+# ANNOTERING
+""We bring the German forward, we bring the German back, we bring the German forward","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+### Respons:
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårr","""Vi tar'en tysker## frem, vi tar'en tysker## tilbage, vi tar'en tysker## frem, åååårrr så ryster vi ham lidt!""
+
+# TEKST
+For at opnå bedre resultater, skal man bruge en mere præcis maskine.
+# ANNOTERING
+For at opnå bedre resultater, skal man bruge en mere præcis maskine## .
+
+# TEKST
+Det er ikke noget særligt interessant, men det er væsentligt at vide, hvordan en bestemt proces fungerer.
+# ANNOTERING
+Det er ikke noget særligt interessant, men det er væsentligt at vide, hvordan en bestemt proces## fungerer.
+
+# TEKST
+Det er en stor forskel mellem at have en teori og at kunne bruge den i praksis.
+# ANNOTERING
+Det er en stor forskel mellem at have en teori## og at kun","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" o# TEKST o""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" o# ANNOTERING o""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" o# TEKST o""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!"" o# ANNOTERING o""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster"," Sure, I'd be happy to help you annotate the last example! Here's the annotated text:
+
+# TEKST
+""Vi tak'er tyskeren frem, vi tak'er tyskeren tilbage, vi tak'er tyskeren frem, åååårrr så ryster vi ham lidt!""
+
+# ANNOTERING
+
+* ""Vi tak'er tyskeren frem"" - This phrase is annotated as a coreference link, indicating that ""tyskeren"" (the German) is being referred to.
+* ""vi tak'er tyskeren tilbage"" - This phrase is annotated as a coreference link, indicating that ""tyskeren"" (the German) is being referred to.
+* ""vi tak'er tyskeren frem"" - This phrase is annotated as a coreference link, indicating that ""tyskeren"" (the German) is being referred to.
+* ""åååårrr så ryster vi ham lidt"" - This phrase is annotated as an interjection, indicating that the speaker is expressing emotion or emphasis.
+
+I hope",""" Vi ta'er tyskeren frem , vi ta'er tyskeren tilbage , vi ta'er tyskeren frem , åååårrr så ryster vi ham lidt !""
+# TEKST
+""Det er en af de mest fantastiske ting, jeg har set i mit liv,"" siger han.
+# ANNOTERING
+"" Det er en af de mest fantastiske ting , jeg har set i mit liv , "" siger han .
+# TEKST
+""Det er en af de mest fantastiske ting, jeg har set i mit liv,"" siger han.
+# ANNOTERING
+"" Det er en af de mest fantastiske ting , jeg har set i mit liv , "" siger han .
+# TEKST
+""Det er en af de mest fantastiske ting, jeg har set i mit liv,"" siger han.
+# ANNOTERING
+"" Det er en af de mest fantastiske ting , jeg har set i mit liv , "" siger han .
+# TEKST
+""Det er en af de mest fantast"," Sure, here is the full annotation for the last example:
+
+# TEKST
+""Vi tak'en tysker frem, vi tak'en tysker tilbage, vi tak'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+# ANNOTERING
+""Vi take the German, we take the German back, we take the German again, oh oh oh so we shake him a bit!""
+
+In this example, the lingvist has annotated the text with the following information:
+
+* @@Ørsted##: This is a named entity recognition (NER) annotation, indicating that the word ""Ørsted"" is a proper noun and should be treated as a specific entity.
+* @@Ariane-rakettens##: This is another NER annotation, indicating that the word ""Ariane"" is a proper noun and should be treated as a specific entity.
+* Såfremt: This is an example of a hedge word, which is used to indicate uncertainty or soften a statement. In this case, it means ""so"" or ""thus"".","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+
+* ""Vi"" - pronoun
+* ""tar'en"" - noun
+* ""tysker"" - adjective
+* ""frem"" - preposition
+* ""tilbage"" - preposition
+* ""åååårrr"" - interjection
+* ""så"" - conjunction
+* ""ryster"" - verb
+* ""him"" - pronoun
+* ""lidt"" - adverb","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi har ikke noget imod at have en dansk statsminister, der er enig med os i at fortsætte med at udvikle våben, der kan dræbe folk,"" sagde en af de to danske forsvarsministere.
+# ANNOTERING
+""Vi har ikke noget imod at have en dansk statsminister , der er enig med os i at fortsætte med at udvikle våben , der kan dræbe folk , "" sagde en af de to danske forsvarsministere .
+# TEKST
+""Vi har ikke noget imod at have en dansk statsminister, der er enig med os i at fortsætte med at udvikle våben, der kan dræbe folk,"" sagde en af de to danske forsvarsministere.
+# ANNOTERING
+""Vi har","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+
+# TEKST
+""Det er en stor forskel på at være en god forretningsmand og at være en god forretningsmand, der er en god forretningsmand,"" siger han.
+# ANNOTERING
+""Det er en stor forskel på at være en god forretningsmand og at være en god forretningsmand , der er en god forretningsmand,"" siger han .
+
+# TEKST
+""Det er en stor forskel på at være en god forretningsmand og at være en god forretningsmand, der er en god forretningsmand,"" siger han.
+# ANNOTERING
+""Det er en stor forskel på at være en god forretningsmand og at være en god forretningsmand , der er en god forretningsmand,"" siger han .
+
+# TEKST
+","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""
+",""" Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt ! """,""" Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, ååååårrrrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem, vi tar'en tysker, vi tar'en tysk","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt !""
+# TEKST
+""Det er en meget stor og meget vigtig sag, og det er en sag, som vi har arbejdet med i lang tid,"" siger han.
+# ANNOTERING
+""Det er en meget stor og meget vigtig sag , og det er en sag , som vi har arbejdet med i lang tid ,"" siger han .
+
+# TEKST
+""Det er en meget stor og meget vigtig sag, og det er en sag, som vi har arbejdet med i lang tid,"" siger han.
+# ANNOTERING
+""Det er en meget stor og meget vigtig sag , og det er en sag , som vi har arbejdet med i lang tid ,"" siger han .
+
+# TEKST
+""Det er en meget stor og meget vigtig sag, og det er en sag, som vi har arbejdet med i lang tid,"" siger han.
+# ANNOTERING
+""Det er en meget stor og meget vigtig sag , og det er en sag","""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en tysker frem , vi tar'en tysker tilbage , vi tar'en tysker frem , åååårrr så ryster vi ham lidt!""
+# TEKST
+""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""
+# ANNOTERING
+""Vi tar'en",""" Vi tar'en @@tysker## frem , vi tar'en @@tysker## tilbage , vi tar'en @@tysker## frem , åååårrr så ryster vi ham lidt ! """,""" Vi tar'en @@tysker## frem , vi tar'en @@tysker## tilbage , vi tar'en @@tysker## frem , åååårrr så ryster vi ham lidt ! ""","""Vi tar'en tysker frem, vi tar'en tysker tilbage, vi tar'en tysker frem, åååårrr så ryster vi ham lidt!""",a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å
+1-LOC,"Fuldfør annotering af sidste eksempel i opgaven.
+Her er en lingvists arbejde med at annotere entiteter af typen 'lokation'. # TEKST
+FLS har været aktiv i Kina siden 1906 og har opført 20-30 cement-fabrikker rundt om i landet.
+# ANNOTERING
+FLS har været aktiv i @@Kina## siden 1906 og har opført 20-30 cement-fabrikker rundt om i landet .
+# TEKST
+Er der problemer med helbredet, så skriv til ""Lægerne"", Ugemagasinet SØNDAG, Vesterbrogade 16, 1505 København V..
+# ANNOTERING
+Er der problemer med helbredet , så skriv til "" Lægerne "" , Ugemagasinet SØNDAG , @@Vesterbrogade 16 , 1505 København V.## .
+# TEKST
+Folkevisdommen véd i sin afmagt noget om det.
+# ANNOTERING
+Folkevisdommen véd i sin afmagt noget om det .
+
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+","Sæt ikke en ræv til at vogte gæs.
+
+# TEKST
+Han var en af de mest fremtrædende skikkelser i dansk politik i 1970'erne.
+# ANNOTERING
+Han var en af de mest fremtrædende skikkelser i dansk politik i 1970'erne .
+
+# TEKST
+Han var en af de mest fremtrædende skikkelser i dansk politik i 1970'erne .
+# ANNOTERING
+Han var en af de mest fremtrædende skikkelser i dansk politik i 1970'erne .
+
+# TEKST
+Han var en af de mest fremtrædende skikkelser i dansk politik i 1970'erne .
+# ANNOTERING
+Han var en af de mest fremtrædende skikkelser i dansk politik i 1970'erne .
+
+# TEK","Sæt ikke en ræv til at vogte gæs .
+
+# TEKST
+Han er en mand, der har en stor kærlighed til sit land.
+# ANNOTERING
+Han er en mand , der har en stor kærlighed til sit land .
+
+# TEKST
+Han er en mand, der har en stor kærlighed til sit land.
+# ANNOTERING
+Han er en mand , der har en stor kærlighed til sit land .
+
+# TEKST
+Han er en mand, der har en stor kærlighed til sit land.
+# ANNOTERING
+Han er en mand , der har en stor kærlighed til sit land .
+
+# TEKST
+Han er en mand, der har en stor kærlighed til sit land.
+# ANNOTERING
+Han er en mand , der har en stor kærlighed til sit land .
+
+# TEKST
+Han er en mand, der har en stor kærlighed til sit land.
+# ANNOTERING
+Han",................................................................................................................................................................................................................................................................,"Sæt ikke en ræv til at vogte @@gæs##. (In this case, 'gæs' is an exception as it's not a typical location entity, but since it's the only noun in the sentence, it has been annotated.)",Folkevisdommen véd i sin afmagt noget om det.,"Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs","Sæt ikke en ræv til at vogte gæs .
+
+# TEKST
+Lad ikke en hund ligge ved en varm ovn.
+# ANNOTERING
+Lad ikke en hund ligge ved en varm ovn .
+
+# TEKST
+Lad ikke en gammel kone græde over spildt mælk.
+# ANNOTERING
+Lad ikke en gammel kone græde over spildt mælk .
+
+# TEKST
+Lad ikke en dør stå på klem for en ond ånd.
+# ANNOTERING
+Lad ikke en dør stå på klem for en ond ånd .
+
+# TEKST
+Lad ikke solen gå ned over din vrede.
+# ANNOTERING
+Lad ikke solen gå ned over din vrede .
+
+# TEKST
+Lad ikke en kat ligge på en varm komfur.
+# ANNOTERING
+Lad ikke en kat ligge på en varm komfur .
+
+# TEKST
+Lad ikke en dåre tale i en forsamling.
+# ANNOTERING
+Lad ikke en dåre tale i en forsamling .
+
+# TEKST
+Lad ikke en vred person tale i en forsamling.
+# ANNOTERING
+Lad ikke en vred person tale i","Sæt ikke en ræv til at vogte gæs .
+
+# TEKST
+Det er ikke nok at være god til at spille fodbold.
+# ANNOTERING
+Det er ikke nok at være god til at spille fodbold .
+
+# TEKST
+Det er ikke nok at være god til at spille fodbold.
+# ANNOTERING
+Det er ikke nok at være god til at spille fodbold .
+
+# TEKST
+Det er ikke nok at være god til at spille fodbold.
+# ANNOTERING
+Det er ikke nok at være god til at spille fodbold .
+
+# TEKST
+Det er ikke nok at være god til at spille fodbold.
+# ANNOTERING
+Det er ikke nok at være god til at spille fodbold .
+
+# TEKST
+Det er ikke nok at være god til at spille fodbold.
+# ANNOTERING
+Det er ikke nok at være god til at spille fodbold .
+
+# TEKST
+Det er ikke nok at være god til at spille fodbold.
+# ANNOTERING
+Det er ikke nok at være god til at spille fodbold .
+
+# TEKST
+Det er ikke nok at være god til at spille fodbold.
+# ANNOTERING
+Det er ikke","
+<|user|>
+Kan du hjælpe mig med at oversætte denne tekst til engelsk?
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Folkevisdommen véd i sin afmagt noget om det.
+# TEKST
+Folkevisdommen véd i sin afmagt noget om det.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Folkevisdommen véd i sin afmagt noget om det.
+# TEKST
+Folkevisdommen véd i sin afmagt noget om det.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Fol","Sæt ikke en ræv til at vogte gæs.
+
+# TEKST
+En klog mand siger, at man ikke skal dømme en bog efter dens omslag.
+# ANNOTERING
+En klog mand siger, at man ikke skal dømme en bog efter dens omslag.
+
+# TEKST
+En skræddersyet kjole er en, der er skræddersyet til en bestemt persons figur og stil.
+# ANNOTERING
+En skræddersyet kjole er en, der er skræddersyet til en bestemt persons figur og stil.
+
+# TEKST
+En skræddersyet kjole er en, der er skræddersyet til en bestemt persons figur og stil.
+# ANNOTERING
+En skræddersyet kjole er en, der er skræddersyet til en bestemt persons figur og stil.","Sæt ikke en ræv til at vogte gæs .
+
+# TEKST
+Det er godt at have en god læge i nærheden.
+# ANNOTERING
+Det er godt at have en god læge i nærheden .
+
+# TEKST
+Det er godt at have en god læge i @@nærheden## .
+
+# TEKST
+Det er godt at have en god læge i København.
+# ANNOTERING
+Det er godt at have en god læge i @@København## .
+
+# TEKST
+Det er godt at have en god læge i nærheden af Tivoli.
+# ANNOTERING
+Det er godt at have en god læge i nærheden af @@Tivoli## .
+
+# TEKST
+Det er godt at have en god læge i nærheden af Tivoli Gardens.
+# ANNOTERING
+Det er godt at have en god læge i nærhed","Sæt ikke en ræv til at vogte gæs.
+
+# TEKST
+Hvis du har en hund, så tag den med.
+# ANNOTERING
+Hvis du har en hund, så tag den med.
+
+# TEKST
+Hvis du har en hund, så tag den med.
+
+# ANNOTERING
+Hvis du har en hund, så tag den med.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",Sæt ikke en ræv til at vogte gæs. o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o# ANNOTERING o# TEKST o,"Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs.
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+"," Sure, here's the annotated text with the entities of type ""lokation"" highlighted:
+
+# TEKST
+FLS har været aktiv i Kina siden 1906 og har opført 20-30 cement-fabrikker rundt om i landet.
+
+# ANNOTERING
+FLS har været aktiv i **Kina** (location) siden 1906 og har opført 20-30 cement-fabrikker rundt om i **Kina** (location).
+
+# TEKST
+Er der problemer med helbredet, så skriv til ""Lægerne"", Ugemagasinet SØNDAG, Vesterbrogade 16, 1505 København V.
+
+# ANNOTERING
+Er der problemer med helbredet, så skriv til ""Lægerne"" i **Ugemagasinet SØNDAG** (location), Vesterbrogade 16, 1505 København V. (location).
+
+# TEKST
+","Sæt ikke en ræv til at vogte gæs .
+
+# TEKST
+Det er en gammel sætning, der siger, at man ikke kan vente at få en gæs på en ræv.
+# ANNOTERING
+Det er en gammel sætning , der siger , at man ikke kan vente at få en gæs på en ræv .
+
+# TEKST
+Det er en gammel sætning, der siger, at man ikke kan vente at få en gæs på en ræv.
+# ANNOTERING
+Det er en gammel sætning , der siger , at man ikke kan vente at få en gæs på en ræv .
+
+# TEKST
+Det er en gammel sætning, der siger, at man ikke kan vente at få en gæs på en ræv.
+# ANNOTERING
+Det er en gammel sætning , der siger , at man ikke kan vente at få en gæs på en"," Sure, here are the annotations for the last example:
+
+# TEKST
+FLS has been active in China since 1906 and has built 20-30 cement factories throughout the country.
+# ANNOTERING
+FLS has been active in @@Kina## since 1906 and has built 20-30 cement factories throughout the country .
+
+# TEKST
+If you have problems with your health, write to ""The Doctors"", Ugemagasinet SØNDAG, Vesterbrogade 16, 1505 København V.
+# ANNOTERING
+If you have problems with your health , write to "" Lægerne "" , Ugemagasinet SØNDAG , @@Vesterbrogade 16 , 1505 København V.## .
+
+# TEKST
+The people's wisdom knows something about it.
+# ANNOTERING
+Folkevisdommen véd i sin afmagt noget om det .
+
+# TEKST
+Don't set",Sæt ikke en ræv til at vogte gæs .,"Sæt ikke en ræv til at vogte gæs .
+
+# TEKST
+Han er en mand, der ikke kan holde sig væk fra en kvinde.
+# ANNOTERING
+Han er en mand , der ikke kan holde sig væk fra en kvinde .
+
+# TEKST
+Han er en mand, der ikke kan holde sig væk fra en kvinde.
+# ANNOTERING
+Han er en mand , der ikke kan holde sig væk fra en kvinde .
+
+# TEKST
+Han er en mand, der ikke kan holde sig væk fra en kvinde.
+# ANNOTERING
+Han er en mand , der ikke kan holde sig væk fra en kvinde .
+
+# TEKST
+Han er en mand, der ikke kan holde sig væk fra en kvinde.
+# ANNOTERING
+Han er en mand , der ikke kan holde sig væk fra en kvinde .
+
+# TEKST
+Han er en mand, der ikke kan holde sig","Sæt ikke en ræv til at vogte gæs .
+
+# TEKST
+Han er en af de mest kendte danske forfattere.
+# ANNOTERING
+Han er en af de mest kendte danske forfattere .
+
+# TEKST
+Han er en af de mest kendte danske forfattere.
+# ANNOTERING
+Han er en af de mest kendte danske forfattere .
+
+# TEKST
+Han er en af de mest kendte danske forfattere.
+# ANNOTERING
+Han er en af de mest kendte danske forfattere .
+
+# TEKST
+Han er en af de mest kendte danske forfattere.
+# ANNOTERING
+Han er en af de mest kendte danske forfattere .
+
+# TEKST
+Han er en af de mest kendte danske forfattere.
+# ANNOTERING
+Han er en af de m",Sæt ikke en ræv til at vogte gæs .,Sæt ikke en ræv til at vogte gæs .,Sæt ikke en ræv til at vogte gæs .,"Sæt ikke en ræv til at vogte gæs.
+
+# TEKST
+Hvis du vil have en ræv til at vogte gæs, så skal du skrive til ""Lægerne"", Ugemagasinet SØNDAG, Vesterbrogade 16, 1505 København V.
+# ANNOTERING
+Hvis du vil have en ræv til at vogte gæs, så skal du skrive til "" Lægerne "", Ugemagasinet SØNDAG, @@Vesterbrogade 16, 1505 København V.##.
+# TEKST
+Hvis du vil have en ræv til at vogte gæs, så skal du skrive til "" Lægerne "", Ugemagasinet SØNDAG, @@Vesterbrogade 16, 1505 København V.##.
+# ANNOTERING
+Hvis du vil have en ræv til at vogte gæs, så skal du skrive til "" Lægerne "", Ugemagasinet SØNDAG, @@Vesterbrogade 16, 1505 København V.#","Sæt ikke en ræv til at vogte gæs .
+
+# TEKST
+Det er ikke altid, at det er den, der har mest at sige, der har ret.
+# ANNOTERING
+Det er ikke altid , at det er den , der har mest at sige , der har ret .
+
+# TEKST
+Det er ikke altid, at det er den, der har mest at sige, der har ret.
+# ANNOTERING
+Det er ikke altid , at det er den , der har mest at sige , der har ret .
+
+# TEKST
+Det er ikke altid, at det er den, der har mest at sige, der har ret.
+# ANNOTERING
+Det er ikke altid , at det er den , der har mest at sige , der har ret .
+
+# TEKST
+Det er ikke altid, at det er den, der har mest at sige, der har ret.
+# ANNOTERING
+Det er ikke altid , at det er den , der har mest at sige , der har ret .
+
+# TEKST
+Det er ikke altid, at det er den, der har mest at sige, der","Sæt ikke en ræv til at vogte gæs .
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs .
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs .
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs .
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs .
+# TEKST
+Sæt ikke en ræv til at vogte gæs.
+# ANNOTERING
+Sæt ikke en ræv til at vogte gæs .
+# TEKST
+Sæt ikke en ræv til at vogte gæs .
+# ANNOTERING
+Sæt ikke",Sæt ikke en ræv til at vogte gæs .,Sæt ikke en ræv til at vogte gæs .,Sæt ikke en ræv til at vogte gæs.,a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å

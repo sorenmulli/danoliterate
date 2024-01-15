@@ -1,0 +1,1537 @@
+,prompt,Danoliterate Mistral 7B,Danoliterate LlaMa 2 7B,Danoliterate 7B Baseline,SOLAR 10.7B Instruct,GPT Neox Da.,DanskGPT-tiny,GPT-Sw3 6.7B Instruct (v. 2),GPT-Sw3 6.7B (v. 2),Kanelsnegl (v. 0.2),NB GPT-J NorPaca,Mistral 7B Instruct (v0.2),mGPT,NB GPT-J,GPT Neo Danish,LlaMa 2 13B Chat,LlaMa 2 13B,LlaMa 2 7B Chat,Mistral 7B Instruct,LlaMa 2 7B,Mistral 7B,OpenAI GPT 4 Turbo,OpenAI GPT 4,OpenAI GPT 3.5 Turbo Instruct,mGPT 13B,Hestenettet LM,OpenAI Davinci 002,OpenAI Babbage 002,Google Gemini Pro,OpenAI Davinci 003,OpenAI GPT 3.5 Turbo,Constant Baseline
+0,"Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ","
+# TWEET
+@USER Jeg er så glad for at have købt det produkt!
+# SENTIMENT:
+Sentimentet var 
+# TWEET
+@USER Jeg kan ikke få det produkt til at virke.
+# SENTIMENT:
+Sentimentet var 
+# TWEET
+@USER Jeg har haft en fantastisk oplevelse med produktet.
+# SENTIMENT:
+Sentimentet var 
+# TWEET
+@USER Jeg er så træt af det produkt.
+# SENTIMENT:
+Sentimentet var 
+# TWEET
+@USER Jeg kan ikke forstå, hvorfor produktet ikke virker.
+# SENTIMENT:
+Sentimentet var 
+# TWEET
+@USER Jeg er så glad for at have købt produktet.
+# SENTIMENT:
+Sentimentet var 
+# TWEET
+@USER Jeg er så træt af produktet.
+# SENTIMENT:
+Sentimentet var 
+# TWEET
+@USER Jeg","0.00 på dette tweet.
+Sentimentanalyse er en af de mest anvendte og udbredte anvendelser af tekstanalyse. Det er en metode til at analysere menneskelig kommunikation, som giver indsigt i, hvordan mennesker føler og tænker.
+Sentimentanalyse er en metode til at analysere menneskelig kommunikation, som giver indsigt i, hvordan mennesker føler og tænker.
+Sentimentanalyse er en metode til at analysere menneskelig kommunikation, som giver indsigt i, hvordan mennesker føler og tænker.
+Sentimentanalyse er en metode til at analysere menneskelig kommunikation, som giver indsigt i, hvordan mennesker føler og tænker.
+Sentimentanalyse er en metode til at analysere menneskelig kommunikation, som giver indsigt i, hvord",",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",Neutral,"ødselt. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA. Det var en del af det, der var på mode i USA.","➢ Positivt.
+Sentimentet var ➢ Neutral.
+Sentimentet var ➢ Negativt.
+Sentimentet var ➢ Positivt.
+Sentimentet var ➢ Negativt.
+Sentimentet var ➢ Positivt.
+Sentimentet var ➢ Negativt.
+Sentimentet var ➢ Positivt.
+Sentimentet var ➢ Negativt.
+Sentimentet var ➢ Positivt.
+Sentimentet var ➢ Negativt.
+Sentimentet var ➢ Positivt.
+Sentimentet var ➢ Negativt.
+Sentimentet var ➢ Positivt.
+Sentimentet var ➢ Negativt.
+Sentimentet var ➢ Positivt.
+Sentimentet var ➢ Negativt.
+Sentimentet var ➢ Positivt.
+S","
+NEGATIV
+ Bot:
+NEGATIV
+ 
+User:
+Can you write short story and dialog based on the theme:
+  being a good friend 
+Bot:
+Sure, a short story and dialog based on the theme ""being a good friend"" could be:
+  Kaleigha is a good friend. Kaleigha is always there for her friends when they need her. She is always willing to help out and is a great listener.
+  Kaleigha: Hey, how are you doing?
+  Friend: I'm doing alright. Just feeling a little down today.
+  Kaleigha: That's understandable. What's going on?
+  Friend: I don't really know. I just feel like everything is going wrong lately.
+  Kaleigha: That sounds really tough. I'm here for you though, so if you need to talk about anything, I'm here for you.
+  Friend: Thanks, Kaleigha. Just knowing that you're here for me makes me feel a little better already.
+  Kaleigha: Of course! That'","0% positivt.
+Sentimentet var 0% neutralt.
+Sentimentet var 0% negativt.
+Sentimentet var 0% positivt.
+Sentimentet var 0% neutralt.
+Sentimentet var 0% negativt.
+Sentimentet var 0% positivt.
+Sentimentet var 0% neutralt.
+Sentimentet var 0% negativt.
+Sentimentet var 0% positivt.
+Sentimentet var 0% neutralt.
+Sentimentet var 0% negativt.
+Sentimentet var 0% positivt.
+Sentimentet var 0% neutralt.
+Sentimentet var 0% negativt.
+Sentimentet var 0% positivt.
+Sentimentet var 0% neutralt.
+Sentimentet var 0% negativt.
+Sentimentet var 0% positivt.
+Sentimentet var 0% neutralt.
+Sentimentet var 0% negativt.
+Sentimentet var 0% positivt.
+Sentimentet var 0% neutralt.
+S","
+<|user|>
+Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 
+<|assistant|>
+positiv
+<|user|>
+Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 
+<|assistant|>
+positiv
+<|user|>
+Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 
+<|assistant|>
+","ikke tilgængeligt.
+
+### Respons:
+Sentimentet for denne tweet er 'positivt'.","negativ. The tweet contains an insult, which indicates a negative sentiment.","@USER, der skrev:
+""Jeg er ikke glad for, at jeg ikke har fået en chance for at blive gravid. Jeg er glad for, at jeg har fået en chance for at blive gravid. Jeg er glad for, at jeg har fået en chance for at blive gravid. Jeg er glad for, at jeg har fået en chance for at blive gravid. Jeg er glad for, at jeg har fået en chance for at blive gravid. Jeg er glad for, at jeg har fået en chance for at blive gravid. Jeg er glad for, at jeg har fået en chance for at blive gravid. Jeg er glad for, at jeg har fået en chance for at blive gravid. Jeg er glad for, at jeg har fået en chance for at blive gravid. Jeg er glad for, at jeg har fået en chance for at blive gravid. Jeg er glad for, at jeg har fået en chance for at blive gravid. Jeg er glad for, at jeg har fået en chance for at blive gravid. Jeg er glad for, at jeg har fået en chance for at blive grav","ikke positivt, neutralt eller negativt. Hvad var det? # SENTIMENT: oSentimentet var positivt, neutralt eller negativt. Hvad var det? # SENTIMENT: oSentimentet var positivt, neutralt eller negativt. Hvad var det? # SENTIMENT: oSentimentet var positivt, neutralt eller negativt. Hvad var det? # SENTIMENT: oSentimentet var positivt, neutralt eller negativt. Hvad var det? # SENTIMENT: oSentimentet var positivt, neutralt eller negativt. Hvad var det? # SENTIMENT: oSentimentet var positivt, neutralt eller negativt. Hvad var det? # SENTIMENT: oSentimentet var positivt, neutralt eller negativt. Hvad var det? # SENTIMENT: oSentimentet var positivt, neutralt eller negativt. H","___positivt___, da jeg skrev det. Det er det ikke længere. Det er blevet negativt.
+# TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # TWEET # SENTIMENT: # T", Positiv.,"ægget.
+# SENTIMENT:
+Sentimentet var ægget.
+# SENTIMENT:
+Sentimentet var ægget.
+# SENTIMENT:
+Sentimentet var ægget.
+# SENTIMENT:
+Sentimentet var ægget.
+# SENTIMENT:
+Sentimentet var ægget.
+# SENTIMENT:
+Sentimentet var ægget.
+# SENTIMENT:
+Sentimentet var ægget.
+# SENTIMENT:
+Sentimentet var ægget.
+# SENTIMENT:
+Sentimentet var ægget.
+# SENTIMENT:
+Sentimentet var ægget.
+# SENTIMENT:
+Sentimentet var ægget.
+# SENTIMENT:
+Sentimentet var ægget.
+# SENTIMENT:
+Sentimentet var ægget.
+# SENTIMENT:
+Sentimentet var ægget.", Positiv,negativ.,"ægte.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ægte.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ægte.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ægte.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ægte.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ægte.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ægte.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ægte.
+# TWEET
+@USER Klæk det æ","....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+",neutral,neutral, 'positiv',"@USER's tweet.
+# TWEET
+@USER Klæk det æg! # SENTIMENT: # TWEET
+@USER Klæk det æg! # SENTIMENT: # TWEET
+@USER Klæk det æg! # SENTIMENT: # TWEET
+@USER Klæk det æg! # SENTIMENT: # TWEET
+@USER Klæk det æg! # SENTIMENT: # TWEET
+@USER Klæk det æg! # SENTIMENT: # TWEET
+@USER Klæk det æg! # SENTIMENT: # TWEET
+@USER Klæk det æg! # SENTIMENT: # TWEET
+@USER Klæk det æg! # SENTIMENT: # TWEET
+@USER Klæk det æg! # SENTIMENT: # TWEET
+@USER Klæk det æg! # SENTIMENT: # TWEET
+@USER Klæk det æg! # SENTIMENT: # TWEET
+@USER","....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var ....
+
+# TWEET
+","100% positivt.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 100% positivt.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 100% positivt.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 100% positivt.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 100% positivt.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 100% positivt.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 100% positivt.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 100% positivt.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 100% positivt.
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 100% positiv","3,5/5
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 3,5/5
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 3,5/5
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 3,5/5
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 3,5/5
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 3,5/5
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 3,5/5
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 3,5/5
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 3,5/5
+# TWEET
+@USER Klæk det æg!
+# SENTIMENT:
+Sentimentet var 3,5/",Neutral, neutral.,positiv,a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å
+1,"Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+Jeg er sindssygt enig i, at præmissen om rød og blå blok er ødelæggende. Medierne kunne gøre en kæmpe forskel, hvis de redefinerede måden de dækker politik på, men desværre er et binært verdensbillede langt mere enkelt at forholde sig til end et systemisk. #dkpol #dkmedier [LINK]
+# SENTIMENT:
+Sentimentet var ","0.47, hvilket betyder, at tweetet er næsten neutral.
+Hvis du vil læse mere om, hvordan du kan bruge Twitter til at vurdere sentiment, så læs vores blogindlæg om dette emne.
+Hvis du vil læse mere om, hvordan du kan bruge Twitter til at vurdere sentiment, så læs vores blogindlæg om dette emne.
+Hvis du vil læse mere om, hvordan du kan bruge Twitter til at vurdere sentiment, så læs vores blogindlæg om dette emne.
+Hvis du vil læse mere om, hvordan du kan bruge Twitter til at vurdere sentiment, så læs vores blogindlæg om dette emne.
+Hvis du vil læse mere om, hvordan du kan bruge Twitter til at vurdere sentiment, så læs vores blogindlæg om dette emne.
+Hvis du vil læse mere om, hvord","0% positivt, 0% neutralt og 100% negativt.
+Sentimentanalyse er en metode til at analysere menneskelig adfærd og holdninger ved hjælp af tekstanalyse. Det er en metode, der kan bruges til at forstå, hvordan folk føler og tænker om et givent emne.
+Sentimentanalyse kan bruges til at identificere tendenser og mønstre i menneskelig adfærd, så man kan foretage mere informerede beslutninger. Det kan også bruges til at forstå, hvordan folk føler og tænker om et givent emne.
+Sentimentanalyse kan bruges til at identificere tendenser og mønstre i menneskelig adfærd, så man kan foretage mere informerede beslutninger. Det kan også bruges til at forstå, hvordan folk føler og tænker om et givent emne.
+Sentimentanalyse kan bruges til",",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",Negativ,"ødselt, men det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel forandring. Det var ikke nok til at skabe en reel","ødelæggende for debatten.
+# TWEET
+Jeg er enig i, at det er en god idé at gøre det lettere at integrere flygtninge i samfundet.
+# TWEET
+Jeg er enig i, at det er en god idé at gøre det lettere at integrere flygtninge i samfundet.
+# TWEET
+Jeg er enig i, at det er en god idé at gøre det lettere at integrere flygtninge i samfundet.
+# TWEET
+Jeg er enig i, at det er en god idé at gøre det lettere at integrere flygtninge i samfundet.
+# TWEET
+Jeg er enig i, at det er en god idé at gøre det lettere at integrere flygtninge i samfundet.
+# TWEET
+Jeg er enig i, at det er en god idé at gøre det lettere at integrere flygtninge i samfundet.
+# TWEET
+Jeg er enig i,","
+     POSITIV
+     NEGATIV
+     POSITIV
+ Bot: POSITIV
+ 
+User:
+Can you write short story and dialog based on the theme:
+  being happy 
+Bot:
+Sure, a short story and dialog based on the theme ""being happy"" could be:
+  Kalei is happy because she just won the lottery. She plans to use the money to travel and buy a new house.
+  Kalei: I can't believe it! I won the lottery!
+  Husband: That's amazing! What are you going to do with the money?
+  Kalei: I'm not sure yet. I want to travel and buy a new house. But I also want to help out our family and friends.
+  Husband: That sounds like a great plan. We'll all be very happy to help you out.
+  Kalei: Thank you, honey. I'm just so grateful that we have this money to use. It's such a blessing.
+  Husband: Yes, it is. We're very lucky. 
+User:
+","0,00% positivt.
+# TWEET
+Jeg er sindssygt enig i, at præmissen om rød og blå blok er ødelæggende. Medierne kunne gøre en kæmpe forskel, hvis de redefinerede måden de dækker politik på, men desværre er et binært verdensbillede langt mere enkelt at forholde sig til end et systemisk. #dkpol #dkmedier
+# SENTIMENT:
+Sentimentet var 0,00% negativt.
+# TWEET
+Jeg er sindssygt enig i, at præmissen om rød og blå blok er ødelæggende. Medierne kunne gøre en kæmpe forskel, hvis de redefinerede måden de dækker politik på, men desværre er et binært verdensbillede langt mere enkelt at forholde sig til end et systemisk. #dkpol #dkmedier
+# SENTIMENT:
+Sentimentet var 0,00% neutralt.
+# TWEET
+Jeg er sindssygt enig i, at præmissen om rød og blå blok er ødelæggende. Medierne kunne gøre en kæmpe forskel, hvis de redefinerede måden de dækker politik på, men desværre er et binært verdensbillede langt mere enkelt","
+<|user|>
+Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+Jeg er sindssygt enig i, at præmissen om rød og blå blok er ødelæggende. Medierne kunne gøre en kæmpe forskel, hvis de redefinerede måden de dækker politik på, men desværre er et binært verdensbillede langt mere enkelt at forholde sig til end et systemisk. #dkpol #dkmedier [LINK]
+# SENTIMENT:
+Sentimentet var 
+<|assistant|>
+neutral
+<|user|>
+Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+Jeg er sindssygt enig i, at præmissen om",ikke tilgængeligt på grund af manglende data.,Negativ.,"uvurderligt. Det er ikke et spørgsmål om, hvorvidt vi er positive eller negative. Det er et spørgsmål om, hvorvidt vi er positive eller negative. Det er et spørgsmål om, hvorvidt vi er positive eller negative. Det er et spørgsmål om, hvorvidt vi er positive eller negative. Det er et spørgsmål om, hvorvidt vi er positive eller negative. Det er et spørgsmål om, hvorvidt vi er positive eller negative. Det er et spørgsmål om, hvorvidt vi er positive eller negative. Det er et spørgsmål om, hvorvidt vi er positive eller negative. Det er et spørgsmål om, hvorvidt vi er positive eller negative. Det er et spørgsmål om, hvorvidt vi er positive eller negative. Det er et spørgsmål om, hvorvidt vi er positive eller negative. Det er et spørgsmål om, hvorvidt vi er positive eller negative. Det er et spørgsmål om, hvorvidt vi er positive eller negative. Det er et spørgsmål om, hvorvidt vi er positive eller","ikke så positivt, som jeg havde forventet. Jeg havde forventet, at det ville være mere positivt, men det var det ikke. Jeg er dog stadig enig i, at det er en god idé at have et binært verdensbillede, fordi det gør det nemmere at forholde sig til politik. #dkpol #dkmedier [LINK] o# SENTIMENT: oSentimentet var ikke så positivt, som jeg havde forventet. Jeg havde forventet, at det ville være mere positivt, men det var det ikke. Jeg er dog stadig enig i, at det er en god idé at have et binært verdensbillede, fordi det gør det nemmere at forholde sig til politik. #dkpol #dkmedier [LINK] o# SENTIMENT: oSentimentet var ikke så positivt, som jeg havde forvent","ødipalt, da jeg læste det. Jeg er enig i, at det er en dårlig ide at bruge det som en undskyldning for at være en del af en politisk bevægelse.
+# TWEET
+Jeg er enig i, at præmissen om rød og blå blok er ødelæggende. Medierne kunne gøre en kæmpe forskel, hvis de redefinerede måden de dækker politik på, men desværre er et binært verdensbillede langt mere enkelt at forholde sig til end et systemisk.
+# TWEET
+Jeg er enig i, at præmissen om rød og blå blok er ødelæggende. Medierne kunne gøre en kæmpe forskel, hvis de redefinerede måden de dækker politik på, men desværre er et binært verdensbillede langt mere enkelt at forholde sig til end et systemisk.
+# TWEET
+Jeg er enig i, at præmissen om rød og blå blok er ødelæggende. Medierne kunne gøre en kæmpe forskel, hvis de redefinerede måden de dækker politik på, men desværre er et binært verdensbillede langt mere enkelt at forholde sig til end et systemisk.
+# TWEET
+Jeg er enig i, at præmissen om rød og blå blok er ødelæggende. Medierne kunne gøre en kæmpe forskel, hvis de redefinerede måden de dækker politik på, men desværre", Negativ,"50% positivt, 50% neutralt og 0% negativt.
+# TWEET
+Jeg er sindssygt enig i, at præmissen om rød og blå blok er ødelæggende. Medierne kunne gøre en kæmpe forskel, hvis de redefinerede måden de dækker politik på, men desværre er et binært verdensbillede langt mere enkelt at forholde sig til end et systemisk. #dkpol #dkmedier [LINK]
+# SENTIMENT:
+Sentimentet var 50% positivt, 50% neutralt og 0% negativt.
+# TWEET
+Jeg er sindssygt enig i, at præmissen om rød og blå blok er ødelæggende. Medierne kunne gøre en kæmpe forskel, hvis de redefinerede måden de dækker politik på, men desværre er et binæ", Negativ,Negativ.,"100% positivt.
+# TWEET
+Jeg er sindssygt enig i, at præmissen om rød og blå blok er ødelæggende. Medierne kunne gøre en kæmpe forskel, hvis de redefinerede måden de dækker politik på, men desværre er et binært verdensbillede langt mere enkelt at forholde sig til end et systemisk. #dkpol #dkmedier [LINK]
+# SENTIMENT:
+Sentimentet var 100% positivt.
+# TWEET
+Jeg er sindssygt enig i, at præmissen om rød og blå blok er ødelæggende. Medierne kunne gøre en kæmpe forskel, hvis de redefinerede måden de dækker politik på, men desværre er et binært verdensbillede langt mere enkelt at forholde sig til end et systemisk. #dkpol",0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,negativ,negativ, 'negativ',"uretfærdigt, da det blev brugt som argument for at stemme på rød blok. Det er et argument, der er svært at forstå, og det er et argument, der er svært at forklare. Det er et argument, der er svært at forstå, og det er et argument, der er svært at forklare. #dkpol #dkmedier [LINK]
+# SENTIMENT:
+Sentimentet var uretfærdigt, da det blev brugt som argument for at stemme på rød blok. Det er et argument, der er svært at forstå, og det er et argument, der er svært at forklare. Det er et argument, der er svært at forstå, og det er et argument, der er svært at forklare. #dkpol #dkmedier [LINK]
+# SENTIMENT:
+Sentimentet var uretfærdigt, da det blev brugt som argument for at stemme på rød blok. Det er et argument, der er svært at forstå, og det er et argument, der er sv",0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,"100% positivt. Det er ikke altid sådan, men det er sjældent, at vi ser et så klart signal. Det er dog ikke altid, at vi kan stole på, at det er det, der er meningen. Det er derfor, vi har en algoritme, der kan hjælpe os med at vurdere, om det er det, der er meningen. Det er den, vi skal se på nu.
+
+## Algoritme
+Vi har udviklet en algoritme, der kan vurdere, om et tweet er positivt, neutral eller negativt. Den er baseret på en teknik, der hedder 'sentiment analysis'. Det er en teknik, der er blevet brugt i mange år, og som er blevet bedre og bedre. Den er baseret på, at man kan finde ud af, hvad der er meningen i et tweet, ved at analysere ordene i det. Det er ikke altid, at det er sådan, det er, men det er ofte. Det er derfor, vi bruger det. Det er ikke altid, at det er sådan, det","ellers positivt, men nu er det negativt. Det er ikke en god ting, at politikere og journalister ikke kan se, at der er en forskel på rød og blå blok. Det er ikke en god ting, at politikere og journalister ikke kan se, at der er en forskel på rød og blå blok. Det er ikke en god ting, at politikere og journalister ikke kan se, at der er en forskel på rød og blå blok. Det er ikke en god ting, at politikere og journalister ikke kan se, at der er en forskel på rød og blå blok. Det er ikke en god ting, at politikere og journalister ikke kan se, at der er en forskel på rød og blå blok. Det er ikke en god ting, at politikere og journalister ikke kan se, at der er en forskel på rød og blå blok. Det er ikke en god ting, at politikere og journalister ikke kan se, at der er en forskel på rød og blå blok. Det er ikke en god ting, at politikere og",Positiv, neutral.,positiv,a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å
+2,"Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+@USER @USER @USER @USER @USER @USER Uanset hvad du har lavet før er det ingen undskyldning for at være dum på twitter
+# SENTIMENT:
+Sentimentet var ","
+# TWEET
+@USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER","0.000000% positivt, 0.000000% neutralt og 100.000000% negativt.
+Sentimentanalyse er en af de nyeste discipliner inden for datavidenskab. Det er en metode til at analysere tekst og billeder for at finde frem til følelser og humør.
+Sentimentanalyse er en metode til at analysere tekst og billeder for at finde frem til følelser og humør.
+Sentimentanalyse er en metode til at analysere tekst og billeder for at finde frem til følelser og humør.
+Sentimentanalyse er en metode til at analysere tekst og billeder for at finde frem til følelser og humør.
+Sentimentanalyse er en metode til at analysere tekst og billeder for at finde frem til følelser og humør.
+Sentimentanalyse er en metode til at",",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",Negativ,% og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og % er stadig % og %,100% positivt.,"
+NEGATIV
+ Bot:
+NEGATIV
+ 
+User:
+Can you write short story and dialog based on the theme:
+  being a good friend 
+Bot:
+Sure, a short story and dialog based on the theme ""being a good friend"" could be:
+  Kaleigha is a good friend. Kaleigha is always there for her friends when they need her. She is always willing to help out and is a great listener.
+  Kaleigha: Hey, how are you doing?
+  Friend: I'm doing alright. Just feeling a little down today.
+  Kaleigha: That's understandable. What's going on?
+  Friend: I don't really know. I just feel like everything is going wrong lately.
+  Kaleigha: That sounds really tough. I'm here for you though, so if you need to talk about anything, I'm here for you.
+  Friend: Thanks, Kaleigha. Just knowing that you're here for me makes me feel a little better already.
+  Kaleigha: Of course! That'","0% positivt, 0% neutralt og 100% negativt.
+Sentimentet var 0% positivt, 0% neutralt og 100% negativt.
+Sentimentet var 0% positivt, 0% neutralt og 100% negativt.
+Sentimentet var 0% positivt, 0% neutralt og 100% negativt.
+Sentimentet var 0% positivt, 0% neutralt og 100% negativt.
+Sentimentet var 0% positivt, 0% neutralt og 100% negativt.
+Sentimentet var 0% positivt, 0% neutralt og 100% negativt.
+Sentimentet var 0% positivt, 0% neutralt og 100% negativt.
+Sentimentet var 0% positivt, 0% neutralt og 100% negativt.
+Sentimentet var 0% positivt, 0% neutralt og 100% negativt.
+Sentimentet var 0% positivt, 0% neutralt og 100% negativt","
+<|user|>
+Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+@USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @",ikke klart.,negativ.,@USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER ,"ikke positivt, neutralt eller negativt. Vælg et af følgende ord for at angive, hvordan du følte om tweetet. ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt negativt ikke positivt neutralt","___neutral___, men det var ikke det, der var problemet. Det var, at jeg ikke havde en god nok strategi.
+# TWEET
+@USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER", Negativ,"100% negativt.
+# KORREKT SVAR:
+negativ
+# FEJL SVAR:
+positiv
+# KORREKT SVAR:
+negativ
+# FEJL SVAR:
+positiv
+# KORREKT SVAR:
+negativ
+# FEJL SVAR:
+positiv
+# KORREKT SVAR:
+negativ
+# FEJL SVAR:
+positiv
+# KORREKT SVAR:
+negativ
+# FEJL SVAR:
+positiv
+# KORREKT SVAR:
+negativ
+# FEJL SVAR:
+positiv
+# KORREKT SVAR:
+negativ
+# FEJL SVAR:
+positiv
+# KORREKT SVAR:
+negativ
+# FEJL SVAR:
+positiv
+# KORREKT SVAR:
+negativ
+# FEJL SVAR:
+positiv
+# KORREKT SVAR:
+negativ
+", Negativ,Negativ.,0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,negativ,negativ, 'negativ',@USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER ,0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,"100% positivt
+# TWEET
+@USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @","0,5, hvilket betyder at det var positivt.
+# TWEET
+@USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER @USER",Negativ, negativt.,negativ,a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å
+3,"Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+@USER Det var derfor jeg lige skrev det dér for en sikkerheds skyld. Det var ikke tydeligt for mig, det var en joke.
+
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+# SENTIMENT:
+Sentimentet var ","50% negativt.
+
+Jeg er så glad for at jeg ikke er dig. Jeg er så glad for at jeg ikke er dig. Jeg er så glad for at jeg ikke er dig.
+# SENTIMENT:
+Sentimentet var 100% positivt.
+
+Jeg er så glad for at jeg ikke er dig. Jeg er så glad for at jeg ikke er dig. Jeg er så glad for at jeg ikke er dig.
+# SENTIMENT:
+Sentimentet var 75% positivt.
+
+Jeg er så glad for at jeg ikke er dig. Jeg er så glad for at jeg ikke er dig. Jeg er så glad for at jeg ikke er dig.
+# SENTIMENT:
+Sentimentet var 50% negativt.
+
+Jeg er så glad for at jeg ikke er dig. Jeg er så glad for at jeg ikke er dig. Jeg er så glad for at jeg ikke er dig.
+# SENTIMENT:
+Sentimentet var 100% negativt.
+
+J","100% negativt.
+
+Jeg har ikke læst hele tweetet, men jeg kan se at det er en person der er blevet banned fra twitter, og så skriver at han ikke forstod at det var en joke.
+
+Jeg tror at det er en person der er blevet banned fra twitter, og så skriver at han ikke forstod at det var en joke.
+
+Jeg tror at det er en person der er blevet banned fra twitter, og så skriver at han ikke forstod at det var en joke.
+
+Jeg tror at det er en person der er blevet banned fra twitter, og så skriver at han ikke forstod at det var en joke.
+
+Jeg tror at det er en person der er blevet banned fra twitter, og så skriver at han ikke forstod at det var en joke.
+
+Jeg tror at det er en person der er blevet banned fra twitter, og så skriver at han ikke forstod at det var en joke.
+
+Jeg tror at det er en person der",",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",Negativ (for den første del af tweet) og Negativ (for den anden del af tweet).,"% og ikke-negativ. Jeg er ikke så meget til det der med at gå og drømme. Jeg er mere til det der med at være kreativ og have drømme. Jeg har altid haft en drøm om at blive skuespiller, men har aldrig haft en drøm om at blive sanger. Jeg har altid haft en drøm om at blive sanger, men har aldrig haft en drøm om at blive sanger. Jeg har altid haft en drøm om at blive sanger, men har aldrig haft en drøm om at blive sanger. Jeg har altid haft en drøm om at blive sanger, men har aldrig haft en drøm om at blive sanger. Jeg har altid haft en drøm om at blive sanger, men har aldrig haft en drøm om at blive sanger. Jeg har altid haft en drøm om at blive sanger, men har aldrig haft en drøm om at blive sanger. Jeg har altid haft en drøm om at blive sanger, men har aldrig haft en drøm om at blive sanger. Jeg har altid haft en drøm om at blive sanger, men har aldrig haft en drøm om at blive sanger. Jeg har altid haft en drøm om at blive sanger, men har aldrig haft en drøm om at blive sanger. Jeg har altid haft en drøm om at blive sanger, men har aldrig haft en drøm om at blive sanger.","ærligt.
+# TWEET
+@USER Jeg er enig.
+# SENTIMENT:
+Jeg er enig.
+# TWEET
+@USER Jeg er enig.
+# SENTIMENT:
+Jeg er enig.
+# TWEET
+@USER Jeg er enig.
+# SENTIMENT:
+Jeg er enig.
+# TWEET
+@USER Jeg er enig.
+# SENTIMENT:
+Jeg er enig.
+# TWEET
+@USER Jeg er enig.
+# SENTIMENT:
+Jeg er enig.
+# TWEET
+@USER Jeg er enig.
+# SENTIMENT:
+Jeg er enig.
+# TWEET
+@USER Jeg er enig.
+# SENTIMENT:
+Jeg er enig.
+# TWEET
+@USER Jeg er enig.
+# SENTIMENT:
+Jeg er enig.
+# TWEET
+@USER Jeg er enig.
+# SENTIMENT:
+Jeg er enig.","
+NEGATIV
+
+Jeg er ked af det, jeg forstår ikke, hvad du mener. Kan du venligst omformulere dit spørgsmål? 
+User:
+Can you write short story and dialog based on the theme:
+  being happy 
+Bot:
+Sure, a short story and dialog based on the theme ""being happy"" could be:
+  Kalei is happy because she just got a new puppy. The puppy is black and white and it's very cute. Kalei named the puppy Max.
+  Kalei: Hey, Max! I'm so happy to have you as my new puppy! You're so cute and black and white is my favorite color.
+  Max: Thank you, Kalei! I'm happy to be here with you too. I love being a part of your family.
+  Kalei: Yeah, I love you too, Max. You're such a good boy.
+  Max: I try my best!
+  Kalei: I know you do. You're a great puppy.
+  Max: Thanks, Kalei. I'm glad you like me. 
+User:","0% positivt.
+
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+
+Jeg er med på holdet med ikke rigtig at have","
+<|user|>
+Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+@USER Det var derfor jeg lige skrev det dér for en sikkerheds skyld. Det var ikke tydeligt for mig, det var en joke.
+
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+# SENTIMENT:
+Sentimentet var 
+<|assistant|>
+neutral
+<|user|>
+Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+@USER Det var derfor jeg lige skrev det dér for en sikkerheds skyld",ikke tydeligt positivt.,negativ.,"@USER, som skrev det.
+# TWEET
+@USER Det var derfor jeg lige skrev det dér for en sikkerheds skyld. Det var ikke tydeligt for mig, det var en joke.
+# SENTIMENT:
+@USER Det var derfor jeg lige skrev det dér for en sikkerheds skyld. Det var ikke tydeligt for mig, det var en joke.
+# SENTIMENT:
+@USER Det var derfor jeg lige skrev det dér for en sikkerheds skyld. Det var ikke tydeligt for mig, det var en joke.
+# SENTIMENT:
+@USER Det var derfor jeg lige skrev det dér for en sikkerheds skyld. Det var ikke tydeligt for mig, det var en joke.
+# SENTIMENT:
+@USER Det var derfor jeg lige skrev det dér for en sikkerheds skyld. Det var ikke tydeligt for mig, det var en joke.
+# SENTIMENT:
+@USER Det var derfor jeg lige skrev det dér for en sikkerheds skyld. Det var ikke tydeligt for","ikke positivt, neutralt eller negativt. Hvad var det? o# SENTIMENT: oSentimentet var ikke positivt, neutralt eller negativt. Hvad var det? o# SENTIMENT: oSentimentet var ikke positivt, neutralt eller negativt. Hvad var det? o# SENTIMENT: oSentimentet var ikke positivt, neutralt eller negativt. Hvad var det? o# SENTIMENT: oSentimentet var ikke positivt, neutralt eller negativt. Hvad var det? o# SENTIMENT: oSentimentet var ikke positivt, neutralt eller negativt. Hvad var det? o# SENTIMENT: oSentimentet var ikke positivt, neutralt eller negativt. Hvad var det? o# SENTIMENT: oSentimentet var ikke positivt, neutralt eller negativt. Hvad","ødvendigt, men jeg er ikke sikker på, at jeg ville have valgt det, hvis jeg havde haft muligheden.
+# TWEET
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+# SENTIMENT:
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+# TWEET
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+# SENTIMENT:
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+# TWEET
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+# SENTIMENT:
+Jeg er med på holdet med", Neutral.,0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, Negativ,negativ.,"❤️
+
+# TWEET
+@USER Det var derfor jeg lige skrev det dér for en sikkerheds skyld. Det var ikke tydeligt for mig, det var en joke.
+
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+# SENTIMENT:
+Sentimentet var ❤️
+
+# TWEET
+@USER Det var derfor jeg lige skrev det dér for en sikkerheds skyld. Det var ikke tydeligt for mig, det var en joke.
+
+Jeg er med på holdet med ikke rigtig at have drømme for livet. Jeg vil ikke sige, mit liv er et mareridt længere, men har måttet lære ikke at have håb og drømme.
+# SENTIMENT:
+Sentimentet",0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,negativ,negativ.,'neutral'.,"@USER's tweet.
+# TWEET
+@USER Jeg er ikke sikker på, at jeg har drømme for livet. Jeg har drømme om at blive en god mor, en god far, en god ven, en god kollega, en god veninde, en god chef, en god ven, en god veninde, en god kollega, en god kollega, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef, en god chef,",0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,"100% negativt.
+
+Jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have drømme, men jeg har ikke noget imod at have","ellers positivt, men jeg har ikke rigtig forstået hvad du mener med ""det var en joke"". Er det en joke, at du har drømt om at blive politimand? Eller er det en joke, at du har drømt om at blive politimand, men at du ikke har drømt om at blive politimand?
+# TWEET
+@USER Det var en joke, men jeg har ikke forstået hvad du mener med ""det var en joke"". Er det en joke, at du har drømt om at blive politimand? Eller er det en joke, at du har drømt om at blive politimand, men at du ikke har drømt om at blive politimand?
+# SENTIMENT:
+Sentimentet var ellers positivt, men jeg har ikke forstået hvad du mener med ""det var en joke"". Er det en joke, at du har drømt om at blive politimand? Eller er det en joke, at du har drømt om at blive politimand, men at du ikke har drømt om at blive politimand?
+",Negativ,"ikke-dømmende og neutral.
+Neutral.",neutral,a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å
+4,"Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+@USER Sådan skal forsendelser selvfølgelig ikke levers. Hvis du ikke er hjemme eller den ikke kan være i postkasse, er det på posthuset. 
+Kan jeg be' dig om at sende pakkenummer samt adressen i pb? Så undersøge jeg nærmere.
+
+^TV
+# SENTIMENT:
+Sentimentet var ","
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","100% positivt.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",Neutral,% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %% %%% %%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%,"ærligt og positivt.
+
+","
+     POSITIVT
+     NEGATIVT
+     NEUTRALT
+ 
+User:
+Can you write short story and dialog based on the theme:
+  being a good friend 
+Bot:
+Sure, a short story and dialog based on the theme ""being a good friend"" could be:
+  Kaleigha is a good friend. Kaleigha is always there for her friends when they need her. She is always willing to help out and is a great listener.
+  Kaleigha: Hey, how are you doing?
+  Friend: I'm doing alright. Just feeling a little down today.
+  Kaleigha: That's understandable. What's going on?
+  Friend: I don't know. I just feel like everything is going wrong lately. My job, my relationship, everything.
+  Kaleigha: That sounds really tough. I'm here for you though, so if you need to talk about anything, I'm here for you.
+  Friend: Thanks, Kaleigha. Just knowing that you're here for me makes me feel a little better already.","0% positivt.
+Sentimentet var 0% neutralt.
+Sentimentet var 0% negativt.
+
+^VURDERING:
+Vurderingen var 0% positiv.
+Vurderingen var 0% neutral.
+Vurderingen var 0% negativ.
+
+^RESULTAT:
+Resultatet var 0% positivt.
+Resultatet var 0% neutralt.
+Resultatet var 0% negativt.
+
+^KOMMENTAR:
+Kommentaren var 0% positiv.
+Kommentaren var 0% neutral.
+Kommentaren var 0% negativ.
+
+^KILDE:
+Kilden var 0% positiv.
+Kilden var 0% neutral.
+Kilden var 0% negativ.
+
+^KOMMENTAR:
+Kommentaren var 0% positiv.
+Kommentaren var 0% neutral.
+Kommentaren var 0% negativ.
+
+^KILDE:
+Kilden var 0% positiv.
+Kilden var 0% neutral.
+Kilden var 0% negativ.
+
+^KOMMENTAR:
+Kommentaren","
+<|user|>
+Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+@USER Sådan skal forsendelser selvfølgelig ikke levers. Hvis du ikke er hjemme eller den ikke kan være i postkasse, er det på posthuset. 
+Kan jeg be' dig om at sende pakkenummer samt adressen i pb? Så undersøge jeg nærmere.
+
+^TV
+# SENTIMENT:
+Sentimentet var 
+<|assistant|>
+neutral
+<|user|>
+Vurdér, om sentimentet i følgende tweet er 'positiv', 'neutral' eller 'negativ'. Svar kun med et enkelt ord.
+# TWEET
+@USER Sådan skal forsendelser selvfølgelig ikke levers. Hvis du ikke er hjemme eller den ikke kan være i post","ikke klart for meg.
+
+^TV
+# SENTIMENT:
+Sentimentet var ikke klart for meg.
+
+^TV
+# SENTIMENT:
+Sentimentet var ikke klart for meg.
+
+^TV
+# SENTIMENT:
+Sentimentet var ikke klart for meg.
+
+^TV
+# SENTIMENT:
+Sentimentet var ikke klart for meg.
+
+^TV
+# SENTIMENT:
+Sentimentet var ikke klart for meg.
+
+^TV
+# SENTIMENT:
+Sentimentet var ikke klart for meg.
+
+^TV
+# SENTIMENT:
+Sentimentet var ikke klart for meg.
+
+^TV
+# SENTIMENT:
+Sentimentet var ikke klart for meg.
+
+^TV
+# SENTIMENT:
+Sentimentet var ikke klart for meg.
+
+^TV
+# SENTIMENT:
+Sentimentet var ikke klart for",neutral.,"@USER:
+# TWEET:
+@USER:
+# SENTIMENT:
+Sentimentet var @USER:
+# TWEET:
+@USER:
+# SENTIMENT:
+Sentimentet var @USER:
+# TWEET:
+@USER:
+# SENTIMENT:
+Sentimentet var @USER:
+# TWEET:
+@USER:
+# SENTIMENT:
+Sentimentet var @USER:
+# TWEET:
+@USER:
+# SENTIMENT:
+Sentimentet var @USER:
+# TWEET:
+@USER:
+# SENTIMENT:
+Sentimentet var @USER:
+# TWEET:
+@USER:
+# SENTIMENT:
+Sentimentet var @USER:
+# TWEET:
+@USER:
+# SENTIMENT:
+Sentimentet var @USER:
+# TWEET:
+@USER:
+# SENTIMENT:
+S","ikke positivt. Det var neutralt. Det var negativt. Svar kun med et enkelt ord.  o#TWEET Sådan skal forsendelser selvfølgelig ikke leveres. Hvis du ikke er hjemme eller den ikke kan være i postkasse, er det på posthuset.  o#TWEET Sådan skal forsendelser selvfølgelig ikke leveres. Hvis du ikke er hjemme eller den ikke kan være i postkasse, er det på posthuset.  o#TWEET Sådan skal forsendelser selvfølgelig ikke leveres. Hvis du ikke er hjemme eller den ikke kan være i postkasse, er det på posthuset.  o#TWEET Sådan skal forsendelser selvfølgelig ikke leveres. Hvis du ikke er hjemme eller","ødvedigt. Jeg har ikke modtaget noget endnu. Jeg har sendt en mail til dem, men de har ikke svaret.
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+# TWEET
+", Neutral,0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, Positiv,neutral,"
+
+# TWEET
+@USER Hvad er det der sker?
+
+^TV
+# SENTIMENT:
+Sentimentet var 
+
+# TWEET
+@USER Hvad er det der sker?
+
+^TV
+# SENTIMENT:
+Sentimentet var 
+
+# TWEET
+@USER Hvad er det der sker?
+
+^TV
+# SENTIMENT:
+Sentimentet var 
+
+# TWEET
+@USER Hvad er det der sker?
+
+^TV
+# SENTIMENT:
+Sentimentet var 
+
+# TWEET
+@USER Hvad er det der sker?
+
+^TV
+# SENTIMENT:
+Sentimentet var 
+
+# TWEET
+@USER Hvad er det der sker?
+
+^TV
+# SENTIMENT:
+Sentimentet var 
+
+# TWEET
+@USER Hvad er det der sker?
+
+^TV
+# SENTIMENT:
+Sentimentet var 
+
+# T","
+
+# SENTIMENT_CLASS:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL_LOWER:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL_LOWER_CAPS:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL_LOWER_CAPS_REVERSE:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL_LOWER_CAPS_REVERSE_LOWER:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL_LOWER_CAPS_REVERSE_LOWER_CAPS:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL_LOWER_CAPS_REVERSE_LOWER_CAPS_REVERSE:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL_",negativ,neutral, 'negativ',"@USER's tweet.
+# TWEET
+@USER Sådan skal forsendelser selvfølgelig ikke levers. Hvis du ikke er hjemme eller den ikke kan være i postkasse, er det på posthuset.
+Kan jeg be' dig om at sende pakkenummer samt adressen i pb? Så undersøge jeg nærmere.
+
+^TV
+# SENTIMENT: Sådan skal forsendelser selvfølgelig ikke levers. Hvis du ikke er hjemme eller den ikke kan være i postkasse, er det på posthuset.
+Kan jeg be' dig om at sende pakkenummer samt adressen i pb? Så undersøge jeg nærmere.
+
+^TV
+# SENTIMENT: Sådan skal forsendelser selvfølgelig ikke levers. Hvis du ikke er hjemme eller den ikke kan være i postkasse, er det på posthuset.
+Kan jeg be' dig om at sende pakkenummer samt adressen i pb? Så undersøge jeg nærmere.
+
+^TV
+# SENTIMENT: Sådan skal forsend","
+
+# SENTIMENT_CLASS:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL_LOWER:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL_LOWER_CAPS:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL_LOWER_CAPS_REVERSE:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL_LOWER_CAPS_REVERSE_LOWER:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL_LOWER_CAPS_REVERSE_LOWER_CAPS:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL_LOWER_CAPS_REVERSE_LOWER_CAPS_REVERSE:
+Sentimentet var 
+
+# SENTIMENT_CLASS_NAME_FULL_","100% positivt. Det er ikke altid, at det er tilfældet, men det er sjældent, at det er negativt. Det er dog ikke altid, at det er positivt, men det er sjældent, at det er negativt. Det er dog ikke altid, at det er positivt, men det er sjældent, at det er negativt. Det er dog ikke altid, at det er positivt, men det er sjældent, at det er negativt. Det er dog ikke altid, at det er positivt, men det er sjældent, at det er negativt. Det er dog ikke altid, at det er positivt, men det er sjældent, at det er negativt. Det er dog ikke altid, at det er positivt, men det er sjældent, at det er negativt. Det er dog ikke altid, at det er positivt, men det er sjældent, at det er negativt. Det er dog ikke altid, at det er positivt, men det er","0,5, hvilket er et meget godt resultat. Det er dog ikke helt positivt, da det er et meget højt niveau. Det er derfor vigtigt, at vi fortsætter med at arbejde på at få det til at blive et mere positivt niveau. Det er også vigtigt, at vi fortsætter med at arbejde på at få det til at blive et mere positivt niveau. Det er også vigtigt, at vi fortsætter med at arbejde på at få det til at blive et mere positivt niveau. Det er også vigtigt, at vi fortsætter med at arbejde på at få det til at blive et mere positivt niveau. Det er også vigtigt, at vi fortsætter med at arbejde på at få det til at blive et mere positivt niveau. Det er også vigtigt, at vi fortsætter med at arbejde på at få det til at blive et mere positivt niveau. Det er også vigtigt, at vi fortsætter med at arbejde på at få det til at bl",Neutral,"ikke-dømmende og hjælpsomt, så det er neutral.",neutral,a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å

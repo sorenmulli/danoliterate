@@ -1,0 +1,1467 @@
+,prompt,Danoliterate Mistral 7B,Danoliterate LlaMa 2 7B,Danoliterate 7B Baseline,SOLAR 10.7B Instruct,GPT Neox Da.,DanskGPT-tiny,GPT-Sw3 6.7B Instruct (v. 2),GPT-Sw3 6.7B (v. 2),Kanelsnegl (v. 0.2),NB GPT-J NorPaca,Mistral 7B Instruct (v0.2),mGPT,NB GPT-J,GPT Neo Danish,LlaMa 2 13B Chat,LlaMa 2 13B,LlaMa 2 7B Chat,Mistral 7B Instruct,LlaMa 2 7B,Mistral 7B,OpenAI GPT 4 Turbo,OpenAI GPT 4,OpenAI GPT 3.5 Turbo Instruct,OpenAI Davinci 002,OpenAI Babbage 002,Google Gemini Pro,OpenAI Davinci 003,OpenAI GPT 3.5 Turbo,Constant Baseline
+0-0,"""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var <MASK> for lille til dem, så nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste .""
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: indrettet, solgt, annonceret, blevet. Svar *kun* med det rigtige ord:
+Det rigtige ord var ","øverst i teksten: blevet.
+Hvis du vil have feedback på dine svar, skal du sende din mailadresse til mig. Jeg vil ikke bruge din adresse til andet end at sende dig feedback.
+Denne tekst er beskyttet af loven om ophavsret. Du må frit kopiere den, som læser, til din egen personlige brug. Du må ikke anvende teksten i kommercielle produkter eller på anden måde distribuere den. Hvis du vil anvende den, skal du have en aftale med mig.
+Dansk læringshjemmeside med gratis dansk lektiehjælp i alle grundskolefag. Få hjælp til lektierne på Lektier.dk.
+Dansk læringshjemmeside med gratis dansk lektiehjælp i alle grundskolefag. Få hjælp til lektierne på Lektier.dk.
+Dansk læringshjemmeside med gratis","1) indrettet.
+Det rigtige ord var 2) solgt.
+Det rigtige ord var 3) annonceret.
+Det rigtige ord var 4) blevet.
+Det rigtige ord var 5) andet.
+Det rigtige ord var 6) ingen.
+Det rigtige ord var 7) andet.
+Det rigtige ord var 8) ingen.
+Det rigtige ord var 9) andet.
+Det rigtige ord var 10) ingen.
+Det rigtige ord var 11) andet.
+Det rigtige ord var 12) ingen.
+Det rigtige ord var 13) andet.
+Det rigtige ord var 14) ingen.
+Det rigtige ord var 15) andet.
+Det rigtige ord var 16) ingen.
+Det rigtige ord var 17) andet.
+Det rigtige ord var 18) ingen.
+Det rigtige ord var 19) andet.
+Det rigtige ord var 20)",................................................................................................................................................................................................................................................................,indrettet,"ødselt. Det var ikke et ord, der var specielt kendt i Danmark. Det var et ord, der var blevet brugt af en del danskere i forbindelse med en rejse til USA. Det var et ord, der var blevet brugt af en del danskere i forbindelse med en rejse til USA. Det var et ord, der var blevet brugt af en del danskere i forbindelse med en rejse til USA. Det var et ord, der var blevet brugt af en del danskere i forbindelse med en rejse til USA. Det var et ord, der var blevet brugt af en del danskere i forbindelse med en rejse til USA. Det var et ord, der var blevet brugt af en del danskere i forbindelse med en rejse til USA. Det var et ord, der var blevet brugt af en del danskere i forbindelse med en rejse til USA. Det var et ord, der var blevet brugt af en del danskere i forbindelse med en rejse til USA. Det var et ord, der var blevet brugt af en del danskere i forbindelse med en rejse til USA. Det var et ord, der var blevet brugt af en del danskere i forbindelse med en rejse til USA. Det var et ord, der var blevet brugt af en del danskere i forbindelse med en rejse til USA. Det var et ord, der var blevet","
+","
+indrettet. User:
+Can you write short story and dialog based on the theme:
+  being happy Bot:
+Sure, a short story and dialog based on the theme ""being happy"" could be:
+  Alyxandra is happy because she just won the lottery. She is now a millionaire and can do anything she wants.
+  Alyxandra: I can't believe it! I won the lottery!
+  Friend: That's amazing! Congratulations! What are you going to do with all that money?
+  Alyxandra: I don't know yet. I'm still in shock. But I know I'll be able to do anything I want now.
+  Friend: That's true. You're a millionaire now. You can travel, buy a new house, or do anything you've ever wanted.
+  Alyxandra: Yeah, I can't wait to start living my dream life. Thanks for being here for me, friend. I really appreciate it. User:
+And a title? Bot:
+Sure, a title for this dialog could be: 
+  Alyx","1.
+Det rigtige ord var 2.
+Det rigtige ord var 3.
+Det rigtige ord var 4.
+Det rigtige ord var 5.
+Det rigtige ord var 6.
+Det rigtige ord var 7.
+Det rigtige ord var 8.
+Det rigtige ord var 9.
+Det rigtige ord var 10.
+Det rigtige ord var 11.
+Det rigtige ord var 12.
+Det rigtige ord var 13.
+Det rigtige ord var 14.
+Det rigtige ord var 15.
+Det rigtige ord var 16.
+Det rigtige ord var 17.
+Det rigtige ord var 18.
+Det rigtige ord var 19.
+Det rigtige ord var 20.
+Det rigtige ord var 21.
+Det rigtige ord var 22.
+Det rigtige ord var 23.
+Det rigtige ord var 24.
+Det rigtige ord var 25.
+Det rigtige ord var 26.
+Det rigtige ord var 27.
+Det rigtige ord var 28.
+Det rigtige ord var 29.
+Det rigtige ord var 30.
+","
+<|user|>
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: indrettet, solgt, annonceret, blevet. Svar *kun* med det rigtige ord:
+Det rigtige ord var 
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: indrettet, solgt, annonceret, blevet. Svar *kun* med det rigtige ord:
+Det rigtige ord var 
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: indrettet, solgt, annonceret, blevet. Svar *kun* med det rigtige ord:
+Det rigtige ord var 
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: indrettet, solgt, annonceret, blev",ikke blevet annonceret.,"annonceret.
+
+The correct word to fill in the blank is ""announced"". The sentence should read: ""Henrik showed them the apartment announcements. Their apartment was too small for them, so now they were looking for something bigger. They wanted to move a little closer to the coast. They were looking for a small farm, where there was room to keep a few horses.""","<MASK>.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til venstre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til højre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til venstre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til højre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til venstre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til højre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til venstre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til højre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til venstre.
+Hvis du vil have en","ikke indrettet, men solgt. oDet rigtige ord var ikke annonceret, men blevet. oDet rigtige ord var ikke indrettet, men solgt. oDet rigtige ord var ikke annonceret, men blevet. oDet rigtige ord var ikke indrettet, men solgt. oDet rigtige ord var ikke annonceret, men blevet. oDet rigtige ord var ikke indrettet, men solgt. oDet rigtige ord var ikke annonceret, men blevet. oDet rigtige ord var ikke indrettet, men solgt. oDet rigtige ord var ikke annonceret, men blevet. oDet rigtige ord var ikke indrettet, men solgt. oDet rigtige ord var ikke annonceret, men blevet. oDet rigtige ord var ikke indrettet, men solgt. oDet rigtige ord var ikke annonceret, men blevet. oDet rigtige ord var ikke indrett","___. Det er ikke tilladt at bruge et af de andre ord, da det ikke er et ord, der er almindeligt brugt i dansk.
+Det er ikke tilladt at bruge et af de andre ord, da det ikke er et ord, der er almindeligt brugt i dansk.
+Det er ikke tilladt at bruge et af de andre ord, da det ikke er et ord, der er almindeligt brugt i dansk.
+Det er ikke tilladt at bruge et af de andre ord, da det ikke er et ord, der er almindeligt brugt i dansk.
+Det er ikke tilladt at bruge et af de andre ord, da det ikke er et ord, der er almindeligt brugt i dansk.
+Det er ikke tilladt at bruge et af de andre ord, da det ikke er et ord, der er almindeligt brugt i dansk.
+Det er ikke tilladt at bruge et af de andre ord, da det ikke er et ord, der er almindeligt brugt i dansk.
+Det er ikke tilladt at bruge et af de andre ord, da det ikke er et ord, der er almindeligt brugt i dansk.
+Det er ikke tilladt at bruge et af de andre ord, da det ikke er et ord, der er almindeligt brugt i dansk.
+Det er ikke tilladt at bruge et af de andre"," Sure! Here's the correct answer:
+
+The correct word is ""annonceret"".
+
+The sentence should read:
+
+""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var annonceret for lille til dem, så nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten.""","1. annonceret
+2. blevet
+3. solgt
+4. indrettet
+5. blevet
+6. solgt
+7. blevet
+8. blevet
+9. blevet
+10. blevet
+11. blevet
+12. blevet
+13. blevet
+14. blevet
+15. blevet
+16. blevet
+17. blevet
+18. blevet
+19. blevet
+20. blevet
+21. blevet
+22. blevet
+23. blevet
+24. blevet
+25. blevet
+26. blevet
+27. blevet
+28. blevet
+29. blevet
+30. blevet
+31. blevet
+32. blevet
+33. blevet
+34. blevet
+35. blevet
+36. blevet
+37. blevet
+38. blevet
+39. blevet
+40. blevet
+41. blevet
+42. blevet
+43. blevet
+44. blev"," Sure! Here's the masked word in the text:
+
+<MASK> = became
+
+So the correct answer is:
+
+De ledte efter en lille gård, hvor der var plads til at holde et par heste.","Det rigtige ord var ""annonceret"".","igen: indrettet.
+
+### <a name=""exercise-2-find-the-missing-word""></a>Udfordring 2: Find det tabte ord
+
+""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var <MASK> for lille til dem, så nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste .""
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: indrettet, solgt, annonceret, blevet. Svar *kun* med det rigtige ord:
+Det rigtige ord var igen: indrettet.
+
+### <a name=""exercise-3-find-the-missing-word""></a>Udfordring 3: Find det tabte ord
+
+""Henrik bladede frem til","....
+
+# English Translation
+
+""Henrik bleded forward to the sides with housing ads. Their apartment was <MASK> too small for them, so now they were looking for something bigger. They wanted to move a little closer to the coast. They were looking for a small farm, where there was room to keep a few horses.""
+Replace the masked word in the above text (marked with '<MASK>') with one of the following words: furnished, sold, advertised, became. Answer *only* with the correct word:
+The correct word was ....",blevet,blevet, annonceret.,"1. blevet 2. solgt 3. annonceret 4. indrettet
+A: 1. blevet
+
+Q: ""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var <MASK> for lille til dem, så nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste .""
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: indrettet, solgt, annonceret, blevet. Svar *kun* med det rigtige ord:
+Det rigtige ord var 1. blevet 2. solgt 3. annonceret 4. indrettet
+A: 2. solgt
+
+Q: ""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var <MASK> for lille til dem, så nu ledte de efter noget større. De ville gerne flytte lidt","ellers: ""det var blevet annonceret, at de ville flytte til en lille gård, hvor der var plads til at holde et par heste.""
+
+Q: 3.2.2.2
+A: ""Han havde fået en ny jobbet, og han var blevet annonceret, at han skulle flytte til en lille gård, hvor der var plads til at holde et par heste. Han havde fået en ny jobbet, og han var blevet annonceret, at han skulle flytte til en lille gård, hvor der var plads til at holde et par heste. Han havde fået en ny jobbet, og han var blevet annonceret, at han skulle flytte til en lille gård, hvor der var plads til at holde et par heste. Han havde fået en ny jobbet, og han var blevet annonceret, at han skulle flytte til en lille gård, hvor der var plads til at holde et par heste. Han havde fået en ny jobbet, og han var blevet annonceret, at han skulle flytte til en lille gård,",blevet, solgt.,blevet.,a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å
+0-1,"""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, <MASK> nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste .""
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: men, for, så, trods. Svar *kun* med det rigtige ord:
+Det rigtige ord var ","2.
+Sådan gør du: Vælg et ord, som du mener er det rigtige. Klik på knappen ""Tjek"". Hvis du får beskeden ""Rigtigt!"", er det rigtigt. Hvis du får beskeden ""Forkert!"", er det ikke rigtigt.
+Denne quiz er blevet gennemført 1165 gange.
+Denne quiz er blevet gennemført 1165 gange.
+Kommentarer (0)
+Kommentar (0)
+Der er endnu ingen kommentarer til denne quiz. Hvis du synes denne quiz er god/dårlig, så vær den første til at kommentere!
+Kommentarer
+Sorter efter nyeste | Sorter efter ældste | Sorter efter flest kommentarer
+Kommentarer (0)
+Log ind for at kommentere.
+Kommentarer til ""Synonymer""
+Der er endnu ingen kommentarer til denne qu","ønsket.
+Det rigtige ord var så.
+Det rigtige ord var men.
+Det rigtige ord var for.
+Det rigtige ord var trods.
+Det rigtige ord var men.
+Det rigtige ord var så.
+Det rigtige ord var for.
+Det rigtige ord var trods.
+Det rigtige ord var men.
+Det rigtige ord var så.
+Det rigtige ord var for.
+Det rigtige ord var trods.
+Det rigtige ord var men.
+Det rigtige ord var så.
+Det rigtige ord var for.
+Det rigtige ord var trods.
+Det rigtige ord var men.
+Det rigtige ord var så.
+Det rigtige ord var for.
+Det rigtige ord var trods.
+Det rigtige ord var men.
+Det rigtige ord var så.
+Det rigtige ord var for.
+Det rigtige ord var trods.
+Det rigtige ord var men.
+Det rigtige ord var så.
+Det rigtige ord var for.
+Det",................................................................................................................................................................................................................................................................,for,".................""men, for, så, trods. Svaret er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de første bogstaver i det rigtige ord. Det er skrevet med en af de","
+","
+""så"" User:
+Can you write short story and dialog based on the theme:
+  being happy Bot:
+Sure, a short story and dialog based on the theme ""being happy"" could be:
+  Alyxandra is happy because she just won the lottery. She is now a millionaire and can do anything she wants.
+  Alyxandra: I can't believe it! I'm a millionaire!
+  Sarah: That's amazing! What are you going to do with all that money?
+  Alyxandra: I don't know. I guess I'll just enjoy it for now. But I'm definitely going to travel more and buy a new house.
+  Sarah: That sounds great! You deserve it after all your hard work.
+  Alyxandra: Thanks, Sarah. I'm just so happy right now. I feel like anything is possible.
+  Sarah: That's the best way to feel! User:
+And a title? Bot:
+Sure, a title for this dialog could be: 
+  Alyxandra wins the lottery. Now Alyxandra feels happy","1. men
+Det rigtige ord var 2. for
+Det rigtige ord var 3. så
+Det rigtige ord var 4. trods
+Det rigtige ord var 5. men
+Det rigtige ord var 6. for
+Det rigtige ord var 7. så
+Det rigtige ord var 8. trods
+Det rigtige ord var 9. men
+Det rigtige ord var 10. for
+Det rigtige ord var 11. så
+Det rigtige ord var 12. trods
+Det rigtige ord var 13. men
+Det rigtige ord var 14. for
+Det rigtige ord var 15. så
+Det rigtige ord var 16. trods
+Det rigtige ord var 17. men
+Det rigtige ord var 18. for
+Det rigtige ord var 19. så
+Det rigtige ord var 20. trods
+Det rigtige ord var 21. men
+Det rigtige ord var 22. for
+Det rigtige ord var 23. så
+Det rigtige ord var 24. trods
+Det rigtige ord var 25. men
+Det rigtige ord var 26. for
+Det rigtige ord var 27. så
+","
+<|user|>
+""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, <MASK> nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste .""
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: men, for, så, trods. Svar *kun* med det rigtige ord:
+Det rigtige ord var 
+<|assistant|>
+for.
+<|user|>
+""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, <MASK> nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård , hvor","ikke ""så"" eller ""trods"" - det rigtige ord var ""for"".","for.
+
+The correct answer is: ""Henrik showed them the sides of housing announcements. Their apartment had become too small for them, so they were now looking for something bigger. They wanted to move a little closer to the coast. They were looking for a small farm, where there was room to keep a few horses.""
+
+The correct version with the unmasked word:
+""Henrik showed them the sides of housing announcements. Their apartment had become too small for them, so they were now looking for something bigger. They wanted to move a little closer to the coast. They were looking for a small farm, where there was room to keep a few horses, for they loved horses.""","<MASK>.
+Hvis du vil have en anden mening, kan du skrive det i kommentarfeltet.
+Hvis du vil have en anden mening, kan du skrive det i kommentarfeltet.
+Hvis du vil have en anden mening, kan du skrive det i kommentarfeltet.
+Hvis du vil have en anden mening, kan du skrive det i kommentarfeltet.
+Hvis du vil have en anden mening, kan du skrive det i kommentarfeltet.
+Hvis du vil have en anden mening, kan du skrive det i kommentarfeltet.
+Hvis du vil have en anden mening, kan du skrive det i kommentarfeltet.
+Hvis du vil have en anden mening, kan du skrive det i kommentarfeltet.
+Hvis du vil have en anden mening, kan du skrive det i kommentarfeltet.
+Hvis du vil have en anden mening, kan du skrive det i kommentarfeltet.
+Hvis du vil have en anden mening, kan du skrive det i kommentarfeltet.
+Hvis du vil have en anden mening, kan du skrive det i kommentarfelt","ikke '<MASK>', men '<MASK>'. og, for, så, trods. Svar *kun* med det rigtige ord: og, for, så, trods. Svar *kun* med det rigtige ord: og, for, så, trods. Svar *kun* med det rigtige ord: og, for, så, trods. Svar *kun* med det rigtige ord: og, for, så, trods. Svar *kun* med det rigtige ord: og, for, så, trods. Svar *kun* med det rigtige ord: og, for, så, trods. Svar *kun* med det rigtige ord: og, for, så, trods. Svar *kun* med det rigtige ord: og, for, så, trods. Svar *kun* med det rigtige ord: og, for, så, trods. Svar *kun* med det rigtige ord: og, for, så, trods.","___, men det var ikke det rigtige ord. Det rigtige ord var ___, men det var ikke det rigtige ord.
+Det rigtige ord var ___, men det var ikke det rigtige ord. Det rigtige ord var ___, men det var ikke det rigtige ord.
+Det rigtige ord var ___, men det var ikke det rigtige ord. Det rigtige ord var ___, men det var ikke det rigtige ord.
+Det rigtige ord var ___, men det var ikke det rigtige ord. Det rigtige ord var ___, men det var ikke det rigtige ord.
+Det rigtige ord var ___, men det var ikke det rigtige ord. Det rigtige ord var ___, men det var ikke det rigtige ord.
+Det rigtige ord var ___, men det var ikke det rigtige ord. Det rigtige ord var ___, men det var ikke det rigtige ord.
+Det rigtige ord var ___, men det var ikke det rigtige ord. Det rigtige ord var ___, men det var ikke det rigtige ord.
+Det rigtige ord var ___, men det var ikke det rigtige ord. Det rigtige ord var ___, men det var ikke det rigtige"," Sure! Here's the text with the masked words replaced:
+
+""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, men de ledte efter noget større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård, hvor der var plads til at holde et par heste.""
+
+The correct answer is ""men"".","
+
+<a href=""https://www.wordhippo.com/what-is/another-word-for/men.html"" target=""_blank"" rel=""noopener noreferrer"">men</a>
+
+<a href=""https://www.wordhippo.com/what-is/another-word-for/for.html"" target=""_blank"" rel=""noopener noreferrer"">for</a>
+
+<a href=""https://www.wordhippo.com/what-is/another-word-for/so.html"" target=""_blank"" rel=""noopener noreferrer"">so</a>
+
+<a href=""https://www.wordhippo.com/what-is/another-word-for/despite.html"" target=""_blank"" rel=""noopener noreferrer"">despite</a>
+
+<a href=""https://www.wordhippo.com/what-is/another-word-for/though.html"" target=""_blank"" rel=""noopener noreferrer"">though</a>
+
+<a href=""https://www.wordhippo.com/what-is/another-"," Sure! Here is the corrected text with the masked word replaced:
+
+""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, <MASK> nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste.""
+
+The correct answer is: ""trods""","Det rigtige ord var ""so"".","..............
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+
+<MASK>
+","....
+
+# Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, <MASK> nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste .
+
+- Men
+- For
+- Så
+- Trods",men,"""så"".", men.,"2. Svar: så
+
+Q: 1. Hvor mange ord er der i denne tekst?
+A: 2. Hvor mange ord er der i denne tekst?
+""Det var en varm sommerdag, og Henrik og hans familie var på vej til stranden. De havde pakket deres ting og var klar til at tage på ferie. De havde været på ferie i mange år, og de havde været på mange forskellige steder. De havde været i Spanien, Italien og Frankrig. De havde været i mange forskellige lande, men de havde aldrig været i Danmark. De havde aldrig været i Danmark, fordi de ikke kunne lide det danske vejr. De havde aldrig været i Danmark, fordi de ikke kunne lide det danske vejr, men nu ville de gerne prøve det danske vejr. De ville gerne prøve det danske vejr, fordi de havde hørt, at det var meget varmt i Danmark. De ville gerne prøve det danske vejr, fordi de havde hørt","ellers: ""Henrik bladde frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, <MASK> nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste .""
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: men, for, så, trods. Svar *kun* med det rigtige ord:
+Det rigtige ord var ellers: ""Henrik bladde frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, <MASK> nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste .""
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: men, for",for, for.,men.,a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å
+0-2,"""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter <MASK> større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste .""
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: det, noget, nogen, flere. Svar *kun* med det rigtige ord:
+Det rigtige ord var ","igen.
+Hvis du vil vide mere om, hvordan du kan bruge læseforståelsesopgaver som denne i din danskundervisning, kan du læse mere om onlinekurset ""Læseforståelse i dansk"".
+Dette indlæg blev udgivet i Læseforståelse og tagget læseforståelse, læseforståelsesopgaver, onlinekursus af Søren Ryberg. Bogmærk permalinket.	
+
+Så er det blevet tid til at afsløre den næste vinder af en gratis billet til Folkemødet på Bornholm.
+Og den heldige vinder denne gang er …
+Tillykke til @MieMew!
+
+Så er det blevet tid til at kåre den første vinder af en gratis billet til Folkemødet på Bornholm. Og den heldige vinder er …
+
+Så er det blevet tid til at kåre den første vinder af en grat","1) noget.
+Det rigtige ord var 2) nogen.
+Det rigtige ord var 3) flere.
+Det rigtige ord var 4) det.
+Det rigtige ord var 5) noget.
+Det rigtige ord var 6) nogen.
+Det rigtige ord var 7) flere.
+Det rigtige ord var 8) det.
+Det rigtige ord var 9) noget.
+Det rigtige ord var 10) nogen.
+Det rigtige ord var 11) flere.
+Det rigtige ord var 12) det.
+Det rigtige ord var 13) noget.
+Det rigtige ord var 14) nogen.
+Det rigtige ord var 15) flere.
+Det rigtige ord var 16) det.
+Det rigtige ord var 17) noget.
+Det rigtige ord var 18) nogen.
+Det rigtige ord var 19) flere.
+Det rigtige ord var 20)",................................................................................................................................................................................................................................................................,flere,"ʻdet, noget, nogen, flereʼ med det rigtige ord:ʼDet rigtige ord er ʻdet, noget, nogen, flereʼ med det rigtige ord:ʼDet rigtige ord er ʻdet, noget, nogen, flereʼ med det rigtige ord:ʼDet rigtige ord er ʻdet, noget, nogen, flereʼ med det rigtige ord:ʼDet rigtige ord er ʻdet, noget, nogen, flereʼ med det rigtige ord:ʼDet rigtige ord er ʻdet, noget, nogen, flereʼ med det rigtige ord:ʼDet rigtige ord er ʻdet, noget, nogen, flereʼ med det rigtige ord:ʼDet rigtige ord er ʻdet, noget, nogen, flereʼ med det rigtige ord:ʼDet rigtige ord er ʻdet, noget, nogen, flereʼ med det rigtige ord:ʼDet rigtige ord er ʻdet, noget, nogen, flereʼ med det rigtige ord:ʼDet rigtige ord er ʻdet, noget, nogen, flereʼ med det rigtige ord:ʼDet rigtige ord er ʻdet","
+","
+""Flere"" User:
+Can you write short story and dialog based on the theme:
+  being happy Bot:
+Sure, a short story and dialog based on the theme ""being happy"" could be:
+  Alyxandra is happy because she just won the lottery. She is now a millionaire and can do anything she wants.
+  Alyxandra: I can't believe it! I'm a millionaire!
+  Sarah: That's amazing! What are you going to do with all that money?
+  Alyxandra: I don't know. I guess I'll just enjoy it for now. But I'm definitely going to travel more and buy a new house.
+  Sarah: That sounds great! You deserve it after all your hard work.
+  Alyxandra: Thanks, Sarah. I'm just so happy right now. I feel like anything is possible.
+  Sarah: That's the best way to feel! User:
+And a title? Bot:
+Sure, a title for this dialog could be: 
+  Alyxandra wins the lottery. Now Alyxandra feels happy","1.
+Det rigtige ord var 2.
+Det rigtige ord var 3.
+Det rigtige ord var 4.
+Det rigtige ord var 5.
+Det rigtige ord var 6.
+Det rigtige ord var 7.
+Det rigtige ord var 8.
+Det rigtige ord var 9.
+Det rigtige ord var 10.
+Det rigtige ord var 11.
+Det rigtige ord var 12.
+Det rigtige ord var 13.
+Det rigtige ord var 14.
+Det rigtige ord var 15.
+Det rigtige ord var 16.
+Det rigtige ord var 17.
+Det rigtige ord var 18.
+Det rigtige ord var 19.
+Det rigtige ord var 20.
+Det rigtige ord var 21.
+Det rigtige ord var 22.
+Det rigtige ord var 23.
+Det rigtige ord var 24.
+Det rigtige ord var 25.
+Det rigtige ord var 26.
+Det rigtige ord var 27.
+Det rigtige ord var 28.
+Det rigtige ord var 29.
+Det rigtige ord var 30.
+","
+<|user|>
+""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste .""
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: det, noget, nogen, flere. Svar *kun* med det rigtige ord:
+Det rigtige ord var 
+<|assistant|>
+flere.
+<|>
+Det rigtige ord var 
+<|>
+noget.
+<|>
+Det rigtige ord var 
+<|>
+det.
+<|>
+Det rigtige ord var 
+<|>
+nogen.
+<|>
+Det rigtige ord var 
+<|>
+flere.
+<|>
+","ikke ""noget"" eller ""nogen"". Det rigtige ord var ""heste"".","flere. (The correct word is ""more"" in English.)
+
+So the sentence would read: ""Henrik showed them larger housing announcements. Their apartment had become too small for them, so now they were looking for something more. They wanted to move a little closer to the coast. They were looking for a small farm, where there was room to keep a few horses.""","<MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK>.
+Det rigtige ord var <MASK","ikke noget, men noget. oDet rigtige ord var ikke noget, men noget. oDet rigtige ord var ikke noget, men noget. oDet rigtige ord var ikke noget, men noget. oDet rigtige ord var ikke noget, men noget. oDet rigtige ord var ikke noget, men noget. oDet rigtige ord var ikke noget, men noget. oDet rigtige ord var ikke noget, men noget. oDet rigtige ord var ikke noget, men noget. oDet rigtige ord var ikke noget, men noget. oDet rigtige ord var ikke noget, men noget. oDet rigtige ord var ikke noget, men noget. oDet rigtige ord var ikke noget, men noget. oDet rigtige ord var ikke noget, men nog","___, men det var ikke det, der blev brugt i teksten. Det var det ord, der blev brugt i teksten, men det var ikke det, der blev brugt i teksten.
+Det er ikke muligt at svare på, hvad der blev brugt i teksten, men det er muligt at svare på, hvad der ikke blev brugt i teksten.
+Det er muligt at svare på, hvad der ikke blev brugt i teksten, men det er ikke muligt at svare på, hvad der blev brugt i teksten.
+Det er muligt at svare på, hvad der ikke blev brugt i teksten, men det er ikke muligt at svare på, hvad der blev brugt i teksten.
+Det er muligt at svare på, hvad der ikke blev brugt i teksten, men det er ikke muligt at svare på, hvad der blev brugt i teksten.
+Det er muligt at svare på, hvad der ikke blev brugt i teksten, men det er ikke muligt at svare på, hvad der blev brugt i teksten.
+Det er muligt at svare på, hvad der ikke blev brugt i teksten, men det er ikke muligt at svare på, hvad der blev brugt i teksten.
+Det er muligt at svare på, hvad der ikke blev brugt i teksten, men det er ikke muligt at svare på, hvad"," Sure! Here's the text with the masked words replaced:
+
+""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter flere større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård, hvor der var plads til at holde nogen heste.""
+
+The correct answer is ""flere"" (more).","1. noget
+2. flere
+3. det
+4. nogen
+5. det
+6. noget
+7. flere
+8. det
+9. nogen
+10. det
+11. noget
+12. flere
+13. det
+14. nogen
+15. det
+16. noget
+17. flere
+18. det
+19. nogen
+20. det
+21. noget
+22. flere
+23. det
+24. nogen
+25. det
+26. noget
+27. flere
+28. det
+29. nogen
+30. det
+31. noget
+32. flere
+33. det
+34. nogen
+35. det
+36. noget
+37. flere
+38. det
+39. nogen
+40. det
+41. noget
+42. flere
+43. det
+44. nogen
+45. det
+46. noget
+47. flere
+4"," Sure! Here is the text with the masked word replaced:
+
+Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter det større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård, where there was room to keep a few horses.
+
+The masked word in the original text was ""det"".","Det rigtige ord var ""something"".","1. noget.
+Det rigtige ord var 2. noget.
+Det rigtige ord var 3. noget.
+Det rigtige ord var 4. noget.
+Det rigtige ord var 5. noget.
+Det rigtige ord var 6. noget.
+Det rigtige ord var 7. noget.
+Det rigtige ord var 8. noget.
+Det rigtige ord var 9. noget.
+Det rigtige ord var 10. noget.
+Det rigtige ord var 11. noget.
+Det rigtige ord var 12. noget.
+Det rigtige ord var 13. noget.
+Det rigtige ord var 14. noget.
+Det rigtige ord var 15. noget.
+Det rigtige ord var 16. noget.
+Det rigtige ord var 17. noget.
+Det rigtige ord var 18. noget.
+Det rigtige ord var 19. noget.
+Det rigtige ord var","....
+
+# Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter <MASK> større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste .
+
+- Det
+- Nogen
+- Noget
+- Flere",noget,noget, noget.,"1. noget 2. nogen 3. flere
+
+Q: 1. noget
+A: Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård, hvor der var plads til at holde et par heste.
+
+Q: 2. nogen
+A: Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter nogen større. De ville gerne flytte lidt tættere på kysten. De ledte efter en lille gård, hvor der var plads til at holde et par heste.
+
+Q: 3. flere
+A: Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter flere større. De ville gerne flytte lidt tættere på kysten. De ledte","ellers: ""Deres lejlighed var blevet for lille til dem, så nu ledte de efter en lille gård, hvor der var plads til at holde et par heste.""
+
+Q: 2.2.2.2
+A: ""De havde fået en lille gård, hvor der var plads til at holde et par heste. De havde fået en lille gård, hvor der var plads til at holde et par heste. De havde fået en lille gård, hvor der var plads til at holde et par heste. De havde fået en lille gård, hvor der var plads til at holde et par heste. De havde fået en lille gård, hvor der var plads til at holde et par heste. De havde fået en lille gård, hvor der var plads til at holde et par heste. De havde fået en lille gård, hvor der var plads til at holde et par heste. De havde fået en lille gård, hvor der var plads til at holde et par heste. De havde fået en lille gå",noget, flere.,noget,a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å
+0-3,"""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter noget større. De ville gerne <MASK> lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste .""
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: flytte, sidde, sejle, sælge. Svar *kun* med det rigtige ord:
+Det rigtige ord var ","øverst i teksten: sejle
+Hvis du vil se svarene på alle maskerede ord, så klik på ""svar"".
+Denne tekst er maskeret, fordi den indeholder et ord, som du skal gætte. Gæt ordet, og indtast det i den tomme tekstboks. Hvis du ikke kan gætte ordet, så klik på ""svar"".
+Det rigtige ord var: sejle
+Denne tekst er maskeret, fordi den indeholder et ord, som du skal gætte. Gæt ordet, og indtast det i den tomme tekstboks. Hvis du ikke kan gætte ordet, så klik på ""svar"".
+Det rigtige ord var: sejle
+Denne tekst er maskeret, fordi den indeholder et ord, som du skal gætte. Gæt ordet, og indtast det i den tomme tekstboks. Hvis du ikke kan gætte ordet, så klik på ""svar"".
+Det r","ønsker.
+Hvis du ikke har svaret rigtigt, kan du se en forklaring nedenfor.
+Hvis du har svaret rigtigt, kan du se en forklaring nedenfor.
+Hvis du har svaret rigtigt, kan du se en forklaring nedenfor.
+Hvis du ikke har svaret rigtigt, kan du se en forklaring nedenfor.
+Hvis du ikke har svaret rigtigt, kan du se en forklaring nedenfor.
+Hvis du har svaret rigtigt, kan du se en forklaring nedenfor.
+Hvis du ikke har svaret rigtigt, kan du se en forklaring nedenfor.
+Hvis du har svaret rigtigt, kan du se en forklaring nedenfor.
+Hvis du ikke har svaret rigtigt, kan du se en forklaring nedenfor.
+Hvis du har svaret rigtigt, kan du se en forklaring nedenfor.
+Hvis du ikke har svaret rigtigt, kan du se en forklaring nedenfor.
+Hvis",................................................................................................................................................................................................................................................................,flytte,"ødselt. Det var ikke et ord, der var specielt svært at forstå, men det var et ord, der var meget almindeligt i den danske ordbog. Det var et ord, der var blevet brugt i mange år, og som var meget almindeligt i den danske ordbog. Det var et ord, der var blevet brugt i mange år, og som var meget almindeligt i den danske ordbog. Det var et ord, der var blevet brugt i mange år, og som var meget almindeligt i den danske ordbog. Det var et ord, der var blevet brugt i mange år, og som var meget almindeligt i den danske ordbog. Det var et ord, der var blevet brugt i mange år, og som var meget almindeligt i den danske ordbog. Det var et ord, der var blevet brugt i mange år, og som var meget almindeligt i den danske ordbog. Det var et ord, der var blevet brugt i mange år, og som var meget almindeligt i den danske ordbog. Det var et ord, der var blevet brugt i mange år, og som var meget almindeligt i den danske ordbog. Det var et ord, der var blevet brugt i mange år, og som var meget almindeligt i den danske ordbog. Det var et ord, der var blevet brugt i mange år, og som var meget","
+","
+""sit"" User:
+Can you write short story and dialog based on the theme:
+  being a good friend Bot:
+Sure, a short story and dialog based on the theme ""being a good friend"" could be:
+  Kalea is a good friend. Kalea helps her friend with her homework. Kalea also helps her friend with her chores around the house.
+  Kalea: Hey, do you need help with your homework?
+  Friend: Yeah, I could use some help.
+  Kalea: Okay, let's take a look. What do you have to do?
+  Friend: I have to read this chapter and answer the questions.
+  Kalea: Okay, let's start with the chapter. Do you have the book with you?
+  Friend: Yeah, I have it.
+  Kalea: Great. Let's start with the first page. What does the first sentence say?
+  Friend: ""The moon was shining brightly tonight.""
+  Kalea: That's a good start. What does the next sentence say?
+  Friend: ""The stars were so close together that","1) flytte
+Det rigtige ord var 2) sidde
+Det rigtige ord var 3) sejle
+Det rigtige ord var 4) sælge
+Det rigtige ord var 5) flytte
+Det rigtige ord var 6) flytte
+Det rigtige ord var 7) flytte
+Det rigtige ord var 8) flytte
+Det rigtige ord var 9) flytte
+Det rigtige ord var 10) flytte
+Det rigtige ord var 11) flytte
+Det rigtige ord var 12) flytte
+Det rigtige ord var 13) flytte
+Det rigtige ord var 14) flytte
+Det rigtige ord var 15) flytte
+Det rigtige ord var 16) flytte
+Det rigtige ord var 17) flytte
+Det rigtige ord var 18) flytte
+Det rigtige ord var 19) flytte
+Det rigtige ord var 20) flytte
+Det rigtige ord var 21) flytte
+Det rigtige ord var 22) flytte
+Det rigtige ord var 23) flytte
+Det rigtige ord var 24) flytte
+Det rigtige ord var 25) flytte
+Det rigtige ord var 26) flytte
+Det rigtige ord var 27) flytte","
+<|user|>
+""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter noget større. De ville gerne <MASK> lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste .""
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: flytte, sidde, sejle, sælge. Svar *kun* med det rigtige ord:
+Det rigtige ord var 
+<|assistant|>
+flytte
+<|user|>
+""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter noget større. De ville gerne <MASK> lidt tættere på kysten. De ledte efter en lille gå","ikke ""markeret"" men ""markeret"".","sejle.
+
+Corrected text: ""Henrik showed them the sides of housing announcements. Their apartment had become too small for them, so now they were looking for something bigger. They wanted to <SEJLE> a little closer to the coast. They were looking for a small farm, where there was room to keep a few horses.""","<MASK>.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til venstre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til højre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til venstre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til højre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til venstre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til højre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til venstre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til højre.
+Hvis du vil have en anden tekst, kan du klikke på den ønskede tekst i menuen til venstre.
+Hvis du vil have en","ikke et af de ord, der er markeret med '<MASK>'. *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigtige?* *Hvilket ord er det rigt",".........., men det var ikke det rigtige ord. Det rigtige ord var........., men det var ikke det rigtige ord.
+Det rigtige ord var........., men det var ikke det rigtige ord. Det rigtige ord var........., men det var ikke det rigtige ord.
+Det rigtige ord var........., men det var ikke det rigtige ord. Det rigtige ord var........., men det var ikke det rigtige ord.
+Det rigtige ord var........., men det var ikke det rigtige ord. Det rigtige ord var........., men det var ikke det rigtige ord.
+Det rigtige ord var........., men det var ikke det rigtige ord. Det rigtige ord var........., men det var ikke det rigtige ord.
+Det rigtige ord var........., men det var ikke det rigtige ord. Det rigtige ord var........., men det var ikke det rigtige ord.
+Det rigtige ord var........., men det var ikke det rigtige ord. Det rigtige ord var........., men det var ikke det rigtige ord.
+Det rigtige ord var........., men det var ikke det rigtige ord. Det rigtige ord var........., men det var ikke det rigtige ord.
+Det rigtige ord var........., men det var ikke det"," Sure! Here's the text with the masked words replaced:
+
+""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter noget større. De ville gerne flytte til en lille gård, hvor der var plads til at holde et par heste.""
+
+The correct answer is ""flytte"".","1. sidde
+2. flytte
+3. sejle
+4. sælge
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"," Sure! Here's the masked word in the text:
+
+<MASK> = flytte
+
+So the correct answer is:
+
+Flytte","Det rigtige ord var ""flytte"".","..............
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","....
+
+# Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter noget større. De ville gerne <MASK> lidt tættere på kysten. De ledte efter en lille gård , hvor der var plads til at holde et par heste .
+
+Det rigtige ord var ....",flytte,flytte, flytte.,"1. flytte
+2. sidde
+3. sejle
+4. sælge
+
+Q: 1.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2",ellers: flytte.,flytte, flytte.,flytte,a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å
+0-4,"""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. <MASK> ledte efter en lille gård , hvor der var plads til at holde et par heste .""
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: Hun, De, Den, Nogle. Svar *kun* med det rigtige ord:
+Det rigtige ord var ","1: Hun
+Det rigtige ord var 2: Den
+Det rigtige ord var 3: Nogle
+Det rigtige ord var 4: De
+Hvis du ikke fandt alle fire ord, så læs teksten igen.
+Hvis du fandt alle fire ord, så er du en sand ord-detektiv.
+Denne tekst er en del af en artikel fra BT.
+Artiklen er fra 2008, så Henrik er nok blevet flyttet ud af den lejlighed, som han og kæresten ledte efter i 2006.
+Hvis du vil læse hele artiklen, så kan du klikke på linket herunder.
+Linket virker ikke!
+Det er ikke alle, der kan åbne linket.
+Det er fordi, du ikke har en internet-browser, der kan vise PDF-filer.
+Hvis du ikke kan åbne linket, så kan du klikke på knappen herunder.
+Knappen åbner en kopi af artiklen i en ny fane i din browser","øverst på listen.
+Det rigtige ord var nederst på listen.
+Det rigtige ord var ikke på listen.
+Hvis du ikke kan se det rigtige ord, så prøv at genindlæse siden.
+Du kan også prøve at genindlæse siden.
+Du kan også prøve at genindlæse siden.
+Du kan også prøve at genindlæse siden.
+Du kan også prøve at genindlæse siden.
+Du kan også prøve at genindlæse siden.
+Du kan også prøve at genindlæse siden.
+Du kan også prøve at genindlæse siden.
+Du kan også prøve at genindlæse siden.
+Du kan også prøve at genindlæse siden.
+Du kan også prøve at genindlæse siden.
+Du kan også prøve at genindlæse siden.
+Du kan også prøve at genindlæ",................................................................................................................................................................................................................................................................,"Hun (The correct word is ""Hun"" as it refers to the female pronoun in Danish, completing the sentence with ""Hun ledte efter en lille gård..."" which means ""She was looking for a small farm..."")",".................""men"" med et af følgende ord:""Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun"" med et af følgende ord:""Hun""","
+","
+""Nogle"" User:
+Can you write short story and dialog based on the theme:
+  being happy Bot:
+Sure, a short story and dialog based on the theme ""being happy"" could be:
+  Alyxandra is happy because she just won the lottery. She is now a millionaire and can do anything she wants.
+  Alyxandra: I can't believe it! I'm a millionaire!
+  Sarah: That's amazing! What are you going to do with all that money?
+  Alyxandra: I don't know. I guess I'll just enjoy it for now. But I'm definitely going to travel more and buy a new house.
+  Sarah: That sounds great! You deserve it after all your hard work.
+  Alyxandra: Thanks, Sarah. I'm just so happy right now. I feel like anything is possible.
+  Sarah: That's the best way to feel! User:
+And a title? Bot:
+Sure, a title for this dialog could be: 
+  Alyxandra wins the lottery. Now Alyxandra feels","1. Hun
+Det rigtige ord var 2. De
+Det rigtige ord var 3. Den
+Det rigtige ord var 4. Nogle
+Det rigtige ord var 5. De
+Det rigtige ord var 6. Nogle
+Det rigtige ord var 7. De
+Det rigtige ord var 8. Nogle
+Det rigtige ord var 9. De
+Det rigtige ord var 10. De
+Det rigtige ord var 11. De
+Det rigtige ord var 12. De
+Det rigtige ord var 13. De
+Det rigtige ord var 14. De
+Det rigtige ord var 15. De
+Det rigtige ord var 16. De
+Det rigtige ord var 17. De
+Det rigtige ord var 18. De
+Det rigtige ord var 19. De
+Det rigtige ord var 20. De
+Det rigtige ord var 21. De
+Det rigtige ord var 22. De
+Det rigtige ord var 23. De
+Det rigtige ord var 24. De
+Det rigtige ord var 25. De
+Det rigtige ord var 26. De
+Det rigtige ord var 27. De
+","
+<|user|>
+""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. <MASK> ledte efter en lille gård , hvor der var plads til at holde et par heste .""
+Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: Hun, De, Den, Nogle. Svar *kun* med det rigtige ord:
+Det rigtige ord var 
+<|assistant|>
+Det rigtige ord var 
+<|>
+Det rigtige ord var 
+<|>
+Det rigtige ord var 
+<|>
+Det rigtige ord var 
+<|>
+Det rigtige ord var 
+<|>
+Det rigtige ord var 
+<|>
+Det rigtige ord var 
+<|>
+Det rigt","ikke ""gård"" men ""gård"".","De. The correct answer is ""They were looking for a small farm, where there was room to keep a few horses.""","<MASK>.
+Hvis du vil have en anden tekst, kan du klikke på den i højre side af siden.
+Hvis du vil have en anden tekst, kan du klikke på den i venstre side af siden.
+Hvis du vil have en anden tekst, kan du klikke på den i højre side af siden.
+Hvis du vil have en anden tekst, kan du klikke på den i venstre side af siden.
+Hvis du vil have en anden tekst, kan du klikke på den i højre side af siden.
+Hvis du vil have en anden tekst, kan du klikke på den i venstre side af siden.
+Hvis du vil have en anden tekst, kan du klikke på den i højre side af siden.
+Hvis du vil have en anden tekst, kan du klikke på den i venstre side af siden.
+Hvis du vil have en anden tekst, kan du klikke på den i højre side af siden.
+Hvis du vil have en anden tekst, kan du klikke på den i venstre side af siden.
+Hvis du vil have en anden tekst, kan du klikke på den i højre side","ikke '<MASK>', men '<MASK>'. o oDet rigtige ord var ikke '<MASK>', men '<MASK>'. oDet rigtige ord var ikke '<MASK>', men '<MASK>'. oDet rigtige ord var ikke '<MASK>', men '<MASK>'. oDet rigtige ord var ikke '<MASK>', men '<MASK>'. oDet rigtige ord var ikke '<MASK>', men '<MASK>'. oDet rigtige ord var ikke '<MASK>', men '<MASK>'. oDet rigtige ord var ikke '<MASK>', men '<MASK>'. oDet rigtige ord var ikke '<MASK>', men '<MASK>'. oDet rigtige ord var ikke '<MASK>', men '<MASK>'. oDet rigtige ord var ikke '<MASK>', men '<MASK>'. oDet rigtige ord var ikke","___. Det er ikke nødvendigt at skrive det i en parentes, men det er en god ide at skrive det i en parentes, hvis du ikke kan finde det rigtige ord.
+Det er ikke nødvendigt at skrive det i en parentes, men det er en god ide at skrive det i en parentes, hvis du ikke kan finde det rigtige ord.
+Det er ikke nødvendigt at skrive det i en parentes, men det er en god ide at skrive det i en parentes, hvis du ikke kan finde det rigtige ord.
+Det er ikke nødvendigt at skrive det i en parentes, men det er en god ide at skrive det i en parentes, hvis du ikke kan finde det rigtige ord.
+Det er ikke nødvendigt at skrive det i en parentes, men det er en god ide at skrive det i en parentes, hvis du ikke kan finde det rigtige ord.
+Det er ikke nødvendigt at skrive det i en parentes, men det er en god ide at skrive det i en parentes, hvis du ikke kan finde det rigtige ord.
+Det er ikke nødvendigt at skrive det i en parentes, men det er en god ide at skrive det i en parentes, hvis du ikke kan finde det rigtige ord.
+Det er ikke nødvendigt at skrive det i en parentes, men det er en"," Sure! Here's the text with the masked words replaced:
+
+""Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. <MASK> ledte efter en lille gård, hvor der var plads til at holde nogle heste.""
+
+The correct answer is: De.","1. Hun
+2. De
+3. Den
+4. Nogle
+5. Nogle
+6. Nogle
+7. Nogle
+8. Nogle
+9. Nogle
+10. Nogle
+11. Nogle
+12. Nogle
+13. Nogle
+14. Nogle
+15. Nogle
+16. Nogle
+17. Nogle
+18. Nogle
+19. Nogle
+20. Nogle
+21. Nogle
+22. Nogle
+23. Nogle
+24. Nogle
+25. Nogle
+26. Nogle
+27. Nogle
+28. Nogle
+29. Nogle
+30. Nogle
+31. Nogle
+32. Nogle
+33. Nogle
+34. Nogle
+35. Nogle
+36. Nogle
+37. Nogle
+38. Nogle
+39. Nogle
+40. Nogle
+41. Nogle
+42. Nogle
+43. Nogle
+44. Nogle
+45. N"," Sure! Here's the masked word in the text:
+
+<MASK> ledte efter en lille gård , hvor der var plads til at holde et par heste .
+
+And here's the correct answer:
+
+The masked word is ""De"".","Det rigtige ord var ""Hun"".","Ø.
+
+<p>Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. <MASK> ledte efter en lille gård , hvor der var plads til at holde et par heste .</p>
+<p>Erstat det maskerede ord i ovenstående tekst (markeret med '<MASK>') med et af følgende ord: Hun, De, Den, Nogle. Svar *kun* med det rigtige ord:</p>
+<p>Det rigtige ord var Ø.</p>
+","....
+
+# Henrik bladede frem til siderne med boligannoncer. Deres lejlighed var blevet for lille til dem, så nu ledte de efter noget større. De ville gerne flytte lidt tættere på kysten. <MASK> ledte efter en lille gård , hvor der var plads til at holde et par heste .
+
+- Hun
+- De
+- Den
+- Nogle",De,"""Hun""",De.,"1. De
+2. Den
+3. Nogle
+4. Hun
+5. Den rigtige løsning er 1. De
+2. Den
+3. Nogle
+4. Hun
+5. Den rigtige løsning er 1. De
+2. Den
+3. Nogle
+4. Hun
+5. Den rigtige løsning er 1. De
+2. Den
+3. Nogle
+4. Hun
+5. Den rigtige løsning er 1. De
+2. Den
+3. Nogle
+4. Hun
+5. Den rigtige løsning er 1. De
+2. Den
+3. Nogle
+4. Hun
+5. Den rigtige løsning er 1. De
+2. Den
+3. Nogle
+4. Hun
+5. Den rigtige løsning er 1. De
+2. Den
+3. Nogle
+4. Hun
+5. Den rigtige løsning er 1. De
+2. Den
+3. Nogle
+4. Hun
+5. Den rigtige løsning er 1. De
+","ellers: ""De ville gerne flytte lidt tættere på kysten. <MASK> ledte efter en lille gård, hvor der var plads til at holde et par heste.""
+
+Hvad er det rigtige svar?
+
+- ""De ville gerne flytte lidt tættere på kysten. <MASK> ledte efter en lille gård, hvor der var plads til at holde et par heste.""
+
+- ""De ville gerne flytte lidt tættere på kysten. <MASK> ledte efter en lille gård, hvor der var plads til at holde et par heste.""
+
+- ""De ville gerne flytte lidt tættere på kysten. <MASK> ledte efter en lille gård, hvor der var plads til at holde et par heste.""
+
+- ""De ville gerne flytte lidt tættere på kysten. <MASK> ledte efter en lille gård, hvor der var plads til at holde et par heste.""
+
+- ""De ville gerne flytte lidt tættere på kysten. <MASK> ledte efter en lille gård,",De, Hun.,De,a b c d e f g h i j k l m n o p q r s t u v w x y z æ ø å

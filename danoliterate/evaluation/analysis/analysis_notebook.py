@@ -61,21 +61,6 @@ def exclude_models(metric_struct, to_exclude):
 # # Main leaderboard analysis
 
 # %%
-ex_met = exclude_models(
-    extract_metrics(scores, Dimension.CAPABILITY, "standard"),
-    [
-        m
-        for m in ld.index
-        if not ("Dano" in m or "Baseline" in m or m in {"Mistral 7B", "LlaMa 2 7B"})
-    ],
-)
-chosen_metrics = default_choices(ex_met)
-table = get_table_values(chosen_metrics)
-ld, lower = build_leaderboard_table(chosen_metrics, show_missing=False)
-ld = ld.loc[:, [ld.columns[0], *SCENARIO_ORDER]]
-print(format_table_for_latex(ld, lower))
-
-# %%
 SCENARIO_ORDER = (
     "Citizenship Test",
     "HyggeSwag",
@@ -547,6 +532,29 @@ for res in all_res:
             if interesting_executions[res.metadata.scenario_cfg["name"]].get(mname):
                 raise
             interesting_executions[res.metadata.scenario_cfg["name"]][mname] = res
+
+# %%
+from collections import defaultdict
+
+dfs = {s: pd.DataFrame() for s in SCENARIO_ORDER}
+for res in all_res:
+    if (
+        res.metadata.augmenter_key is None
+        and res.metadata.scenario_cfg.get("type", "standard") == "standard"
+    ):
+        s = res.metadata.scenario_cfg["name"]
+        m = res.metadata.model_cfg["name"]
+        if "prompt" not in dfs[s].columns:
+            dfs[s]["prompt"] = pd.Series(
+                [ex.prompt for ex in res.examples], index=[ex.id_ for ex in res.examples]
+            )
+        dfs[s][m] = pd.Series(
+            [ex.generated_text for ex in res.examples], index=[ex.id_ for ex in res.examples]
+        )
+for name, df in dfs.items():
+    df[:5].to_csv(
+        f"/home/sorenmulli/Nextcloud/cand4/framework/danoliterate/evaluation/leaderboard/pages/assets/{name}.csv"
+    )
 
 # %%
 ex = " Det 19-årige stortalent i speedway Mikkel B. Andersen er blevet udtaget til landsholdet af træner Hans Nielsen. I første omgang er Mikkel B. Andersen, der til daglig står i lære ved Peugeot i Bejstrup ved Fjerritslev, udtaget til den ni mand store bruttotrup, og kun fem kørere skal på banen når landsholdet 23. juli kører VM-semifinale i Vojens"
