@@ -535,7 +535,6 @@ for res in all_res:
 
 # %%
 from collections import defaultdict
-
 dfs = {s: pd.DataFrame() for s in SCENARIO_ORDER}
 for res in all_res:
     if (
@@ -545,16 +544,10 @@ for res in all_res:
         s = res.metadata.scenario_cfg["name"]
         m = res.metadata.model_cfg["name"]
         if "prompt" not in dfs[s].columns:
-            dfs[s]["prompt"] = pd.Series(
-                [ex.prompt for ex in res.examples], index=[ex.id_ for ex in res.examples]
-            )
-        dfs[s][m] = pd.Series(
-            [ex.generated_text for ex in res.examples], index=[ex.id_ for ex in res.examples]
-        )
+            dfs[s]["prompt"] = pd.Series([ex.prompt for ex in res.examples], index=[ex.id_ for ex in res.examples])
+        dfs[s][m] = pd.Series([ex.generated_text for ex in res.examples], index=[ex.id_ for ex in res.examples])
 for name, df in dfs.items():
-    df[:5].to_csv(
-        f"/home/sorenmulli/Nextcloud/cand4/framework/danoliterate/evaluation/leaderboard/pages/assets/{name}.csv"
-    )
+    df[:5].to_csv(f"/home/sorenmulli/Nextcloud/cand4/framework/danoliterate/evaluation/leaderboard/pages/assets/{name}.csv")
 
 # %%
 ex = " Det 19-årige stortalent i speedway Mikkel B. Andersen er blevet udtaget til landsholdet af træner Hans Nielsen. I første omgang er Mikkel B. Andersen, der til daglig står i lære ved Peugeot i Bejstrup ved Fjerritslev, udtaget til den ni mand store bruttotrup, og kun fem kørere skal på banen når landsholdet 23. juli kører VM-semifinale i Vojens"
