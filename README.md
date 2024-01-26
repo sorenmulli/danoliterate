@@ -1,5 +1,6 @@
 # Are LLMs Danoliterate?
 
+See benchmark site: [danoliterate.vholm.dk](https://danoliterate.vholm.dk/)
 
 A benchmark tool for Generative Large Language Models in Danish.
 
