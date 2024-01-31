@@ -259,7 +259,26 @@ plt.grid(True)
 plt.savefig(P / "pca-model-var.pdf")
 plt.show()
 
-import matplotlib.pyplot as plt
+
+# %%
+pc1 = pcs[:, 0]
+pc2 = pcs[:, 1]
+
+plt.figure(figsize=(7, 5))
+plt.scatter(pc1, pc2, edgecolors='k')  # You can change color and other properties
+
+for i, label in enumerate(table.columns):
+    plt.annotate(label, (pc1[i]+.1, pc2[i]+.1))
+
+# Adding labels and title
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.title('Scenario Scatter on Model PCs')
+plt.grid(True)
+plt.tight_layout()
+plt.savefig(P / "scatter-model-pcs.pdf")
+
+plt.show()
 
 # %%
 import numpy as np
@@ -296,10 +315,10 @@ for i in range(num_pc_to_display):
     ax.set_yticklabels(top_feature_names)
     ax.invert_yaxis()  # labels read top-to-bottom
     ax.set_xlabel("Loading")
-    ax.set_title(f"Principal Component {i+1}")
+    ax.set_title(f"Model PC {i+1} ({explained_variance[i]:.0f} % var.)")
     plt.tight_layout()
     # Update the path as needed
-    plt.savefig(P / f"pca-model-load-{i+1}.pdf")
+    plt.savefig(P / f"pca-model-load-{i+1}-det.pdf")
     plt.show()
 
 # %%
@@ -358,6 +377,26 @@ plt.show()
 import matplotlib.pyplot as plt
 
 # %%
+pc1 = pcs[:, 0]
+pc2 = pcs[:, 1]
+
+plt.figure(figsize=(7, 5))
+plt.scatter(pc1, pc2, edgecolors='k')  # You can change color and other properties
+
+for i, label in enumerate(table.index):
+    plt.annotate(label, (pc1[i]+.1, pc2[i]+.1))
+
+# Adding labels and title
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.title('Model Scatter on Scenario PCs')
+plt.grid(True)
+plt.tight_layout()
+plt.savefig(P / "scatter-scenario-pcs.pdf")
+
+plt.show()
+
+# %%
 import numpy as np
 from matplotlib import cm  # Import the colormap
 
@@ -392,10 +431,10 @@ for i in range(num_pc_to_display):
     ax.set_yticklabels(top_feature_names)
     ax.invert_yaxis()  # labels read top-to-bottom
     ax.set_xlabel("Loading")
-    ax.set_title(f"Principal Component {i+1}")
+    ax.set_title(f"Scenario PC {i+1} ({explained_variance[i]:.0f} % var.)")
     plt.tight_layout()
     # Update the path as needed
-    plt.savefig(P / f"pca-scenario-load-{i+1}.pdf")
+    plt.savefig(P / f"pca-scenario-load-{i+1}-det.pdf")
     plt.show()
 
 # %%
