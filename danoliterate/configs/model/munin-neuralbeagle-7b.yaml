@@ -1,0 +1,4 @@
+name: "Munin NeuralBeagle 7B"
+path: "RJuro/munin-neuralbeagle-7b"
+inference:
+  type: "hf-causal"

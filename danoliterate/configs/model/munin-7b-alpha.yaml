@@ -1,0 +1,4 @@
+name: "Munin 7B Alpha"
+path: "danish-foundation-models/munin-7b-alpha"
+inference:
+  type: "hf-causal"
