@@ -1,0 +1,4 @@
+name: "Heidrun Mistral 7B Base"
+path: "Mabeck/Heidrun-Mistral-7B-base"
+inference:
+  type: "hf-causal"

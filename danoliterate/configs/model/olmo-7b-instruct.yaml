@@ -1,0 +1,4 @@
+name: "OLMo 7B Instruct"
+path: "allenai/OLMo-7B-Instruct"
+inference:
+  type: "hf-causal"

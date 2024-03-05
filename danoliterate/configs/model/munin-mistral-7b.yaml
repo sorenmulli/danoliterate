@@ -1,0 +1,4 @@
+name: "Munin Mistral 7B"
+path: "KennethEnevoldsen/munin_mistral-7b"
+inference:
+  type: "hf-causal"

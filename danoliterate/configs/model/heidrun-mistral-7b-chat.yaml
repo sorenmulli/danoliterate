@@ -1,0 +1,4 @@
+name: "Heidrun Mistral 7B Chat"
+path: "Mabeck/Heidrun-Mistral-7B-chat"
+inference:
+  type: "hf-causal"

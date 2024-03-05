@@ -1,0 +1,4 @@
+name: "Phi-2"
+path: "microsoft/phi-2"
+inference:
+  type: "hf-causal"

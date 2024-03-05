@@ -1,0 +1,4 @@
+name: "Gemma 7B"
+path: "google/gemma-7b"
+inference:
+  type: "hf-causal"

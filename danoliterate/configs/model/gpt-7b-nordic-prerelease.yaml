@@ -1,0 +1,4 @@
+name: "GPT 7B Nordic pre."
+path: "HPLT/gpt-7b-nordic-prerelease"
+inference:
+  type: "hf-causal"

@@ -1,0 +1,4 @@
+name: "Qwen1.5 7B chat"
+path: "Qwen/Qwen1.5-7B-Chat"
+inference:
+  type: "hf-causal"
