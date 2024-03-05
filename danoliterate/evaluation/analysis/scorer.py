@@ -3,6 +3,7 @@ from typing import Sequence
 from omegaconf import DictConfig
 from tqdm import tqdm
 
+from danoliterate.evaluation.analysis.meta_scorings import META_SCORERS
 from danoliterate.evaluation.analysis.metrics import Metric
 from danoliterate.evaluation.artifact_integration import (
     get_results_wandb,
@@ -59,9 +60,16 @@ class Scorer:
             }
         logger.info("Acquired %i execution results. Scoring ...", len(results))
         for result in tqdm(results):
-            if _should_skip(result):
-                continue
             self.result.scorings.append(self.score_result(result))
+        logger.info("Running meta scores", len(results))
+        meta_scorings = []
+        for meta_scorer in tqdm(META_SCORERS):
+            for metadata, metric_results in meta_scorer.meta_score(self.result.scorings):
+                meta_scoring = Scoring.from_execution_metadata(metadata)
+                meta_scoring.metric_results = metric_results
+                meta_scoring.is_meta = True
+                meta_scorings.append(meta_scoring)
+        self.result.scorings.extend(meta_scorings)
 
     def score_result(self, result: ExecutionResult) -> Scoring:
         scoring = Scoring.from_execution_metadata(result.metadata)
@@ -112,19 +120,6 @@ class Scorer:
             else [metric_res.short_name for metric_res in scoring.metric_results]
         )
         return scoring.execution_metadata.id_ + "-" + "-".join(sorted(metric_names))
-
-
-def _should_skip(result: ExecutionResult):
-    # TODO: Remove these partial results
-    if (mname := result.metadata.model_cfg["name"]) in {
-        "mGPT 13B",
-        "Hestenettet LM",
-        "SOLAR 10.7B",
-        "OpenAI Davinci 003",
-    }:
-        logger.warning("Manually skipped scoring of result for model %s", mname)
-        return True
-    return False
 
 
 def score(cfg: DictConfig):

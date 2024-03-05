@@ -3,31 +3,31 @@ from collections import defaultdict
 from typing import DefaultDict, Optional
 
 from danoliterate.evaluation.analysis.dimensions import Dimension
-from danoliterate.evaluation.results import MetricResult, Scores, Scoring
+from danoliterate.evaluation.results import ExecutionResultMetadata, MetricResult, Scores, Scoring
 from danoliterate.infrastructure.logging import logger
 
 
 class MetaScoring(ABC):
     @abstractmethod
-    def meta_score(self, scores: Scores) -> list[tuple[str, str, Dimension, list[MetricResult]]]:
+    def meta_score(
+        self, scores: Scores
+    ) -> list[tuple[ExecutionResultMetadata, list[MetricResult]]]:
         ...
 
 
 class TimingScore(MetaScoring):
-    def meta_score(self, scores: Scores) -> list[tuple[str, str, Dimension, list[MetricResult]]]:
+    def meta_score(
+        self, scores: Scores
+    ) -> list[tuple[ExecutionResultMetadata, list[MetricResult]]]:
         out = []
         for scoring in scores.scorings:
             if scoring.execution_metadata.augmenter_key is not None:
                 continue
             if (total_time := scoring.execution_metadata.total_inference_seconds) is not None:
                 avg_time = total_time / len(scoring.metric_results[0].example_results)
-                scenario_name: str = scoring.execution_metadata.scenario_cfg["name"]  # type: ignore
-                model_name: str = scoring.execution_metadata.model_cfg["name"]  # type: ignore
                 out.append(
                     (
-                        scenario_name,
-                        model_name,
-                        Dimension.EFFICIENCY,
+                        scoring.execution_metadata,
                         [
                             MetricResult(
                                 "Inference seconds",
@@ -98,7 +98,9 @@ class DisparityScoring(MetaScoring, ABC):
                 raise ValueError("Disparity calculation not possible: Different metrics")
         return out
 
-    def meta_score(self, scores: Scores) -> list[tuple[str, str, Dimension, list[MetricResult]]]:
+    def meta_score(
+        self, scores: Scores
+    ) -> list[tuple[ExecutionResultMetadata, list[MetricResult]]]:
         out = []
         scorings_to_keep = []
         to_calculate: DefaultDict[tuple[str, str], dict] = defaultdict(dict)
@@ -128,9 +130,7 @@ class DisparityScoring(MetaScoring, ABC):
                 continue
             out.append(
                 (
-                    f"{self.name}: {scenario_name}",
-                    model_name,
-                    self.dimension,
+                    sorted(scorings, key=lambda scoring: scoring.timestamp)[0],
                     self.calculate_disparities(scorings),
                 )
             )

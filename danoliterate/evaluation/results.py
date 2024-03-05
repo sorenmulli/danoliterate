@@ -168,6 +168,8 @@ class Scoring:
 
     metric_results: list[MetricResult]
 
+    is_meta: bool = False
+
     @classmethod
     def from_execution_metadata(cls, metadata: ExecutionResultMetadata):
         return cls(
