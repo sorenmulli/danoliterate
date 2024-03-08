@@ -61,10 +61,10 @@ class Scorer:
         logger.info("Acquired %i execution results. Scoring ...", len(results))
         for result in tqdm(results):
             self.result.scorings.append(self.score_result(result))
-        logger.info("Running meta scores", len(results))
+        logger.info("Running meta scores")
         meta_scorings = []
         for meta_scorer in tqdm(META_SCORERS):
-            for metadata, metric_results in meta_scorer.meta_score(self.result.scorings):
+            for metadata, metric_results in meta_scorer.meta_score(self.result):
                 meta_scoring = Scoring.from_execution_metadata(metadata)
                 meta_scoring.metric_results = metric_results
                 meta_scoring.is_meta = True

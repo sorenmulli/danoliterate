@@ -14,14 +14,13 @@ class MetaScoring(ABC):
     ) -> list[tuple[ExecutionResultMetadata, list[MetricResult]]]:
         ...
 
-
 class TimingScore(MetaScoring):
     def meta_score(
         self, scores: Scores
     ) -> list[tuple[ExecutionResultMetadata, list[MetricResult]]]:
         out = []
         for scoring in scores.scorings:
-            if scoring.execution_metadata.augmenter_key is not None:
+            if _should_skip_for_meta(scoring, (None,)):
                 continue
             if (total_time := scoring.execution_metadata.total_inference_seconds) is not None:
                 avg_time = total_time / len(scoring.metric_results[0].example_results)
@@ -85,7 +84,7 @@ class DisparityScoring(MetaScoring, ABC):
                         res = 0
                     out.append(
                         MetricResult(
-                            result.short_name,
+                            f"{self.name}: {result.short_name}",
                             f"{self.description}: {result.description}",
                             {},
                             aggregate=res,
@@ -106,7 +105,7 @@ class DisparityScoring(MetaScoring, ABC):
         to_calculate: DefaultDict[tuple[str, str], dict] = defaultdict(dict)
 
         for scoring in scores.scorings:
-            if scoring.execution_metadata.augmenter_key not in self.relevant_augmenter_keys:
+            if _should_skip_for_meta(scoring, self.relevant_augmenter_keys):
                 scorings_to_keep.append(scoring)
                 continue
             to_calculate[
@@ -130,7 +129,7 @@ class DisparityScoring(MetaScoring, ABC):
                 continue
             out.append(
                 (
-                    sorted(scorings, key=lambda scoring: scoring.timestamp)[0],
+                    sorted(scorings.values(), key=lambda scoring: scoring.timestamp)[0].execution_metadata,
                     self.calculate_disparities(scorings),
                 )
             )
@@ -205,3 +204,12 @@ META_SCORERS = [
     GenderNameScore(),
     NameOriginScore(),
 ]
+
+def _should_skip_for_meta(scoring: Scoring, keys: tuple[Optional[str], ...]) -> bool:
+    if scoring.execution_metadata.augmenter_key not in keys:
+        return True
+    if scoring.is_meta:
+        return True
+    if scoring.execution_metadata.scenario_cfg.get("type", "standard") != "standard":
+        return True
+    return False
