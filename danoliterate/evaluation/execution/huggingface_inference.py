@@ -29,7 +29,8 @@ class HuggingfaceCausalLm(ModelInference):
     def __init__(self, hf_key: str, batch_size=1, auto_device_map=False, download_no_cache=False):
         super().__init__()
 
-        init_kwargs = {}
+        # TODO: Should be in generation config
+        init_kwargs = {"use_cache": True}
         if auto_device_map:
             init_kwargs["device_map"] = "auto"
         model_cls = AutoModelForCausalLM
