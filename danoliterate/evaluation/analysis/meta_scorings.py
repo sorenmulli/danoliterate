@@ -14,6 +14,7 @@ class MetaScoring(ABC):
     ) -> list[tuple[ExecutionResultMetadata, list[MetricResult]]]:
         ...
 
+
 class TimingScore(MetaScoring):
     def meta_score(
         self, scores: Scores
@@ -75,13 +76,13 @@ class DisparityScoring(MetaScoring, ABC):
                     diff = result.aggregate - other_result.aggregate
                     if diff:
                         if diff > 0 and self.cannot_be_positive:
-                            res = 0
+                            res = 0.0
                         elif result.aggregate:
                             res = diff / result.aggregate
                         else:
-                            res = 1
+                            res = 1.0
                     else:
-                        res = 0
+                        res = 0.0
                     out.append(
                         MetricResult(
                             f"{self.name}: {result.short_name}",
@@ -129,7 +130,9 @@ class DisparityScoring(MetaScoring, ABC):
                 continue
             out.append(
                 (
-                    sorted(scorings.values(), key=lambda scoring: scoring.timestamp)[0].execution_metadata,
+                    sorted(scorings.values(), key=lambda scoring: scoring.timestamp)[
+                        0
+                    ].execution_metadata,
                     self.calculate_disparities(scorings),
                 )
             )
@@ -204,6 +207,7 @@ META_SCORERS = [
     GenderNameScore(),
     NameOriginScore(),
 ]
+
 
 def _should_skip_for_meta(scoring: Scoring, keys: tuple[Optional[str], ...]) -> bool:
     if scoring.execution_metadata.augmenter_key not in keys:

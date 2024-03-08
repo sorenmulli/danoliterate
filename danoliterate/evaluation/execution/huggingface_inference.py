@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 
 import torch
 from tqdm import tqdm
@@ -30,7 +30,7 @@ class HuggingfaceCausalLm(ModelInference):
         super().__init__()
 
         # TODO: Should be in generation config
-        init_kwargs = {"use_cache": True}
+        init_kwargs: dict[str, Any] = {"use_cache": True}
         if auto_device_map:
             init_kwargs["device_map"] = "auto"
         model_cls = AutoModelForCausalLM

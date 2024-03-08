@@ -2,17 +2,17 @@ import json
 import logging
 from typing import Optional
 
-torch_imported = True
-try:
-    import torch
-except ImportError:
-    torch_imported = False
-
-
 from git import InvalidGitRepositoryError, Repo
 from omegaconf import DictConfig, OmegaConf
 
 from danoliterate.infrastructure.constants import REPO_PATH
+
+TORCH_IMPORTED = True
+try:
+    import torch
+except ImportError:
+    TORCH_IMPORTED = False
+
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +29,7 @@ def commit_hash() -> Optional[str]:
 
 
 def get_compute_unit_string() -> str:
-    if not torch_imported:
+    if not TORCH_IMPORTED:
         return "CPU"
     if torch.cuda.is_available():
         return torch.cuda.get_device_name(0)

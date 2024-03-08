@@ -40,7 +40,8 @@ class AugmentyBasedAugmenter(Augmenter, ABC):
             return list(augmenty.texts([text], augmenter=self.augmenter, nlp=self.nlp))[0]
         except ValueError as error:
             logger.warning(
-                "%s\nCould not augment text due to above error. Using it in non-augmented form. Text was:\n%s.",
+                "%s\nCould not augment text due to above error."
+                " Using it in non-augmented form. Text was:\n%s.",
                 error,
                 text,
             )
