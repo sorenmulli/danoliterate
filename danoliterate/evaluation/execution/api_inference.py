@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import time
 from abc import ABC, abstractmethod
@@ -250,6 +251,7 @@ class DanskGptAPi(ApiInference):
 
 
 class AnthropicApi(ApiInference):
+    api_retries=10
     api_key_str = "ANTHROPIC_API_KEY"
 
     def __init__(self, model_key: str, api_call_cache: str):
@@ -262,6 +264,8 @@ class AnthropicApi(ApiInference):
                     f"Secret file {self.secret_file} lacked Anthropic API key {self.api_key_str}"
                 ) from error
         self.client = anthropic.Anthropic(api_key=api_key)
+        # Avoid spam
+        logging.getLogger("httpx").setLevel(logging.WARNING)
 
         self.completion_args = {
             "temperature": 0,
