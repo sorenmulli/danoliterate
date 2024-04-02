@@ -6,6 +6,7 @@ from danoliterate.evaluation.execution.api_inference import (
     AnthropicApi,
     DanskGptAPi,
     GoogleApi,
+    GroqApi,
     OpenAiApi,
 )
 from danoliterate.evaluation.execution.huggingface_inference import HuggingfaceCausalLm
@@ -85,6 +86,11 @@ def get_danskgpt_api(cfg: DictConfig) -> DanskGptAPi:
 @register_inference("anthropic-api", unsupported_metrics=UNSUPPORTED_BY_APIS)
 def get_anthropic_api(cfg: DictConfig) -> AnthropicApi:
     return AnthropicApi(cfg.model.path, cfg.evaluation.api_call_cache)
+
+
+@register_inference("groq-api", unsupported_metrics=UNSUPPORTED_BY_APIS)
+def get_groq_api(cfg: DictConfig) -> GroqApi:
+    return GroqApi(cfg.model.path, cfg.evaluation.api_call_cache)
 
 
 def get_inference(cfg: DictConfig):

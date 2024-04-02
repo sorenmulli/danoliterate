@@ -1,0 +1,4 @@
+name: "Mixtral (@ Groq)"
+path: "mixtral-8x7b-32768"
+inference:
+  type: "groq-api"
