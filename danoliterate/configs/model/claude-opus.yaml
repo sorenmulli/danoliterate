@@ -1,0 +1,4 @@
+name: "Claude Opus"
+path: "claude-3-opus-20240229"
+inference:
+  type: "anthropic-api"

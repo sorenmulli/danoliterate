@@ -2,7 +2,12 @@ from typing import Callable
 
 from omegaconf import DictConfig
 
-from danoliterate.evaluation.execution.api_inference import DanskGptAPi, GoogleApi, OpenAiApi
+from danoliterate.evaluation.execution.api_inference import (
+    AnthropicApi,
+    DanskGptAPi,
+    GoogleApi,
+    OpenAiApi,
+)
 from danoliterate.evaluation.execution.huggingface_inference import HuggingfaceCausalLm
 from danoliterate.evaluation.execution.model_inference import ConstantBaseline, ModelInference
 
@@ -30,6 +35,14 @@ def register_inference(
     return decorator
 
 
+UNSUPPORTED_BY_APIS = [
+    "max-likelihood-accuracy",
+    "max-likelihood-f1",
+    "likelihood-brier",
+    "likelihood-ece",
+]
+
+
 @register_inference("baseline", unsupported_metrics=[])
 def get_baseline(_: DictConfig) -> ConstantBaseline:
     return ConstantBaseline()
@@ -47,12 +60,7 @@ def get_hf_causal(cfg: DictConfig) -> HuggingfaceCausalLm:
 
 @register_inference(
     "openai-api",
-    unsupported_metrics=[
-        "max-likelihood-accuracy",
-        "max-likelihood-f1",
-        "likelihood-brier",
-        "likelihood-ece",
-    ],
+    unsupported_metrics=UNSUPPORTED_BY_APIS,
 )
 def get_openai_api(cfg: DictConfig) -> OpenAiApi:
     return OpenAiApi(cfg.model.path, cfg.evaluation.api_call_cache)
@@ -60,12 +68,7 @@ def get_openai_api(cfg: DictConfig) -> OpenAiApi:
 
 @register_inference(
     "google-api",
-    unsupported_metrics=[
-        "max-likelihood-accuracy",
-        "max-likelihood-f1",
-        "likelihood-brier",
-        "likelihood-ece",
-    ],
+    unsupported_metrics=UNSUPPORTED_BY_APIS,
 )
 def get_google_api(cfg: DictConfig) -> GoogleApi:
     return GoogleApi(cfg.model.path, cfg.evaluation.api_call_cache)
@@ -73,15 +76,15 @@ def get_google_api(cfg: DictConfig) -> GoogleApi:
 
 @register_inference(
     "danskgpt-api",
-    unsupported_metrics=[
-        "max-likelihood-accuracy",
-        "max-likelihood-f1",
-        "likelihood-brier",
-        "likelihood-ece",
-    ],
+    unsupported_metrics=UNSUPPORTED_BY_APIS,
 )
 def get_danskgpt_api(cfg: DictConfig) -> DanskGptAPi:
     return DanskGptAPi(cfg.model.path, cfg.evaluation.api_call_cache)
+
+
+@register_inference("anthropic-api", unsupported_metrics=UNSUPPORTED_BY_APIS)
+def get_anthropic_api(cfg: DictConfig) -> AnthropicApi:
+    return AnthropicApi(cfg.model.path, cfg.evaluation.api_call_cache)
 
 
 def get_inference(cfg: DictConfig):

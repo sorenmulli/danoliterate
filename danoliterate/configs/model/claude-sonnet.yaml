@@ -1,0 +1,4 @@
+name: "Claude Sonnet"
+path: "claude-3-sonnet-20240229"
+inference:
+  type: "anthropic-api"

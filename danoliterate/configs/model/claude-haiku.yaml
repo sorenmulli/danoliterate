@@ -1,0 +1,4 @@
+name: "Claude Haiku"
+path: "claude-3-haiku-20240307"
+inference:
+  type: "anthropic-api"

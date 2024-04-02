@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any, Optional
 
+import anthropic
 import google.auth
 import openai
 import requests
@@ -63,12 +64,10 @@ class ApiInference(ModelInference, ABC):
         return out
 
     @abstractmethod
-    def call_completion(self, prompt: str) -> dict:
-        ...
+    def call_completion(self, prompt: str) -> dict: ...
 
     @abstractmethod
-    def extract_answer(self, generated_dict: dict) -> tuple[str, Optional[float]]:
-        ...
+    def extract_answer(self, generated_dict: dict) -> tuple[str, Optional[float]]: ...
 
 
 class OpenAiApi(ApiInference):
@@ -236,6 +235,64 @@ class DanskGptAPi(ApiInference):
                 retry_time = i + 1
                 logger.warning(
                     "Got connectivity error %s, retrying in %i seconds...", api_error, retry_time
+                )
+                time.sleep(retry_time)
+        raise ValueError("Retries must be > 0")
+
+    @property
+    def can_do_nlg(self) -> bool:
+        return True
+
+    @property
+    def can_do_lm(self) -> bool:
+        return False
+
+
+class AnthropicApi(ApiInference):
+    api_key_str = "ANTHROPIC_API_KEY"
+
+    def __init__(self, model_key: str, api_call_cache: str):
+        super().__init__(model_key, api_call_cache)
+        with open(self.secret_file, "r", encoding="utf-8") as file:
+            try:
+                api_key = json.load(file)[self.api_key_str]
+            except KeyError as error:
+                raise KeyError(
+                    f"Secret file {self.secret_file} lacked Anthropic API key {self.api_key_str}"
+                ) from error
+        self.client = anthropic.Anthropic(api_key=api_key)
+
+        self.completion_args = {
+            "temperature": 0,
+            "model": self.model_key,
+            # TODO: Should be set at scenario level
+            "max_tokens": 256,
+        }
+
+    def extract_answer(self, generated_dict: dict) -> tuple[str, Optional[float]]:
+        # We have no scores from Anthropic API
+        return generated_dict["content"][0]["text"], None
+
+    def call_completion(self, prompt: str) -> dict:
+        for i in range(self.api_retries):
+            try:
+                message = self.client.messages.create(
+                    messages=[{"role": "user", "content": prompt}],
+                    **self.completion_args,
+                )
+                return message.dict()
+            except (
+                anthropic.APIStatusError,
+                anthropic.APITimeoutError,
+                anthropic.RateLimitError,
+                anthropic.InternalServerError,
+            ) as error:
+                if i + 1 == self.api_retries:
+                    logger.error("Retried %i times, failed to get connection.", self.api_retries)
+                    raise
+                retry_time = i + 1
+                logger.warning(
+                    "Got connectivity error %s, retrying in %i seconds...", error, retry_time
                 )
                 time.sleep(retry_time)
         raise ValueError("Retries must be > 0")
