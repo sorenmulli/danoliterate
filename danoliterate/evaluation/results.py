@@ -238,7 +238,6 @@ class Scores:
             )
             return None
         newest_scores_path = sorted(all_possible_scores)[-1]
-        logger.info("Initializing previous results from %s", newest_scores_path)
         with open(newest_scores_path, "r", encoding="utf-8") as file:
             return cls.from_dict(json.load(file))
 
