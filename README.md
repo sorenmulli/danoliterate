@@ -25,7 +25,7 @@ pip install danoliterate[full]
 
 See options with
 ```bash
-python -m danoliterate do=evaluate
+python -m danoliterate do=evaluate --help
 ```
 
 A typical use would be to run your own model hosted on the Huggingface Hub on a scenario, for example the Citizenship Test Scenario (see [the frontend](https://danoliterate.compute.dtu.dk/Scenarios) for scenario descriptions).
