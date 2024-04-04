@@ -91,7 +91,6 @@ class HuggingfaceCausalLm(ModelInference):
                             **model_inputs,
                             max_new_tokens=self.max_new_tokens,
                             do_sample=False,
-                            temperature=0,
                             return_dict_in_generate=True,
                             output_scores=True,
                         )
