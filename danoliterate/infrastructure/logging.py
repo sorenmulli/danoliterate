@@ -3,7 +3,6 @@ import logging
 from typing import Optional
 
 from git import InvalidGitRepositoryError, Repo
-
 from omegaconf import DictConfig, OmegaConf
 
 from danoliterate.infrastructure.constants import REPO_PATH
@@ -36,8 +35,10 @@ def get_compute_unit_string() -> str:
         return torch.cuda.get_device_name(0)
     return "CPU"
 
+
 def maybe_setup_wandb_logging_run(name: str, job_type: str, wandb_cfg: DictConfig):
     try:
+        # pylint: disable=import-outside-toplevel
         import wandb
     except ImportError as error:
         raise ImportError("You need to install wandb to run with wandb.enabled=true") from error

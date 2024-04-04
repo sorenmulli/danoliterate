@@ -1,3 +1,5 @@
+# pylint: disable=import-outside-toplevel,undefined-variable
+# mypy: disable-error-code="name-defined"
 import json
 import logging
 import os
@@ -6,17 +8,8 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any, Optional
 
-import anthropic
-import google.auth
-import groq
-import openai
 import requests
-import vertexai
-from google.api_core.exceptions import ResourceExhausted
-from google.cloud.aiplatform_v1beta1 import SafetySetting
 from tqdm import tqdm
-from vertexai.generative_models._generative_models import GenerationConfig
-from vertexai.preview.generative_models import GenerationResponse, GenerativeModel, HarmCategory
 
 from danoliterate.evaluation.execution.model_inference import ModelInference
 from danoliterate.infrastructure.logging import logger
@@ -66,10 +59,12 @@ class ApiInference(ModelInference, ABC):
         return out
 
     @abstractmethod
-    def call_completion(self, prompt: str) -> dict: ...
+    def call_completion(self, prompt: str) -> dict:
+        ...
 
     @abstractmethod
-    def extract_answer(self, generated_dict: dict) -> tuple[str, Optional[float]]: ...
+    def extract_answer(self, generated_dict: dict) -> tuple[str, Optional[float]]:
+        ...
 
 
 class OpenAiApi(ApiInference):
@@ -79,6 +74,10 @@ class OpenAiApi(ApiInference):
 
     def __init__(self, model_key: str, api_call_cache: str, api_key: Optional[str] = None, seed=1):
         super().__init__(model_key, api_call_cache)
+        try:
+            import openai
+        except ImportError as error:
+            raise ImportError("To use OpenaiApi, you must install openai") from error
         self.is_chat = "instruct" not in self.model_key and (
             "turbo" in self.model_key or "gpt-4" in self.model_key
         )
@@ -158,6 +157,25 @@ class GoogleApi(ApiInference):
 
     def __init__(self, model_key: str, api_call_cache: str):
         super().__init__(model_key, api_call_cache)
+        try:
+            import google.auth
+            import vertexai
+
+            # pylint: disable=unused-import
+            from google.api_core.exceptions import ResourceExhausted
+            from google.cloud.aiplatform_v1beta1 import SafetySetting
+            from vertexai.generative_models._generative_models import GenerationConfig
+
+            # pylint: disable=unused-import
+            from vertexai.preview.generative_models import (
+                GenerationResponse,
+                GenerativeModel,
+                HarmCategory,
+            )
+        except ImportError as error:
+            raise ImportError(
+                "To use GoogleApi, you must install google-cloud-aiplatform"
+            ) from error
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-secret.json"
         creds, project_id = google.auth.default()
         vertexai.init(project=project_id, credentials=creds)
@@ -181,7 +199,7 @@ class GoogleApi(ApiInference):
     def call_completion(self, prompt: str) -> dict:
         for i in range(self.api_retries):
             try:
-                completion: GenerationResponse = self.model.generate_content(
+                completion: "GenerationResponse" = self.model.generate_content(
                     prompt, generation_config=self.config, safety_settings=self.safety_settings
                 )
                 out: dict[str, Any] = {}
@@ -251,11 +269,15 @@ class DanskGptAPi(ApiInference):
 
 
 class AnthropicApi(ApiInference):
-    api_retries=10
+    api_retries = 10
     api_key_str = "ANTHROPIC_API_KEY"
 
     def __init__(self, model_key: str, api_call_cache: str):
         super().__init__(model_key, api_call_cache)
+        try:
+            import anthropic
+        except ImportError as error:
+            raise ImportError("To use AnthropicApi, you must install anthropic") from error
         with open(self.secret_file, "r", encoding="utf-8") as file:
             try:
                 api_key = json.load(file)[self.api_key_str]
@@ -284,7 +306,7 @@ class AnthropicApi(ApiInference):
                 message = self.client.messages.create(
                     messages=[{"role": "user", "content": prompt}],
                     **self.completion_args,
-                )
+                )  # type: ignore
                 return message.dict()
             except (
                 anthropic.APIStatusError,
@@ -317,6 +339,10 @@ class GroqApi(ApiInference):
 
     def __init__(self, model_key: str, api_call_cache: str):
         super().__init__(model_key, api_call_cache)
+        try:
+            import groq
+        except ImportError as error:
+            raise ImportError("To use GroqApi, you must install groq") from error
         with open(self.secret_file, "r", encoding="utf-8") as file:
             try:
                 api_key = json.load(file)[self.api_key_str]
@@ -345,7 +371,7 @@ class GroqApi(ApiInference):
                 message = self.client.chat.completions.create(
                     messages=[{"role": "user", "content": prompt}],
                     **self.completion_args,
-                )
+                )  # type: ignore
                 return message.dict()
             except (
                 groq.APIStatusError,
