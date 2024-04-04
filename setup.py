@@ -20,7 +20,7 @@ for version, file in REQS.items():
 
 setup_args = dict(
     name="danoliterate",
-    version="0.0.3",
+    version="0.0.4",
     packages=find_packages(),
     author="Søren Winkel Holm",
     author_email="swholm@protonmail.com",
