@@ -231,11 +231,7 @@ class Scores:
         result_db_path = Path(cfg.evaluation.local_results)
         all_possible_scores = list(result_db_path.glob(f"{SCORES_NAME}*.json"))
         if not all_possible_scores:
-            logger.warning(
-                "Found no previous scores in %s, set evaluation.rescore=true"
-                " to skip looking for previous scoring",
-                result_db_path,
-            )
+            logger.warning("Found no previous scores in %s", result_db_path)
             return None
         newest_scores_path = sorted(all_possible_scores)[-1]
         with open(newest_scores_path, "r", encoding="utf-8") as file:

@@ -58,9 +58,16 @@ def hydra_entry(cfg: DictConfig) -> None:
             from danoliterate.evaluation.analysis.scorer import score
 
             score(cfg)
+
+        case "report":
+            from danoliterate.evaluation.analysis.scores_report import report_scores
+
+            report_scores(cfg)
         case _:
             logger.error(
-                "Unsupported do=%s. 'evaluate', 'databuild', 'train', 'score' are supported", cfg.do
+                "Unsupported do=%s. "
+                "'evaluate', 'databuild', 'train', 'score', 'report' are supported",
+                cfg.do,
             )
             raise ValueError("Unsupported do")
 
