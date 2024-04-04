@@ -1,9 +1,9 @@
 dane:
   name: "DaNE"
-  path: "ScandEval/dane-mini"
+  path: "sorenmulli/dane-mini"
   pre_prompt: "Fuldfør annotering af sidste eksempel i opgaven.\nHer er en lingvists arbejde med at annotere entiteter af typen '{entity_str}'. {few_shot_str}\n\n# TEKST\n"
   post_prompt: "\n# ANNOTERING\n"
-  dataset_split: "val"
+  dataset_split: "validation"
   task:
     type: "gpt-ner"
     few_shot_format: "# TEKST\n{text}\n# ANNOTERING\n{annotated_text}"
