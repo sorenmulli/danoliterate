@@ -17,7 +17,6 @@ wandb~=0.16.6
 deepspeed~=0.12.4
 sentencepiece~=0.1.99
 accelerate~=0.23.0
-augmenty~=1.4.4
 
 google-cloud-aiplatform~=1.38.1
 openai~=0.28.1
