@@ -43,11 +43,9 @@ model_paths:
   dsl3gram: "local-models/dsl_3gram.klm"
 
 wandb:
-  enabled: true
+  enabled: false
   entity: "sorenmulli"
   project: "nlgenda"
-  artifact_cache: "local-computations/wandb-cache.json"
-  cache_update: false
 
 hydra:
   run:
