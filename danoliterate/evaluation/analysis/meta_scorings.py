@@ -102,20 +102,15 @@ class DisparityScoring(MetaScoring, ABC):
         self, scores: Scores
     ) -> list[tuple[ExecutionResultMetadata, list[MetricResult]]]:
         out = []
-        scorings_to_keep = []
         to_calculate: DefaultDict[tuple[str, str], dict] = defaultdict(dict)
 
         for scoring in scores.scorings:
             if _should_skip_for_meta(scoring, self.relevant_augmenter_keys):
-                scorings_to_keep.append(scoring)
                 continue
             to_calculate[
                 scoring.execution_metadata.scenario_cfg["name"],  # type: ignore
                 scoring.execution_metadata.model_cfg["name"],
             ][scoring.execution_metadata.augmenter_key] = scoring
-            if scoring.execution_metadata.augmenter_key is None:
-                scorings_to_keep.append(scoring)
-        scores.scorings = scorings_to_keep
 
         for (scenario_name, model_name), scorings in to_calculate.items():
             if len(scorings) != 2:
