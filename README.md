@@ -1,11 +1,13 @@
 # Are LLMs Danoliterate?
 
-See benchmark site: [danoliterate.vholm.dk](https://danoliterate.vholm.dk/)
+A benchmark for Generative Large Language Models in Danish. 
+To see results and and get more details, check out the leaderboard site:
 
-A benchmark tool for Generative Large Language Models in Danish.
+<p align="center">
+<a href="https://danoliterate.compute.dtu.dk/">danoliterate.compute.dtu.dk</a>
+</p>
 
-Note: This repository is currently work-in-progress while the master's thesis is finished.
-Implementations are subject to change.
+The project is maintained by Søren Vejlgaard Holm at DTU Compute, supported by the Danish Pioneer Centre for AI and with most of the work done as part of the Master's thesis [''Are GLLMs Danoliterate? Benchmarking Generative NLP in Danish''](https://sorenmulli.github.io/thesis/thesis.pdf) supervised by Lars Kai Hansen from DTU Compute and Martin Carsten Nielsen from Alvenir.
 
 ## Installation
 
