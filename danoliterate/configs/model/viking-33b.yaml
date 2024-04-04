@@ -1,0 +1,4 @@
+name: "Viking 33B"
+path: "LumiOpen/Viking-33B"
+inference:
+  type: "hf-causal"
