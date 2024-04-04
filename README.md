@@ -23,6 +23,30 @@ pip install danoliterate[full]
 
 ## Usage
 
-```
+See options with
+```bash
 python -m danoliterate do=evaluate
 ```
+
+A typical use would be to run your own model hosted on the Huggingface Hub on a scenario, for example the Citizenship Test Scenario (see [the frontend](https://danoliterate.compute.dtu.dk/Scenarios) for scenario descriptions).
+Skip the line `scenarios=` to make it run on all scenarios instead.
+```bash
+python -m danoliterate do=evaluate\
+    scenarios="citizenship-test"\
+    model.name="MyLittleGPT"\
+    model.path="hf-internal-testing/tiny-random-gpt2"\
+    evaluation.local_results="./my-result-db"
+```
+
+Now, you could share the resulting JSON placed in `my-result-db` to get it included in the Danoliterate benchmark, or you can satisfy your curiosity and score it yourself
+```bash
+# Calculates scoring metrics
+python -m danoliterate do=score\
+    evaluation.local_results="./my-result-db"
+# Prints them for you
+python -m danoliterate do=report\
+    evaluation.local_results="./my-result-db"
+```
+
+## Contact
+Please reach here using GitHub issues or on mail to Søren Vejlgaard Holm either at [swiho@dtu.dk](mailto:swiho@dtu.dk) or [swh@alvenir.ai](mailto:swh@alvenir.ai).

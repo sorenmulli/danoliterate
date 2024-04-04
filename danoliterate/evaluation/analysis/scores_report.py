@@ -26,6 +26,6 @@ def report_scores(cfg: DictConfig):
     logger.info("Loading scores from %s", cfg.evaluation.local_results)
     if (scores := Scores.from_local_result_db(cfg)) is None:
         raise FileNotFoundError("Directory had no scores JSON")
-    logger.info("Found %i scores, see below results", len(scores.scorings))
+    logger.info("Found %i scores, logging them below.", len(scores.scorings))
     for scoring in sorted(scores.scorings, key=lambda scoring: scoring.id_):
         report_for_one_scoring(scoring)

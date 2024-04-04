@@ -10,7 +10,7 @@ defaults:
     - citizenship-test
     - da-cloze-self-test
     - angry-tweets
-  - model: test
+  - model: new-hf
 # Used if running do=databuild
   - databuild: prompt_answer
 # Used if running do=train
