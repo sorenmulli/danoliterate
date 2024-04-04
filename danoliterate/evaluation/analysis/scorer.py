@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Sequence
 
 from omegaconf import DictConfig
@@ -5,15 +6,10 @@ from tqdm import tqdm
 
 from danoliterate.evaluation.analysis.meta_scorings import META_SCORERS
 from danoliterate.evaluation.analysis.metrics import Metric
-from danoliterate.evaluation.artifact_integration import (
-    get_results_wandb,
-    get_scores_wandb,
-    send_scores_wandb,
-    setup_short_run,
-)
 from danoliterate.evaluation.registries.metrics import get_compatible_metrics
 from danoliterate.evaluation.results import ExecutionResult, Scores, Scoring
-from danoliterate.infrastructure.logging import format_config, logger
+from danoliterate.infrastructure.constants import EXECUTION_RESULT_NAME
+from danoliterate.infrastructure.logging import format_config, logger, maybe_setup_wandb_logging_run
 from danoliterate.infrastructure.timing import from_timestamp
 
 
@@ -24,22 +20,16 @@ class Scorer:
 
         self.result = Scores.from_config(cfg)
 
-        self.wandb = setup_short_run(self.result.name, "score", self.wandb_cfg)
-        self.previous_result = (
-            None
-            if cfg.evaluation.rescore
-            else get_scores_wandb(cfg.wandb.project, cfg.wandb.entity)
-        )
+        maybe_setup_wandb_logging_run(self.result.name, "score", self.wandb_cfg)
+        self.previous_result = None if cfg.evaluation.rescore else Scores.from_local_result_db(cfg)
         self.combinations_to_skip: dict[str, Scoring] = {}
 
     def run(self):
-        logger.info("Fetching executed results ...")
-        results = get_results_wandb(
-            self.wandb_cfg.project,
-            self.wandb_cfg.entity,
-            cache_file=self.wandb_cfg.artifact_cache,
-            cache_update=self.wandb_cfg.cache_update,
-        )
+        logger.info("Fetching executed results locally from %s ...", self.eval_cfg.local_results)
+        results = [
+            ExecutionResult.from_path(path)
+            for path in Path(self.eval_cfg.local_results).glob(f"{EXECUTION_RESULT_NAME}*.json")
+        ]
         if (min_time := self.eval_cfg.do_not_score_before) is not None:
             len_before = len(results)
             results = [
@@ -106,10 +96,6 @@ class Scorer:
         return scoring
 
     def save_scores(self):
-        if self.wandb is not None:
-            send_scores_wandb(self.result, self.wandb)
-            logger.info("Sucessfully sent scores to W&B.")
-
         out = self.result.save_locally()
         logger.info("Scores were saved locally to %s.", out)
 

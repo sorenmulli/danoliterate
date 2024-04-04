@@ -14,7 +14,7 @@ from danoliterate.evaluation.serialization import (
     apply_backcomp_reordering_metric_results,
     fix_args_for_dataclass,
 )
-from danoliterate.infrastructure.constants import SCORES_ARTIFACT_TYPE
+from danoliterate.infrastructure.constants import EXECUTION_RESULT_NAME, SCORES_NAME
 from danoliterate.infrastructure.logging import commit_hash, get_compute_unit_string, logger
 from danoliterate.infrastructure.timing import get_now_stamp
 
@@ -57,7 +57,6 @@ class ExecutionResultMetadata:
 
     augmenter_key: Optional[str] = None
     total_inference_seconds: Optional[float] = None
-    sent_to_wandb: bool = False
 
     def to_dict(self) -> OutDictType:
         return asdict(self)
@@ -105,7 +104,7 @@ class ExecutionResult:
         if not results_path.is_dir():
             logger.warning("Creating new local directory for results: %s", results_path)
             os.makedirs(results_path)
-        out_path = results_path / f"{autoname}.json"
+        out_path = results_path / f"{EXECUTION_RESULT_NAME}.{autoname}.json"
 
         return cls(
             name=autoname,
@@ -131,6 +130,11 @@ class ExecutionResult:
         example_dicts: list[OutDictType] = self_dict.pop("examples")  # type: ignore
         examples = [ExecutionExample.from_dict(example_dict) for example_dict in example_dicts]
         return cls(metadata=metadata, examples=examples, **self_dict)  # type: ignore
+
+    @classmethod
+    def from_path(cls, path: str | Path):
+        with open(path, "r", encoding="utf-8") as file:
+            return cls.from_dict(json.load(file))
 
 
 @dataclass
@@ -205,11 +209,10 @@ class Scores:
 
     debug: bool
 
-    sent_to_wandb = False
-    name = SCORES_ARTIFACT_TYPE
+    name = SCORES_NAME
 
     @classmethod
-    def from_config(cls, cfg: DictConfig):
+    def from_config(cls, cfg: DictConfig) -> "Scores":
         autoname = f"{cls.name}-{get_now_stamp()}"
         results_path = Path(cfg.evaluation.local_results)
         if not results_path.is_dir():
@@ -222,6 +225,22 @@ class Scores:
             scorings=[],
             debug=cfg.evaluation.debug,
         )
+
+    @classmethod
+    def from_local_result_db(cls, cfg: DictConfig) -> "None | Scores":
+        result_db_path = Path(cfg.evaluation.local_results)
+        all_possible_scores = list(result_db_path.glob(f"{SCORES_NAME}*.json"))
+        if not all_possible_scores:
+            logger.warning(
+                "Found no previous scores in %s, set evaluation.rescore=true"
+                " to skip looking for previous scoring",
+                result_db_path,
+            )
+            return None
+        newest_scores_path = sorted(all_possible_scores)[-1]
+        logger.info("Initializing previous results from %s", newest_scores_path)
+        with open(newest_scores_path, "r", encoding="utf-8") as file:
+            return cls.from_dict(json.load(file))
 
     def to_dict(self) -> OutDictType:
         self_dict = asdict(self)
