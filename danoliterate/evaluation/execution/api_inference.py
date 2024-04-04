@@ -289,6 +289,7 @@ class AnthropicApi(ApiInference):
             except (
                 anthropic.APIStatusError,
                 anthropic.APITimeoutError,
+                anthropic.APIConnectionError,
                 anthropic.RateLimitError,
                 anthropic.InternalServerError,
             ) as error:
@@ -324,6 +325,8 @@ class GroqApi(ApiInference):
                     f"Secret file {self.secret_file} lacked Groq API key {self.api_key_str}"
                 ) from error
         self.client = groq.Groq(api_key=api_key)
+        # Avoid spam
+        logging.getLogger("httpx").setLevel(logging.WARNING)
 
         self.completion_args = {
             "temperature": 0,

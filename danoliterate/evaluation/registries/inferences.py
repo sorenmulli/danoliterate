@@ -96,8 +96,9 @@ def get_groq_api(cfg: DictConfig) -> GroqApi:
 def get_inference(cfg: DictConfig):
     inference_name = cfg.model.inference.type
     try:
-        return inference_registry[inference_name](cfg)
+        inference =  inference_registry[inference_name]
     except KeyError as error:
         raise UnknownInference(
             f"No inference registered with model.inference.type {inference_name}"
         ) from error
+    return inference(cfg)
