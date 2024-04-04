@@ -1,3 +1,4 @@
+# pylint: disable=import-outside-toplevel
 from abc import ABC, abstractmethod
 from typing import Callable, Iterator
 
@@ -5,11 +6,16 @@ import augmenty
 import spacy
 from augmenty.character.replace import create_keystroke_error_augmenter_v1
 from augmenty.util import Example
-from dacy.datasets import danish_names, female_names, male_names, muslim_names
 from omegaconf import DictConfig
 from spacy.language import Language
 
 from danoliterate.infrastructure.logging import logger
+
+DACY_IMPORT_ERROR = None
+try:
+    from dacy.datasets import danish_names, female_names, male_names, muslim_names
+except ImportError as _error:
+    DACY_IMPORT_ERROR = _error
 
 
 class Augmenter(ABC):
@@ -69,6 +75,10 @@ class KeystrokeErrorAdder(AugmentyBasedAugmenter):
 
 class NameInserter(AugmentyBasedAugmenter, ABC):
     def __init__(self):
+        if DACY_IMPORT_ERROR is not None:
+            raise ImportError(
+                "To run name-based augmentation, you must install Dacy"
+            ) from DACY_IMPORT_ERROR
         self.names = self.get_names()
         super().__init__()
 
