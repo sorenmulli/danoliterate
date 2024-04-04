@@ -37,14 +37,15 @@ def get_compute_unit_string() -> str:
 
 
 def maybe_setup_wandb_logging_run(name: str, job_type: str, wandb_cfg: DictConfig):
-    try:
-        # pylint: disable=import-outside-toplevel
-        import wandb
-    except ImportError as error:
-        raise ImportError("You need to install wandb to run with wandb.enabled=true") from error
-    wandb.init(
-        name=name,
-        job_type=job_type,
-        entity=wandb_cfg.entity,
-        project=wandb_cfg.project,
-    )
+    if wandb_cfg.enabled:
+        try:
+            # pylint: disable=import-outside-toplevel
+            import wandb
+        except ImportError as error:
+            raise ImportError("You need to install wandb to run with wandb.enabled=true") from error
+        wandb.init(
+            name=name,
+            job_type=job_type,
+            entity=wandb_cfg.entity,
+            project=wandb_cfg.project,
+        )
