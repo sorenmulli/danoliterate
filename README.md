@@ -16,10 +16,9 @@ To install the package in a base version, enabling model execution, install
 ```
 pip install danoliterate
 ```
-
-To install it with the entire suite of dependencies that were used in thesis, run 
+*Note:* Some features need a full install to run:
 ```
-make install
+pip install danoliterate[full]
 ```
 
 ## Usage
