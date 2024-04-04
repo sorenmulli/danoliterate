@@ -36,16 +36,24 @@ def apply_backcomp_fixes_execution_result_metadata(input_args: OutDictType):
     task_type: str = scenario_cfg["task"]["type"]  # type: ignore
     scenario_name: str = scenario_cfg["name"]  # type: ignore
     scenario_type: Optional[str] = scenario_cfg.get("type")  # type: ignore
+
     if (desired_task_type := SCENARIO_NAME_TO_TASK_TYPE.get(scenario_name)) is not None or (
         desired_task_type := SCENARIO_NAME_AND_TYPE_TO_TASK_TYPE.get((scenario_name, scenario_type))
     ) is not None:
         if task_type != desired_task_type:
             scenario_cfg["task"]["type"] = desired_task_type  # type: ignore
             warnings.append(f"Changed {scenario_cfg['name']} task type to {desired_task_type}")
-
     elif (new_name := TASK_TYPE_RENAMES.get(task_type)) is not None:
         scenario_cfg["task"]["type"] = new_name  # type: ignore
         warnings.append(f"Renamed {task_type} to {new_name}.")
+
+    if "ScandEval" in scenario_cfg["path"]:  # type: ignore
+        scenario_cfg["path"] = n_path = (old_path := scenario_cfg["path"]).replace(  # type: ignore
+            "ScandEval", "sorenmulli"
+        )
+        scenario_cfg["dataset_split"] = "validation"
+        warnings.append(f"Renamed {old_path} to {n_path}.")
+
     if warnings:
         logger.debug("Performed backwards compatability fixing:\n%s", ",".join(warnings))
 
