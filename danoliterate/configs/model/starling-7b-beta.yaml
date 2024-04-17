@@ -1,0 +1,4 @@
+name: "Starling-LM-7B-beta"
+path: "Nexusflow/Starling-LM-7B-beta"
+inference:
+  type: "hf-causal"
