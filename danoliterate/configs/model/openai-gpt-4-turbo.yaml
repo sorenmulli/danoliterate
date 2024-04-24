@@ -1,4 +1,4 @@
-name: "OpenAI GPT 4 Turbo"
+name: "GPT 4 Turbo 1106"
 path: "gpt-4-1106-preview"
 inference:
   type: "openai-api"

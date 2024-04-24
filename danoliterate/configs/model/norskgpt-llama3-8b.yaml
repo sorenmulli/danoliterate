@@ -1,0 +1,5 @@
+name: "NorskGPT-Llama-3-8b-v0.1"
+path: "bineric/NorskGPT-Llama3-8b"
+inference:
+  type: "hf-causal"
+

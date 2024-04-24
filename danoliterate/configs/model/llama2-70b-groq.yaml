@@ -1,0 +1,4 @@
+name: "LlaMa 2 (@ Groq)"
+path: "llama2-70b-4096"
+inference:
+  type: "groq-api"
