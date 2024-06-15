@@ -1,0 +1,4 @@
+name: "GPT 4o mini-2024-07-18"
+path: "gpt-4o-mini-2024-07-18"
+inference:
+  type: "openai-api"

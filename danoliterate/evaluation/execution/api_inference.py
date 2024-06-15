@@ -7,6 +7,7 @@ import time
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any, Optional
+import openai
 
 import requests
 from tqdm import tqdm
@@ -76,6 +77,7 @@ class OpenAiApi(ApiInference):
         super().__init__(model_key, api_call_cache)
         try:
             import openai
+            self.openai = openai
         except ImportError as error:
             raise ImportError("To use OpenaiApi, you must install openai") from error
         self.is_chat = "instruct" not in self.model_key and (
@@ -95,7 +97,7 @@ class OpenAiApi(ApiInference):
                 self.api_key_str,
                 self.secret_file,
             )
-        openai.api_key = api_key
+        self.openai.api_key = api_key
 
         self.completion_args = {
             "seed": seed,
@@ -113,25 +115,25 @@ class OpenAiApi(ApiInference):
         for i in range(self.api_retries):
             try:
                 if self.is_chat:
-                    completion = openai.ChatCompletion.create(
+                    completion = self.openai.ChatCompletion.create(
                         model=self.model_key,
                         messages=[{"role": "user", "content": prompt}],
                         **self.completion_args,
                     )
                 else:
-                    completion = openai.Completion.create(
+                    completion = self.openai.Completion.create(
                         model=self.model_key,
                         prompt=prompt,
                         **self.completion_args,
                     )
                 return completion.to_dict_recursive()
             except (
-                openai.error.ServiceUnavailableError,
-                openai.error.APIError,
-                openai.error.RateLimitError,
-                openai.error.Timeout,
-                openai.error.APIConnectionError,
-                openai.error.TryAgain,
+                self.openai.error.ServiceUnavailableError,
+                self.openai.error.APIError,
+                self.openai.error.RateLimitError,
+                self.openai.error.Timeout,
+                self.openai.error.APIConnectionError,
+                self.openai.error.TryAgain,
             ) as openai_error:
                 if i + 1 == self.api_retries:
                     logger.error("Retried %i times, failed to get connection.", self.api_retries)
@@ -276,6 +278,7 @@ class AnthropicApi(ApiInference):
         super().__init__(model_key, api_call_cache)
         try:
             import anthropic
+            self.anthropic = anthropic
         except ImportError as error:
             raise ImportError("To use AnthropicApi, you must install anthropic") from error
         with open(self.secret_file, "r", encoding="utf-8") as file:
@@ -285,7 +288,7 @@ class AnthropicApi(ApiInference):
                 raise KeyError(
                     f"Secret file {self.secret_file} lacked Anthropic API key {self.api_key_str}"
                 ) from error
-        self.client = anthropic.Anthropic(api_key=api_key)
+        self.client = self.anthropic.Anthropic(api_key=api_key)
         # Avoid spam
         logging.getLogger("httpx").setLevel(logging.WARNING)
 
@@ -309,11 +312,11 @@ class AnthropicApi(ApiInference):
                 )  # type: ignore
                 return message.dict()
             except (
-                anthropic.APIStatusError,
-                anthropic.APITimeoutError,
-                anthropic.APIConnectionError,
-                anthropic.RateLimitError,
-                anthropic.InternalServerError,
+                self.anthropic.APIStatusError,
+                self.anthropic.APITimeoutError,
+                self.anthropic.APIConnectionError,
+                self.anthropic.RateLimitError,
+                self.anthropic.InternalServerError,
             ) as error:
                 if i + 1 == self.api_retries:
                     logger.error("Retried %i times, failed to get connection.", self.api_retries)
@@ -341,6 +344,7 @@ class GroqApi(ApiInference):
         super().__init__(model_key, api_call_cache)
         try:
             import groq
+            self.groq = groq
         except ImportError as error:
             raise ImportError("To use GroqApi, you must install groq") from error
         with open(self.secret_file, "r", encoding="utf-8") as file:
@@ -374,11 +378,11 @@ class GroqApi(ApiInference):
                 )  # type: ignore
                 return message.dict()
             except (
-                groq.APIStatusError,
-                groq.APIConnectionError,
-                groq.APITimeoutError,
-                groq.RateLimitError,
-                groq.InternalServerError,
+                self.groq.APIStatusError,
+                self.groq.APIConnectionError,
+                self.groq.APITimeoutError,
+                self.groq.RateLimitError,
+                self.groq.InternalServerError,
             ) as error:
                 if i + 1 == self.api_retries:
                     logger.error("Retried %i times, failed to get connection.", self.api_retries)
