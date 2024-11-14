@@ -1,0 +1,4 @@
+name: "LlaMa 3.1 8B Instruct"
+path: "meta-llama/Llama-3.1-8B-Instruct"
+inference:
+  type: "hf-causal"

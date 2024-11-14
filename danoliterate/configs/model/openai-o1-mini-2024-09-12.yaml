@@ -1,0 +1,4 @@
+name: "o1 Mini (2024-09-12)"
+path: "o1-mini-2024-09-12"
+inference:
+  type: "openai-api"

@@ -1,0 +1,4 @@
+name: "LlaMa 3.2 11B Text Preview (@ Groq)"
+path: "llama-3.2-11b-text-preview"
+inference:
+  type: "groq-api"

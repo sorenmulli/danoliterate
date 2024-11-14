@@ -1,0 +1,4 @@
+name: "o1 Preview (2024-09-12)"
+path: "o1-preview-2024-09-12"
+inference:
+  type: "openai-api"
