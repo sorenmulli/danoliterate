@@ -1,0 +1,4 @@
+name: "Aya Expanse 8B"
+path: "CohereForAI/aya-expanse-8b"
+inference:
+  type: "hf-causal"

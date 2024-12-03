@@ -1,0 +1,4 @@
+name: "NB LlaMa 3.2 3B Instruct"
+path: "NbAiLab/nb-llama-3.2-3B-Instruct"
+inference:
+  type: "hf-causal"

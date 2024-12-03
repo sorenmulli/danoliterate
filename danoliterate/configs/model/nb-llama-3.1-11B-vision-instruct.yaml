@@ -1,0 +1,4 @@
+name: "NB LlaMa 3.1 11B Vision Instruct"
+path: "NbAiLab/nb-llama-3.1-11B-Vision-Instruct"
+inference:
+  type: "hf-causal"

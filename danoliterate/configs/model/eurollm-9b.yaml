@@ -1,0 +1,4 @@
+name: "EuroLLM 9B"
+path: "utter-project/EuroLLM-9B"
+inference:
+  type: "hf-causal"
